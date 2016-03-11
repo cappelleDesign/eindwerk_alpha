@@ -63,6 +63,10 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
     public function getAvatar($id) {
         
     }
+    
+    public function getUserRole($id) {
+        
+    }
 
     public function get($id) {
         $result = $this->containsId($id)['0'];
