@@ -27,6 +27,12 @@ class Review implements DaoObject {
     private $_game;
 
     /**
+     * The platform the game was reviewed on
+     * @var string 
+     */
+    private $_reviewedOn;
+
+    /**
      * The title of this review
      * @var string
      */
@@ -111,26 +117,23 @@ class Review implements DaoObject {
      */
     private $_gallery;
 
-    public function __construct(UserSimple $writer, Game $game, $title, $score, $text, $videoUrl, $created, Image $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format) {
+    public function __construct(UserSimple $writer, Game $game, $reviewedOn, $title, $score, $text, $videoUrl, $created, Image $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format) {
         $this->setWriter($writer);
         $this->setGame($game);
+        $this->setReviewedOn($reviewedOn);
         $this->setTitle($title);
         $this->setScore($score);
         $this->setText($text);
         $this->setVideoUrl($videoUrl);
         $this->setCreated($created, $format);
         $this->setHeaderImg($headerImg);
+        $this->setGallery($gallery);
         $this->setUserScores($userScores);
         $this->setRootComments($rootComments);
         $this->setVoters($voters);
         $this->setGoods($goods);
         $this->setBads($bads);
         $this->setTags($tags);
-        $this->setGallery($gallery);
-    }
-
-    private function init() {
-        
     }
 
     /* ---------------------------------------------------------------------- */
@@ -145,6 +148,10 @@ class Review implements DaoObject {
 
     public function setGame(Game $game) {
         $this->_game = $game;
+    }
+
+    public function setReviewedOn($reviewedOn) {
+        $this->_reviewedOn = $reviewedOn;
     }
 
     public function setTitle($title) {
@@ -212,6 +219,10 @@ class Review implements DaoObject {
 
     public function getGame() {
         return $this->_game;
+    }
+
+    public function getReviewedOn() {
+        return $this->_reviewedOn;
     }
 
     public function getTitle() {

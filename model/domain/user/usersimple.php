@@ -23,7 +23,7 @@ class UserSimple implements DaoObject {
 
     /**
      * The user's current avatar
-     * @var Image 
+     * @var Avatar 
      */
     protected $_avatar;
 
@@ -39,7 +39,7 @@ class UserSimple implements DaoObject {
      */
     protected $_donated;
 
-    public function __construct(UserRole $userRole,  Image $avatar, $username, $donated) {
+    public function __construct(UserRole $userRole, Avatar $avatar, $username, $donated) {
         $this->init();
         $this->setUserRole($userRole);
         $this->setAvatar($avatar);
@@ -61,7 +61,7 @@ class UserSimple implements DaoObject {
         $this->_userRole = $userRole;
     }
 
-    public function setAvatar(Image $avatar) {
+    public function setAvatar(Avatar $avatar) {
         $this->_avatar = $avatar;
     }
 

@@ -26,16 +26,9 @@ class Image implements DaoObject {
      */
     private $_alt;
     
-    /**
-     * The long description for the image
-     * @var string 
-     */
-    private $_desc;
-
-    public function __construct($url, $alt, $desc) {        
+    public function __construct($url, $alt) {        
         $this->setUrl($url);
-        $this->setAlt($alt);
-        $this->setDesc($desc);
+        $this->setAlt($alt);    
     }
 
     public function setId($id = -1) {
@@ -50,10 +43,6 @@ class Image implements DaoObject {
         $this->_alt = $alt;
     }
 
-    public function setDesc($desc) {
-        $this->_desc = $desc;
-    }
-
     public function getId() {
         return $this->_id;
     }
@@ -65,9 +54,4 @@ class Image implements DaoObject {
     public function getAlt() {
         return $this->_alt;
     }
-
-    public function getDesc() {
-        return $this->_desc;
-    }
-
 }

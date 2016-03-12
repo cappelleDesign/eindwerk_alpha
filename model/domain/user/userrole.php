@@ -27,12 +27,6 @@ class UserRole implements DaoObject {
     private $_accessFlag;
 
     /**
-     * Where the role is positioned in the list of roles
-     * @var int
-     */
-    private $_followup;
-
-    /**
      * Minimum karma points required for this role
      * @var int
      */
@@ -44,10 +38,9 @@ class UserRole implements DaoObject {
      */
     private $_diamond_min;
 
-    public function __construct($name, $accessFlag, $followup, $karama_min, $diamond_min) {
+    public function __construct($name, $accessFlag, $karama_min, $diamond_min) {
         $this->setName($name);
         $this->setAccessFlag($accessFlag);
-        $this->setFollowup($followup);
         $this->setKarama_min($karama_min);
         $this->setDiamond_min($diamond_min);
     }
@@ -64,10 +57,6 @@ class UserRole implements DaoObject {
 
     public function setAccessFlag($accessFlag) {
         $this->_accessFlag = $accessFlag;
-    }
-
-    public function setFollowup($followup) {
-        $this->_followup = $followup;
     }
 
     public function setKarama_min($karama_min) {
@@ -90,10 +79,6 @@ class UserRole implements DaoObject {
 
     public function getAccessFlag() {
         return $this->_accessFlag;
-    }
-
-    public function getFollowup() {
-        return $this->_followup;
     }
 
     public function getKarama_min() {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DaoObject
  * This is an abstract class for all classes that handle user SQL databases
@@ -8,11 +9,10 @@
  */
 abstract class UserSqlDB extends SqlSuper implements UserDao {
 
-    const USERTABLE = 'souffe_reviews.users';
     public function __construct($host, $username, $passwd, $database) {
         parent::__construct($host, $username, $passwd, $database);
     }
-   
+
     public function add(UserDetailed $user) {
         if (!$user instanceof UserDetailed) {
             throw new DBException('The object you tried to add was not a user object', NULL);
@@ -20,12 +20,13 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
         if ($this->containsId($user->getId())) {
             throw new DBException('The database already contains a user with this id', NULL);
         }
-        $query = 'INSERT INTO `'.self::USERTABLE.'` (`user_roles_user_role_id`, `images_image_id`, `user_name`, `user_hash_salt`, `user_email`, `user_karma`, `user_reg_key`, `user_warnings`, `user_diamonds`, `preference_datetime_format`, `user_created`, `last_login`, `dontated_amomunt`, `active_seconds`)';
-        $query .= 'VALUES(:user_role_id, :image_id, :username, :pw, :email, :karma, :reg_key, :warnings, :diamonds, :date_pref, :created, :last_login, :donated, :active);';
+
+        $query = 'INSERT INTO `' . Globals::getTableName('user') . '` (`user_roles_user_role_id`, `avatars_avatar_id`, `user_name`, `user_hash_salt`, `user_email`, `user_karma`, `user_reg_key`, `user_warnings`, `user_diamonds`, `preference_datetime_format`, `user_created`, `last_login`, `dontated_amomunt`, `active_seconds`)';
+        $query .= 'VALUES(:user_role_id, :avatar_id, :username, :pw, :email, :karma, :reg_key, :warnings, :diamonds, :date_pref, :created, :last_login, :donated, :active);';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
             ':user_role_id' => $user->getUserRole()->getId(),
-            ':image_id' => $user->getAvatar()->getId(),
+            ':avatar_id' => $user->getAvatar()->getId(),
             ':username' => $user->getUsername(),
             ':pw' => $user->getPwEncrypted(),
             ':email' => $user->getEmail(),
@@ -43,7 +44,7 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
     }
 
     public function containsId($id) {
-        $query = 'SELECT * FROM `'.self::USERTABLE.'` WHERE user_id=?';
+        $query = 'SELECT * FROM ' . Globals::getTableName('user') . ' WHERE user_id=?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
@@ -51,20 +52,149 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
         $result = $statement->fetchAll();
         return $result;
     }
-    
-    public function getNotifications($id, $limit) {
-        
-    }   
-    
-    public function getAchievements($id) {
-        
+
+    //FIXME get unread notifications & get read notifications
+    public function getNotifications($userId, $limit) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('notification') . '  WHERE user_id = ? AND notification_isread = 0 ORDER BY notifications.notification_date DESC LIMIT = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $userId);
+        $statement->bindParam(2, $limit);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+
+        $notifications = array();
+        foreach ($result as $row) {
+            try {
+                $notif = $this->createNotification($row);
+                $notifications[$notif->getId()] = $notif;
+            } catch (DomainModelException $ex) {
+                throw new DBException($ex->getMessage(), $ex);
+            }
+        }
+        return $notifications;
     }
-    
-    public function getAvatar($id) {
-        
+
+    protected function createNotification($row) {
+        if (!$row) {
+            throw new DBException('could not create notification', NULL);
+        }
+        $notif = new Notification($row['user_id'], $row['notification_txt'], $row['notification_date'], $row['notification_isread'], Globals::getDateTimeFormat('mysql', true));
+        $notif->setId($row['notification_id']);
     }
-    
-    public function getUserRole($id) {
+
+    protected function getImage($imageId) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('image') . ' WHERE image_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $imageId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        $image = NULL;
+        $row = $result[0];
+        if ($row) {
+            $image = new Image($row['img_uri'], $row['alt']);
+            $image->setId($row['image_id']);
+        }
+        return $image;
+    }
+
+    /**
+     * getAchievements
+     * Returns all the achievements of a user as an array
+     * 
+     * START ORIGINAL SQL SATEMENT
+     * SELECT 
+     *  achievements.image_id,
+     *  achievements.achievement_id,
+     *  achievements.name,
+     *  achievements.desc,
+     *  achievements.karma_award,
+     *  achievements.diamond_award 
+     * FROM 
+     *  users INNER JOIN 
+     *      achievements INNER JOIN 
+     *          achievements_users
+     * WHERE users.user_id = 1 
+     * GROUP BY achievements.achievement_id
+     * END ORIGINAL SQL STATEMENT
+     * 
+     * @param int $userId
+     * @return array
+     * @throws DBException
+     */
+    public function getAchievements($userId) {
+        $achTable = Globals::getTableName('achievement');
+        $userTable = Globals::getTableName('user');
+        $combiTable = Globals::getTableName('achievement_user');
+        $query = 'SELECT ' . $achTable . '.image_id, ' . $achTable . '.id,  ' . $achTable . '.name,  ' . $achTable . 'desc,  ' . $achTable . '.karma_award,  ' . $achTable . '.diamond_award FROM  ' . $userTable . ' INNER JOIN  ' . $achTable . ' INNER JOIN  ' . $combiTable . ' WHERE  ' . $userTable . '.user_id = ? GROUP BY  ' . $achTable . '.id';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $userId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+
+        $achievements = array();
+        foreach ($result as $row) {
+            try {
+                $image = $this->getImage($row['images_image_id']);
+                $achievement = $this->createAchievement($row, $image);
+                $achievements[$achievement->getId()] = $achievement;
+            } catch (DomainModelException $ex) {
+                throw new DBException($ex->getMessage(), $ex);
+            }
+        }
+        return $achievements;
+    }
+
+    protected function createAchievement($row, Image $image) {
+        $achievement = new Achievement($image, $row['name'], $row['desc'], $row['karma_award'], $row['diamond_award']);
+        $achievement->setId($row['achievement_id']);
+    }
+
+    public function getAvatar($avatarId) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('avatar') . ' WHERE avatar_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $avatarId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+
+        $row = $result[0];
+        $image = $this->getImage($row['images_image_id']);
+        $avatar = $this->createAvatar($row, $image);
+        return $avatar;
+    }
+
+    protected function createAvatar($row, Image $image) {
+        $avatar = new Avatar($image, $row['tier']);
+        $avatar->setId($row['avatar_id']);
+    }
+
+    public function getUserRole($userRoleId) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $userRoleId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+
+        $row = $result[0];
+        $userRole = $this->createUserRole($row);
+        return $userRole;
+    }
+
+    protected function createUserRole($row) {
+        $userRole = new UserRole($row['user_role_name'], $row['user_role_access_flag'], $row['user_role_karma_min'], $row['user_role_diamond_min']);
+        $userRole->setId($row['user_role_id']);
+        return $userRole;
+    }
+
+    public function getLastComment($userId) {
+        //TODO last edited here, should continue here too
+    }
+
+    protected function createLastComment($row) {
         
     }
 
@@ -73,12 +203,22 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
         if (!$result || empty($result)) {
             throw new DBException('could not find a user with this id. id was: ' . $id, NULL);
         }
-        $user = $this->createUser($result, $true);
+        $user = $this->createUser($result, true);
         return $user;
     }
-    
+
+    protected function getSimpleUserResult($id) {
+        $query = 'SELECT `user_id`, `user_roles_user_role_id`, `avatars_avatar_id`, `user_name` , `dontated_amount` FROM ' . Globals::getTableName('user') . ' WHERE user_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $id);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        return $result;
+    }
+
     public function getSimple($id) {
-         $result = $this->containsId($id)['0'];
+        $result = $this->getSimpleUserResult($id)['0'];
         if (!$result || empty($result)) {
             throw new DBException('could not find a user with this id. id was: ' . $id, NULL);
         }
@@ -90,17 +230,31 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
         if (!$row) {
             throw new DBException('could not create user', NULL);
         }
-        try {
-            $user = new User($row['user_name'], 'use_hash', $row['user_email'], $row['hash_salt']);
-            $user->setId($row['user_id']);
-            return $user;
-        } catch (DomainModelException $ex) {
-            throw new DBException($ex->getMessage(), $ex);
+        $id = $row['user_id'];
+        $avatarId = $row['avatars_avatar_id'];
+        $userRoleId = $row['user_roles_user_role_id'];
+        $avatar = $this->getAvatar($avatarId);
+        $userRole = $this->getUserRole($userRoleId);
+        $simpleUser = new UserSimple($userRole, $avatar, $row['user_name'], $row['donated_amount']);
+        $simpleUser->setId($id);
+        if ($detailed) {
+            return $this->createDetailedUser($simpleUser, $row['user_hash_salt'], $row['user_email'], $row['user_karma'], $row['user_reg_key'], $row['user_warnings'], $row['user_diamonds'], $row['preference_datetime_format'], $row['user_created'], $row['last_login'], $row['active_seconds']);
         }
+        return $simpleUser;
+    }
+
+    protected function createDetailedUser(UserSimple $simpleUser, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime) {
+        $userId = $simpleUser->getId();
+        $recentNotifications = $this->getNotifications($userId, 10);
+        $achievements = $this->getAchievements($userId);
+        $lastComment = $this->getLastComment($userId);
+        $detailedUser = new UserDetailed($simpleUser->getUserRole(), $simpleUser->getAvatar(), $simpleUser->getUsername(), $simpleUser->getDonated(), $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, $lastComment, $recentNotifications, $achievements, Globals::getDateTimeFormat('mysql', true));
+        $detailedUser->setId($userId);
+        return $detailedUser;
     }
 
     public function getUsers() {
-        $query = "SELECT * FROM farao.users";
+        $query = 'SELECT `user_id`, `user_roles_user_role_id`, `avatars_avatar_id`, `user_name` , `dontated_amount` FROM ' . Globals::getTableName('user');
         $statement = parent::prepareStatement($query);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -108,12 +262,8 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
 
         $users = array();
         foreach ($result as $row) {
-            try {
-                $user = $this->createUser($row);
-                $users[$user->getId()] = $user;
-            } catch (DomainModelException $ex) {
-                throw new DBException($ex->getMessage(), $ex);
-            }
+            $user = $this->createUser($row, false);
+            $users[$user->getId()] = $user;
         }
         return $users;
     }
@@ -121,19 +271,17 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
     public function getByString($identifier) {
         $userWithName = '';
         try {
-            $query = 'SELECT * FROM farao.users WHERE user_name = ?';
+            $query = 'SELECT `user_id`, `user_roles_user_role_id`, `avatars_avatar_id`, `user_name` , `dontated_amount` FROM ' . Globals::getTableName('user') . ' WHERE user_name = ?';
             $statement = parent::prepareStatement($query);
             $statement->bindParam(1, $identifier);
             $statement->execute();
             $statement->setFetchMode(PDO::FETCH_ASSOC);
             $result = $statement->fetchAll();
             foreach ($result as $row) {
-                $user = $this->createUser($row);
+                $user = $this->createUser($row, false);
                 $userWithName = $user;
             }
         } catch (PDOException $ex) {
-            throw new DBException($ex->getMessage(), $ex);
-        } catch (DomainModelException $ex) {
             throw new DBException($ex->getMessage(), $ex);
         }
         return $userWithName;
@@ -143,26 +291,10 @@ abstract class UserSqlDB extends SqlSuper implements UserDao {
         if (!$this->containsId($id)) {
             throw new DBException('No user with this id was found', NULL);
         }
-        $query = 'DELETE FROM farao.users WHERE user_id=?';
+        $query = 'DELETE FROM ' . Globals::getTableName('user') . ' WHERE user_id=?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
-    }
-
-    public function updatePw($user_id, $pw_old, $pw_new) {
-        try {
-            $user = $this->get($user_id);
-            $user->update($pw_old, $pw_new);
-            $query = 'UPDATE farao.users SET hash_salt= :hash_salt WHERE users.user_id= :id;';
-            $statement = parent::prepareStatement($query);
-            $gueryArgs = array(
-                ':hash_salt' => $user->getHash_salt(),
-                ':id' => $user_id
-            );
-            $statement->execute($gueryArgs);
-        } catch (DomainModelException $ex) {
-            throw new DBException($ex->getMessage(), $ex);
-        }
     }
 
 }

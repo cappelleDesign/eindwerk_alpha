@@ -1,0 +1,168 @@
+[16-02-2016 15:41:00]
+ControllerException::__set_state(array(
+   'message' => 'post fields not set! ',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\promocontroller.php',
+   'line' => 232,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\promocontroller.php',
+      'line' => 183,
+      'function' => 'getPromoArr',
+      'class' => 'PromoController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\admincontroller.php',
+      'line' => 100,
+      'function' => 'updatePromo',
+      'class' => 'PromoController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\admincontroller.php',
+      'line' => 40,
+      'function' => 'processAdminPromoRequest',
+      'class' => 'AdminController',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'admin/admin_portal',
+        1 => 'admin_updatePromo',
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\controller.php',
+      'line' => 112,
+      'function' => 'processAdminRequest',
+      'class' => 'AdminController',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'admin_updatePromo',
+      ),
+    ),
+    4 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\controller.php',
+      'line' => 77,
+      'function' => 'processAdminPage',
+      'class' => 'Controller',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'admin_updatePromo',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\index.php',
+      'line' => 38,
+      'function' => 'processRequest',
+      'class' => 'Controller',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was send
+[16-02-2016 15:42:51]
+ControllerException::__set_state(array(
+   'message' => 'post fields not set! ',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\promocontroller.php',
+   'line' => 232,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\promocontroller.php',
+      'line' => 183,
+      'function' => 'getPromoArr',
+      'class' => 'PromoController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\admincontroller.php',
+      'line' => 100,
+      'function' => 'updatePromo',
+      'class' => 'PromoController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\admincontroller.php',
+      'line' => 40,
+      'function' => 'processAdminPromoRequest',
+      'class' => 'AdminController',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'admin/admin_portal',
+        1 => 'admin_updatePromo',
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\controller.php',
+      'line' => 112,
+      'function' => 'processAdminRequest',
+      'class' => 'AdminController',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'admin_updatePromo',
+      ),
+    ),
+    4 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\php\\controller\\controller.php',
+      'line' => 77,
+      'function' => 'processAdminPage',
+      'class' => 'Controller',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'admin_updatePromo',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\faraobootstrap\\index.php',
+      'line' => 38,
+      'function' => 'processRequest',
+      'class' => 'Controller',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was send

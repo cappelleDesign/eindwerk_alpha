@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UserDetailed
  * Extends simple user for more detailed information of a user
@@ -88,7 +89,7 @@ class UserDetailed extends UserSimple {
      */
     private $_achievements;
 
-    public function __construct(UserRole $userRole, Image $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, $lastComment, $recentNotifications, $achievements, $dateFormat) {
+    public function __construct(UserRole $userRole, Avatar $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, Comment $lastComment, $recentNotifications, $achievements, $dateFormat) {
         parent::__construct($userRole, $avatar, $username, $donated);
         $this->init();
         $this->setPwEncrypted($pwEncrypted);
@@ -103,7 +104,7 @@ class UserDetailed extends UserSimple {
         $this->setActiveTime($activeTime);
         $this->setLastComment($lastComment);
         $this->setRecentNotifications($recentNotifications);
-        $this->setAchievements($achievements);        
+        $this->setAchievements($achievements);
     }
 
     private function init() {
@@ -155,7 +156,7 @@ class UserDetailed extends UserSimple {
         $this->_activeTime = $activeTime;
     }
 
-    public function setLastComment($lastComment) {
+    public function setLastComment(Comment $lastComment) {
         $this->_lastComment = $lastComment;
     }
 
