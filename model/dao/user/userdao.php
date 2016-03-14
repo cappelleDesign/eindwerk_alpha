@@ -8,12 +8,21 @@
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 interface userdao {
-
-    public function getUsers();
     
+    public function emailAvailable($mail);
+    
+    public function usernameAvailable($username);
+
+    /**
+     * getUsers
+     * returns all users as UserSimple.class in an array
+     * @return array $users
+     */
+    public function getUsers();
+
     public function getSimple($user_id);
 
-    public function updatePw($user_id, $pw_old, $pw_new);
+    public function updatePw($userId, $pwOld, $pwNew);
 
     public function updateUserUserRole($userId, $userRoleId);
 
@@ -47,6 +56,8 @@ interface userdao {
     public function updateNotification($userId, $notificationId, $isRead);
 
     public function removeNotification($userId, $notificationId);
+
+    public function getNotifications($userId, $limit);
 
     public function addAchievement($userId, $achievementId);
 }
