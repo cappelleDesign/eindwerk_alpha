@@ -13,22 +13,22 @@ class Image implements DaoObject {
      * @var int
      */
     private $_id = -1;
-    
+
     /**
      * The url of the image limited to the name.extension
      * @var string 
      */
     private $_url;
-    
+
     /**
      * The alt text for the image
      * @var string 
      */
     private $_alt;
-    
-    public function __construct($url, $alt) {        
+
+    public function __construct($url, $alt) {
         $this->setUrl($url);
-        $this->setAlt($alt);    
+        $this->setAlt($alt);
     }
 
     public function setId($id = -1) {
@@ -54,4 +54,11 @@ class Image implements DaoObject {
     public function getAlt() {
         return $this->_alt;
     }
+
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

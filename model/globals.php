@@ -9,28 +9,28 @@
  */
 class Globals {
 
-    private $_database = 'souffe_revies';
-    private $_achievementsTable = 'achievements';
-    private $_userAchievementCombo = 'achievements_users';
-    private $_avatarsTable = 'avatars';
-    private $_commentsTable = 'comments';
-    private $_commentsVotesTable = 'comments_votes';
-    private $_gamesTable = 'games';
-    private $_gameGenresTable = 'game_genre';
-    private $_gamePlatformsTable = 'game_platform';
-    private $_genresTable = 'genres';
-    private $_goodsBadsTagsTable = 'goods_bads_tags';
-    private $_imagesTable = 'images';
-    private $_newsfeedsTable = 'newsfeeds';
-    private $_notificationsTable = 'notifications';
-    private $_platformsTable = 'platforms';
+    const DATABASE = 'souffe_reviews';
+    const ACHIEVEMENTS_TABLE = 'achievements';
+    const USER_ACHIEVEMENT_COMBO_TABLE = 'achievements_users';
+    const AVATARS_TABLE = 'avatars';
+    const COMMENTS_TABLE = 'comments';
+    const COMMENTS_VOTES_TABLE = 'comment_votes';
+    const GAMES_TABLE = 'games';
+    const GAMES_GENRES_TABLE = 'game_genre';
+    const GAMES_PLATFORMS_TABLE = 'game_platform';
+    const GENRES_TABLE = 'genres';
+    const GOOD_BADS_TAGS_TABLE = 'goods_bads_tags';
+    const IMG_TABLE = 'images';
+    const NEWSFEED_TABLE = 'newsfeeds';
+    const NOTIFICATIONS_TABLE = 'notifications';
+    const PLATFORMS_TABLE = 'platforms';
     //poll tables not used yet; would come here
-    private $_reviewsTable = 'reviews';
-    private $_reviewsImagesComboTable = 'reviews_has_images';
-    private $_reviewsUserScoresComboTable = 'review_user_scores';
-    private $_reviewVotesCombo = 'review_votes';
-    private $_userTable = 'users';
-    private $_userRolesTable = 'user_roles';
+    const REVIEWS_TABLE = 'reviews';
+    const REVIEWS_IMG_COMBO_TABLE = 'reviews_has_images';
+    const REVIEWS_USER_SCORES_COMBO_TABLE = 'review_user_scores';
+    const REVIEW_VOTES_COMBO = 'review_votes';
+    const USERS_TABLE = 'users';
+    const USER_ROLES_TABLE = 'user_roles';
 
     //FIXME handle locale ?    
     const BE_DATE_FORMAT = 'd/m/Y';    
@@ -72,71 +72,71 @@ class Globals {
         $tableName = '';
         switch ($instanceName) {
             case 'achievement':
-                $tableName = $this->_achievementsTable;
+                $tableName = self::ACHIEVEMENTS_TABLE;
                 break;
             case 'achievement_user':
-                $tableName = $this->_userAchievementCombo;
+                $tableName = self::USER_ACHIEVEMENT_COMBO_TABLE;
                 break;
             case 'avatar':
-                $tableName = $this->_avatarsTable;
+                $tableName = self::AVATARS_TABLE;
                 break;
             case 'comment':
-                $tableName = $this->_commentsTable;
+                $tableName = self::COMMENTS_TABLE;
                 break;
             case 'comment_vote':
-                $tableName = $this->_commentsVotesTable;
+                $tableName = self::COMMENTS_VOTES_TABLE;
                 break;
             case 'game':
-                $tableName = $this->_gamesTable;
+                $tableName = self::GAMES_TABLE;
                 break;
             case 'game_genre':
-                $tableName = $this->_gameGenresTable;
+                $tableName = self::GAMES_GENRES_TABLE;
                 break;
             case 'game_platform':
-                $tableName = $this->_gamePlatformsTable;
+                $tableName = self::GAMES_PLATFORMS_TABLE;
                 break;
             case 'genre':
-                $tableName = $this->_genresTable;
+                $tableName = self::GENRES_TABLE;
                 break;
             case 'tag':
             case 'good':
             case 'bad':
-                $tableName = $this->_goodsBadsTagsTable;
+                $tableName = self::GOOD_BADS_TAGS_TABLE;
                 break;
             case 'image':
-                $tableName = $this->_imagesTable;
+                $tableName = self::IMG_TABLE;
                 break;
             case 'newsfeed':
-                $tableName = $this->_newsfeedsTable;
+                $tableName = self::NEWSFEED_TABLE;
                 break;
             case 'notification':
-                $tableName = $this->_notificationsTable;
+                $tableName =self::NOTIFICATIONS_TABLE;
                 break;
             case 'platform':
-                $tableName = $this->_platformsTable;
+                $tableName = self::PLATFORMS_TABLE;
                 break;
             case 'review':
-                $tableName = $this->_reviewsTable;
+                $tableName = self::REVIEWS_TABLE;
                 break;
             case 'review_image':
-                $tableName = $this->_reviewsImagesComboTable;
+                $tableName = self::REVIEWS_IMG_COMBO_TABLE;
                 break;
             case 'review_userScore':
-                $tableName = $this->_reviewsUserScoresComboTable;
+                $tableName = self::REVIEWS_USER_SCORES_COMBO_TABLE;
                 break;
             case 'review_vote':
-                $tableName = $this->_reviewVotesCombo;
+                $tableName = self::REVIEW_VOTES_COMBO;
                 break;
             case 'user':
-                $tableName = $this->_userTable;
+                $tableName = self::USERS_TABLE;
                 break;
             case 'userRole':
-                $tableName = $this->_userRolesTable;
+                $tableName = self::USER_ROLES_TABLE;
                 break;
             default :
                 throw new Exception('Could not find table for ' . $instanceName, NULL);
         }
-        return $this->_database . '.' . $tableName;
+        return self::DATABASE . '.' . $tableName;
     }
 
 }

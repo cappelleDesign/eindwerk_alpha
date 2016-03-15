@@ -131,4 +131,10 @@ class NewsfeedItem implements DaoObject {
         return $this->_created->format($format);
     }
 
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

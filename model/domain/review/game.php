@@ -271,4 +271,10 @@ class Game implements DaoObject {
         return $this->getRelease()->format($format);
     }
 
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

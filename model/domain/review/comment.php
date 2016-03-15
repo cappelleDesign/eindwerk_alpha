@@ -85,7 +85,7 @@ class Comment implements DaoObject {
 
     public function setPoster(UserSimple $poster) {
         $this->_poster = $poster;
-    }  
+    }
 
     public function setReviewId($reviewId) {
         $this->_reviewId = $reviewId;
@@ -120,7 +120,7 @@ class Comment implements DaoObject {
 
     public function getPoster() {
         return $this->_poster;
-    }  
+    }
 
     public function getReviewId() {
         return $this->_reviewId;
@@ -189,8 +189,15 @@ class Comment implements DaoObject {
     public function getCreatedStr($format) {
         return $this->_created->format($format);
     }
-    
+
     public function getNumberOfVotes() {
         
     }
+
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

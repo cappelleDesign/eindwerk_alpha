@@ -89,4 +89,10 @@ class UserRole implements DaoObject {
         return $this->_diamond_min;
     }
 
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

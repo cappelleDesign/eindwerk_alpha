@@ -6,7 +6,7 @@
  * @subpackage domain.general
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-interface DaoObject {
+interface DaoObject extends JsonSerializable {
     public function getId();
     public function setId($id=-1);
 }

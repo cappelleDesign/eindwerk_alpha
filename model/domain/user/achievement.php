@@ -104,4 +104,10 @@ class Achievement implements DaoObject {
         return $this->_diamondReward;
     }
 
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

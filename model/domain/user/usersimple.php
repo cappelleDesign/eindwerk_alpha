@@ -50,7 +50,7 @@ class UserSimple implements DaoObject {
     /* ---------------------------------------------------------------------- */
 
     private function init() {
-
+        
     }
 
     public function setId($id = -1) {
@@ -93,6 +93,12 @@ class UserSimple implements DaoObject {
 
     public function getDonated() {
         return $this->_donated;
-    }  
-    
+    }
+
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

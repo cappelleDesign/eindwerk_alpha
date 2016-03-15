@@ -27,11 +27,11 @@ class Avatar implements DaoObject {
      */
     private $_tier;
 
-    public function __construct(Image $image, $tier) {        
+    public function __construct(Image $image, $tier) {
         $this->setImage($image);
         $this->setTier($tier);
     }
-    
+
     public function setId($id = -1) {
         $this->_id = $id;
     }
@@ -54,6 +54,12 @@ class Avatar implements DaoObject {
 
     public function getTier() {
         return $this->_tier;
+    }
+
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
     }
 
 }

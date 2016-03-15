@@ -462,4 +462,10 @@ class Review implements DaoObject {
         }
     }
 
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

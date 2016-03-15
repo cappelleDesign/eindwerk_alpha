@@ -360,4 +360,10 @@ class UserDetailed extends UserSimple {
         $this->updateDiamonds($achievement->getDiamondReward(), $achievement->getKarmaReward());
     }
 
+    public function jsonSerialize() {
+        $arr = array();
+        //TODO implement
+        return $arr;
+    }
+
 }

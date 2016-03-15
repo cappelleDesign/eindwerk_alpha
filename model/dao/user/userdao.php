@@ -22,7 +22,7 @@ interface userdao {
 
     public function getSimple($user_id);
 
-    public function updatePw($userId, $pwOld, $pwNew);
+    public function updatePw($userId, $pwNew);
 
     public function updateUserUserRole($userId, $userRoleId);
 
