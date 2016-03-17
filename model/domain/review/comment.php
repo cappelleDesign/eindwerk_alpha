@@ -47,25 +47,18 @@ class Comment implements DaoObject {
     private $_created;
 
     /**
-     * Wether this comment already got a diamond or not
-     * @var bool
-     */
-    private $_hasDiamond;
-
-    /**
      * Assoc array with all voters form = voters(voterId=>info(userName => voter username,voteFlag => 1/2/3)
      * @var array 
      */
     private $_voters;
 
-    public function __construct($parentId, UserSimple $poster, $reviewId, $body, $created, $hasDiamond, $voters, $dateFormat) {
+    public function __construct($parentId, UserSimple $poster, $reviewId, $body, $created, $voters, $dateFormat) {
         $this->init();
         $this->setParentId($parentId);
         $this->setPoster($poster);
         $this->setReviewId($reviewId);
         $this->setBody($body);
-        $this->setCreated($created, $dateFormat);
-        $this->setHasDiamond($hasDiamond);
+        $this->setCreated($created, $dateFormat);        
         $this->setVoters($voters);
     }
 
@@ -100,10 +93,6 @@ class Comment implements DaoObject {
         $this->_created = $date;
     }
 
-    public function setHasDiamond($hasDiamond) {
-        $this->_hasDiamond = $hasDiamond;
-    }
-
     public function setVoters($voters) {
         $this->_voters = $voters;
     }
@@ -133,11 +122,7 @@ class Comment implements DaoObject {
     public function getCreated() {
         return $this->_created;
     }
-
-    public function getHasDiamond() {
-        return $this->_hasDiamond;
-    }
-
+    
     public function getVoters() {
         return $this->_voters;
     }
@@ -190,10 +175,32 @@ class Comment implements DaoObject {
         return $this->_created->format($format);
     }
 
+    /**
+     * getNumberOfVotes
+     * returns the total vote count for this comment
+     * @return int $votes total number of votes
+     */
     public function getNumberOfVotes() {
-        
+        $votes = 0;
+        foreach($this->_voters as $voter) {
+            if($voter['voteFlag'] < 2){
+                $votes --;
+            } else {
+                $votes ++;
+            }
+        }
+        return $votes;
     }
 
+    /**
+     * getHasDiamond
+     * checks if the comment has already got a diamond
+     * @return boolean
+     */
+    public function getHasDiamond() {
+        return isset(array_column($this->_voters,'username','voteFlag')['3']);
+    }
+    
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

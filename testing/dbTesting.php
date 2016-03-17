@@ -43,4 +43,5 @@ echo 'Is there a user with id 1? ';
 echo count($user_db->containsId(1)) ? 'yes' : 'no';
 echo '<br>';
 echo 'User with id 1 is: ';
-var_dump($user_db->get(1));
+$notification = new Notification(1 , 'testing return id', '21/10/1989 00:00:00', false, Globals::getDateTimeFormat('be', true));
+echo $user_db->addNotification(1, $notification);

@@ -7,7 +7,7 @@
  * @subpackage dao.user
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-interface userdao {
+interface UserDao extends Dao{
     
     public function emailAvailable($mail);
     
@@ -33,8 +33,6 @@ interface userdao {
 
     public function updateUserDonated($userId, $donated);
 
-    public function updateUserMail($userId, $newEmail);
-
     public function updateUserKarma($userId, $newAmount);
 
     public function updateUserRegKey($userId, $regKey);
@@ -45,7 +43,7 @@ interface userdao {
 
     public function updateUserDateTimePref($userId, $dateTimePref);
 
-    public function updateUserLastLogin($userId, $lastLogin);
+    public function updateUserLastLogin($userId, DateTime $lastLogin);
 
     public function updateUserActiveTime($userId, $activeTime);
 
@@ -53,9 +51,9 @@ interface userdao {
 
     public function addNotification($userId, Notification $notification);
 
-    public function updateNotification($userId, $notificationId, $isRead);
+    public function updateNotification($notificationId, $isRead);
 
-    public function removeNotification($userId, $notificationId);
+    public function removeNotification($notificationId);
 
     public function getNotifications($userId, $limit);
 

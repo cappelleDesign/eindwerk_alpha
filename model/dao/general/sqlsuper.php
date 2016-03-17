@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SqlSuper
  * This a is class that is a super class for all sql subclasses.
@@ -33,14 +34,6 @@ class SqlSuper {
         }
     }
 
-    protected function executeInternalQuery($query) {
-        try {
-            $this->_connection->query($query);
-        } catch (Exception $ex) {
-            throw new DBException($ex->getMessage(), $ex);
-        }
-    }
-
     protected function prepareStatement($query) {
         $statement = $this->_connection->prepare($query);
         return $statement;
@@ -50,18 +43,25 @@ class SqlSuper {
         return $this->_connection;
     }
 
-    protected function getSqlDateFormat() {
-        return 'Y-m-d';
+    protected function getLastId() {
+        return $this->_connection->lastInsertId();
     }
-    
-    //    private function phpToMysqlFormatDate($str){
-//        $date = date('Y-d-m H:i:s', strtotime(str_replace('-', '/', $str)));
-//        return $date;
-//    }
-//    
-//    private function mysqlToPhpFormatDate($str){
-//        $date = date('d/m/Y H:i:s',strtotime($str));
-//        return $date;
-//    }
-//    
+
+
+    protected function executeInternalQuery($query) {
+        try {
+            $this->_connection->query($query);
+        } catch (Exception $ex) {
+            throw new DBException($ex->getMessage(), $ex);
+        }
+    }
+
+    protected function executeExternalQuery($query, $queryArgs) {
+        $statement = $this->prepareStatement($query);
+        $statement->execute($queryArgs);
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        return $result;
+    }
+
 }

@@ -8,34 +8,7 @@
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class Globals {
-
-    const DATABASE = 'souffe_reviews';
-    const ACHIEVEMENTS_TABLE = 'achievements';
-    const USER_ACHIEVEMENT_COMBO_TABLE = 'achievements_users';
-    const AVATARS_TABLE = 'avatars';
-    const COMMENTS_TABLE = 'comments';
-    const COMMENTS_VOTES_TABLE = 'comment_votes';
-    const GAMES_TABLE = 'games';
-    const GAMES_GENRES_TABLE = 'game_genre';
-    const GAMES_PLATFORMS_TABLE = 'game_platform';
-    const GENRES_TABLE = 'genres';
-    const GOOD_BADS_TAGS_TABLE = 'goods_bads_tags';
-    const IMG_TABLE = 'images';
-    const NEWSFEED_TABLE = 'newsfeeds';
-    const NOTIFICATIONS_TABLE = 'notifications';
-    const PLATFORMS_TABLE = 'platforms';
-    //poll tables not used yet; would come here
-    const REVIEWS_TABLE = 'reviews';
-    const REVIEWS_IMG_COMBO_TABLE = 'reviews_has_images';
-    const REVIEWS_USER_SCORES_COMBO_TABLE = 'review_user_scores';
-    const REVIEW_VOTES_COMBO = 'review_votes';
-    const USERS_TABLE = 'users';
-    const USER_ROLES_TABLE = 'user_roles';
-
-    //FIXME handle locale ?    
-    const BE_DATE_FORMAT = 'd/m/Y';    
-    const MYSQL_DATE_FORMAT = 'Y/m/d';    
-    const US_DATE_FORMAT ='m/d/Y';    
+                                        
     const COMMENT_DIAMOND_KARMA = 50;
     const REVIEW_DIAMOND_KARMA = 100;
 
@@ -43,20 +16,21 @@ class Globals {
         $date = '';
         switch ($type) {
             case 'be' :
-                $date = self::BE_DATE_FORMAT;
+                $date = 'd/m/Y';
                 break;
             case 'mysql' :
-                $date = self::MYSQL_DATE_FORMAT;
+                $date = 'Y/m/d';
                 break;
             case 'us' :
-                $date = self::US_DATE_FORMAT;
+                $date = 'm/d/Y';
                 break;
             default :
                 throw new Exception('Date type ' . $type . ' was not found');
         }
-        if($withTime) {
-            $date += ' H:i:s';
-        }        
+        if ($withTime) {
+            $date .= ' H:i:s';
+        }
+        return $date;
     }
 
     static function randomString($length) {
@@ -72,71 +46,71 @@ class Globals {
         $tableName = '';
         switch ($instanceName) {
             case 'achievement':
-                $tableName = self::ACHIEVEMENTS_TABLE;
+                $tableName = 'achievements';
                 break;
             case 'achievement_user':
-                $tableName = self::USER_ACHIEVEMENT_COMBO_TABLE;
+                $tableName = 'achievements_users';
                 break;
             case 'avatar':
-                $tableName = self::AVATARS_TABLE;
+                $tableName = 'avatars';
                 break;
             case 'comment':
-                $tableName = self::COMMENTS_TABLE;
+                $tableName = 'comments';
                 break;
             case 'comment_vote':
-                $tableName = self::COMMENTS_VOTES_TABLE;
+                $tableName = 'comment_votes';
                 break;
             case 'game':
-                $tableName = self::GAMES_TABLE;
+                $tableName = 'games';
                 break;
             case 'game_genre':
-                $tableName = self::GAMES_GENRES_TABLE;
+                $tableName = 'game_genre';
                 break;
             case 'game_platform':
-                $tableName = self::GAMES_PLATFORMS_TABLE;
+                $tableName = 'game_platform';
                 break;
             case 'genre':
-                $tableName = self::GENRES_TABLE;
+                $tableName = 'genres';
                 break;
             case 'tag':
             case 'good':
             case 'bad':
-                $tableName = self::GOOD_BADS_TAGS_TABLE;
+                $tableName = 'goods_bads_tags';
                 break;
             case 'image':
-                $tableName = self::IMG_TABLE;
+                $tableName = 'images';
                 break;
             case 'newsfeed':
-                $tableName = self::NEWSFEED_TABLE;
+                $tableName = 'newsfeeds';
                 break;
             case 'notification':
-                $tableName =self::NOTIFICATIONS_TABLE;
+                $tableName = 'notifications';
                 break;
             case 'platform':
-                $tableName = self::PLATFORMS_TABLE;
+                $tableName = 'platforms';
                 break;
             case 'review':
-                $tableName = self::REVIEWS_TABLE;
+                $tableName = 'reviews';
                 break;
             case 'review_image':
-                $tableName = self::REVIEWS_IMG_COMBO_TABLE;
+                $tableName = 'reviews_has_images';
                 break;
             case 'review_userScore':
-                $tableName = self::REVIEWS_USER_SCORES_COMBO_TABLE;
+                $tableName = 'review_user_scores';
                 break;
             case 'review_vote':
-                $tableName = self::REVIEW_VOTES_COMBO;
+                $tableName = 'review_votes';
                 break;
             case 'user':
-                $tableName = self::USERS_TABLE;
+                $tableName = 'users';
                 break;
             case 'userRole':
-                $tableName = self::USER_ROLES_TABLE;
+                $tableName = 'user_roles';
                 break;
             default :
                 throw new Exception('Could not find table for ' . $instanceName, NULL);
         }
-        return self::DATABASE . '.' . $tableName;
+        return 'souffe_reviews.' . $tableName;
     }
 
 }
