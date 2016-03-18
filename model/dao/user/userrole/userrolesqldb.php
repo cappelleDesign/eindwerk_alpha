@@ -6,7 +6,7 @@ abstract class userrolesqldb extends SqlSuper implements UserRoleDao{
         parent::__construct($host, $username, $passwd, $database);
     }
     
-    public function add(\DaoObject $daoObject) {
+    public function add(DaoObject $daoObject) {
         
     }
 
