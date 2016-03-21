@@ -1,7 +1,9 @@
 <?php
 
-interface NotificationDao extends Dao{
+interface NotificationDao {
 
+    public function containsId($id, $instance);
+    
     public function addNotification($userId, Notification $notification);
 
     public function updateNotification($notificationId, $isRead);
@@ -9,6 +11,4 @@ interface NotificationDao extends Dao{
     public function removeNotification($notificationId);
 
     public function getNotifications($userId, $limit);
-    
-    public function createNotification($row);
 }

@@ -1,39 +1,41 @@
 <?php
 
-abstract class NotificationSqlDB extends SqlSuper implements NotificationDao {
+/**
+ * NotificationSqlDB
+ * This is a class that handles user notification SQL database functions
+ * @package dao
+ * @subpackage dao.user.notification
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
+class NotificationSqlDB extends SqlSuper implements NotificationDao {
 
     public function __construct($host, $username, $passwd, $database) {
-        parent::__construct($host, $username, $passwd, $database);
-    }
-    
-    public function add(DaoObject $daoObject) {
-        
+        parent::__construct('mysql:host=' . $host, $username, $passwd, $database);     
     }
 
-    public function containsId($id) {
-        
+    public function containsId($id, $instance) {
+        $query = 'SELECT COUNT(*) FROM ' . Globals::getTableName($instance) . ' WHERE user_id=?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $id);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        return $result[0]['COUNT(*)'];
     }
 
-    public function get($id) {
-        
-    }
-
-    public function getByString($identifier) {
-        
-    }
-
-    public function remove($id) {
-        
-    }
-
-        /**
+    /**
      * addNotification
      * Adds a notification to the user with this id
      * @param int $userId
      * @param Notification $notification
      * @return int the id of the newly added notification
+     * @throws DBException
      */
     public function addNotification($userId, Notification $notification) {
+        parent::triggerIdNotFound($userId, 'user');
+        if ($this->containsId($notification->getId(), 'notification')) {
+            throw new DBException('Notification with id ' . $notification->getId() . ' already exists', NULL);
+        }
         $notifT = Globals::getTableName('notification');
         $query = 'INSERT INTO ' . $notifT . ' (`user_id`, `notification_txt`, `notification_date`, `notification_isread`) ' .
                 'VALUES (:userId, :message, :time, :read);';
@@ -54,8 +56,10 @@ abstract class NotificationSqlDB extends SqlSuper implements NotificationDao {
      * @param int $userId
      * @param int $notificationId
      * @param boolean $isRead
+     * @throws DBException
      */
     public function updateNotification($notificationId, $isRead) {
+        parent::triggerIdNotFound($notificationId, 'notification');
         $notifT = Globals::getTableName('notification');
         $query = 'UPDATE ' . $notifT . ' SET ' . $notifT . '.notification_isread = :read WHERE ' . $notifT . '.notification_id = :notifId';
         $statement = parent::prepareStatement($query);
@@ -69,9 +73,11 @@ abstract class NotificationSqlDB extends SqlSuper implements NotificationDao {
     /**
      * removeNotification
      * Removes the notificaion with this id
-     * @param type $notificationId
+     * @param int $notificationId
+     * @throws DBException
      */
     public function removeNotification($notificationId) {
+        parent::triggerIdNotFound($notificationId, 'notification');
         $notifT = Globals::getTableName('notification');
         $query = 'DELETE FROM ' . $notifT . ' WHERE ' . $notifT . '.notification_id = :notifId';
         $statement = parent::prepareStatement($query);
@@ -88,7 +94,7 @@ abstract class NotificationSqlDB extends SqlSuper implements NotificationDao {
      * @param int $limit
      * @return array of notifications
      */
-    public function getNotifications($userId, $limit) {        
+    public function getNotifications($userId, $limit) {
         $query = 'SELECT * FROM ' . Globals::getTableName('notification') . '  WHERE user_id = ? AND notification_isread = 0 ORDER BY notifications.notification_date DESC LIMIT ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $userId);
@@ -109,18 +115,13 @@ abstract class NotificationSqlDB extends SqlSuper implements NotificationDao {
         return $notifications;
     }
 
-    public function createNotification($row) {
-        if (!$row) {
-            throw new DBException('could not create notification', NULL);
-        }
-        $notif = new Notification($row['user_id'], $row['notification_txt'], $row['notification_date'], $row['notification_isread'], Globals::getDateTimeFormat('mysql', true));
-        $notif->setId($row['notification_id']);
-        return $notif;
-    }
-
-    protected function triggerIdNotFound($id) {
-        if (!$this->containsId($id) || count($this->containsId($id)) < 1) {
-            throw new DBException('Notification with id ' . $id . ' not found.', NULL);
-        }
+    /**
+     * createNotification
+     * Uses the CreationHelper to create a Notification object
+     * @param array $row
+     * @return Notification
+     */
+    private function createNotification($row) {
+        return parent::getCreationHelper()->createNotification($row);
     }
 }

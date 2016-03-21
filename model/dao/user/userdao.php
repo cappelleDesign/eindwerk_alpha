@@ -15,7 +15,7 @@ interface UserDao extends Dao{
 
     /**
      * getUsers
-     * returns all users as UserSimple.class in an array
+     * returns all users as UserSimple objects in an array
      * @return array $users
      */
     public function getUsers();
@@ -24,13 +24,10 @@ interface UserDao extends Dao{
 
     public function updatePw($userId, $pwNew);
 
-    public function updateUserUserRole($userId, $userRoleId);
+    public function updateUserUserRole($userId, $userRoleId);       
 
     public function updateUserAvatar($userId, $avatarId);
-
-    //FIXME allow this?
-//    public function updateUserName($userId, $username);
-
+    
     public function updateUserDonated($userId, $donated);
 
     public function updateUserKarma($userId, $newAmount);
@@ -47,15 +44,11 @@ interface UserDao extends Dao{
 
     public function updateUserActiveTime($userId, $activeTime);
 
-//    public function updateUserLastComment($userId, $commentId);
-
     public function addNotification($userId, Notification $notification);
 
     public function updateNotification($notificationId, $isRead);
 
     public function removeNotification($notificationId);
-
-    public function getNotifications($userId, $limit);
 
     public function addAchievement($userId, $achievementId);
 }

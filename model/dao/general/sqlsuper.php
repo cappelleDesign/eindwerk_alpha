@@ -10,6 +10,16 @@
  */
 class SqlSuper {
 
+    /**
+     * The creation helper (factory)
+     * @var CreationHelper
+     */
+    private $_creationHelper;
+
+    /**
+     * The PDO connection
+     * @var PDO 
+     */
     private $_connection;
 
     public function __construct($host, $username, $passwd, $database) {
@@ -18,6 +28,7 @@ class SqlSuper {
         try {
             $this->_connection = new PDO($dsn, $username, $passwd);
             $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->_creationHelper = new CreationHelper();
         } catch (PDOException $ex) {
             throw new DBException($ex->getMessage(), $ex);
         }
@@ -34,20 +45,63 @@ class SqlSuper {
         }
     }
 
+    /**
+     * getConnection
+     * returns the connections
+     * @return PDO
+     */
+    protected function getConnection() {
+        return $this->_connection;
+    }
+
+    /**
+     * getCreationHelper
+     * returns the creationHelper 
+     * @return CreationHelper
+     */
+    protected function getCreationHelper() {
+        return $this->_creationHelper;
+    }
+
+    /**
+     * triggerIdNotFound
+     * Checks if the Id is in the db of the instance and throws an exception if it isn't
+     * @param int $id
+     * @param string $instance
+     * @throws DBException
+     */
+    protected function triggerIdNotFound($id, $instance) {
+        if (!$this->containsId($id, $instance)) {
+            throw new DBException('Notification with id ' . $id . ' not found.', NULL);
+        }
+    }
+
+    /**
+     * prepareStatement
+     * Uses PDO to create a PDOStatement
+     * @param string $query
+     * @return PDOStatement
+     */
     protected function prepareStatement($query) {
         $statement = $this->_connection->prepare($query);
         return $statement;
     }
 
-    protected function getConnection() {
-        return $this->_connection;
-    }
-
+    /**
+     * getLastId
+     * Uses PDO to get the id of the last insert
+     * @return int
+     */
     protected function getLastId() {
         return $this->_connection->lastInsertId();
     }
 
-
+    /**
+     * executeInternalQuery
+     * Used for quick queries that are not called from a website action
+     * @param string $query
+     * @throws DBException
+     */
     protected function executeInternalQuery($query) {
         try {
             $this->_connection->query($query);
@@ -56,6 +110,13 @@ class SqlSuper {
         }
     }
 
+    /**
+     * executeExternalQuery
+     * Used for full queries caused by a call from the site
+     * @param string $query
+     * @param array $queryArgs
+     * @return array
+     */
     protected function executeExternalQuery($query, $queryArgs) {
         $statement = $this->prepareStatement($query);
         $statement->execute($queryArgs);

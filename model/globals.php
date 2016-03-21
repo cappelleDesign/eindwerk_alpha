@@ -110,7 +110,7 @@ class Globals {
             default :
                 throw new Exception('Could not find table for ' . $instanceName, NULL);
         }
-        return 'souffe_reviews.' . $tableName;
+        return 'neoludus.' . $tableName;
     }
 
 }
