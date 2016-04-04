@@ -89,7 +89,7 @@ class UserDetailed extends UserSimple {
      */
     private $_achievements;
 
-    public function __construct(UserRole $userRole, Avatar $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, Comment $lastComment, $recentNotifications, $achievements, $dateFormat) {
+    public function __construct(UserRole $userRole, Avatar $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, Comment $lastComment = NULL, $recentNotifications = array(), $achievements = array(), $dateFormat = 'd/m/Y H:i:s') {
         parent::__construct($userRole, $avatar, $username, $donated);
         $this->init();
         $this->setPwEncrypted($pwEncrypted);
@@ -156,16 +156,20 @@ class UserDetailed extends UserSimple {
         $this->_activeTime = $activeTime;
     }
 
-    public function setLastComment(Comment $lastComment) {
+    public function setLastComment(Comment $lastComment = NULL) {
         $this->_lastComment = $lastComment;
     }
 
     public function setRecentNotifications($recentNotifications) {
-        $this->_recentNotifications = $recentNotifications;
+        if ($recentNotifications != NULL) {
+            $this->_recentNotifications = $recentNotifications;
+        }
     }
 
     public function setAchievements($achievements) {
-        $this->_achievements = $achievements;
+        if ($achievements != NULL) {
+            $this->_achievements = $achievements;
+        }
     }
 
     /* ---------------------------------------------------------------------- */

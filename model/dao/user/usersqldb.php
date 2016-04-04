@@ -10,10 +10,15 @@
 class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
-     *
-     * @var type 
+     * The user dist db handles user related db functions
+     * @var UserDistDao
      */
     private $_userDistDB;
+
+    /**
+     * The notification db handles notification related db functions
+     * @var NotificationDao
+     */
     private $_notificationDB;
 
     public function __construct($host, $username, $passwd, $database) {
@@ -36,7 +41,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         if (!$user instanceof UserDetailed) {
             throw new DBException('The object you tried to add was not a user object', NULL);
         }
-        if ($this->containsId($user->getId())) {
+        if (parent::containsId($user->getId(), 'user')) {
             throw new DBException('The database already contains a user with this id', NULL);
         }
         if (!$this->emailAvailable($user->getEmail())) {
@@ -45,7 +50,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         if (!$this->usernameAvailable($user->getUsername())) {
             throw new DBException('Very sad to inform you that this username is already taken.');
         }
-        $query = 'INSERT INTO `' . Globals::getTableName('user') . '` (`user_roles_user_role_id`, `avatars_avatar_id`, `user_name`, `user_hash_salt`, `user_email`, `user_karma`, `user_reg_key`, `user_warnings`, `user_diamonds`, `preference_datetime_format`, `user_created`, `last_login`, `donated_amomunt`, `active_seconds`)';
+        $query = 'INSERT INTO ' . Globals::getTableName('user') . ' (user_roles_user_role_id, avatars_avatar_id, user_name, user_hash_salt, user_email, user_karma, user_reg_key, user_warnings, user_diamonds, preference_datetime_format, user_created, last_login, donated_amount, active_seconds)';
         $query .= 'VALUES(:user_role_id, :avatar_id, :username, :pw, :email, :karma, :reg_key, :warnings, :diamonds, :date_pref, :created, :last_login, :donated, :active);';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
@@ -59,8 +64,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
             ':warnings' => $user->getWarnings(),
             ':diamonds' => $user->getDiamonds(),
             ':date_pref' => $user->getDateTimePref(),
-            ':created' => $user->getCreated(),
-            ':last_login' => $user->getLastLogin(),
+            ':created' => $user->getCreatedStr(Globals::getDateTimeFormat('mysql', true)),
+            ':last_login' => $user->getLastLoginStr(Globals::getDateTimeFormat('mysql', true)),
             ':donated' => $user->getDonated(),
             ':active' => $user->getActiveTime()
         );
@@ -115,22 +120,6 @@ class UserSqlDB extends SqlSuper implements UserDao {
     }
 
     /**
-     * containsId
-     * Checks if a user with a specific id exists on the website
-     * @param int $id
-     * @return string, a row of the database containing the user or false
-     */
-    public function containsId($id) {
-        $query = 'SELECT COUNT(*) FROM ' . Globals::getTableName('user') . ' WHERE user_id=?';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $id);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        return $result[0]['COUNT(*)'];
-    }
-
-    /**
      * get
      * Returns the user with this id from the database as a user object
      * @param int $id
@@ -152,7 +141,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $recentNotifications = $this->getNotifications($id, 10);
         $lastComment = $this->getLastComment($userSimple);
         $achievements = $this->getAchievements($id);
-        $user = $this->createUserDetailed($userSimple,$row, $recentNotifications, $lastComment, $achievements);
+        $user = $this->createUserDetailed($userSimple, $row, $recentNotifications, $lastComment, $achievements);
         return $user;
     }
 
@@ -186,7 +175,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @return array of UserSimple objects
      */
     public function getUsers() {
-        $query = 'SELECT `user_id`, `user_roles_user_role_id`, `avatars_avatar_id`, `user_name` , `donated_amount` FROM ' . Globals::getTableName('user');
+        $query = 'SELECT user_id, user_roles_user_role_id, avatars_avatar_id, user_name , donated_amount FROM ' . Globals::getTableName('user');
         $statement = parent::prepareStatement($query);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -196,7 +185,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         foreach ($result as $row) {
             $avatar = $this->getAvatar($row['avatars_avatar_id']);
             $userRole = $this->getUserRole($row['user_roles_user_role_id']);
-            $user = $this->createUser($row, false, $avatar, $userRole);
+            $user = parent::getCreationHelper()->createUserSimple($row, $avatar, $userRole);
             $users[$user->getId()] = $user;
         }
         return $users;
@@ -214,9 +203,9 @@ class UserSqlDB extends SqlSuper implements UserDao {
         if (!$result || empty($result)) {
             throw new DBException('could not find a user with this id. id was: ' . $id, NULL);
         }
-        $avatar = $this->getAvatar($row['avatars_avatar_id']);
-        $userRole = $this->getUserRole($row['user_roles_user_role_id']);
-        $user = $this->createUser($result, false, $avatar, $userRole);
+        $avatar = $this->getAvatar($result['avatars_avatar_id']);
+        $userRole = $this->getUserRole($result['user_roles_user_role_id']);
+        $user = parent::getCreationHelper()->createUserSimple($result, $avatar, $userRole);
         return $user;
     }
 
@@ -229,7 +218,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
     public function updatePw($userId, $pwNew) {
         parent::triggerIdNotFound($userId, 'user');
         $userT = Globals::getTableName('user');
-        $query = 'UPDATE ' . $userT . ' SET `user_hash_salt` = :pw WHERE `users`.`user_id` = :id';
+        $query = 'UPDATE ' . $userT . ' SET user_hash_salt = :pw WHERE users.user_id = :id';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
             ':pw' => $pwNew,
@@ -368,8 +357,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
     /**
      * updateUserActiveTime
      * Updates the total seconds of active time of user with this id
-     * @param type $userId
-     * @param type $activeTime
+     * @param int $userId
+     * @param int $activeTime
      */
     public function updateUserActiveTime($userId, $activeTime) {
         parent::triggerIdNotFound($userId, 'user');
@@ -383,24 +372,9 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement->execute($queryArgs);
     }
 
-    public function getLastComment(UserSimple $simpleUser) {
-        $comT = Globals::getTableName('comment');
-        $query = 'SELECT * FROM ' . $comT . ' WHERE ' . $comT . '.users_writer_id = ? ORDER BY comment_created DESC LIMIT 1';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $simpleUser->getId());
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $row = $statement->fetch();
-        $voters = array();
-        if ($row && isset($row['comment_id'])) {
-            $voters = $this->getVoters($row['comment_id']);
-        }
-        return $this->createLastComment($row, $simpleUser, $voters);
-    }
-
     private function getSimpleUserResult($id) {
         parent::triggerIdNotFound($id, 'user');
-        $query = 'SELECT `user_id`, `user_roles_user_role_id`, `avatars_avatar_id`, `user_name` , `donated_amount` FROM ' . Globals::getTableName('user') . ' WHERE user_id = ?';
+        $query = 'SELECT user_id, user_roles_user_role_id, avatars_avatar_id, user_name , donated_amount FROM ' . Globals::getTableName('user') . ' WHERE user_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
@@ -410,75 +384,45 @@ class UserSqlDB extends SqlSuper implements UserDao {
     }
 
     /**
-     * getVoters
-     * returns all votes for a comment
-     * 
-     * START ORIGINAL SQL STATEMENT
-      SELECT
-      users.user_id,
-      users.user_name,
-      comment_votes.vote_flag
-      FROM
-      `comment_votes` INNER JOIN
-      users ON comment_votes.users_upvoter_id = users.user_id
-      WHERE comment_votes.comment_id = 1
-     * END ORIGINAL SQL STATEMENT
-     * 
-     * @param int $commentId
+     * getLastComment
+     * returns the last comment from this user
+     * @param UserSimple $simpleUser
+     * @return Comment
      */
-    private function getVoters($commentId) {
-        $userT = Globals::getTableName('user');
-        $combo = Globals::getTableName('comment_vote');
-        $query = 'SELECT ' . $userT . '.user_id, ' . $userT . '.user_name,' . $combo . '.vote_flag' .
-                ' FROM ' . $combo . ' INNER JOIN ' . $userT . ' ON ' . $combo . '.users_upvoter_id = ' . $userT . '.user_id' .
-                ' WHERE ' . $combo . '.comment_id = ?';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $commentId);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        $voters = array();
-        foreach ($result as $row) {
-            $voters[$row['user_id']] = array('userName' => $row['user_name'], 'voteFlag' => $row['vote_flag']);
-        }
-        return $voters;
+    public function getLastComment(UserSimple $simpleUser) {
+        return $this->_userDistDB->getLastComment($simpleUser);
     }
 
     public function addNotification($userId, Notification $notification) {
-        
+        $this->_notificationDB->addNotification($userId, $notification);
     }
 
     public function removeNotification($notificationId) {
-        
+        $this->_notificationDB->removeNotification($notificationId);
     }
 
     public function updateNotification($notificationId, $isRead) {
-        
+        $this->_notificationDB->updateNotification($notificationId, $isRead);
     }
 
     public function updateUserUserRole($userId, $userRoleId) {
-        
+        $this->_userDistDB->updateUserUserRole($userId, $userRoleId);
     }
 
     public function addAchievement($userId, $achievementId) {
-        
+        $this->_userDistDB->addAchievementToUser($userId, $achievementId);
     }
 
     public function updateUserAvatar($userId, $avatarId) {
-        
+        $this->_userDistDB->updateUserAvatar($userId, $avatarId);
     }
 
-    //FIXME can the optionals be left out here
     private function createUserSimple($row, Avatar $avatar, UserRole $userRole) {
         return parent::getCreationHelper()->createUserSimple($row, $avatar, $userRole);
     }
 
     private function createUserDetailed(UserSimple $userSimple, $row, $recentNotifications, $lastComment, $achievements) {
         return parent::getCreationHelper()->createUserDetailed($userSimple, $row, $recentNotifications, $lastComment, $achievements);
-    }
-
-    private function createLastComment($row, UserSimple $poster, $voters) {
-        return parent::getCreationHelper()->createLastComment($row, $poster, $voters);
     }
 
     private function getNotifications($userId, $limit) {

@@ -21,32 +21,32 @@
 
 <nav>
     <ul id="menu">
-        <li>
-            <a href="#" class="<?php echo $page==='home' ? 'active' : ''?>">
+        <li class="<?php echo $page==='home' ? 'active' : ''?>">
+            <a href="#" >
                 home
             </a>
         </li>
-        <li>
+        <li class="<?php echo $page==='reviews' ? 'active' : ''?>">
             <a href="#">
                 reviews
             </a>
         </li>
-        <li>
+        <li class="<?php echo $page==='video' ? 'active' : ''?>">
             <a href="#">
                 video
             </a>
         </li>
-        <li>
+        <li class="<?php echo $page==='donate' ? 'active' : ''?>">
             <a href="#">
                 donate
             </a>
         </li>
-        <li>
+        <li class="<?php echo $page==='account' ? 'active' : ''?>">
             <a href="#">
                 account
             </a>
         </li>
-        <li>
+        <li class="<?php echo $page==='contact' ? 'active' : ''?>">
             <a href="#">
                 contact
             </a>

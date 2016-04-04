@@ -12,7 +12,7 @@ class SqlSuper {
 
     /**
      * The creation helper (factory)
-     * @var CreationHelper
+     * @var UserCreationHelper
      */
     private $_creationHelper;
 
@@ -28,12 +28,18 @@ class SqlSuper {
         try {
             $this->_connection = new PDO($dsn, $username, $passwd);
             $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->_creationHelper = new CreationHelper();
+            $this->_creationHelper = new UserCreationHelper();
         } catch (PDOException $ex) {
             throw new DBException($ex->getMessage(), $ex);
         }
     }
 
+    /**
+     * tableExists
+     * Checks if a table already exists
+     * @param string $tableName
+     * @return boolean
+     */
     protected function tableExists($tableName) {
         try {
             $query = 'SELECT 1 FROM farao.' . $tableName . ' LIMIT 1';
@@ -57,7 +63,7 @@ class SqlSuper {
     /**
      * getCreationHelper
      * returns the creationHelper 
-     * @return CreationHelper
+     * @return UserCreationHelper
      */
     protected function getCreationHelper() {
         return $this->_creationHelper;
@@ -72,8 +78,26 @@ class SqlSuper {
      */
     protected function triggerIdNotFound($id, $instance) {
         if (!$this->containsId($id, $instance)) {
-            throw new DBException('Notification with id ' . $id . ' not found.', NULL);
+            throw new DBException(strtoupper($instance) . ' with id ' . $id . ' not found.', NULL);
         }
+    }
+
+    /**
+     * containsId
+     * Checks if a user with a specific id exists on the website
+     * @param int $id
+     * @param string $instance 
+     * @return string, a row of the database containing the user or false
+     */
+    public function containsId($id, $instance) {
+        $idCol = Globals::getIdColumnName($instance);
+        $query = 'SELECT COUNT(*) FROM ' . Globals::getTableName($instance) . ' WHERE ' . $idCol . '=?';
+        $statement = $this->prepareStatement($query);
+        $statement->bindParam(1, $id);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        return $result[0]['COUNT(*)'];
     }
 
     /**

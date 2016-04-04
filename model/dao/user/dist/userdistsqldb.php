@@ -6,16 +6,6 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
     }
 
-    public function containsId($id, $instance) {
-        $query = 'SELECT COUNT(*) FROM ' . Globals::getTableName($instance) . ' WHERE user_id=?';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $id);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        return $result[0]['COUNT(*)'];
-    }
-
     /**
      * updateUserAvatar
      * updates the user's avatar
@@ -82,16 +72,16 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
     }
 
     /**
-     * addAchievement
-     * Adds an achievement to a user in the sql database
+     * addAchievementToUser
+     * Adds an achievement to a user in the SQL database
      * @param int $userId
      * @param int $achievementId
      * @throws DBException
      */
-    public function addAchievement($userId, $achievementId) {
+    public function addAchievementToUser($userId, $achievementId) {
         parent::triggerIdNotFound($userId, 'user');
         parent::triggerIdNotFound($achievementId, 'achievement');
-        $query = 'INSERT INTO ' . Globals::getTableName('achievements_users') . ' (user_id, achievements_id) VALUES (:userId, :achievementId);';
+        $query = 'INSERT INTO ' . Globals::getTableName('achievement_user') . ' (user_id, achievements_id) VALUES (:userId, :achievementId);';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
             ':userId' => $userId,
@@ -106,7 +96,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
 
     /**
      * getAvatar
-     * Gets an avatar from the sql database and returns it as an Avatar object
+     * Gets an avatar from the SQL database and returns it as an Avatar object
      * @param int $avatarId
      * @return Avatar
      */
@@ -124,8 +114,13 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         return $avatar;
     }
 
-    //FIXME last edited 19/03 13:19 
-   protected function getImage($imageId) {
+    /**
+     * getImage
+     * Gets an image from the SQL database and returns it as an Image object
+     * @param int $imageId
+     * @return Image
+     */
+    protected function getImage($imageId) {
         $query = 'SELECT * FROM ' . Globals::getTableName('image') . ' WHERE image_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $imageId);
@@ -162,6 +157,12 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         return $this->getUserRole($userRoleId);
     }
 
+    /**
+     * getUserRole
+     * Gets a User Role from the SQL database
+     * @param int $userRoleId
+     * @return UserRole
+     */
     public function getUserRole($userRoleId) {
         $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_id = ?';
         $statement = parent::prepareStatement($query);
@@ -173,6 +174,62 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $row = $result[0];
         $userRole = $this->createUserRole($row);
         return $userRole;
+    }
+
+    /**
+     * getVoters
+     * returns all votes for a comment
+     * 
+     * START ORIGINAL SQL STATEMENT
+      SELECT
+      users.user_id,
+      users.user_name,
+      comment_votes.vote_flag
+      FROM
+      `comment_votes` INNER JOIN
+      users ON comment_votes.users_upvoter_id = users.user_id
+      WHERE comment_votes.comment_id = 1
+     * END ORIGINAL SQL STATEMENT
+     * 
+     * @param int $commentId
+     */
+    private function getVoters($commentId) {
+        $userT = Globals::getTableName('user');
+        $combo = Globals::getTableName('comment_vote');
+        $query = 'SELECT ' . $userT . '.user_id, ' . $userT . '.user_name,' . $combo . '.vote_flag' .
+                ' FROM ' . $combo . ' INNER JOIN ' . $userT . ' ON ' . $combo . '.users_upvoter_id = ' . $userT . '.user_id' .
+                ' WHERE ' . $combo . '.comment_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $commentId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        $voters = array();
+        foreach ($result as $row) {
+            $voters[$row['user_id']] = array('userName' => $row['user_name'], 'voteFlag' => $row['vote_flag']);
+        }
+        return $voters;
+    }
+
+    /**
+     * getLastComment
+     * Gets the user's last Comment from the SQL database
+     * @param UserSimple $simpleUser
+     * @return type
+     */
+    public function getLastComment(UserSimple $simpleUser) {
+        $comT = Globals::getTableName('comment');
+        $query = 'SELECT * FROM ' . $comT . ' WHERE ' . $comT . '.users_writer_id = ? ORDER BY comment_created DESC LIMIT 1';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $simpleUser->getId());
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $row = $statement->fetch();
+        $voters = array();
+        if ($row && isset($row['comment_id'])) {
+            $voters = $this->getVoters($row['comment_id']);
+        }
+        return $this->createLastComment($row, $simpleUser, $voters);
     }
 
     /**
@@ -206,4 +263,17 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
     private function createUserRole($row) {
         return parent::getCreationHelper()->createUserRole($row);
     }
+
+    /**
+     * createLastComment   
+     * Uses the CreationHelper to create a Comment object 
+     * @param array $row
+     * @param UserSimple $poster
+     * @param array $voters
+     * @return Comment
+     */
+    private function createLastComment($row, UserSimple $poster, $voters) {
+        return parent::getCreationHelper()->createLastComment($row, $poster, $voters);
+    }
+
 }

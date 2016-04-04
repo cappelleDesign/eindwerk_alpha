@@ -13,16 +13,6 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
         parent::__construct('mysql:host=' . $host, $username, $passwd, $database);     
     }
 
-    public function containsId($id, $instance) {
-        $query = 'SELECT COUNT(*) FROM ' . Globals::getTableName($instance) . ' WHERE user_id=?';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $id);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        return $result[0]['COUNT(*)'];
-    }
-
     /**
      * addNotification
      * Adds a notification to the user with this id
@@ -33,7 +23,7 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
      */
     public function addNotification($userId, Notification $notification) {
         parent::triggerIdNotFound($userId, 'user');
-        if ($this->containsId($notification->getId(), 'notification')) {
+        if (parent::containsId($notification->getId(), 'notification')) {
             throw new DBException('Notification with id ' . $notification->getId() . ' already exists', NULL);
         }
         $notifT = Globals::getTableName('notification');

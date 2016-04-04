@@ -7,7 +7,7 @@
  * @subpackage dao.user
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class CreationHelper {
+class UserCreationHelper {
 
     /**
      * * createUserSimple
@@ -35,9 +35,7 @@ class CreationHelper {
         $simpleUser->setId($id);
         return $simpleUser;
     }
-
-//        $avatarId = $row['avatars_avatar_id'];
-//        $userRoleId = $row['user_roles_user_role_id'];
+    
     /**
      * * createDetailedUser
      * Creates a UserDetailed object from a UserSimple,an SQL row, 
@@ -78,7 +76,7 @@ class CreationHelper {
         if (!$row || !$poster || !$voters) {
             throw new DBException('could not create last comment', NULL);
         }
-        $comment = new Comment($row['parent_id'], $poster, $row['review_id'], $row['comment_txt'], $row['comment_created'], $voters, Globals::getDateTimeFormat('be', true));
+        $comment = new Comment($row['parent_id'], $poster, $row['review_id'], $row['comment_txt'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
         $comment->setId($row['comment_id']);
         return $comment;
     }

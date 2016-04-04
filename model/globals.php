@@ -8,7 +8,7 @@
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class Globals {
-                                        
+
     const COMMENT_DIAMOND_KARMA = 50;
     const REVIEW_DIAMOND_KARMA = 100;
 
@@ -19,7 +19,7 @@ class Globals {
                 $date = 'd/m/Y';
                 break;
             case 'mysql' :
-                $date = 'Y/m/d';
+                $date = 'Y-m-d';
                 break;
             case 'us' :
                 $date = 'm/d/Y';
@@ -111,6 +111,55 @@ class Globals {
                 throw new Exception('Could not find table for ' . $instanceName, NULL);
         }
         return 'neoludus.' . $tableName;
+    }
+
+    static function getIdColumnName($instance) {        
+        switch ($instance) {
+            case 'achievement' :
+                return 'achievement_id';
+            case 'avatar':
+                return 'avatar_id';
+            case 'comment':
+                return 'comment_id';
+            case 'game' :
+                return 'game_id';
+            case 'genre' :
+                return 'genre_id';
+            case 'good':
+            case 'bad':
+            case 'tags':
+                return 'good_bad_tag_id';
+            case 'image' :
+                return 'image_id';
+            case 'newsfeed' :
+                return 'newsfeed_id';
+            case 'notification' :
+                return 'notification_id';
+            case 'platform' :
+                return 'platform_id';
+            case 'review':
+                return 'review_id';
+            case 'user':
+                return 'user_id';
+            case 'user_role' :
+                return 'user_role_id';
+            case 'achievement_user': 
+                return 'user_id';
+            case 'comment_vote':
+                return 'users_upvoter_id';
+            case 'game_genre':
+                return 'game_id';
+            case 'game_platform':
+                return 'game_id';
+            case 'review_image' :
+                return 'reviews_review_id';
+            case 'review_userScore' : 
+                return 'review_id';
+            case 'review_vote' :
+                return 'review_id';
+            default : throw new DBException('id column not found!');
+        }
+     
     }
 
 }

@@ -25,14 +25,6 @@ interface Dao {
     public function remove($id);
 
     /**
-     * containsId
-     * To check if an object with this id exists in the database
-     * @param int $id
-     * @return bool $contains
-     */
-    public function containsId($id);
-
-    /**
      * get
      * To get an object from the database as a PHP object based on the id
      * @param int $id

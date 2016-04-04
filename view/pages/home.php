@@ -22,16 +22,7 @@
                             <div class="slider-desc">
                                 <p>Hitman review<p>                                
                                 <div class="starts">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-full"></i>
-                                    <i class="fa fa-star-o"></i>
+                                    <i>8<i/>
                                 </div>
                             </div>
                         </a>
