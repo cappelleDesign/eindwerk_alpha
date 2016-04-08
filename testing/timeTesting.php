@@ -41,7 +41,12 @@ and open the template in the editor.
         $date2 = DateFormatter::getDateTimeInZone('d/m/Y H:i:s', $date->format('d/m/Y H:i:s'), $timeZone);
         echo $date2->format('d/m/Y H:i:s') . ' --- ' . $date2->getTimeZone()->getName();
         echo '<br>';
-        echo date_default_timezone_get();
+        echo date_default_timezone_get() . '<br>';
+        $ogTimeZone = $date2->getTimezone();
+        $date3 = DateFormatter::convertToServerTimeZone($date2);
+        echo 'server date: ' . $date3->format('d/m/Y H:i:s');
+        echo '<br>';
+        echo $date2->format('d/m/Y H:i:s');
         ?>
         <script src="view/js/jquery-2.2.0.min.js"></script>
         <script src="view/js/plugins/cookies/js.cookie.js"></script>

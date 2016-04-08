@@ -20,6 +20,12 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @var NotificationDao
      */
     private $_notificationDB;
+    
+    /**
+     * The general dist db handles general dist db functions
+     * @var GeneralDistDao;
+     */
+    private $_generalDistDB;
 
     public function __construct($host, $username, $passwd, $database) {
         parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
@@ -27,7 +33,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
     }
 
     private function init($host, $username, $passwd, $database) {
-        $this->_userDistDB = new UserDistSqlDB($host, $username, $passwd, $database);
+        $this->_generalDistDB = new GeneralDistSqlDB($host, $username, $passwd, $database);
+        $this->_userDistDB = new UserDistSqlDB($host, $username, $passwd, $database, $this->_generalDistDB);
         $this->_notificationDB = new NotificationSqlDB($host, $username, $passwd, $database);
     }
 
@@ -492,7 +499,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param int $limit
      * @return array
      */
-    private function getNotifications($userId, $limit) {
+    function getNotifications($userId, $limit) {
         return $this->_notificationDB->getNotifications($userId, $limit);
     }
 
@@ -502,7 +509,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param int $avatarId
      * @return Avatar
      */
-    private function getAvatar($avatarId) {
+    public function getAvatar($avatarId) {
         return $this->_userDistDB->getAvatar($avatarId);
     }
 
@@ -512,7 +519,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param int $userRoleId
      * @return UserRole
      */
-    private function getUserRole($userRoleId) {
+    public function getUserRole($userRoleId) {
         return $this->_userDistDB->getUserRole($userRoleId);
     }
 
@@ -526,4 +533,30 @@ class UserSqlDB extends SqlSuper implements UserDao {
         return $this->_userDistDB->getAchievements($userId);
     }
 
+    /**
+     * getAvatars
+     * Gets all the avatars
+     * @return array
+     */
+    public function getAvatars() {
+        return $this->_userDistDB->getAvatars();
+    }
+    
+    /**
+     * getUserRoles
+     * Gets all the user roles
+     * @return array
+     */
+    public function getUserRoles() {
+        return $this->_userDistDB->getUserRoles();
+    }
+    
+    /**
+     * getAllAchievements
+     * Gets all the achievements
+     * @return array
+     */
+    public function getAllAchievements() {
+        return $this->_userDistDB->getAllAchievements();
+    }
 }

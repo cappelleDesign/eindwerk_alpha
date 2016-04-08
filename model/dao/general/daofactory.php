@@ -12,11 +12,23 @@ class DaoFactory {
         
     }
 
+    /**
+     * getSupportedTypes
+     * Returns all the supported database types
+     * @return string
+     */
     public function getSupportedTypes() {
         $supported = array('memdb', 'mysql');
         return $supported;
     }
 
+    /**
+     * getUserDB
+     * Returns a user database with the type depending on the configs
+     * @param array $configs
+     * @return UserDao
+     * @throws DBException
+     */
     public function getUserDB($configs) {
         $this->checkConfigs('users', $configs);
         $dbType = $configs['type.users'];
@@ -31,6 +43,14 @@ class DaoFactory {
         return $userDB;
     }
 
+    /**
+     * checkConfigs
+     * Checks if the configs contain all the needed informations for the given type.
+     * If no exception is thrown, all needed info was present
+     * @param string $type
+     * @param array $configs
+     * @throws DBException
+     */
     private function checkConfigs($type, $configs) {
         if (!isset($configs) || !is_array($configs) || empty($configs)) {
             throw new DBException('No valid configuration found', NULL);

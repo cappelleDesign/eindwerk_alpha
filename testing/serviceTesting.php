@@ -58,7 +58,8 @@ try {
 //    print_r($_SESSION['user']->getRecentNotifications());
     
     echo '<h1>Adding user to db with service</h1>';
+    print_r($masterService->getAll('achievements'));
     
 } catch (Exception $ex) {
-    echo $ex->getMessage();
+    echo $ex->getMessage() . '<br>' . $ex->getTraceAsString();
 }

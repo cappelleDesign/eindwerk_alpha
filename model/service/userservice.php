@@ -65,6 +65,38 @@ class UserService {
         }
     }
 
+    public function getUsers() {
+        try {
+            return $this->_userDB->getUsers();
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getAvatars() {
+        try {
+            return $this->_userDB->getAvatars();
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getUserRoles() {
+        try {
+            return $this->_userDB->getUserRoles();
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getAllAchievements() {
+        try {
+            return $this->_userDB->getAllAchievements();
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
     public function updatePw(UserDetailed $user, $pwOld, $pwNew) {
         if (password_verify($pwOld, $user->getPwEncrypted())) {
             try {
@@ -187,7 +219,7 @@ class UserService {
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }
-    
+
     public function removeNotification(UserDetailed $user, $notificationId) {
         try {
             $this->_userDB->removeNotification($notificationId);

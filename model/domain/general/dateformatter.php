@@ -11,15 +11,31 @@
 //https://bitbucket.org/pellepim/jstimezonedetect
 
 class DateFormatter {
-    
+    /**
+     * getDateTimeZone
+     * Creates a DateTime object for this particular time zone
+     * @param string $format
+     * @param string $originalDate
+     * @param string $zone
+     * @return DateTime
+     */
     public static function getDateTimeInZone($format, $originalDate,$zone) {
         $date = DateTime::createFromFormat($format, $originalDate, new DateTimeZone('utc'));
         $date->setTimeZone(new DateTimeZone($zone));
         return $date;
    }
     
-   public static function convertToServerTimeZone($format, $originalDate) {
+   /**
+    * convertToServerTimeZone
+    * Converts the given DateTime to a DateTime object with the servers default timezone
+    * @param string $format
+    * @param string $originalDate
+    * @return DateTime
+    */
+   public static function convertToServerTimeZone($originalDate) {
        $timezone = date_default_timezone_get();
-       $date = DateTime::createFromFormat($format, $originalDate, $originalDate->get);
+       $date = DateTime::createFromFormat('d/m/Y H:i:s', $originalDate->format('d/m/Y H:i:s'),$originalDate->getTimezone());
+       $date->setTimeZone(new DateTimezone($timezone));
+       return $date;
    }
 }

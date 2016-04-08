@@ -10,6 +10,13 @@
  */
 class Authenticator {
 
+    /**
+     * authenticate
+     * Checks if the password is correct using the latest encryption algo
+     * @param string $pwString
+     * @param string $pwEncrypted
+     * @return int
+     */
     public static function authenticate($pwString, $pwEncrypted) {
         if (password_verify($pwString, $pwEncrypted)) {
             return 1;

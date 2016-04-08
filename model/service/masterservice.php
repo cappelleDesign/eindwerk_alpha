@@ -72,7 +72,7 @@ class MasterService {
                 $this->getUserService()->addUser($daoObj);
                 return $daoObj;
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -82,7 +82,7 @@ class MasterService {
                 $this->getUserService()->removeUser($daoId);
                 return true;
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -93,7 +93,22 @@ class MasterService {
             case 'userSimple' :
                 return $this->getUserService()->getSimpleUser($daoId);
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
+        }
+    }
+
+    public function getAll($type) {
+        switch ($type) {
+            case 'users' :
+                return $this->getUserService()->getUsers();
+            case 'avatars' :
+                return $this->getUserService()->getAvatars();
+            case 'userRoles' :
+                return $this->getUserService()->getUserRoles();
+            case 'achievements' :
+                return $this->getUserService()->getAllAchievements();
+            default :
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -102,7 +117,7 @@ class MasterService {
             case 'user':
                 return $this->getUserService()->getUserByUserName($identifier);
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -115,7 +130,7 @@ class MasterService {
                 $this->_userService->addAchievement($user, $daoObj);
                 return $user;
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -158,7 +173,7 @@ class MasterService {
                 $this->getUserService()->updateNotification($user, $param1, $param2);
                 return $user;
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -167,8 +182,12 @@ class MasterService {
             case 'notification':
                 $this->getUserService()->removeNotification($user, $id);
             default :
-                throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+                $this->typeNotRecognized($type);
         }
+    }
+
+    private function typeNotRecognized($type) {
+        throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
     }
 
 }

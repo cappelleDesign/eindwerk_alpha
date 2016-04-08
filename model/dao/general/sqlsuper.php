@@ -84,10 +84,10 @@ class SqlSuper {
 
     /**
      * containsId
-     * Checks if a user with a specific id exists on the website
+     * Checks if a daoObject with a specific id exists in the database
      * @param int $id
      * @param string $instance 
-     * @return string, a row of the database containing the user or false
+     * @return string, a row of the database containing the daoObject or false
      */
     public function containsId($id, $instance) {
         $idCol = Globals::getIdColumnName($instance);

@@ -1,9 +1,25 @@
 <?php
-
+/**
+ * UserDistSqlDB
+ * This is a class that handels user dist SQL database functions
+ * @package dao
+ * @subpackage dao.user.dist
+ */
 class UserDistSqlDB extends SqlSuper implements UserDistDao {
 
-    public function __construct($host, $username, $passwd, $database) {
+    /**
+     * An instance of the general dist database to help create some objects
+     * @var GeneralDistDao 
+     */
+    private $_generalDistDao;
+    
+    public function __construct($host, $username, $passwd, $database, $generalDistDao) {
         parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
+        $this->init($generalDistDao);
+    }
+    
+    private function init($generalDistDao){
+        $this->_generalDistDao = $generalDistDao;
     }
 
     /**
@@ -121,19 +137,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @return Image
      */
     protected function getImage($imageId) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('image') . ' WHERE image_id = ?';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $imageId);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        $image = NULL;
-        $row = $result[0];
-        if ($row) {
-            $image = new Image($row['img_uri'], $row['alt']);
-            $image->setId($row['image_id']);
-        }
-        return $image;
+        return $this->_generalDistDao->getImage($imageId);            
     }
 
     /**
@@ -274,6 +278,68 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      */
     private function createLastComment($row, UserSimple $poster, $voters) {
         return parent::getCreationHelper()->createLastComment($row, $poster, $voters);
+    }    
+    
+    /**
+     * getAvatars
+     * Returns all the avatars
+     * @return array $avatars
+     */
+    public function getAvatars() {
+        $avatarT = Globals::getTableName('avatar');
+        $query = 'SELECT * FROM ' . $avatarT;
+        $statement = parent::prepareStatement($query);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        $avatars = array();
+        foreach ($result as $row) {
+            $image = $this->getImage($row['images_image_id']);
+            $avatar = $this->createAvatar($row, $image);
+            $avatars[$avatar->getId()] = $avatar;
+        }
+        return $avatars;
+    }
+
+    /**
+     * getUserRoles
+     * REturns all the user roles
+     * @return array $userRoles
+     */
+    public function getUserRoles() {
+        $userRolesT = Globals::getTableName('userRole');
+        $query = 'SELECT * FROM ' . $userRolesT;
+        $statement = parent::prepareStatement($query);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        $userRoles = array();
+        foreach ($result as $row) {            
+            $userRole = $this->createUserRole($row);
+            $userRoles[$userRole->getId()] = $userRole;
+        }
+        return $userRoles;
+    }
+
+    /**
+     * getAllAchievements
+     * Returns all the achievements
+     * @return array $achievements
+     */
+    public function getAllAchievements() {
+        $achievementT = Globals::getTableName('achievement');
+        $query = 'SELECT * FROM ' . $achievementT;
+        $statement = parent::prepareStatement($query);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        $achievements = array();
+        foreach ($result as $row) {  
+            $image = $this->getImage($row['image_id']);
+            $achievement = $this->createAchievement($row, $image);
+            $achievements[$achievement->getId()] = $achievement;
+        }
+        return $achievements;
     }
 
 }
