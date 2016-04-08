@@ -21,12 +21,9 @@ class DaoFactory {
         $this->checkConfigs('users', $configs);
         $dbType = $configs['type.users'];
         $userDB = NULL;
-        switch ($dbType) {
-            case 'memdb':
-                $userDB = new UserMemDB();
-                break;
+        switch ($dbType) {          
             case 'mysql' :
-                $userDB = new UserMysqlDB($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $userDB = new UserSqlDB($configs['host'], $configs['username'], $configs['password'], $configs['database']);
                 break;
             default :
                 throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);

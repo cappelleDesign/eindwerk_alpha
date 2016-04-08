@@ -20,7 +20,7 @@
 </header>
 
 <nav>
-    <ul id="menu">
+    <ul class="menu">
         <li class="<?php echo $page==='home' ? 'active' : ''?>">
             <a href="#" >
                 home

@@ -372,6 +372,12 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement->execute($queryArgs);
     }
 
+    /**
+     * getSimpleUserResult
+     * returns a array with the row from SQL 
+     * @param int $id
+     * @return array
+     */
     private function getSimpleUserResult($id) {
         parent::triggerIdNotFound($id, 'user');
         $query = 'SELECT user_id, user_roles_user_role_id, avatars_avatar_id, user_name , donated_amount FROM ' . Globals::getTableName('user') . ' WHERE user_id = ?';
@@ -393,50 +399,129 @@ class UserSqlDB extends SqlSuper implements UserDao {
         return $this->_userDistDB->getLastComment($simpleUser);
     }
 
+    /**
+     * addNotification
+     * Adds a notification for a user to the Notifications table
+     * @param int $userId
+     * @param Notification $notification
+     */
     public function addNotification($userId, Notification $notification) {
         $this->_notificationDB->addNotification($userId, $notification);
     }
 
+    /**
+     * removeNotification
+     * Removes a notification from the Notifications table if the user id matches
+     * @param int $notificationId
+     */
     public function removeNotification($notificationId) {
         $this->_notificationDB->removeNotification($notificationId);
     }
 
+    /**
+     * updateNotification
+     * Updates a notification in the Notifications table if id matches
+     * @param int $notificationId
+     * @param boolean $isRead
+     */
     public function updateNotification($notificationId, $isRead) {
         $this->_notificationDB->updateNotification($notificationId, $isRead);
     }
 
+    /**
+     * updateUserUserRole
+     * Updates the user role in the users table if the user id matches
+     * @param int $userId
+     * @param int $userRoleId
+     */
     public function updateUserUserRole($userId, $userRoleId) {
         $this->_userDistDB->updateUserUserRole($userId, $userRoleId);
     }
 
+    /**
+     * addAchievement
+     * Adds a record to the achievements_users table.
+     * This means that a user now has this achievement
+     * @param int $userId
+     * @param int $achievementId
+     */
     public function addAchievement($userId, $achievementId) {
         $this->_userDistDB->addAchievementToUser($userId, $achievementId);
     }
 
+    /**
+     * updateUserAvatar
+     * Updates the avatar in the users table if the user id matches
+     * @param int $userId
+     * @param int $avatarId
+     */
     public function updateUserAvatar($userId, $avatarId) {
         $this->_userDistDB->updateUserAvatar($userId, $avatarId);
     }
 
+    /**
+     * createUserSimple
+     * Creates and returns a UserSimple user object
+     * @param array $row
+     * @param Avatar $avatar
+     * @param UserRole $userRole
+     * @return UserSimple
+     */
     private function createUserSimple($row, Avatar $avatar, UserRole $userRole) {
         return parent::getCreationHelper()->createUserSimple($row, $avatar, $userRole);
     }
 
+    /**
+     * createUserDetailed
+     * Creates and returns a UserDetailed user object
+     * @param UserSimple $userSimple
+     * @param array $row
+     * @param array $recentNotifications
+     * @param Comment $lastComment
+     * @param array $achievements
+     * @return UserDetailed
+     */
     private function createUserDetailed(UserSimple $userSimple, $row, $recentNotifications, $lastComment, $achievements) {
         return parent::getCreationHelper()->createUserDetailed($userSimple, $row, $recentNotifications, $lastComment, $achievements);
     }
 
+    /**
+     * getNotifications
+     * Returns the notifications for the user with this id
+     * @param int $userId
+     * @param int $limit
+     * @return array
+     */
     private function getNotifications($userId, $limit) {
         return $this->_notificationDB->getNotifications($userId, $limit);
     }
 
+    /**
+     * getAvatar
+     * Gets the avatar with this id
+     * @param int $avatarId
+     * @return Avatar
+     */
     private function getAvatar($avatarId) {
         return $this->_userDistDB->getAvatar($avatarId);
     }
 
+    /**
+     * getUserRole
+     * Gets the user role with this id 
+     * @param int $userRoleId
+     * @return UserRole
+     */
     private function getUserRole($userRoleId) {
         return $this->_userDistDB->getUserRole($userRoleId);
     }
 
+    /**
+     * getAchievements
+     * Gets the achievements for the user with this id
+     * @param int $userId
+     * @return array
+     */
     private function getAchievements($userId) {
         return $this->_userDistDB->getAchievements($userId);
     }

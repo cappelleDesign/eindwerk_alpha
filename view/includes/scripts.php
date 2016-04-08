@@ -11,6 +11,13 @@
 <!--SLICK SLIDER-->
 <script src="view/js/plugins/slick-1.5.9/slick/slick.min.js"></script>
 
+<!--JS KNOB-->
+<script src="view/js/plugins/knob/jquery.knob.min.js"></script>
+
+<!--CUSTOM SCROLLBAR-->
+<script src="view/js/plugins/malihu-custom-scrollbar-plugin-master/js/minified/jquery.mCustomScrollbar.min.js"></script>
+
+
 <!--MAIN JS-->
 <script src="view/js/main.js"></script>
 

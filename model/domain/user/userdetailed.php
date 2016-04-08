@@ -309,6 +309,7 @@ class UserDetailed extends UserSimple {
     }
 
     /**
+     * notifSortOldFirst
      * Helper function to sort the notifications from oldest to newest
      * @param Notification $a
      * @param Notification $b
@@ -319,6 +320,7 @@ class UserDetailed extends UserSimple {
     }
 
     /**
+     * notifSortNewFirst
      * Helper function to sort the notifications from newest to oldest
      * @param Notification $a
      * @param Notification $b
@@ -329,6 +331,7 @@ class UserDetailed extends UserSimple {
     }
 
     /**
+     * removeRecentNotification
      * Function to remove a notification
      * @param int $notificationId
      */
@@ -339,6 +342,19 @@ class UserDetailed extends UserSimple {
     }
 
     /**
+     * updateNotification
+     * Updates a notification with id if present in recent notifications
+     * @param int $notificationId
+     * @param boolean $isRead
+     */
+    public function updateNotification($notificationId, $isRead) {
+        if(array_key_exists($notificationId, $this->getRecentNotifications())) {
+            $this->_recentNotifications[$notificationId]->setIsRead($isRead);
+        }
+    }
+    
+    /**
+     * updateActiveTime
      * Adds x seconds to the active time
      * @param int $time
      */
@@ -356,6 +372,7 @@ class UserDetailed extends UserSimple {
     }
 
     /**
+     * addAchievement
      * Adds a new achievement to this user
      * @param Achievement $achievement
      */
