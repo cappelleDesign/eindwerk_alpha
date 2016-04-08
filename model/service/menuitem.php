@@ -13,13 +13,13 @@ class MenuItem {
      * @var string 
      */
     private $_action;
-    
+
     /**
      * The display name of the menu item
      * @var string 
      */
     private $_description;
-    
+
     /**
      * The page associated with this menu item.
      * Also used to check if the item should have active class
@@ -27,10 +27,24 @@ class MenuItem {
      */
     private $_pageName;
 
-    public function __construct($action, $description, $pageName) {
+    /**
+     * The -optional- icon for this menu item
+     * @var String
+     */
+    private $_icon;
+
+    /**
+     * Array of sub menu items
+     * @var array 
+     */
+    private $_subMenu;
+
+    public function __construct($action, $description, $pageName, $subMenu = array(), $icon = '') {
         $this->setAction($action);
         $this->setDescription($description);
         $this->setPageName($pageName);
+        $this->setSubMenu($subMenu);
+        $this->setIcon($icon);
     }
 
     public function getAction() {
@@ -45,6 +59,14 @@ class MenuItem {
         return $this->_pageName;
     }
 
+    public function getIcon() {
+        return $this->_icon;
+    }
+
+    public function getSubMenu() {
+        return $this->_subMenu;
+    }
+    
     private function setAction($action) {
         $this->_action = $action;
     }
@@ -57,4 +79,11 @@ class MenuItem {
         $this->_pageName = $pageName;
     }
 
+    private function setIcon($icon) {
+        $this->_icon = $icon;
+    }
+
+    private function setSubMenu($subMenu) {
+        $this->_subMenu = $subMenu;
+    }
 }

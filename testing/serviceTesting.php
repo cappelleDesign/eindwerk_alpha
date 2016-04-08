@@ -56,6 +56,9 @@ try {
 //    $masterService->addToUser($user, $notif, 'notification');
 //    echo '<br>';
 //    print_r($_SESSION['user']->getRecentNotifications());
+    
+    echo '<h1>Adding user to db with service</h1>';
+    
 } catch (Exception $ex) {
     echo $ex->getMessage();
 }

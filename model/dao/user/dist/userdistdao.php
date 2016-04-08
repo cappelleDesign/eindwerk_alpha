@@ -15,4 +15,8 @@ interface UserDistDao {
     public function getUserRole($userRoleId);
 
     public function getLastComment(UserSimple $simpleUser);
+    
+    public function getUserRoles();
+    
+    public function getAvatars($maxTier);
 }

@@ -20,6 +20,11 @@ class UserService {
         $this->_userDB = $userDB;
     }
 
+    /**
+     * addUser
+     * @param UserDetailed $user
+     * @throws ServiceException
+     */
     public function addUser(UserDetailed $user) {
         try {
             $this->_userDB->add($user);
