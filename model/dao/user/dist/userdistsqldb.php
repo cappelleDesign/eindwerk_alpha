@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UserDistSqlDB
  * This is a class that handels user dist SQL database functions
@@ -12,13 +13,13 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @var GeneralDistDao 
      */
     private $_generalDistDao;
-    
+
     public function __construct($host, $username, $passwd, $database, $generalDistDao) {
         parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
         $this->init($generalDistDao);
     }
-    
-    private function init($generalDistDao){
+
+    private function init($generalDistDao) {
         $this->_generalDistDao = $generalDistDao;
     }
 
@@ -88,6 +89,31 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
     }
 
     /**
+     * getAchievement
+     * Returns the achievement if the name matches
+     * @param string $name
+     * @return Achievement $achievement
+     * @throws DBException
+     */
+    public function getAchievement($name) {
+        $achTable = Globals::getTableName('achievement');
+        $query = 'SELECT * FROM ' . $achTable . ' WHERE name = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $name);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+
+        if (empty($result)) {
+            throw new DBException('No achievement found with name: ' . $name);
+        }
+        $row = $result[0];
+        $image = $this->getImage($row['image_id']);
+        $achievement = $this->createAchievement($row, $image);
+        return $achievement;
+    }
+
+    /**
      * addAchievementToUser
      * Adds an achievement to a user in the SQL database
      * @param int $userId
@@ -123,8 +149,10 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
-
-        $row = $result[0];
+        if(empty($result)) {
+            throw new DBException('No avatar found with id: ' . $avatarId, NULL);
+        }
+        $row = $result[0];        
         $image = $this->getImage($row['images_image_id']);
         $avatar = $this->createAvatar($row, $image);
         return $avatar;
@@ -137,7 +165,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @return Image
      */
     protected function getImage($imageId) {
-        return $this->_generalDistDao->getImage($imageId);            
+        return $this->_generalDistDao->getImage($imageId);
     }
 
     /**
@@ -219,7 +247,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * getLastComment
      * Gets the user's last Comment from the SQL database
      * @param UserSimple $simpleUser
-     * @return type
+     * @return Comment
      */
     public function getLastComment(UserSimple $simpleUser) {
         $comT = Globals::getTableName('comment');
@@ -228,7 +256,11 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $statement->bindParam(1, $simpleUser->getId());
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $row = $statement->fetch();
+        $result = $statement->fetchAll();
+        if(empty($result)){
+            return Null;
+        }
+        $row = $result[0];
         $voters = array();
         if ($row && isset($row['comment_id'])) {
             $voters = $this->getVoters($row['comment_id']);
@@ -278,8 +310,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      */
     private function createLastComment($row, UserSimple $poster, $voters) {
         return parent::getCreationHelper()->createLastComment($row, $poster, $voters);
-    }    
-    
+    }
+
     /**
      * getAvatars
      * Returns all the avatars
@@ -314,7 +346,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
         $userRoles = array();
-        foreach ($result as $row) {            
+        foreach ($result as $row) {
             $userRole = $this->createUserRole($row);
             $userRoles[$userRole->getId()] = $userRole;
         }
@@ -334,7 +366,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
         $achievements = array();
-        foreach ($result as $row) {  
+        foreach ($result as $row) {
             $image = $this->getImage($row['image_id']);
             $achievement = $this->createAchievement($row, $image);
             $achievements[$achievement->getId()] = $achievement;

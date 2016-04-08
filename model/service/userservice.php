@@ -49,9 +49,25 @@ class UserService {
         }
     }
 
-    public function getUserByUserName($username) {
+    public function getUserByUserName($identifier) {
         try {
-            return $this->_userDB->getByString($username);
+            return $this->_userDB->getByString($identifier);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function checkEmailAvailable($mail) {
+        try {
+            return $this->_userDB->emailAvailable($mail);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function checkUsernameAvailable($username) {
+        try {
+            return $this->_userDB->usernameAvailable($username);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
@@ -60,6 +76,22 @@ class UserService {
     public function getSimpleUser($user_id) {
         try {
             return $this->_userDB->getSimple($user_id);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getUserRole($flag) {
+        try {
+            return $this->_userDB->getUserRole($flag);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getAvatar($avatarId) {
+        try {
+            return $this->_userDB->getAvatar($avatarId);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
@@ -106,6 +138,8 @@ class UserService {
             } catch (Exception $ex) {
                 throw new ServiceException($ex->getMessage(), $ex);
             }
+        } else {
+            throw new ServiceException('No match for this username and password', NULL);
         }
         return null;
     }
@@ -233,6 +267,14 @@ class UserService {
         try {
             $this->_userDB->addAchievement($user->getId(), $achievement->getId());
             $user->addAchievement($achievement);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getAchievement($name) {
+        try {
+            return $this->_userDB->getAchievement($name);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }

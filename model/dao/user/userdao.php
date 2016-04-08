@@ -195,4 +195,12 @@ interface UserDao extends Dao {
      * @return array $achievements
      */
     public function getAllAchievements();
+    
+    /**
+     * getAchievement
+     * Returns the achievement if the name matches
+     * @param string $name
+     * @return Achievement $achievement
+     */
+    public function getAchievement($name);
 }

@@ -113,7 +113,7 @@ class Globals {
         return 'neoludus.' . $tableName;
     }
 
-    static function getIdColumnName($instance) {        
+    static function getIdColumnName($instance) {
         switch ($instance) {
             case 'achievement' :
                 return 'achievement_id';
@@ -143,7 +143,7 @@ class Globals {
                 return 'user_id';
             case 'user_role' :
                 return 'user_role_id';
-            case 'achievement_user': 
+            case 'achievement_user':
                 return 'user_id';
             case 'comment_vote':
                 return 'users_upvoter_id';
@@ -153,13 +153,18 @@ class Globals {
                 return 'game_id';
             case 'review_image' :
                 return 'reviews_review_id';
-            case 'review_userScore' : 
+            case 'review_userScore' :
                 return 'review_id';
             case 'review_vote' :
                 return 'review_id';
             default : throw new DBException('id column not found!');
         }
-     
+    }
+
+    static function cleanDump($obj) {
+        echo '<pre>';
+        var_dump($obj);
+        echo '</pre>';
     }
 
 }

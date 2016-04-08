@@ -86,12 +86,14 @@ class MasterService {
         }
     }
 
-    public function get($daoId, $type) {
+    public function get($id, $type) {
         switch ($type) {
             case 'user':
-                return $this->getUserService()->getUser($daoId);
+                return $this->getUserService()->getUser($id);
             case 'userSimple' :
-                return $this->getUserService()->getSimpleUser($daoId);
+                return $this->getUserService()->getSimpleUser($id);
+            case 'avatar' :
+                return $this->getUserService()->getAvatar($id);
             default :
                 $this->typeNotRecognized($type);
         }
@@ -116,6 +118,10 @@ class MasterService {
         switch ($type) {
             case 'user':
                 return $this->getUserService()->getUserByUserName($identifier);
+            case 'userRole' :
+                return $this->getUserService()->getUserRole($identifier);
+            case 'achievement' :
+                return $this->getUserService()->getAchievement($identifier);
             default :
                 $this->typeNotRecognized($type);
         }
@@ -181,6 +187,18 @@ class MasterService {
         switch ($type) {
             case 'notification':
                 $this->getUserService()->removeNotification($user, $id);
+                return $user;
+            default :
+                $this->typeNotRecognized($type);
+        }
+    }
+
+    public function checkAvailability($identifier, $type) {
+        switch ($type) {
+            case 'email' :
+                return $this->getUserService()->checkEmailAvailable($identifier);
+            case 'username' :
+                return $this->getUserService()->checkUsernameAvailable($identifier);
             default :
                 $this->typeNotRecognized($type);
         }

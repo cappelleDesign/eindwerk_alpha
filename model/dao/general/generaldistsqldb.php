@@ -24,7 +24,7 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
         if ($row) {
             $image = new Image($row['img_uri'], $row['alt']);
             $image->setId($row['image_id']);
-        }
+        }                
         return $image;
     }
 

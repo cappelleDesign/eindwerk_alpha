@@ -20,7 +20,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @var NotificationDao
      */
     private $_notificationDB;
-    
+
     /**
      * The general dist db handles general dist db functions
      * @var GeneralDistDao;
@@ -93,7 +93,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
-        return count($result) < 1;
+        return !count($result);
     }
 
     /**
@@ -160,20 +160,25 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @throws DBException if no users with this username or email exists
      */
     public function getByString($identifier) {
-        try {
-            $query = 'SELECT * FROM ' . Globals::getTableName('user') . ' WHERE user_name = ? OR user_email = ?';
-            $statement = parent::prepareStatement($query);
-            $statement->bindParam(1, $identifier);
-            $statement->execute();
-            $statement->setFetchMode(PDO::FETCH_ASSOC);
-            $row = $statement->fetch();
-            $user = $this->createUser($row, true);
-            return $user;
-        } catch (PDOException $ex) {
-            throw new DBException($ex->getMessage(), $ex);
+        $query = 'SELECT * FROM ' . Globals::getTableName('user') . ' WHERE user_name = :identifier OR user_email = :identifier';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(':identifier', $identifier);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        if(empty($result)){
+            throw new DBException('No user with this username/email: ' . $identifier,NULL);
         }
-        //should never be reached because exception
-        return null;
+        $row = $result[0];
+        $id = $row['user_id'];
+        $avatar = $this->getAvatar($row['avatars_avatar_id']);
+        $userRole = $this->getUserRole($row['user_roles_user_role_id']);
+        $userSimple = $this->createUserSimple($row, $avatar, $userRole);
+        $recentNotifications = $this->getNotifications($id, 10);
+        $lastComment = $this->getLastComment($userSimple);
+        $achievements = $this->getAchievements($id);
+        $user = $this->createUserDetailed($userSimple, $row, $recentNotifications, $lastComment, $achievements);
+        return $user;
     }
 
     /**
@@ -541,7 +546,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
     public function getAvatars() {
         return $this->_userDistDB->getAvatars();
     }
-    
+
     /**
      * getUserRoles
      * Gets all the user roles
@@ -550,7 +555,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
     public function getUserRoles() {
         return $this->_userDistDB->getUserRoles();
     }
-    
+
     /**
      * getAllAchievements
      * Gets all the achievements
@@ -559,4 +564,15 @@ class UserSqlDB extends SqlSuper implements UserDao {
     public function getAllAchievements() {
         return $this->_userDistDB->getAllAchievements();
     }
+
+    /**
+     * getAchievement
+     * Returns the achievement if the name matches
+     * @param string $name
+     * @return Achievement
+     */
+    public function getAchievement($name) {
+        return $this->_userDistDB->getAchievement($name);
+    }
+
 }
