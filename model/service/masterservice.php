@@ -19,12 +19,23 @@ class MasterService {
         $userDB = $this->_daoFactory->getUserDB($configs);
         $this->_userService = new UserService($userDB);
         //TODO add other services init
+        $this->createMenus();
+    }
+
+    private function createMenus() {
         $this->createMainMenu();
         $this->createAdminMenu();
         $this->createProfileMenu();
     }
 
     private function createMainMenu() {
+        $menuHome = new MenuItem('home', 'Home', 'home.php');
+        $menuReview = new MenuItem('reviews', 'Reviews', 'reviews.php');
+        $subMenuVideo1 = new MenuItem('liveStream', 'Live', 'livestream.php');
+        $subMenuVideo2 = new MenuItem('streams', 'Streams', 'streams.php');
+        $subMenuVideo3 = new MenuItem('podcasts', 'Podcasts', 'podcasts.php');
+        $subMenuVideo = array($subMenuVideo1, $subMenuVideo2, $subMenuVideo3);
+        $menuVideo = new MenuItem('videos', 'Video', 'video');
         
     }
 

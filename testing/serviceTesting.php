@@ -1,33 +1,5 @@
 <?php
 
-spl_autoload_register(function ($class_name) {
-    $root = dirname(__FILE__);
-    $dirs = array(
-        '/../model/',
-        '/../model/errorhandling/',
-        '/../model/domain/general/',
-        '/../model/domain/user/',
-        '/../model/domain/review/',
-        '/../model/dao/general/',
-        '/../model/dao/user/',
-        '/../model/dao/user/dist/',
-        '/../model/dao/user/notification/',
-        '/../model/service/'
-    );
-    $fileFound = false;
-    foreach ($dirs as $dir) {
-        if (file_exists($root . $dir . strtolower($class_name) . '.php')) {
-            require_once($root . $dir . strtolower($class_name) . '.php');
-            $fileFound = true;
-            return;
-        } else {
-            $fileFound = false;
-        }
-    }
-    if (!$fileFound) {
-        //handle exception
-    }
-});
 
 $configs = parse_ini_file(dirname(__FILE__) . '/../model/config.ini');
 //print_r($configs);

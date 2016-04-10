@@ -35,7 +35,7 @@ class MenuItem {
 
     /**
      * Array of sub menu items
-     * @var array 
+     * @var MenuItem[] 
      */
     private $_subMenu;
 

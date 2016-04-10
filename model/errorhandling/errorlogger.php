@@ -1,6 +1,6 @@
 <?php
 
-require dirname(__FILE__) . '/../plugins/PHPMailer-master/PHPMailerAutoLoad.php';
+require_once '/view/phpscripts/PHPMailer-master/PHPMailerAutoLoad.php';
 
 class ErrorLogger {
 

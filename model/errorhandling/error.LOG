@@ -1,0 +1,930 @@
+[10-04-2016 15:15:48]
+'could not initiate website'
+[10-04-2016 15:16:17]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 30,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 34,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:16:17]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 30,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 26,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 17,
+      'function' => 'sendMail',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 30,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 34,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 30,
+      'function' => 'logError',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 30,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 34,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    4 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 34,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:17:56]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:17:56]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 26,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 17,
+      'function' => 'sendMail',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 32,
+      'function' => 'logError',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    4 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:18:07]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:18:07]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 26,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 17,
+      'function' => 'sendMail',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 32,
+      'function' => 'logError',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    4 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:18:07]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:18:07]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 26,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 17,
+      'function' => 'sendMail',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 32,
+      'function' => 'logError',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    4 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:18:08]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:18:08]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 32,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 26,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'PHPMailer',
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
+      'line' => 17,
+      'function' => 'sendMail',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 32,
+      'function' => 'logError',
+      'class' => 'ErrorLogger',
+      'type' => '::',
+      'args' => 
+      array (
+        0 => 
+        ControllerException::__set_state(array(
+           'message' => 'could not initiate website',
+           'string' => '',
+           'code' => 4,
+           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+           'line' => 32,
+           'trace' => 
+          array (
+            0 => 
+            array (
+              'function' => '{closure}',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+            1 => 
+            array (
+              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+              'line' => 36,
+              'function' => 'spl_autoload_call',
+              'args' => 
+              array (
+                0 => 'MasteCcontroller',
+              ),
+            ),
+          ),
+           'previous' => NULL,
+        )),
+      ),
+    ),
+    4 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 36,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+[10-04-2016 15:20:14]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 30,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 34,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasteCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was not send
+[10-04-2016 15:20:42]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 30,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasterCcontroller',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 34,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasterCcontroller',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was not send
+[10-04-2016 15:20:55]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 30,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasterController',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 34,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasterController',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was not send
+[10-04-2016 15:21:54]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+   'line' => 30,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'MasterController',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
+      'line' => 34,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'MasterController',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was not send
