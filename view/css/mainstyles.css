@@ -32,7 +32,7 @@ header > form {
 }
 header > form > .form-group {
     margin: 0 auto;
-    width: 32%;
+    width: 466.66px;
     height: 100%;    
     top: 25%;
     position: relative;
@@ -42,7 +42,7 @@ header > form > .form-group > input {
     font-family: 'Play' ,sans-serif;
     display: block;    
     height: 35%; 
-    width: 100%;
+    width: 456.66px;
     background-color: #231f20;
     border: rgba(255,255,255,.2) 1px solid;
     border-bottom-left-radius: 5px;
@@ -108,13 +108,23 @@ header > form > .form-group > input:placeholder-shown { /* Standard (https://dra
     font-family: 'Play',sans-serif;
     line-height: 13px;
 }
-#account-panel {
+#menuAddon {
     position: absolute;
-    margin-left: 950px;
+    margin-left: 943.33px;
+    top: 11px;
+    width: 456.66px;
+}
+#account-panel {
+    margin-top: 7px;
+    width: 50%;
+    float: left;
     overflow: hidden;
-    height: 16px;
-    top: 29px;
-    transition: all 500ms;
+    height: 24px;
+    transition: all 500ms;    
+    padding-bottom: 8px;
+    background-color: #333333;
+        border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 #account-panel a {
     display: block;
@@ -123,16 +133,16 @@ header > form > .form-group > input:placeholder-shown { /* Standard (https://dra
 }
 #account-panel > a:first-child {
     color: #ef4123;
-    background-color: #231f20;
+    background-color: #333333;   
+    line-height: 31px;
 }
 #account-panel:hover {
-    height: 80px;
+    height: 100px;
 }
 #account-panel > .account-drop-down {
     position: relative;
     top: 2px;
     padding-top: 10px;
-    height: 50px;
     /*    margin-left: 18px;
         margin-right: 18px;*/
     text-align: right; 
@@ -147,14 +157,43 @@ header > form > .form-group > input:placeholder-shown { /* Standard (https://dra
     color: #ef4123;
     padding-bottom: 5px;
 }
-#account-panel > .account-drop-down > a:last-child {
-    padding-bottom: 0;
-}
 #account-panel > .account-drop-down > a:hover {
     text-decoration: underline;
 }
 #account-panel > .account-drop-down > a > i {
     float: left;
+}
+.social-menu {    
+    float: left;
+    width: 50%;
+}
+.social-menu > ul {
+    list-style-type: none;
+    width: 100%;
+}
+.social-menu > ul > li {
+    display: block;
+    font-family: 'Play', sans-serif;    
+    height: 100%;
+    text-align: center;
+}
+.social-menu > ul > li:hover{
+    font-size: 18px;
+}
+.social-menu > ul > li > a{
+    text-decoration: none;
+    color: #ef4123;
+    line-height: 44px;    
+}
+.social-menu > ul > li {
+    float: left;
+    width: 16.66%;
+}
+.social-menu > ul > li > a > .fa-stack {
+    background-color: #333333;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 nav {
     width: 100%;
@@ -422,4 +461,6 @@ left-footer , .right-footer{
 }
 
 /*RESPONSIVE*/
-/*@media*/
+@media all and (max-width: 1500px) {
+
+}

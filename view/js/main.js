@@ -20,6 +20,11 @@ function setListeners() {
         $('#newsfeed-nav li').removeClass('active');
         $(this).parent().addClass('active');
     });
+    $('#account-panel > a:first-child').on({
+        touchstart: function () {
+            expandProfileMenu(this);
+        }       
+    });
 }
 
 function setPrevAndNext() {
@@ -35,20 +40,29 @@ function setPrevAndNext() {
 }
 
 function fireSlider() {
-    $('#inf-slider').slick({
-        dots: false,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1500,
-                settings: "unslick"
-            }
-        ],
-        prevArrow: '<div class="slider-left"><img src=""><i class="fa fa-chevron-left"></i></div>',
-        nextArrow: '<div class="slider-right"><img src=""><i class="fa fa-chevron-right"></i></div>'
-    });
-    setPrevAndNext();
+    if (!$('.slick-slider').length) {
+
+        $('#inf-slider').slick({
+            prevArrow: '<div class="slider-left"><img src=""><i class="fa fa-chevron-left"></i></div>',
+            nextArrow: '<div class="slider-right"><img src=""><i class="fa fa-chevron-right"></i></div>',
+            responsive: [
+                {
+                    breakpoint: 1,
+                    settings: "unslick"
+                }
+            ]
+        });
+        setPrevAndNext();
+    }
+}
+
+function expandProfileMenu($el) {
+    $class = 'expanded';
+    if ($($el).hasClass($class)) {
+        $($el).removeClass($class);
+        $('#account-panel').css('height', '24px');
+    } else {
+        $($el).addClass($class);
+        $('#account-panel').css('height', '100px');
+    }
 }
