@@ -9,21 +9,13 @@ function init() {
 
 function setListeners() {
     $('#inf-slider').on('click swipe keyup', function (event, slick, currentSlide) {
-        $('.slider-left, .slider-right').stop().animate({blurRadius: 5}, {
-            duration: 300,
-            easing: 'swing',
-            step: function () {
-                $('.slider-left img, .slider-right img').css({
-                    '-webkit-filter': 'blur(' + this.blurRadius + 'px)',
-                    'filter': 'blur(' + this.blurRadius + 'px)'
-                });
-            }
-        }, setPrevAndNext());
+        $('.slider-left, .slider-right').stop().fadeOut('fast').promise().done(function () {
+            setPrevAndNext();
+        });
     });
     $('#newsfeed-nav .menu a').on('click', function () {
         $index = $('#newsfeed-nav li').index($(this).parent());
         $margin = $('#newsfeeds').width() * $index * -1;
-        console.log($margin);
         $('#newsfeed-items').css({'margin-left': $margin});
         $('#newsfeed-nav li').removeClass('active');
         $(this).parent().addClass('active');
@@ -32,7 +24,6 @@ function setListeners() {
 
 function setPrevAndNext() {
     $currentIndex = $('.slick-current').data('slick-index');
-    console.log($currentIndex);
     $prevNr = $currentIndex - 1;
     $nextNr = $currentIndex + 1;
     $prev = $('.slick-slide[data-slick-index="' + $prevNr + '"]').data('imgsrc');
@@ -40,14 +31,24 @@ function setPrevAndNext() {
 
     $('.slider-left img').attr('src', $prev);
     $('.slider-right img').attr('src', $next);
-    $('.slider-left, .slider-right').animate({blurRadius: 5}, {
-        duration: 300,
-        easing: 'swing',
-        step: function () {
-            $('.slider-left img, .slider-right img').css({
-                '-webkit-filter': 'blur(' + this.blurRadius + 'px)',
-                'filter': 'blur(' + this.blurRadius + 'px)'
-            });
-        }
+    $('.slider-left, .slider-right').stop().fadeIn('fast');
+}
+
+function fireSlider() {
+    $('#inf-slider').slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1500,
+                settings: "unslick"
+            }
+        ],
+        prevArrow: '<div class="slider-left"><img src=""><i class="fa fa-chevron-left"></i></div>',
+        nextArrow: '<div class="slider-right"><img src=""><i class="fa fa-chevron-right"></i></div>'
     });
+    setPrevAndNext();
 }

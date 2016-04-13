@@ -7,49 +7,36 @@
             </a>
         </div>
     </form>
-<!--    <div id="account-panel">
-        <i class="fa fa-user"></i>
-        <a href="#">
-            Sign In
-        </a>       
-        <p>/</p>
-        <a href="#">
-            Join Us
-        </a>
-    </div>-->
+    <div id="account-panel">
+        <a href="#" class="list-group-item">
+            <i class="fa fa-user fa-fw"></i>
+            No profile
+            <i class="fa fa-caret-down fa-fw"></i>
+        </a>     
+        <div class="account-drop-down">
+            <a href="#login" class="list-group-item">
+                <i class="fa fa-sign-in fa-fw"></i>
+                Log In
+            </a>
+            <a href="#register" class="list-group-item">
+                <i class="fa fa-certificate fa-fw"></i>
+                Register
+            </a>
+        </div>
+    </div>
 </header>
 
 <nav>
     <ul class="menu">
-        <li class="<?php echo $page==='home' ? 'active' : ''?>">
-            <a href="#" >
-                home
-            </a>
-        </li>
-        <li class="<?php echo $page==='reviews' ? 'active' : ''?>">
-            <a href="#">
-                reviews
-            </a>
-        </li>
-        <li class="<?php echo $page==='video' ? 'active' : ''?>">
-            <a href="#">
-                video
-            </a>
-        </li>
-        <li class="<?php echo $page==='donate' ? 'active' : ''?>">
-            <a href="#">
-                donate
-            </a>
-        </li>
-        <li class="<?php echo $page==='account' ? 'active' : ''?>">
-            <a href="#">
-                account
-            </a>
-        </li>
-        <li class="<?php echo $page==='contact' ? 'active' : ''?>">
-            <a href="#">
-                contact
-            </a>
-        </li>        
+        <?php
+        $menu = $this->getMenu('main');
+        foreach ($menu as $menuItem) {
+            ?>
+            <li class="<?php echo $page === $menuItem->getPageName() ? 'active' : '' ?>">
+                <a href="index.php?action=<?php echo $menuItem->getAction(); ?>" >
+                    <?php echo $menuItem->getDescription(); ?>
+                </a>
+            </li>
+        <?php } ?>
     </ul>
 </nav>    

@@ -27,7 +27,7 @@ try {
 //    Globals::cleanDump($masterService->getAll('avatars'));
 //    Globals::cleanDump($masterService->getAll('userRoles'));
 //    Globals::cleanDump($masterService->getAll('achievements'));
-    $user = $masterService->get(4, 'user');
+//    $user = $masterService->get(4, 'user');
 //    $masterService->updateUser($user, 'pw', 'Admin001', 'Test123');
 //    $masterService->updateUser($user, 'userRole', $masterService->getByIdentifier(2, 'userRole'));
 //    $masterService->updateUser($user, 'avatar', $masterService->get(2, 'avatar'));
@@ -46,6 +46,10 @@ try {
 //    $achievement = $masterService->getByIdentifier('achievement first', 'achievement');
 //    $masterService->addToUser($user, $achievement, 'achievement');
     echo '<h1>ALL USER SERVICE TEST SUCCESSFULL</h1>';
+    //    echo $masterService->containsMenuItem('liveStream', 'main') ? 'contains': 'does not contain';
+    echo '<h1>Menu search function recursive test successfull</h1>';
+    $menu = $masterService->getMenu('main');
+    Globals::cleanDump($menu);
 } catch (Exception $ex) {
     echo $ex->getMessage() . '<br>' . $ex->getTraceAsString();
 }

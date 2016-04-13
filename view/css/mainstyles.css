@@ -108,26 +108,52 @@ header > form > .form-group > input:placeholder-shown { /* Standard (https://dra
     font-family: 'Play',sans-serif;
     line-height: 13px;
 }
-
 #account-panel {
     position: absolute;
-    right: 10px;
+    margin-left: 950px;
     overflow: hidden;
-    height: 20px;
-    top: 50px;
-    color: rgba(255,255,255,.8);
-    border: 1px rgba(255,255,255,.8) solid;
-    padding: 5px 5px 2px 0px;
-    border-radius: 5px;
+    height: 16px;
+    top: 29px;
+    transition: all 500ms;
 }
-#account-panel > i , #account-panel > a, #account-panel > p {
+#account-panel a {
     display: block;
-    float: left;
-    margin-left: 5px;
+    text-decoration: none;
+    font-size: 15px;
 }
-#account-panel > a {
-    color: rgba(255,255,255,.8);    
-    display: block;
+#account-panel > a:first-child {
+    color: #ef4123;
+    background-color: #231f20;
+}
+#account-panel:hover {
+    height: 80px;
+}
+#account-panel > .account-drop-down {
+    position: relative;
+    top: 2px;
+    padding-top: 10px;
+    height: 50px;
+    /*    margin-left: 18px;
+        margin-right: 18px;*/
+    text-align: right; 
+    background-color: rgba(1,1,1,.5);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /*border: solid 1px #ef4123;*/
+    border-top: none;
+}
+#account-panel > .account-drop-down > a {
+    padding-right: 5px;
+    color: #ef4123;
+    padding-bottom: 5px;
+}
+#account-panel > .account-drop-down > a:last-child {
+    padding-bottom: 0;
+}
+#account-panel > .account-drop-down > a:hover {
+    text-decoration: underline;
+}
+#account-panel > .account-drop-down > a > i {
     float: left;
 }
 nav {
@@ -181,14 +207,13 @@ main {
 }
 #inf-slider-holder {
     width: 100%;
-    background-color: #fff;
+    background-color: #231f20;
     height: 400px;
     overflow: hidden;
     border-bottom: 3px solid #231f20;
 }
 #inf-slider {
     height: 100%;
-    background-color: white;
     width:1100px;
     margin: 0 auto;     
 }
@@ -226,6 +251,8 @@ main {
     padding-bottom: 0;
 }
 .slider-right, .slider-left {
+    background-color: #231f20;
+    overflow: hidden;
     height: 400px;
     line-height: 300px;
     text-align: center;
@@ -240,7 +267,7 @@ main {
     margin-left: -150px;    
 }
 .slider-left img , .slider-right img{
-    transition: all 300ms;
+    transition: all 300ms ease-out;
     -webkit-filter: blur(5px);
     filter: blur(5px);
 }
@@ -248,7 +275,8 @@ main {
     /*opacity: .8 !important;*/
     -webkit-filter: blur(0px) !important;
     filter: blur(0px) !important;
-    transition: all 300ms;
+    transition: all 300ms ease-in;
+    /*transform: scale(1.0);*/
 }
 .slider-right {
     top: 0;
@@ -307,7 +335,7 @@ main {
 .newsfeed-desc > ul > li{
     margin-top: 10px;
     padding-left: 10px;
-    color: white;
+    color: #fff;
     display: block;
     position: relative;
 }
@@ -392,3 +420,6 @@ left-footer , .right-footer{
 .fix {
     clear: left;
 }
+
+/*RESPONSIVE*/
+/*@media*/

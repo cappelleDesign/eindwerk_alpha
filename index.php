@@ -32,8 +32,10 @@ spl_autoload_register(function ($class_name) {
 });
 try {
     $controller = new MasterController();
+    $controller->processRequest();
 } catch (Exception $ex) {
 
 }
-require_once('view/pages/home.php');
+
+//require_once('view/pages/home.php');
 //require_once 'testing/serviceTesting.php';

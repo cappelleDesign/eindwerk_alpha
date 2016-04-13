@@ -167,4 +167,34 @@ class Globals {
         echo '</pre>';
     }
 
+    static function getRoot($type) {
+        $root = '';
+        switch ($type) {
+            case 'view' :
+                if (strpos(dirname(__FILE__), 'xampp')) {
+                    $root .= 'eindwerk_alpha/';
+                }
+                return $root . 'view';
+            default : throw new ServiceException($type . ' root not found');
+        }
+    }
+
+    static function getUserActions() {
+        $userActions = [
+            'addUser',
+            'rmUser',
+            'getUser', //by id detailed, by id simple, by name/mail
+            'checkAvailable',
+            'getUserDist', //user role, avatar, achievements,..
+            'getUsers',
+            'updateUser', //update methods,
+            'addToUser',
+            'removeFromUser',
+            'login',
+            'logout',
+            'register'
+        ];
+        return $userActions;
+    }
+
 }

@@ -2,10 +2,34 @@
 
 class MasterService {
 
+    /**
+     * The factory that creates the databasess
+     * @var DaoFactory
+     */
     private $_daoFactory;
+
+    /**
+     * The service in charge of user related actions
+     * @var UserService 
+     */
     private $_userService;
+
+    /**
+     * The main menu items
+     * @var MenuItem[]
+     */
     private $_mainMenu;
+
+    /**
+     * The admin menu items
+     * @var MenuItem[]
+     */
     private $_adminMenu;
+
+    /**
+     * The profile menu items
+     * @var MenuItem[]
+     */
     private $_profileMenu;
 
     //TODO other services
@@ -35,8 +59,18 @@ class MasterService {
         $subMenuVideo2 = new MenuItem('streams', 'Streams', 'streams.php');
         $subMenuVideo3 = new MenuItem('podcasts', 'Podcasts', 'podcasts.php');
         $subMenuVideo = array($subMenuVideo1, $subMenuVideo2, $subMenuVideo3);
-        $menuVideo = new MenuItem('videos', 'Video', 'video');
-        
+        $menuVideo = new MenuItem('videos', 'Video', 'video', $subMenuVideo);
+        $menuDonate = new MenuItem('donate', 'Donate', 'donate.php');
+        $menuAccount = new MenuItem('account', 'Account', 'account.php');
+        $menuContact = new MenuItem('contact', 'Contact', 'contact.php');
+        $this->_mainMenu = array(
+            $menuHome,
+            $menuReview,
+            $menuVideo,
+            $menuDonate,
+            $menuAccount,
+            $menuContact
+        );
     }
 
     private function createAdminMenu() {
@@ -47,6 +81,13 @@ class MasterService {
         
     }
 
+    /**
+     * getMenu
+     * Returns the menu for this type
+     * @param string $type
+     * @return MenuItem[]
+     * @throws ServiceException
+     */
     public function getMenu($type) {
         switch ($type) {
             case 'main':
@@ -60,17 +101,38 @@ class MasterService {
         }
     }
 
-    public function containsMenuItem($menuItem, $type) {
+    public function containsMenuItem($action, $type) {
         switch ($type) {
             case 'main':
-                return array_key_exists($menuItem, $this->_mainMenu);
+                return $this->menuItemFinder($this->_mainMenu, $action);
             case 'admin':
-                return array_key_exists($menuItem, $this->_adminMenu);
+//                return false;
+//                return $this->menuItemFinder($this->_adminMenu, $action);
             case 'profile':
-                return array_key_exists($menuItem, $this->_profileMenu);
+                return false;
+//                return $this->menuItemFinder($this->_profileMenu, $action);
             default :
                 return false;
         }
+    }
+
+    /**
+     * menuItemFinder
+     * Helper function to check if an action is a menu related action
+     * @param MenuItem[] $menu
+     * @param string $action
+     * @return boolean
+     */
+    private function menuItemFinder($menu, $action) {
+        foreach ($menu as $menuItem) {            
+            if ($menuItem->getAction() === $action) {
+                return true;
+            }
+            if ($menuItem->getSubMenu() && $this->menuItemFinder($menuItem->getSubMenu(), $action)) {
+                    return true;
+            }
+        }
+        return false;
     }
 
     public function getUserService() {

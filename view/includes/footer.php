@@ -20,7 +20,7 @@
             <a href="#">
                 <span class="fa-stack ">
                     <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
-                    <i class="fa fa-facebook"></i>
+                    <i class="fa fa-facebook fa-stack-1x"></i>
                 </span>
             </a>
         </li>
@@ -28,7 +28,7 @@
             <a href="#">
                 <span class="fa-stack">
                     <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
-                    <i class="fa fa-youtube"></i>
+                    <i class="fa fa-youtube fa-stack-1x"></i>
                 </span>
             </a>
         </li>
@@ -36,7 +36,7 @@
             <a href="#">
                 <span class="fa-stack">
                     <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
-                    <i class="fa fa-twitch"></i>
+                    <i class="fa fa-twitch fa-stack-1x"></i>
                 </span>
             </a>
         </li>
@@ -44,7 +44,7 @@
             <a href="#">
                 <span class="fa-stack">
                     <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
-                    <i class="fa fa-twitter"></i>
+                    <i class="fa fa-twitter fa-stack-1x"></i>
                 </span>
             </a>
         </li>
@@ -52,7 +52,7 @@
             <a href="#">
                 <span class="fa-stack">
                     <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
-                    <i class="fa fa-paypal"></i>
+                    <i class="fa fa-paypal fa-stack-1x"></i>
                 </span>
             </a>
         </li>
