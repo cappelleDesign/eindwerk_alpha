@@ -49,7 +49,7 @@ class UserService {
         }
     }
 
-    public function getUserByUserName($identifier) {
+    public function getUserByStringId($identifier) {
         try {
             return $this->_userDB->getByString($identifier);
         } catch (Exception $ex) {

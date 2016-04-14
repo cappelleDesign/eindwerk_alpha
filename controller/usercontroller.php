@@ -17,4 +17,8 @@ class UserController {
             
         }
     }
+    
+    private function login() {
+        
+    }
 }

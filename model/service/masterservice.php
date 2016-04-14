@@ -190,7 +190,7 @@ class MasterService {
     public function getByIdentifier($identifier, $type) {
         switch ($type) {
             case 'user':
-                return $this->getUserService()->getUserByUserName($identifier);
+                return $this->getUserService()->getUserByStringId($identifier);
             case 'userRole' :
                 return $this->getUserService()->getUserRole($identifier);
             case 'achievement' :
