@@ -14,7 +14,7 @@ class FormValidationController {
     }
 
     private function init() {
-        $this->_userValidator = new UserValidator();
+        $this->_userValidator = new UserValidationController();
     }
 
     public function sanitizeInput($input) {

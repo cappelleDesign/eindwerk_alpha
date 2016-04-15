@@ -1,6 +1,6 @@
 <?php
 
-require_once '/view/phpscripts/PHPMailer-master/PHPMailerAutoLoad.php';
+require_once 'view/phpscripts/PHPMailer-master/PHPMailerAutoLoad.php';
 
 class ErrorLogger {
 
@@ -24,8 +24,8 @@ class ErrorLogger {
     public static function sendMail($error) {
         $errorMessage = $error->getMessage();
         $mail = new PHPMailer;
-        $mail->setFrom('faraoadmin@localhost.be', 'Farao Admin');
-        $mail->addAddress('faraoadmin@localhost.be', 'Farao Admin');
+        $mail->setFrom('info@neoludus.be', 'neoludus Admin');
+        $mail->addAddress('info@neoludus.be', 'neoludus Admin');
         $mail->Subject = $errorMessage;
         $mail->Body = var_export($error, true);
         $mail->AltBody = 'Uw email client blijkt verouderd';

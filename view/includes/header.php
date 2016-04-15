@@ -30,6 +30,13 @@
 <!--CUSTOM SCROLLBAR-->
 <link href="view/js/plugins/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css" rel="stylesheet">
 
+<!--BOOTSTRAP-->
+<?php
+if (isset($bootstrap) && $bootstrap) {
+    echo '<link href="view/bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>';
+    echo '<link href="view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>';
+}
+?>
 
 <!--MAIN MARKUP-->
 <link href="view/fonts/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> <!-- use CDN when life -->

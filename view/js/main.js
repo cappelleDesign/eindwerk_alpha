@@ -5,6 +5,9 @@ function init() {
         theme: 'dark',
         scrollButtons: true
     });
+    $h = $(window).height();
+    console.log($h);
+    $('#wrapper').css('minHeight', $h+'px');
 }
 
 function setListeners() {

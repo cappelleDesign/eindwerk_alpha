@@ -31,13 +31,13 @@ spl_autoload_register(function ($class_name) {
         ErrorLogger::logError(new ControllerException('could not initiate website', NULL));
     }
 });
-//try {
-//    $controller = new MasterController();
-//    $controller->processRequest();
-//} catch (Exception $ex) {
-//
-//}
+try {
+    $controller = new MasterController();
+    $controller->processRequest();
+} catch (Exception $ex) {
+    
+}
 
-require_once 'testing/userControllerTesting.php';
+//require_once 'testing/userControllerTesting.php';
 //require_once('view/pages/home.php');
 //require_once 'testing/serviceTesting.php';

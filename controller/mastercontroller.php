@@ -20,6 +20,12 @@ class MasterController {
      */
     private $_userController;
 
+    /**
+     * Used to validate input
+     * @var FormValidationController
+     */
+    private $_validator;
+
     public function __construct() {
         $this->init();
     }
@@ -29,7 +35,7 @@ class MasterController {
             $configs = $this->getConfigs();
             $this->_service = new MasterService($configs);
             $this->_sessionController = new SessionController();
-            $this->_userController = new UserController($this->_sessionController);
+            $this->_userController = new UserController($this->_sessionController, $this->_service);
         } catch (Exception $ex) {
             //TODO handle exception
         }
@@ -76,6 +82,10 @@ class MasterController {
     public function processRequest() {
         $nextPage = 'home.php';
         $action = 'home';
+        $isJson = false;
+        if (isset($_POST['isJson']) && !empty($_POST['isJson'])) {
+            $isJson = $this->_validator->sanitizeInput(filter_input(INPUT_GET, 'isJson'));
+        }
         if ($this->getAction()) {
             $action = $this->getAction();
         }
@@ -89,7 +99,7 @@ class MasterController {
             $this->processAdminMenuRequest($action);
         }
         if (in_array($action, Globals::getUserActions())) {
-            $this->processUserRequest($action);
+            $nextPage = $this->processUserRequest($action, $isJson);
         }
         require_once 'view/pages/' . $nextPage;
     }
@@ -106,15 +116,18 @@ class MasterController {
 //        echo '<script>console.log("menu request")</script>';
     }
 
-    private function processUserRequest($action) {
-        $this->_userController->processRequest($action);
+    private function processUserRequest($action, $isJson) {
+        return $this->_userController->processUserRequest($action, $isJson);
     }
-    
+
+    private function redirect($page) {
+        
+    }
+
     public function getCurrentUser() {
-        if($this->_sessionController->isLoggedOn()) {
+        if ($this->_sessionController->isLoggedOn()) {
             return $this->_sessionController->getSessionAttr('current_user');
         }
         return FALSE;
     }
-
 }

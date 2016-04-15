@@ -17,6 +17,12 @@
 <!--CUSTOM SCROLLBAR-->
 <script src="view/js/plugins/malihu-custom-scrollbar-plugin-master/js/minified/jquery.mCustomScrollbar.min.js"></script>
 
+<!--BOOTSTRAP-->
+<?php
+if ($bootstrap) {
+    echo '<script src="view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>';
+}
+?>
 
 <!--MAIN JS-->
 <script src="view/js/main.js"></script>

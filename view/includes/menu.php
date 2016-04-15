@@ -9,17 +9,17 @@
     </form>
     <div id="menuAddon">
         <div id="account-panel">
-            <a href="#" class="list-group-item">
+            <a href="#" class="">
                 <i class="fa fa-user fa-fw"></i>
                 No profile
                 <i class="fa fa-caret-down fa-fw"></i>
             </a>     
             <div class="account-drop-down">
-                <a href="#login" class="list-group-item">
+                <a href="#login" class="">
                     <i class="fa fa-sign-in fa-fw"></i>
                     Log In
                 </a>
-                <a href="#register" class="list-group-item">
+                <a href="#register" class="">
                     <i class="fa fa-certificate fa-fw"></i>
                     Register
                 </a>

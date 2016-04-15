@@ -928,3 +928,415 @@ ControllerException::__set_state(array(
 ))
 
 Mail was not send
+[14-04-2016 12:39:00]
+ControllerException::__set_state(array(
+   'message' => 'could not initiate website',
+   'string' => '',
+   'code' => 4,
+   'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\index.php',
+   'line' => 31,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'function' => '{closure}',
+      'args' => 
+      array (
+        0 => 'UserValidator',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\validation\\formvalidationcontroller.php',
+      'line' => 17,
+      'function' => 'spl_autoload_call',
+      'args' => 
+      array (
+        0 => 'UserValidator',
+      ),
+    ),
+    2 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\validation\\formvalidationcontroller.php',
+      'line' => 13,
+      'function' => 'init',
+      'class' => 'FormValidationController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    3 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\usercontroller.php',
+      'line' => 29,
+      'function' => '__construct',
+      'class' => 'FormValidationController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    4 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\usercontroller.php',
+      'line' => 24,
+      'function' => 'init',
+      'class' => 'UserController',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 
+        SessionController::__set_state(array(
+        )),
+        1 => 
+        MasterService::__set_state(array(
+           '_daoFactory' => 
+          DaoFactory::__set_state(array(
+          )),
+           '_userService' => 
+          UserService::__set_state(array(
+             '_userDB' => 
+            UserSqlDB::__set_state(array(
+               '_userDistDB' => 
+              UserDistSqlDB::__set_state(array(
+                 '_generalDistDao' => 
+                GeneralDistSqlDB::__set_state(array(
+                   '_creationHelper' => 
+                  UserCreationHelper::__set_state(array(
+                  )),
+                   '_connection' => 
+                  PDO::__set_state(array(
+                  )),
+                )),
+                 '_creationHelper' => 
+                UserCreationHelper::__set_state(array(
+                )),
+                 '_connection' => 
+                PDO::__set_state(array(
+                )),
+              )),
+               '_notificationDB' => 
+              NotificationSqlDB::__set_state(array(
+                 '_creationHelper' => 
+                UserCreationHelper::__set_state(array(
+                )),
+                 '_connection' => 
+                PDO::__set_state(array(
+                )),
+              )),
+               '_generalDistDB' => 
+              GeneralDistSqlDB::__set_state(array(
+                 '_creationHelper' => 
+                UserCreationHelper::__set_state(array(
+                )),
+                 '_connection' => 
+                PDO::__set_state(array(
+                )),
+              )),
+               '_creationHelper' => 
+              UserCreationHelper::__set_state(array(
+              )),
+               '_connection' => 
+              PDO::__set_state(array(
+              )),
+            )),
+          )),
+           '_mainMenu' => 
+          array (
+            0 => 
+            MenuItem::__set_state(array(
+               '_action' => 'home',
+               '_description' => 'Home',
+               '_pageName' => 'home.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            1 => 
+            MenuItem::__set_state(array(
+               '_action' => 'reviews',
+               '_description' => 'Reviews',
+               '_pageName' => 'reviews.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            2 => 
+            MenuItem::__set_state(array(
+               '_action' => 'videos',
+               '_description' => 'Video',
+               '_pageName' => 'video',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+                0 => 
+                MenuItem::__set_state(array(
+                   '_action' => 'liveStream',
+                   '_description' => 'Live',
+                   '_pageName' => 'livestream.php',
+                   '_icon' => '',
+                   '_subMenu' => 
+                  array (
+                  ),
+                )),
+                1 => 
+                MenuItem::__set_state(array(
+                   '_action' => 'streams',
+                   '_description' => 'Streams',
+                   '_pageName' => 'streams.php',
+                   '_icon' => '',
+                   '_subMenu' => 
+                  array (
+                  ),
+                )),
+                2 => 
+                MenuItem::__set_state(array(
+                   '_action' => 'podcasts',
+                   '_description' => 'Podcasts',
+                   '_pageName' => 'podcasts.php',
+                   '_icon' => '',
+                   '_subMenu' => 
+                  array (
+                  ),
+                )),
+              ),
+            )),
+            3 => 
+            MenuItem::__set_state(array(
+               '_action' => 'donate',
+               '_description' => 'Donate',
+               '_pageName' => 'donate.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            4 => 
+            MenuItem::__set_state(array(
+               '_action' => 'account',
+               '_description' => 'Account',
+               '_pageName' => 'account.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            5 => 
+            MenuItem::__set_state(array(
+               '_action' => 'contact',
+               '_description' => 'Contact',
+               '_pageName' => 'contact.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+          ),
+           '_adminMenu' => NULL,
+           '_profileMenu' => NULL,
+        )),
+      ),
+    ),
+    5 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\mastercontroller.php',
+      'line' => 32,
+      'function' => '__construct',
+      'class' => 'UserController',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 
+        SessionController::__set_state(array(
+        )),
+        1 => 
+        MasterService::__set_state(array(
+           '_daoFactory' => 
+          DaoFactory::__set_state(array(
+          )),
+           '_userService' => 
+          UserService::__set_state(array(
+             '_userDB' => 
+            UserSqlDB::__set_state(array(
+               '_userDistDB' => 
+              UserDistSqlDB::__set_state(array(
+                 '_generalDistDao' => 
+                GeneralDistSqlDB::__set_state(array(
+                   '_creationHelper' => 
+                  UserCreationHelper::__set_state(array(
+                  )),
+                   '_connection' => 
+                  PDO::__set_state(array(
+                  )),
+                )),
+                 '_creationHelper' => 
+                UserCreationHelper::__set_state(array(
+                )),
+                 '_connection' => 
+                PDO::__set_state(array(
+                )),
+              )),
+               '_notificationDB' => 
+              NotificationSqlDB::__set_state(array(
+                 '_creationHelper' => 
+                UserCreationHelper::__set_state(array(
+                )),
+                 '_connection' => 
+                PDO::__set_state(array(
+                )),
+              )),
+               '_generalDistDB' => 
+              GeneralDistSqlDB::__set_state(array(
+                 '_creationHelper' => 
+                UserCreationHelper::__set_state(array(
+                )),
+                 '_connection' => 
+                PDO::__set_state(array(
+                )),
+              )),
+               '_creationHelper' => 
+              UserCreationHelper::__set_state(array(
+              )),
+               '_connection' => 
+              PDO::__set_state(array(
+              )),
+            )),
+          )),
+           '_mainMenu' => 
+          array (
+            0 => 
+            MenuItem::__set_state(array(
+               '_action' => 'home',
+               '_description' => 'Home',
+               '_pageName' => 'home.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            1 => 
+            MenuItem::__set_state(array(
+               '_action' => 'reviews',
+               '_description' => 'Reviews',
+               '_pageName' => 'reviews.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            2 => 
+            MenuItem::__set_state(array(
+               '_action' => 'videos',
+               '_description' => 'Video',
+               '_pageName' => 'video',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+                0 => 
+                MenuItem::__set_state(array(
+                   '_action' => 'liveStream',
+                   '_description' => 'Live',
+                   '_pageName' => 'livestream.php',
+                   '_icon' => '',
+                   '_subMenu' => 
+                  array (
+                  ),
+                )),
+                1 => 
+                MenuItem::__set_state(array(
+                   '_action' => 'streams',
+                   '_description' => 'Streams',
+                   '_pageName' => 'streams.php',
+                   '_icon' => '',
+                   '_subMenu' => 
+                  array (
+                  ),
+                )),
+                2 => 
+                MenuItem::__set_state(array(
+                   '_action' => 'podcasts',
+                   '_description' => 'Podcasts',
+                   '_pageName' => 'podcasts.php',
+                   '_icon' => '',
+                   '_subMenu' => 
+                  array (
+                  ),
+                )),
+              ),
+            )),
+            3 => 
+            MenuItem::__set_state(array(
+               '_action' => 'donate',
+               '_description' => 'Donate',
+               '_pageName' => 'donate.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            4 => 
+            MenuItem::__set_state(array(
+               '_action' => 'account',
+               '_description' => 'Account',
+               '_pageName' => 'account.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+            5 => 
+            MenuItem::__set_state(array(
+               '_action' => 'contact',
+               '_description' => 'Contact',
+               '_pageName' => 'contact.php',
+               '_icon' => '',
+               '_subMenu' => 
+              array (
+              ),
+            )),
+          ),
+           '_adminMenu' => NULL,
+           '_profileMenu' => NULL,
+        )),
+      ),
+    ),
+    6 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\mastercontroller.php',
+      'line' => 24,
+      'function' => 'init',
+      'class' => 'MasterController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    7 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\testing\\userControllerTesting.php',
+      'line' => 2,
+      'function' => '__construct',
+      'class' => 'MasterController',
+      'type' => '->',
+      'args' => 
+      array (
+      ),
+    ),
+    8 => 
+    array (
+      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\index.php',
+      'line' => 41,
+      'args' => 
+      array (
+        0 => 'C:\\xampp\\htdocs\\neoludus_alpha\\testing\\userControllerTesting.php',
+      ),
+      'function' => 'require_once',
+    ),
+  ),
+   'previous' => NULL,
+))
+
+Mail was not send

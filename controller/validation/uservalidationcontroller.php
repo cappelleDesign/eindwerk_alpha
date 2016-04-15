@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UserValidationController
  * This class helps to validate forms related to user actions
@@ -44,7 +45,7 @@ class UserValidationController {
 
     /**
      * getValidationArrayPw
-     * To get the validation array for password
+     * To get the validation array for password forms
      * @return array
      */
     private function getValidationArrayPw() {
@@ -68,7 +69,7 @@ class UserValidationController {
 
     /**
      * validatePwOld
-     * Validates the old password
+     * Validates the old password field
      * @param string $pwOld
      * @param string $loginName
      * @param array $result
@@ -82,7 +83,11 @@ class UserValidationController {
             $result['pwOldState']['errorMessage'] = 'Oud paswoord is een verplicht veld';
         }
         try {
-            $user = $sysAdmin->getAuthenticatedUser($loginName, $pwOld);
+            $user = $sysAdmin->getByIdentifier($loginName, 'user');
+            if ($user->authenticate($pwOld) < 1) {
+                $result['pwOldState']['errorClass'] = 'has-error';
+                $result['pwOldState']['errorMessage'] = 'Foute paswoord voor deze admin';
+            }
         } catch (ServiceException $ex) {
             $result['pwOldState']['errorClass'] = 'has-error';
             $result['pwOldState']['errorMessage'] = 'Foute paswoord voor deze admin';
@@ -91,6 +96,7 @@ class UserValidationController {
 
     /**
      * validatePwNewRepeat
+     * validates the password repeat field
      * @param string $pwNew
      * @param string $pwNewrepeat
      * @param array $result
@@ -103,6 +109,12 @@ class UserValidationController {
         }
     }
 
+    /**
+     * validatePwNew
+     * Validates the new password field
+     * @param string $pwNew
+     * @param array $result
+     */
     private function validatePwNew($pwNew, &$result) {
         $result['pwNewState']['errorClass'] = 'has-success';
         $result['pwNewState']['errorMessage'] = '';
@@ -127,6 +139,11 @@ class UserValidationController {
         }
     }
 
+    /**
+     * getValidationArrayLogin
+     * Returns the validation array for login 
+     * @return array
+     */
     private function getValidationArrayLogin() {
         $validationArray = array(
             'loginNameState' => array(
@@ -142,6 +159,12 @@ class UserValidationController {
         return $validationArray;
     }
 
+    /**
+     * validateLoginName
+     * Validates the login name (or email) field for login
+     * @param string $loginName
+     * @param array $result
+     */
     private function validateLoginName($loginName, &$result) {
         $result['loginNameState']['errorClass'] = 'has-success';
         $result['loginNameState']['errorMessage'] = '';
@@ -152,6 +175,12 @@ class UserValidationController {
         }
     }
 
+    /**
+     * validateLoginPw
+     * Validates the password field for login
+     * @param string $loginPw
+     * @param array $result
+     */
     private function validateLoginPw($loginPw, &$result) {
         $result['loginPwState']['errorClass'] = 'has-success';
         $result['loginPwState']['errorMessage'] = '';
@@ -162,6 +191,14 @@ class UserValidationController {
         }
     }
 
+    /**
+     * validateLoginValid
+     * Checks if the name field an pw field match to a user as username and pw
+     * @param string $loginName
+     * @param string $loginPw
+     * @param array $result
+     * @param MasterService $sysAdmin
+     */
     private function validateLoginValid($loginName, $loginPw, &$result, $sysAdmin) {
         try {
             $user = $sysAdmin;

@@ -172,7 +172,7 @@ class Globals {
         switch ($type) {
             case 'view' :
                 if (strpos(dirname(__FILE__), 'xampp')) {
-                    $root .= 'eindwerk_alpha/';
+                    $root .= 'neoludus_alpha/';
                 }
                 return $root . 'view';
             default : throw new ServiceException($type . ' root not found');
@@ -181,6 +181,9 @@ class Globals {
 
     static function getUserActions() {
         $userActions = [
+            'loginPage',
+            'registerPage',
+            'accountPage',
             'addUser',
             'rmUser',
             'getUser', //by id detailed, by id simple, by name/mail
@@ -189,7 +192,7 @@ class Globals {
             'getUsers',
             'updateUser', //update methods,
             'addToUser',
-            'removeFromUser',
+            'removeFromUser',            
             'login',
             'logout',
             'register'
