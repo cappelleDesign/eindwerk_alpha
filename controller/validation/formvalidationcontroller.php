@@ -23,6 +23,8 @@ class FormValidationController {
             $input = htmlentities($input);
             $input = strip_tags($input);
             return $input;
+        } else {
+            //FIXME handle error
         }
     }
     

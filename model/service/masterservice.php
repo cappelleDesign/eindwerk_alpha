@@ -32,6 +32,12 @@ class MasterService {
      */
     private $_profileMenu;
 
+    /**
+     * Class to help with image sources for various sizes
+     * @var imageHelper
+     */
+    private $_imgHelper;
+
     //TODO other services
 
     public function __construct($configs) {
@@ -44,6 +50,7 @@ class MasterService {
         $this->_userService = new UserService($userDB);
         //TODO add other services init
         $this->createMenus();
+        $this->_imgHelper = new imageHelper();
     }
 
     private function createMenus() {
@@ -56,7 +63,7 @@ class MasterService {
         $menuHome = new MenuItem('home', 'Home', 'home.php');
         $menuReview = new MenuItem('reviews', 'Reviews', 'reviews.php');
         $subMenuVideo1 = new MenuItem('liveStream', 'Live', 'livestream.php');
-        $subMenuVideo2 = new MenuItem('streams', 'Streams', 'streams.php');
+        $subMenuVideo2 = new MenuItem('streams', 'Lets plays', 'streams.php');
         $subMenuVideo3 = new MenuItem('podcasts', 'Podcasts', 'podcasts.php');
         $subMenuVideo = array($subMenuVideo1, $subMenuVideo2, $subMenuVideo3);
         $menuVideo = new MenuItem('videos', 'Video', 'video', $subMenuVideo);
@@ -101,6 +108,12 @@ class MasterService {
         }
     }
 
+    /**
+     * containsMenuItem
+     * @param string $action
+     * @param string $type
+     * @return MenuItem (or false)
+     */
     public function containsMenuItem($action, $type) {
         switch ($type) {
             case 'main':
@@ -121,18 +134,29 @@ class MasterService {
      * Helper function to check if an action is a menu related action
      * @param MenuItem[] $menu
      * @param string $action
-     * @return boolean
+     * @return MenuItem (or false)
      */
     private function menuItemFinder($menu, $action) {
-        foreach ($menu as $menuItem) {            
+        foreach ($menu as $menuItem) {
             if ($menuItem->getAction() === $action) {
-                return true;
+                return $menuItem;
             }
             if ($menuItem->getSubMenu() && $this->menuItemFinder($menuItem->getSubMenu(), $action)) {
-                    return true;
+                return $menuItem;
             }
         }
         return false;
+    }
+
+    public function getImgSrcs($type, $name, $path, $img) {
+        switch ($type) {
+            case 'carousel' :
+                return $this->_imgHelper->getCarouselSourceArray($name, $path, $img);
+            case 'newsfeed' :
+                return $this->_imgHelper->getNewsfeedSourceArray($name, $path, $img);
+            default :
+                return $this->typeNotRecognized($type);
+        }
     }
 
     public function getUserService() {

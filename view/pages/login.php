@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <?php
-        $bootstrap = TRUE;
         include 'view/includes/header.php';
         $viewRoot = Globals::getRoot('view');
         ?>

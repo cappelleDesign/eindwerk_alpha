@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors', '0');
+ini_set('display_errors', E_ALL);
 spl_autoload_register(function ($class_name) {
     $root = dirname(__FILE__);
     $dirs = array(
@@ -27,8 +27,8 @@ spl_autoload_register(function ($class_name) {
         }
     }
     if (!$fileFound) {
-        require_once '/model/errorhandling/errorlogger.php';
-        ErrorLogger::logError(new ControllerException('could not initiate website', NULL));
+//        require_once '/model/errorhandling/errorlogger.php';
+//        ErrorLogger::logError(new ControllerException('could not initiate website', NULL));
     }
 });
 try {

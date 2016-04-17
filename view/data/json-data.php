@@ -1,9 +1,9 @@
 <?php
 if (!$_POST['jsonData']) {
     echo 'Error: No data recieved';
-} else {
+} else {    
     $data = $_POST['jsonData'];
-    if (!$data) {
+    if (!$data || !is_array($data)) {
         echo 'Error: Data could not be created correctly';
     } else {
         $jsonStr = json_encode($data);

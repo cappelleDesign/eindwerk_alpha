@@ -36,6 +36,7 @@ class MasterController {
             $this->_service = new MasterService($configs);
             $this->_sessionController = new SessionController();
             $this->_userController = new UserController($this->_sessionController, $this->_service);
+            $this->_validator = new formvalidationController();
         } catch (Exception $ex) {
             //TODO handle exception
         }
@@ -83,6 +84,7 @@ class MasterController {
         $nextPage = 'home.php';
         $action = 'home';
         $isJson = false;
+        $basePath = 'view/';
         if (isset($_POST['isJson']) && !empty($_POST['isJson'])) {
             $isJson = $this->_validator->sanitizeInput(filter_input(INPUT_GET, 'isJson'));
         }
@@ -90,7 +92,7 @@ class MasterController {
             $action = $this->getAction();
         }
         if ($this->containsMenuItem($action, 'main')) {
-            $this->processMainMenuRequest($action);
+            $nextPage = $this->processMainMenuRequest($action);
         }
         if ($this->containsMenuItem($action, 'profile')) {
             $this->processProfileMenuRequest($action);
@@ -101,11 +103,21 @@ class MasterController {
         if (in_array($action, Globals::getUserActions())) {
             $nextPage = $this->processUserRequest($action, $isJson);
         }
-        require_once 'view/pages/' . $nextPage;
+        if (in_array($action, Globals::getHelperActions())) {
+            $nextPage = $this->processHelperRequest($action, $isJson);
+        }
+        require_once $basePath . $nextPage;
     }
 
     private function processMainMenuRequest($action) {
-//        echo '<script>console.log("menu request")</script>';
+        switch ($action) {
+            case 'home' :
+                break;
+            default :
+                $action = 'home'; //FIXME TMP
+        }
+        $page = 'pages/' . $this->_service->containsMenuItem($action, 'main')->getPageName();
+        return $page;
     }
 
     private function processProfileMenuRequest($action) {
@@ -120,14 +132,37 @@ class MasterController {
         return $this->_userController->processUserRequest($action, $isJson);
     }
 
+    private function processHelperRequest($action, $isJson) {
+        switch ($action) {
+            case 'getCarouselSrcs':
+                return $this->getSrcs();
+            case 'getNewsfeedSrcs' :
+                return;
+            default :
+                //TODO ERROR LOG 
+                return;
+        }
+    }
+
     private function redirect($page) {
         
     }
 
     public function getCurrentUser() {
-        if ($this->_sessionController->isLoggedOn()) {
+        if ($this->_sessionController->isLoggesdOn()) {
             return $this->_sessionController->getSessionAttr('current_user');
         }
         return FALSE;
     }
+
+    public function getSrcs() {        
+        $name = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'name'));
+        $path = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'imagesPath'));
+        $img = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'imageUrl'));
+        $type = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'type'));
+        $carouselSrcs = $this->_service->getImgSrcs($type, $name,$path, $img);
+        $_POST['jsonData'] = $carouselSrcs;
+        return 'data/json-data.php';
+    }
+
 }

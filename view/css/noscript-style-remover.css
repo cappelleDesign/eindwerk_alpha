@@ -1,0 +1,9 @@
+.noScript-heading {
+    display: none;
+}
+#menuAddon.no-js-push {
+     margin-top: 0px !important;
+}
+.no-js-push {
+    margin-top: 0px !important;
+}

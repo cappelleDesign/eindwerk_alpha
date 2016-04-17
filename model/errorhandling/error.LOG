@@ -1,1342 +1,156 @@
-[10-04-2016 15:15:48]
-'could not initiate website'
-[10-04-2016 15:16:17]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 30,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 34,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:16:17]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 30,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 26,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    2 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 17,
-      'function' => 'sendMail',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 30,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 34,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    3 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 30,
-      'function' => 'logError',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 30,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 34,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    4 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    5 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 34,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:17:56]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:17:56]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 26,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    2 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 17,
-      'function' => 'sendMail',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    3 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 32,
-      'function' => 'logError',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    4 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    5 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:18:07]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:18:07]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 26,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    2 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 17,
-      'function' => 'sendMail',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    3 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 32,
-      'function' => 'logError',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    4 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    5 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:18:07]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:18:07]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 26,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    2 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 17,
-      'function' => 'sendMail',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    3 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 32,
-      'function' => 'logError',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    4 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    5 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:18:08]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:18:08]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 32,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 26,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'PHPMailer',
-      ),
-    ),
-    2 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\model\\errorhandling\\errorlogger.php',
-      'line' => 17,
-      'function' => 'sendMail',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    3 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 32,
-      'function' => 'logError',
-      'class' => 'ErrorLogger',
-      'type' => '::',
-      'args' => 
-      array (
-        0 => 
-        ControllerException::__set_state(array(
-           'message' => 'could not initiate website',
-           'string' => '',
-           'code' => 4,
-           'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-           'line' => 32,
-           'trace' => 
-          array (
-            0 => 
-            array (
-              'function' => '{closure}',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-            1 => 
-            array (
-              'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-              'line' => 36,
-              'function' => 'spl_autoload_call',
-              'args' => 
-              array (
-                0 => 'MasteCcontroller',
-              ),
-            ),
-          ),
-           'previous' => NULL,
-        )),
-      ),
-    ),
-    4 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    5 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 36,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-[10-04-2016 15:20:14]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 30,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 34,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasteCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-
-Mail was not send
-[10-04-2016 15:20:42]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 30,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasterCcontroller',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 34,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasterCcontroller',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-
-Mail was not send
-[10-04-2016 15:20:55]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 30,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasterController',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 34,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasterController',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-
-Mail was not send
-[10-04-2016 15:21:54]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-   'line' => 30,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'MasterController',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\eindwerk_alpha\\index.php',
-      'line' => 34,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'MasterController',
-      ),
-    ),
-  ),
-   'previous' => NULL,
-))
-
-Mail was not send
-[14-04-2016 12:39:00]
-ControllerException::__set_state(array(
-   'message' => 'could not initiate website',
-   'string' => '',
-   'code' => 4,
-   'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\index.php',
-   'line' => 31,
-   'trace' => 
-  array (
-    0 => 
-    array (
-      'function' => '{closure}',
-      'args' => 
-      array (
-        0 => 'UserValidator',
-      ),
-    ),
-    1 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\validation\\formvalidationcontroller.php',
-      'line' => 17,
-      'function' => 'spl_autoload_call',
-      'args' => 
-      array (
-        0 => 'UserValidator',
-      ),
-    ),
-    2 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\validation\\formvalidationcontroller.php',
-      'line' => 13,
-      'function' => 'init',
-      'class' => 'FormValidationController',
-      'type' => '->',
-      'args' => 
-      array (
-      ),
-    ),
-    3 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\usercontroller.php',
-      'line' => 29,
-      'function' => '__construct',
-      'class' => 'FormValidationController',
-      'type' => '->',
-      'args' => 
-      array (
-      ),
-    ),
-    4 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\usercontroller.php',
-      'line' => 24,
-      'function' => 'init',
-      'class' => 'UserController',
-      'type' => '->',
-      'args' => 
-      array (
-        0 => 
-        SessionController::__set_state(array(
-        )),
-        1 => 
-        MasterService::__set_state(array(
-           '_daoFactory' => 
-          DaoFactory::__set_state(array(
-          )),
-           '_userService' => 
-          UserService::__set_state(array(
-             '_userDB' => 
-            UserSqlDB::__set_state(array(
-               '_userDistDB' => 
-              UserDistSqlDB::__set_state(array(
-                 '_generalDistDao' => 
-                GeneralDistSqlDB::__set_state(array(
-                   '_creationHelper' => 
-                  UserCreationHelper::__set_state(array(
-                  )),
-                   '_connection' => 
-                  PDO::__set_state(array(
-                  )),
-                )),
-                 '_creationHelper' => 
-                UserCreationHelper::__set_state(array(
-                )),
-                 '_connection' => 
-                PDO::__set_state(array(
-                )),
-              )),
-               '_notificationDB' => 
-              NotificationSqlDB::__set_state(array(
-                 '_creationHelper' => 
-                UserCreationHelper::__set_state(array(
-                )),
-                 '_connection' => 
-                PDO::__set_state(array(
-                )),
-              )),
-               '_generalDistDB' => 
-              GeneralDistSqlDB::__set_state(array(
-                 '_creationHelper' => 
-                UserCreationHelper::__set_state(array(
-                )),
-                 '_connection' => 
-                PDO::__set_state(array(
-                )),
-              )),
-               '_creationHelper' => 
-              UserCreationHelper::__set_state(array(
-              )),
-               '_connection' => 
-              PDO::__set_state(array(
-              )),
-            )),
-          )),
-           '_mainMenu' => 
-          array (
-            0 => 
-            MenuItem::__set_state(array(
-               '_action' => 'home',
-               '_description' => 'Home',
-               '_pageName' => 'home.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            1 => 
-            MenuItem::__set_state(array(
-               '_action' => 'reviews',
-               '_description' => 'Reviews',
-               '_pageName' => 'reviews.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            2 => 
-            MenuItem::__set_state(array(
-               '_action' => 'videos',
-               '_description' => 'Video',
-               '_pageName' => 'video',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-                0 => 
-                MenuItem::__set_state(array(
-                   '_action' => 'liveStream',
-                   '_description' => 'Live',
-                   '_pageName' => 'livestream.php',
-                   '_icon' => '',
-                   '_subMenu' => 
-                  array (
-                  ),
-                )),
-                1 => 
-                MenuItem::__set_state(array(
-                   '_action' => 'streams',
-                   '_description' => 'Streams',
-                   '_pageName' => 'streams.php',
-                   '_icon' => '',
-                   '_subMenu' => 
-                  array (
-                  ),
-                )),
-                2 => 
-                MenuItem::__set_state(array(
-                   '_action' => 'podcasts',
-                   '_description' => 'Podcasts',
-                   '_pageName' => 'podcasts.php',
-                   '_icon' => '',
-                   '_subMenu' => 
-                  array (
-                  ),
-                )),
-              ),
-            )),
-            3 => 
-            MenuItem::__set_state(array(
-               '_action' => 'donate',
-               '_description' => 'Donate',
-               '_pageName' => 'donate.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            4 => 
-            MenuItem::__set_state(array(
-               '_action' => 'account',
-               '_description' => 'Account',
-               '_pageName' => 'account.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            5 => 
-            MenuItem::__set_state(array(
-               '_action' => 'contact',
-               '_description' => 'Contact',
-               '_pageName' => 'contact.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-          ),
-           '_adminMenu' => NULL,
-           '_profileMenu' => NULL,
-        )),
-      ),
-    ),
-    5 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\mastercontroller.php',
-      'line' => 32,
-      'function' => '__construct',
-      'class' => 'UserController',
-      'type' => '->',
-      'args' => 
-      array (
-        0 => 
-        SessionController::__set_state(array(
-        )),
-        1 => 
-        MasterService::__set_state(array(
-           '_daoFactory' => 
-          DaoFactory::__set_state(array(
-          )),
-           '_userService' => 
-          UserService::__set_state(array(
-             '_userDB' => 
-            UserSqlDB::__set_state(array(
-               '_userDistDB' => 
-              UserDistSqlDB::__set_state(array(
-                 '_generalDistDao' => 
-                GeneralDistSqlDB::__set_state(array(
-                   '_creationHelper' => 
-                  UserCreationHelper::__set_state(array(
-                  )),
-                   '_connection' => 
-                  PDO::__set_state(array(
-                  )),
-                )),
-                 '_creationHelper' => 
-                UserCreationHelper::__set_state(array(
-                )),
-                 '_connection' => 
-                PDO::__set_state(array(
-                )),
-              )),
-               '_notificationDB' => 
-              NotificationSqlDB::__set_state(array(
-                 '_creationHelper' => 
-                UserCreationHelper::__set_state(array(
-                )),
-                 '_connection' => 
-                PDO::__set_state(array(
-                )),
-              )),
-               '_generalDistDB' => 
-              GeneralDistSqlDB::__set_state(array(
-                 '_creationHelper' => 
-                UserCreationHelper::__set_state(array(
-                )),
-                 '_connection' => 
-                PDO::__set_state(array(
-                )),
-              )),
-               '_creationHelper' => 
-              UserCreationHelper::__set_state(array(
-              )),
-               '_connection' => 
-              PDO::__set_state(array(
-              )),
-            )),
-          )),
-           '_mainMenu' => 
-          array (
-            0 => 
-            MenuItem::__set_state(array(
-               '_action' => 'home',
-               '_description' => 'Home',
-               '_pageName' => 'home.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            1 => 
-            MenuItem::__set_state(array(
-               '_action' => 'reviews',
-               '_description' => 'Reviews',
-               '_pageName' => 'reviews.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            2 => 
-            MenuItem::__set_state(array(
-               '_action' => 'videos',
-               '_description' => 'Video',
-               '_pageName' => 'video',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-                0 => 
-                MenuItem::__set_state(array(
-                   '_action' => 'liveStream',
-                   '_description' => 'Live',
-                   '_pageName' => 'livestream.php',
-                   '_icon' => '',
-                   '_subMenu' => 
-                  array (
-                  ),
-                )),
-                1 => 
-                MenuItem::__set_state(array(
-                   '_action' => 'streams',
-                   '_description' => 'Streams',
-                   '_pageName' => 'streams.php',
-                   '_icon' => '',
-                   '_subMenu' => 
-                  array (
-                  ),
-                )),
-                2 => 
-                MenuItem::__set_state(array(
-                   '_action' => 'podcasts',
-                   '_description' => 'Podcasts',
-                   '_pageName' => 'podcasts.php',
-                   '_icon' => '',
-                   '_subMenu' => 
-                  array (
-                  ),
-                )),
-              ),
-            )),
-            3 => 
-            MenuItem::__set_state(array(
-               '_action' => 'donate',
-               '_description' => 'Donate',
-               '_pageName' => 'donate.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            4 => 
-            MenuItem::__set_state(array(
-               '_action' => 'account',
-               '_description' => 'Account',
-               '_pageName' => 'account.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-            5 => 
-            MenuItem::__set_state(array(
-               '_action' => 'contact',
-               '_description' => 'Contact',
-               '_pageName' => 'contact.php',
-               '_icon' => '',
-               '_subMenu' => 
-              array (
-              ),
-            )),
-          ),
-           '_adminMenu' => NULL,
-           '_profileMenu' => NULL,
-        )),
-      ),
-    ),
-    6 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\controller\\mastercontroller.php',
-      'line' => 24,
-      'function' => 'init',
-      'class' => 'MasterController',
-      'type' => '->',
-      'args' => 
-      array (
-      ),
-    ),
-    7 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\testing\\userControllerTesting.php',
-      'line' => 2,
-      'function' => '__construct',
-      'class' => 'MasterController',
-      'type' => '->',
-      'args' => 
-      array (
-      ),
-    ),
-    8 => 
-    array (
-      'file' => 'C:\\xampp\\htdocs\\neoludus_alpha\\index.php',
-      'line' => 41,
-      'args' => 
-      array (
-        0 => 'C:\\xampp\\htdocs\\neoludus_alpha\\testing\\userControllerTesting.php',
-      ),
-      'function' => 'require_once',
-    ),
-  ),
-   'previous' => NULL,
-))
-
-Mail was not send
+[16-04-2016 19:44:25]
+array (
+  'xl' => 'view/phpscripts/image.php/hitman.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'l' => 'view/phpscripts/image.php/hitman.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'xs' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXL' => 'view/phpscripts/image.php/hitman.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideL' => 'view/phpscripts/image.php/hitman.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideSM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXS' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+)
+[16-04-2016 19:44:25]
+array (
+  'xl' => 'view/phpscripts/image.php/skyrim.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'l' => 'view/phpscripts/image.php/skyrim.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'xs' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXL' => 'view/phpscripts/image.php/skyrim.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideL' => 'view/phpscripts/image.php/skyrim.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideSM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXS' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+)
+[16-04-2016 19:44:25]
+array (
+  'xl' => 'view/phpscripts/image.php/fallout4.png?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'l' => 'view/phpscripts/image.php/fallout4.png?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'xs' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXL' => 'view/phpscripts/image.php/fallout4.png?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideL' => 'view/phpscripts/image.php/fallout4.png?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideSM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXS' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+)
+[16-04-2016 19:44:56]
+array (
+  'xl' => 'view/phpscripts/image.php/hitman.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'l' => 'view/phpscripts/image.php/hitman.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'xs' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXL' => 'view/phpscripts/image.php/hitman.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideL' => 'view/phpscripts/image.php/hitman.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideSM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXS' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+)
+[16-04-2016 19:44:56]
+array (
+  'xl' => 'view/phpscripts/image.php/fallout4.png?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'l' => 'view/phpscripts/image.php/fallout4.png?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'xs' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXL' => 'view/phpscripts/image.php/fallout4.png?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideL' => 'view/phpscripts/image.php/fallout4.png?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideSM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXS' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+)
+[16-04-2016 19:44:56]
+array (
+  'xl' => 'view/phpscripts/image.php/skyrim.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'l' => 'view/phpscripts/image.php/skyrim.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'xs' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXL' => 'view/phpscripts/image.php/skyrim.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideL' => 'view/phpscripts/image.php/skyrim.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideSM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXS' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+)
+[16-04-2016 19:47:35]
+array (
+  'xl' => 'view/phpscripts/image.php/hitman.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'l' => 'view/phpscripts/image.php/hitman.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'xs' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXL' => 'view/phpscripts/image.php/hitman.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideL' => 'view/phpscripts/image.php/hitman.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideSM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXS' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+)
+[16-04-2016 19:47:35]
+array (
+  'xl' => 'view/phpscripts/image.php/skyrim.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'l' => 'view/phpscripts/image.php/skyrim.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'xs' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXL' => 'view/phpscripts/image.php/skyrim.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideL' => 'view/phpscripts/image.php/skyrim.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideSM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXS' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+)
+[16-04-2016 19:47:35]
+array (
+  'xl' => 'view/phpscripts/image.php/fallout4.png?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'l' => 'view/phpscripts/image.php/fallout4.png?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'xs' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXL' => 'view/phpscripts/image.php/fallout4.png?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideL' => 'view/phpscripts/image.php/fallout4.png?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideSM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXS' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+)
+[16-04-2016 19:58:55]
+array (
+  'xl' => 'view/phpscripts/image.php/hitman.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'l' => 'view/phpscripts/image.php/hitman.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sm' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'xs' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXL' => 'view/phpscripts/image.php/hitman.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideL' => 'view/phpscripts/image.php/hitman.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideSM' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+  'sideXS' => 'view/phpscripts/image.php/hitman.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/hitman.jpg',
+)
+[16-04-2016 19:58:55]
+array (
+  'xl' => 'view/phpscripts/image.php/skyrim.jpg?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'l' => 'view/phpscripts/image.php/skyrim.jpg?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sm' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'xs' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXL' => 'view/phpscripts/image.php/skyrim.jpg?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideL' => 'view/phpscripts/image.php/skyrim.jpg?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideSM' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+  'sideXS' => 'view/phpscripts/image.php/skyrim.jpg?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/skyrim.jpg',
+)
+[16-04-2016 19:58:55]
+array (
+  'xl' => 'view/phpscripts/image.php/fallout4.png?width=1100&AMP;height=400&AMP;cropratio=1100:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'l' => 'view/phpscripts/image.php/fallout4.png?width=800&AMP;height=400&AMP;cropratio=800:400&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sm' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'xs' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXL' => 'view/phpscripts/image.php/fallout4.png?width=152&AMP;height=402&AMP;cropratio=152:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideL' => 'view/phpscripts/image.php/fallout4.png?width=102&AMP;height=402&AMP;cropratio=102:402&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideSM' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+  'sideXS' => 'view/phpscripts/image.php/fallout4.png?width=&AMP;height=&AMP;cropratio=:&AMP;image=/neoludus_alpha/view/images/tmpimages/fallout4.png',
+)

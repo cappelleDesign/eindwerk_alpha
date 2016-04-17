@@ -199,5 +199,13 @@ class Globals {
         ];
         return $userActions;
     }
+    
+    static function getHelperActions() {
+        $helperActions = [
+            'getCarouselSrcs',
+            'getNewsfeedSrcs'
+        ];
+        return $helperActions;
+    }
 
 }
