@@ -22,6 +22,13 @@ function setSliderPic($el) {
 
     $sizeArr = getCarouselSizes();
     $size = getCurrentSize();
+    if($size === 'm'){
+       if($sliderItem.hasClass('primary-slide')) {
+          $size+= '-pri'; 
+       } else {
+           $size+='-sec';
+       }
+    }
     if ($size in $sizeArr) {
         $src = getImgSrc($sizeArr[$size], $path, $img, false);
         setMainSliderPic($el, $src);
@@ -30,15 +37,15 @@ function setSliderPic($el) {
     }
 }
 
-function setNewsfeedPic($el){
+function setNewsfeedPic($el) {
     $newsfeedItem = $($el);
     $path = 'newsfeeditems';
     $img = $newsfeedItem.data('newsfeed-img');
-    
+
     $sizeArr = getNewsfeedSizes();
     $size = getCurrentSize();
-    if($size in $sizeArr) {
-        $src = getImgSrc($sizeArr[$size], $path, $img, false);        
+    if ($size in $sizeArr) {
+        $src = getImgSrc($sizeArr[$size], $path, $img, false);
         $newsfeedItem.prop('src', $src);
     }
 }
@@ -48,20 +55,26 @@ function getCarouselSizes() {
         'xl': {
             'w': '1100',
             'h': '400',
-            'sw': '152',
-            'sh': '402'
+            'sw': '150',
+            'sh': '400'
         },
         'l': {
             'w': '800',
             'h': '400',
-            'sw': '102',
-            'sh': '402'
+            'sw': '100',
+            'sh': '400'
         },
-        'm': {
+        'm-pri': {
+            'w': '800',
+            'h': '300'
+        },
+        'm-sec': {
+            'w': '399',
+            'h': '300'
+        },
+        's': {
             'w': '',
-            'h': '',
-            'sw': '',
-            'sh': ''
+            'h': ''
         }
     };
     return $sizes;
@@ -78,6 +91,10 @@ function getNewsfeedSizes() {
             'h': '320'
         },
         'm': {
+            'w': '400',
+            'h': '350'
+        },
+        's': {
             'w': '',
             'h': ''
         }
@@ -106,6 +123,9 @@ function getImgSrc($sizeArr, $imgPath, $img, $isSide) {
 
 function getCurrentSize() {
     $w = $(document).width();
+    if($w <=1040){
+        return 'm';
+    }
     if ($w <= 1500) {
         return 'l';
     }
@@ -116,7 +136,7 @@ function setMainSliderPic($el, $src) {
     $($el).children('.jsImg').prop('src', $src);
 }
 
-function setSideSliderPic($el, $src) {    
+function setSideSliderPic($el, $src) {
     $($el).data('img-src', $src);
 }
 

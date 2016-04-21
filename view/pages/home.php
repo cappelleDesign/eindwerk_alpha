@@ -45,12 +45,13 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                         <div class="slider-item primary-slide" data-destin="the destionation page url" data-img-path="tmpimages" data-img-url="hitman.jpg" data-img-src="<?php echo $hitmanSrcs['sideXL']; ?> ">                            
                             <div class="noScript">
                                 <picture>
-                                    <source srcset="<?php echo $hitmanSrcs['l']; ?>" media="(max-width: 1500px)">                            
+                                    <source srcset="<?php echo $hitmanSrcs['m-pri']; ?>" media="(max-width: 1040px)"> 
+                                    <source srcset="<?php echo $hitmanSrcs['l']; ?>" media="(max-width: 1500px)"> 
                                     <img src="<?php echo $hitmanSrcs['xl']; ?>" alt="picture of hitman">
                                 </picture>            
                                 <div class="slider-desc">
                                     <p>Hitman review</p>                                
-                                    <div class="starts">
+                                    <div class="stars">
                                         <i>8</i>
                                     </div>
                                 </div>
@@ -58,7 +59,7 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                             <script>
                                 $html = '<div class="slider-desc">' +
                                         '<p>Hitman review</p>' +
-                                        '<div class="starts">' +
+                                        '<div class="stars">' +
                                         '<input type="text" class="score" data-readOnly="true" value="8" data-fgColor="#ef4123" data-bgColor="#231f20">' +
                                         '</div>' +
                                         '</div>' +
@@ -70,12 +71,13 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                         <div class="slider-item secondary-slide" data-destin="the destionation page url" data-img-path="tmpimages" data-img-url="skyrim.jpg" data-img-src="<?php echo $skySrcs['sideXL']; ?>">
                             <div class="noScript">
                                 <picture>
+                                    <source srcset="<?php echo $skySrcs['m-sec']; ?>" media="(max-width: 1040px)">
                                     <source srcset="<?php echo $skySrcs['l']; ?>" media="(max-width: 1500px)">
                                     <img src="<?php echo $skySrcs['xl']; ?>" alt="picture of skyrim">
                                 </picture>
                                 <div class="slider-desc">
                                     <p>The elder scrolls V: Skyrim<p>                                
-                                    <div class="starts">
+                                    <div class="stars">
                                         <i>9</i>
                                     </div>
                                 </div>
@@ -83,7 +85,7 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                             <script>
                                 $html = '<div class="slider-desc">' +
                                         '<p>The elder scrolls V: Skyrim<p>   ' +
-                                        '<div class="starts">' +
+                                        '<div class="stars">' +
                                         '<input type="text" class="score" data-readOnly="true"value="9" data-fgColor="#ef4123" data-bgColor="#231f20">' +
                                         '</div>' +
                                         '</div>' +
@@ -95,12 +97,13 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                         <div class="slider-item secondary-slide" data-destin="the destionation page url" data-img-path="tmpimages" data-img-url="fallout4.png" data-img-src="<?php echo $foSrcs['sideXL']; ?>">                                                       
                             <div class="noScript">
                                 <picture>                                
+                                    <source srcset="<?php echo $foSrcs['m-sec']; ?>" media="(max-width: 1040px)">
                                     <source srcset="<?php echo $foSrcs['l']; ?>" media="(max-width: 1500px)">
                                     <img src="<?php echo $foSrcs['xl']; ?>" alt="picture of fallout 4">
                                 </picture>      
                                 <div class="slider-desc">
                                     <p>Fallout 4<p>                                
-                                    <div class="starts">
+                                    <div class="stars">
                                         <i>9</i>
                                     </div>
                                 </div>
@@ -108,7 +111,7 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                             <script>
                                 $html = '<div class="slider-desc">' +
                                         '<p>Fallout 4<p>' +
-                                        '<div class="starts">' +
+                                        '<div class="stars">' +
                                         '<input type="text" class="score" data-readOnly="true" value="8" data-fgColor="#ef4123" data-bgColor="#231f20" >' +
                                         '</div>' +
                                         '</div>' +
@@ -355,9 +358,7 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                     'height': 50,
                     'font': 'Play'
                 });
-                setCorrectSliderPics();
-                fireSlider();
-                setCorrectNewsfeedPics();
+                homePageRepaint();
                 $(window).resize(function () {
                     homePageRepaint();
                 });

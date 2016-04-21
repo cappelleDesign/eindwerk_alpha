@@ -8,11 +8,12 @@ class imageHelper {
         $sizesArr = array();
         $sizesArr['xl'] = array('w' => '1100', 'h' => '400');
         $sizesArr['l'] = array('w' => '800', 'h' => '400');
-        $sizesArr['mpr'] = array('w' => '', 'h' => '');
-        $sizesArr['msec'] = array('w' => '', 'h' => '');
+        $sizesArr['m-pri'] = array('w' => '800', 'h' => '300');
+        $sizesArr['m-sec'] = array('w' => '399', 'h' => '300');
+        $sizesArr['s'] = array('w' => '', 'h' =>'');
         
-        $sizesArr['sideXL'] = array('w' => '152', 'h' => '402');
-        $sizesArr['sideL'] = array('w' => '102', 'h' => '402');        
+        $sizesArr['sideXL'] = array('w' => '150', 'h' => '400');
+        $sizesArr['sideL'] = array('w' => '100', 'h' => '400');        
         return $sizesArr;        
     }
     
@@ -20,8 +21,8 @@ class imageHelper {
         $sizesArr = array();
         $sizesArr['xl'] = array('w' => '800', 'h' => '320');
         $sizesArr['l'] = array('w' => '571', 'h' => '320');
-        $sizesArr['m'] = array('w' => '', 'h' => '');
-        $sizesArr['sm'] = array('w' => '', 'h' => '');
+        $sizesArr['m'] = array('w' => '400', 'h' => '350');
+        $sizesArr['s'] = array('w' => '', 'h' => '');
         $sizesArr['xs'] = array('w' => '', 'h' => '');
         return $sizesArr;
     }   

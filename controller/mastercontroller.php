@@ -83,8 +83,7 @@ class MasterController {
     public function processRequest() {
         $nextPage = 'home.php';
         $action = 'home';
-        $isJson = false;
-        $basePath = 'view/';
+        $isJson = false;        
         if (isset($_POST['isJson']) && !empty($_POST['isJson'])) {
             $isJson = $this->_validator->sanitizeInput(filter_input(INPUT_GET, 'isJson'));
         }
@@ -106,7 +105,7 @@ class MasterController {
         if (in_array($action, Globals::getHelperActions())) {
             $nextPage = $this->processHelperRequest($action, $isJson);
         }
-        require_once $basePath . $nextPage;
+        require_once $nextPage;
     }
 
     private function processMainMenuRequest($action) {
@@ -116,7 +115,7 @@ class MasterController {
             default :
                 $action = 'home'; //FIXME TMP
         }
-        $page = 'pages/' . $this->_service->containsMenuItem($action, 'main')->getPageName();
+        $page = 'view/pages/' . $this->_service->containsMenuItem($action, 'main')->getPageName();
         return $page;
     }
 

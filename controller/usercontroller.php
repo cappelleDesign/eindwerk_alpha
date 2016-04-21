@@ -35,9 +35,9 @@ class UserController {
             case 'login': 
                 return $this->login($isJson);
             case 'loginPage':
-                return 'login.php';
+                return 'view/pages/login.php';
             default : 
-                return 'testpages.php';
+                return 'view/pages/testpages.php';
         }
     }
 

@@ -2,10 +2,13 @@
     <p>You have disabled javascript. This will have a great effect on how the site will work for you. we recommend you to turn javascript back on</p>
 </div>
 <header>
+    <div class="logo">
+        <img id="main-logo" src="view/images/design/logoNoBackTest.png" alt="neoludus logo">
+    </div>
     <form>
         <div class="form-group">
             <input type="text" placeholder="search games.." tabindex="1">
-            <a class="btn" href="#" tabindex="2">
+            <a id="main-search" href="#" tabindex="2">
                 <i class="fa fa-search"></i>
             </a>
         </div>
@@ -23,7 +26,7 @@
                     Log In
                 </a>
                 <a href="#register" class="">
-                    <i class="fa fa-certificate fa-fw"></i>
+                    <i class="fa fa-pencil-square-o fa-fw"></i>
                     Register
                 </a>
             </div>

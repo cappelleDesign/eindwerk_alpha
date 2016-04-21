@@ -23,6 +23,9 @@
 <!--HTML5 RESET-->
 <link href="view/css/html5reset-1.6.1.css" rel="stylesheet">
 
+<!--BOOTSTRAP-->
+<link href="view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
 <!--SLICK SLIDER-->
 <link href="view/js/plugins/slick-1.5.9/slick/slick.css" rel="stylesheet">
 <link href="view/js/plugins/slick-1.5.9/slick/slick-theme.css" rel="stylesheet">
