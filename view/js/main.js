@@ -3,16 +3,20 @@ function init() {
     $('.noScript').remove();
     $('.no-js-push').removeClass('no-js-push');
     setListeners();
-//    $(document.body).mCustomScrollbar({
-//        theme: 'scrollBarStyles',
-//        scrollButtons: {enable: true}
-//    });
-    $h = $(window).height() -1; 
-    $('#wrapper').css('minHeight', $h + 'px');
+    $('#main-menu').slicknav({
+        label: 'NEOLUDUS',
+        duration: 600,
+        easingOpen: 'easeOutBounce',
+        prependTo: 'body'
+    });
     setSubMenuWidths();
+    removeSubmenuStyles();
+    repaint();
 }
-
 function setListeners() {
+    $(window).resize(function () {
+        repaint();
+    });
     $('header > form > .form-group > input').on({
         keyup: function (e) {
             if (e.which === 13) {
@@ -37,26 +41,12 @@ function setListeners() {
             $('i', this).removeClass('fa-flip-horizontal');
         }
     });
-    $('#inf-slider').on('click swipe keyup', function (event, slick, currentSlide) {
-        $('.slider-left, .slider-right').stop().fadeOut('fast').promise().done(function () {
-            setPrevAndNext();
-        });
-    });
-    $('#newsfeed-nav .menu a').on('click', function (e) {
-        e.preventDefault();
-        $index = $('#newsfeed-nav li').index($(this).parent());
-        $margin = $('#newsfeeds').width() * $index * -1;
-        $('#newsfeed-items').css({'margin-left': $margin});
-        $('#newsfeed-nav li').removeClass('active');
-        $(this).parent().addClass('active');
-    });
     $('#account-panel > a:first-child').on({
         touchstart: function (e) {
             e.preventDefault();
             if ($(this).parent().hasClass('expanded')) {
                 this.blur();
                 expandProfileMenu(this, false);
-                console.log('touched');
             } else {
                 this.focus();
                 expandProfileMenu(this, true);
@@ -101,70 +91,64 @@ function setListeners() {
             triggerSubMenu($(this).parent(), false);
         }
     });
-}
-
-function homePageRepaint() {
-    setCorrectSliderPics();
-    setCorrectNewsfeedPics();
-}
-
-function setPrevAndNext() {
-    $w = $(window).width();
-
-    $currentIndex = $('.slick-current').data('slick-index');
-    $prevNr = $currentIndex - 1;
-    $nextNr = $currentIndex + 1;
-    $prev = $('.slick-slide[data-slick-index="' + $prevNr + '"]').data('img-src');
-    $next = $('.slick-slide[data-slick-index="' + $nextNr + '"]').data('img-src');
-
-    $('.slider-left img').attr('src', $prev);
-    $('.slider-right img').attr('src', $next);
-    $('.slider-left, .slider-right').stop().fadeIn('fast');
-
-}
-
-function setCorrectSliderPics() {
-    $.getScript('view/js/handlers/img--handler.js', function () {
-        setSliderPics();
-        fireSlider();
+    $('body').on({
+        touchstart: function () {
+            if ($(this).hasClass('slicknav_collapsed')) {
+                triggerMobileSubmenu(true);
+            } else {
+                triggerMobileSubmenu(false);
+            }
+        }
+    }, 'a.slicknav_btn');
+    $('.mobile-menu-addon a').on({
+        touchstart: function (e) {
+            e.preventDefault();
+            $('#mobile-menu-addon-extended').hide('slide', {'direction': 'left'}, 'fast', function () {
+                $('#mobile-menu-addon-extended').css({
+                    position: 'fixed'
+                });
+            });
+            triggerMobileMenuAddon(this);
+        }
+    });
+    $('.mobile-menu-addon').on({
+        focusout: function () {
+//            mobileMenuAddonHideAll(true);
+        }
+    });
+    $('#mobile-menu-addon-extended i').on({
+        touchstart: function (e) {
+            e.preventDefault();
+            mobileMenuAddonHideAll(true);
+        }
     });
 }
-function setCorrectNewsfeedPics() {
-    $.getScript('view/js/handlers/img--handler.js', function () {
-        setNewsfeedPics();
-    });
-}
-
-
-function fireSlider() {
-    if (!$('.slick-slider').length) {
-
-        $('#inf-slider').slick({
-            prevArrow: '<div class="slider-left"><img src=""><i class="fa fa-chevron-left"></i></div>',
-            nextArrow: '<div class="slider-right"><img src=""><i class="fa fa-chevron-right"></i></div>',
-            responsive: [
-                {
-                    breakpoint: 1041,
-                    settings: "unslick"
-                }
-            ]
+function repaint() {
+    if ($(document).width() > 1100) {
+        $(document.body).mCustomScrollbar({
+            theme: 'scrollBarStyles',
+            scrollButtons: {enable: true}
         });
-        setPrevAndNext();
+    } else {
+        $(document.body).mCustomScrollbar("destroy");
+    }
+    $h = $(window).height();
+    $('#wrapper').css('minHeight', $h + 'px');
+}
+function removeSubmenuStyles() {
+    if ($(document).width() <= 810) {
+        $('.submenu').removeClass('menu');
     }
 }
-
 function expandProfileMenu($el, $show) {
     $class = 'expanded';
     $height = getProfileMenuHeight();
     if ($show) {
         $($el).parent().addClass($class);
-//        $('#account-panel').css('height', '100px');
     } else {
         $($el).parent().removeClass($class);
-//        $('#account-panel').css('height', $height);
     }
 }
-
 function getProfileMenuHeight() {
     $w = $(document).width();
     if ($w <= 1500) {
@@ -172,7 +156,6 @@ function getProfileMenuHeight() {
     }
     return '27px';
 }
-
 function setSubMenuWidths() {
     $submenus = $('.submenu');
     $.each($submenus, function (i, $el1) {
@@ -184,7 +167,6 @@ function setSubMenuWidths() {
         });
     });
 }
-
 function triggerSubMenu($el, $show) {
     $sub = $($el).data('submenu-trigger');
     $subEl = $('.submenu-' + $sub);
@@ -196,4 +178,104 @@ function triggerSubMenu($el, $show) {
             $subEl.removeClass('submenu-visible');
         });
     }
+}
+function triggerMobileSubmenu($show) {
+    if ($show) {
+        $('.mobile-menu-addon').stop().fadeOut('slow');
+    } else {
+        $('.mobile-menu-addon').stop().fadeIn('slow');
+    }
+}
+
+function triggerMobileMenuAddon($el) {
+    $id = $($el).attr('id');
+    $show = true;
+    $($el).parent().focus();
+    if ($($el).hasClass('active')) {
+        mobileMenuAddonHideAll();
+        $show = false;
+    } else {
+        $($el).focus();
+        mobileMenuAddonStyleTrigger($id);
+    }
+    if ($show) {
+        switch ($id) {
+            case 'mobile-social-trigger' :
+                triggerMobileSocial();
+                break;
+            case 'mobile-profile-trigger' :
+                triggerMobileProfile();
+                break;
+            case 'mobile-search-trigger' :
+                triggerMobileSearch();
+                break;
+        }
+        $('#mobile-menu-addon-extended').css({position: 'fixed'}).show('slide', 'fast');
+    } else {
+        $('#mobile-menu-addon-extended').hide('slide', {'direction': 'left'}, 'fast', function () {
+            $('#mobile-menu-addon-extended').css({
+                position: 'fixed'
+            });
+        });
+    }
+}
+function mobileMenuAddonStyleTrigger($id) {
+    $.each($('.mobile-menu-addon a'), function ($i, $elC) {
+        $workEl = $($elC);
+        if ($workEl.attr('id') === $id) {
+            $workEl.addClass('active');
+        } else {
+            $workEl.removeClass('active');
+        }
+    });
+}
+function mobileMenuAddonHideAll($forced) {
+    mobileMenuAddonStyleTrigger('none');
+    if ($forced) {
+        console.log('forced');
+        $('#mobile-menu-addon-extended').hide('slide', {'direction': 'left'}, 'fast', function () {
+            $('#mobile-menu-addon-extended').css({
+                position: 'fixed'
+            });
+        });
+    }
+}
+function triggerMobileSocial() {
+    $('#mobile-addon-content').removeClass();
+    $('#mobile-addon-content').addClass('social');
+    $mail = '<i class="fa fa-envelope" title="Mail us" aria-hidden="true"></i>';
+    $fb = '<i class="fa fa-facebook" title="Visit our Facebook page" aria-hidden="true"></i>';
+    $yt = '<i class="fa fa-youtube" title="Visit our Youtube channel" aria-hidden="true"></i>';
+    $twitch = '<i class="fa fa-twitch" title="Visit our Twitch channel" aria-hidden="true"></i>';
+    $twitt = '<i class="fa fa-twitter" title="Visit our Twitter page" aria-hidden="true"></i>';
+    $payp = '<i class="fa fa-paypal" title="Make a donation" aria-hidden="true"></i>';
+    $html = $mail + $fb + $yt + $twitch + $twitt + $payp;
+    $('#mobile-addon-content').html($html);
+}
+function triggerMobileProfile() {
+    //TODO if user logged in -> logout button
+    $('#mobile-addon-content').removeClass();
+    $('#mobile-addon-content').addClass('profile');
+    $logout = '';
+    $login = '<a href=""><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
+    $register = '<a href=""><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
+    $html = $login + $register;
+    $('#mobile-addon-content').html($html);
+}
+function triggerMobileSearch() {
+    $('#mobile-addon-content').removeClass();
+    $('#mobile-addon-content').addClass('search');
+    $search = '<form id="search-form" class="mobile-search-form" method="POST" action="#">' +
+            '<div class="form-group">' +
+            '<input type="text" placeholder="search games.." tabindex="1">' +
+            '<a class="script-only" id="main-search" href="#" tabindex="2">' +
+            '<i class="fa fa-search"></i>' +
+            '</a>' +
+            '<button class="noScript" type="submit">' +
+            '<i class="fa fa-search"></i>' +
+            '</button>' +
+            '</div>' +
+            '</form>';
+    $html = $search;
+    $('#mobile-addon-content').html($html);
 }

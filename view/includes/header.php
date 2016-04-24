@@ -23,6 +23,9 @@
 <!--HTML5 RESET-->
 <link href="view/css/html5reset-1.6.1.css" rel="stylesheet">
 
+<!--JQUERY UI-->
+<link href="view/js/plugins/jqueryUI/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+
 <!--BOOTSTRAP-->
 <link href="view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
@@ -32,6 +35,9 @@
 
 <!--CUSTOM SCROLLBAR-->
 <link href="view/js/plugins/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+
+<!--SLICK NAV-->
+<link href="view/js/plugins/slicknav/slicknav.min.css" rel="stylesheet" type="text/css"/>
 
 <!--MAIN MARKUP-->
 <link href="view/fonts/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> <!-- use CDN when life -->

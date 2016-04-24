@@ -40,6 +40,9 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
             ?>            
             <div class="fix"></div> 
             <main>
+                <div class="mobile-latest-header">
+                    <h2>Our Latest</h2>
+                </div>
                 <div id="inf-slider-holder">
                     <div id="inf-slider">
                         <div class="slider-item primary-slide" data-destin="the destionation page url" data-img-path="tmpimages" data-img-url="hitman.jpg" data-img-src="<?php echo $hitmanSrcs['sideXL']; ?> ">                            
@@ -58,9 +61,11 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                             </div>
                             <script>
                                 $html = '<div class="slider-desc">' +
+                                        '<div class="mobile-center">' +
                                         '<p>Hitman review</p>' +
                                         '<div class="stars">' +
                                         '<input type="text" class="score" data-readOnly="true" value="8" data-fgColor="#ef4123" data-bgColor="#231f20">' +
+                                        '</div>' +
                                         '</div>' +
                                         '</div>' +
                                         '<img class="jsImg" src="<?php echo $hitmanSrcs['xl']; ?>" alt="picture of hitman">';
@@ -84,9 +89,11 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                             </div>
                             <script>
                                 $html = '<div class="slider-desc">' +
+                                        '<div class="mobile-center">' +
                                         '<p>The elder scrolls V: Skyrim<p>   ' +
                                         '<div class="stars">' +
                                         '<input type="text" class="score" data-readOnly="true"value="9" data-fgColor="#ef4123" data-bgColor="#231f20">' +
+                                        '</div>' +
                                         '</div>' +
                                         '</div>' +
                                         '<img class="jsImg" src="<?php echo $skySrcs['xl']; ?>" alt="picture of skyrim">';
@@ -110,9 +117,11 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                             </div>
                             <script>
                                 $html = '<div class="slider-desc">' +
+                                        '<div class="mobile-center">' +
                                         '<p>Fallout 4<p>' +
                                         '<div class="stars">' +
                                         '<input type="text" class="score" data-readOnly="true" value="8" data-fgColor="#ef4123" data-bgColor="#231f20" >' +
+                                        '</div>' +
                                         '</div>' +
                                         '</div>' +
                                         '<img class="jsImg" src="<?php echo $foSrcs['xl']; ?>" alt="picture of fallout 4">';
@@ -121,6 +130,9 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                         </div>
                     </div>
                 </div>   
+                <div class="mobile-new-header">
+                    <h2>What's New</h2>
+                </div>
                 <div id="newsfeed-holder">
                     <nav id="newsfeed-nav">
                         <ul class="menu">
@@ -344,26 +356,12 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
         <footer>
             <?php include 'view/includes/footer.php'; ?>
         </footer>
-
+        <script>
+            $viewRoot = '<?php echo Globals::getRoot('view') ?>';
+        </script>
         <?php
         include 'view/includes/scripts.php';
         ?> 
-        <script>
-            $viewRoot = '<?php echo Globals::getRoot('view') ?>';
-            $(document).ready(function () {
-                $('.score').knob({
-                    'min': 0,
-                    'max': 10,
-                    'width': 50,
-                    'height': 50,
-                    'font': 'Play'
-                });
-                homePageRepaint();
-                $(window).resize(function () {
-                    homePageRepaint();
-                });
-
-            });
-        </script>
+        <script src="view/js/homepage-functions.js" type="text/javascript"></script>
     </body>
 </html>

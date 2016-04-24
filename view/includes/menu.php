@@ -2,15 +2,28 @@
     <p>You have disabled javascript. This will have a great effect on how the site will work for you. we recommend you to turn javascript back on</p>
 </div>
 <header>
+    <div class="mobile-menu-addon">
+        <a id="mobile-social-trigger" href="#"><i class="fa fa-heart"></i></a>
+        <a id="mobile-profile-trigger" href="#"><i class="fa fa-user"></i></a>
+        <a id="mobile-search-trigger" href="#"><i class="fa fa-search"></i></a>
+    </div>
+    <div id="mobile-menu-addon-extended">
+        <div id="mobile-addon-content">           
+        </div>
+        <i class="fa fa-times"></i>
+    </div>
     <div class="logo">
         <img id="main-logo" src="view/images/design/logoNoBackTest.png" alt="neoludus logo">
     </div>
-    <form>
+    <form id="search-form" class="search-form-main" method="POST" action="#">
         <div class="form-group">
             <input type="text" placeholder="search games.." tabindex="1">
-            <a id="main-search" href="#" tabindex="2">
+            <a class="script-only" id="main-search" href="#" tabindex="2">
                 <i class="fa fa-search"></i>
             </a>
+            <button class="noScript" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
         </div>
     </form>
     <div id="menuAddon" class="no-js-push">
@@ -82,7 +95,7 @@
 
 <nav>
     <div id="menu-box">
-        <ul class="menu">
+        <ul class="menu" id="main-menu">
             <?php
             $subMenuCount = 1;
             $menu = $this->getMenu('main');

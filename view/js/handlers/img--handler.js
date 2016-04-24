@@ -22,12 +22,19 @@ function setSliderPic($el) {
 
     $sizeArr = getCarouselSizes();
     $size = getCurrentSize();
-    if($size === 'm'){
-       if($sliderItem.hasClass('primary-slide')) {
-          $size+= '-pri'; 
-       } else {
-           $size+='-sec';
-       }
+    if($size === 'xs') {
+        $size = 's';
+    }
+    if ($size === 'm') {
+        if ($sliderItem.hasClass('primary-slide')) {
+            $size += '-pri';
+        } else {
+            $size += '-sec';
+        }
+    }
+    if ($size === 's') {
+        $cw = $(document).width();
+        $sizeArr[$size]['w'] = $cw;
     }
     if ($size in $sizeArr) {
         $src = getImgSrc($sizeArr[$size], $path, $img, false);
@@ -41,9 +48,17 @@ function setNewsfeedPic($el) {
     $newsfeedItem = $($el);
     $path = 'newsfeeditems';
     $img = $newsfeedItem.data('newsfeed-img');
-
+    $cw = $(document).width();
     $sizeArr = getNewsfeedSizes();
     $size = getCurrentSize();
+    if ($size === 's') {
+        $sizeArr[$size]['w'] = Math.round($cw * 0.3);
+        $sizeArr[$size]['h'] = Math.round($cw * 0.3);
+    }
+    if ($size === 'xs') {
+        $sizeArr[$size]['w'] = $cw;
+        $sizeArr[$size]['h'] = Math.round($cw * 0.3);
+    }
     if ($size in $sizeArr) {
         $src = getImgSrc($sizeArr[$size], $path, $img, false);
         $newsfeedItem.prop('src', $src);
@@ -74,7 +89,7 @@ function getCarouselSizes() {
         },
         's': {
             'w': '',
-            'h': ''
+            'h': '300'
         }
     };
     return $sizes;
@@ -95,6 +110,10 @@ function getNewsfeedSizes() {
             'h': '350'
         },
         's': {
+            'w': '',
+            'h': '200'
+        },
+        'xs': {
             'w': '',
             'h': ''
         }
@@ -123,7 +142,13 @@ function getImgSrc($sizeArr, $imgPath, $img, $isSide) {
 
 function getCurrentSize() {
     $w = $(document).width();
-    if($w <=1040){
+    if($w <= 570){
+        return 'xs';
+    }
+    if ($w <= 810) {
+        return 's';
+    }
+    if ($w <= 1040) {
         return 'm';
     }
     if ($w <= 1500) {
