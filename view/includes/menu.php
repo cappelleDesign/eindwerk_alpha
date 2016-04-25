@@ -107,7 +107,6 @@
     </div>
 </nav>    
 <?php
-
 function getLinkHtml($menuItem, $page, $subMenuCount) {
     $active = $page === $menuItem->getPageName() ? 'active' : '';
     $subMenu = $menuItem->getSubMenu();
@@ -125,4 +124,5 @@ function getLinkHtml($menuItem, $page, $subMenuCount) {
     $html .= '</li>';
     return $html;
 }
+
 ?>

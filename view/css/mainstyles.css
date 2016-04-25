@@ -828,6 +828,8 @@ footer {
         position: absolute;
         color: #231f20;
         right: 3px;
+        padding-bottom: 45px;
+        padding-left: 10px;
         top: 0;
         font-weight: 100;
     }
