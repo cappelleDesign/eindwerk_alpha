@@ -10,7 +10,6 @@ function init() {
         prependTo: 'body'
     });
     setSubMenuWidths();
-    removeSubmenuStyles();
     repaint();
 }
 function setListeners() {
@@ -124,7 +123,8 @@ function setListeners() {
     });
 }
 function repaint() {
-    if ($(document).width() > 1100) {
+    $w = $(document).width();
+    if ($w > 1100) {
         $(document.body).mCustomScrollbar({
             theme: 'scrollBarStyles',
             scrollButtons: {enable: true}
@@ -134,9 +134,16 @@ function repaint() {
     }
     $h = $(window).height();
     $('#wrapper').css('minHeight', $h + 'px');
+    if ($w <= 810) {
+        toggleSubmenuStyles(false);
+    } else {
+        toggleSubmenuStyles(true);
+    }
 }
-function removeSubmenuStyles() {
-    if ($(document).width() <= 810) {
+function toggleSubmenuStyles($show) {
+    if ($show) {
+        $('.submenu').addClass('menu');
+    } else {
         $('.submenu').removeClass('menu');
     }
 }

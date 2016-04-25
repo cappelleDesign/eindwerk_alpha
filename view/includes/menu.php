@@ -1,3 +1,26 @@
+<?php
+$userN = $this->getCurrentUser();
+$iconsNotLoggedIn = '<a href="index.php?action=login" class="">' .
+        '<i class="fa fa-sign-in fa-fw"></i>' .
+        'Log In' .
+        '</a>' .
+        '<a href="#register" class="">' .
+        '<i class="fa fa-pencil-square-o fa-fw"></i>' .
+        'Register' .
+        '</a>';
+$iconsLoggedIn = '<a href="index.php?action=logout" class="">' .
+        '<i class="fa fa-sign-out fa-fw"></i>' .
+        'Sign out' .
+        '</a>';
+$accountHtml = '<a href="#" class="">' .
+        '<i class="fa fa-user fa-fw"></i>' .
+        ($userN ? $userN : 'No profile') .
+        '<i class="fa fa-caret-down fa-fw"></i>' .
+        '</a>' .
+        '<div class="account-drop-down">' .
+        ($userN ? $iconsLoggedIn : $iconsNotLoggedIn) .
+        '</div>';
+?>
 <div class="noScript noScript-heading">
     <p>You have disabled javascript. This will have a great effect on how the site will work for you. we recommend you to turn javascript back on</p>
 </div>
@@ -28,21 +51,7 @@
     </form>
     <div id="menuAddon" class="no-js-push">
         <div id="account-panel" tabindex="3">
-            <a href="#" class="">
-                <i class="fa fa-user fa-fw"></i>
-                No profile
-                <i class="fa fa-caret-down fa-fw"></i>
-            </a>     
-            <div class="account-drop-down">
-                <a href="#login" class="">
-                    <i class="fa fa-sign-in fa-fw"></i>
-                    Log In
-                </a>
-                <a href="#register" class="">
-                    <i class="fa fa-pencil-square-o fa-fw"></i>
-                    Register
-                </a>
-            </div>
+            <?php echo $accountHtml; ?>
         </div>
         <div class="social-menu">
             <ul>
@@ -107,6 +116,7 @@
     </div>
 </nav>    
 <?php
+
 function getLinkHtml($menuItem, $page, $subMenuCount) {
     $active = $page === $menuItem->getPageName() ? 'active' : '';
     $subMenu = $menuItem->getSubMenu();
@@ -124,5 +134,4 @@ function getLinkHtml($menuItem, $page, $subMenuCount) {
     $html .= '</li>';
     return $html;
 }
-
 ?>

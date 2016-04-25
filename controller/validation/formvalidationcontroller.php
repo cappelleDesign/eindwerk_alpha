@@ -24,6 +24,7 @@ class FormValidationController {
             $input = strip_tags($input);
             return $input;
         } else {
+            return NULL;
             //FIXME handle error
         }
     }
@@ -35,6 +36,5 @@ class FormValidationController {
 
     public function validatePwChangeForm($pwArr, &$sysAdmin) {
         return $this->_userValidator->validatePwChangeForm($pwArr, $sysAdmin);
-    }
-
+    }    
 }

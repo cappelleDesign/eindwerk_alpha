@@ -148,7 +148,7 @@ class MasterController {
     }
 
     public function getCurrentUser() {
-        if ($this->_sessionController->isLoggesdOn()) {
+        if ($this->_sessionController->isLoggedOn()) {
             return $this->_sessionController->getSessionAttr('current_user');
         }
         return FALSE;

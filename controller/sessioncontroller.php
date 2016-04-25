@@ -9,7 +9,6 @@ class SessionController {
             session_start();
         }
     }
-
     public function checkUserActivity() {
         $this->startSession();
         session_write_close();
@@ -38,7 +37,17 @@ class SessionController {
     public function getSessionAttr($key) {
         $this->startSession();
         session_write_close();
-        return $_SESSION[$key];
+        $val = '';
+        if (isset($_SESSION[$key])) {
+            $val = $_SESSION[$key];
+        }
+        return $val;
+    }
+
+    public function deleteSessionAttr($key) {
+        $this->startSession();
+        unset($_SESSION[$key]);
+        session_write_close();
     }
 
 }

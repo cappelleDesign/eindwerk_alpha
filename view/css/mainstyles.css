@@ -368,7 +368,7 @@ nav {
     color: #fff;
     background-color: #ef4123;
 }
-/*MAIN STYLES*/
+/*HOMEPAGE STYLES*/
 main {
     width: 100%;
 }
@@ -602,6 +602,47 @@ footer {
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+/*BUTTON STYLES*/
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+.btn-primary.btn-outline:hover, .btn-success.btn-outline:hover, .btn-info.btn-outline:hover, .btn-warning.btn-outline:hover, .btn-danger.btn-outline:hover {
+    color: #fff;
+}
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+/*LOGIN STYLES*/
+.login-container {
+    margin-top: 50px;
+}
+.login-container .form-group {
+    margin-bottom: 4px;
+}
+.login-buttons {
+    margin-top: 10px;
+}
+.login-container .login-panel {
+    border-color: #231f20;
+    background-color: #333333;
+}
+.login-panel .panel-heading {
+    background-color: #333333;
+    color: #fff;
+    border-color: #231f20;
+}
+.login-panel .panel-body {
+    background-color: #fff;
+}
+.login-panel .login-links {
+    margin-top: 24px;
+}
+
 /*SCROLLBAR*/
 .mCS-scrollBarStyles.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{ 
     background-color: #ef4123; 

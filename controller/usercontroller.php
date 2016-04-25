@@ -8,6 +8,8 @@ class UserController {
      */
     private $_sessionController;
     
+    private $_errorController;
+    
     /**
      * The controller for validation purposes
      * @var FormValidationController 
@@ -45,10 +47,12 @@ class UserController {
         if (isset($_POST['loginName']) && isset($_POST['loginPw'])) {
             $loginName = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'loginName'));
             $loginPw = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'loginPw'));
+            $isHuman = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'input-filter'));
         }
         $loginArr = array(
             'loginName' => $loginName,
-            'loginPw' => $loginPw
+            'loginPw' => $loginPw,
+            'isHuman' => $isHuman
         );
         return $loginArr;
     }
@@ -58,19 +62,22 @@ class UserController {
         $loginFormData = $this->_validator->validateLoginForm($userArr, $this->_service);
         $this->_sessionController->setSessionAttr('loginFormData', $loginFormData);
         if ($loginFormData['loginNameState']['errorClass'] === 'has-error' || $loginFormData['loginPwState']['errorClass'] === 'has-error') {
-            return 'loginPage.php';
+            $_POST['loginReturn'] = 'return';
+            return 'view/pages/login.php';
         }
         if (array_key_exists('extraMessage', $loginFormData)) {
-            return 'loginPage.php';
+            $_POST['loginReturn'] = 'return';
+            return 'view/pages/login.php';
         }
         try {
-            $user = $this->_service;
+//            $user = $this->_service->getByIdentifier($userArr['loginName'], 'user');            
         } catch (ServiceException $ex) {
-            return $this->_errorController->goToErrorPage($ex);
-        }
-        parent::setSessionAttr('current_user', $user);
-        header('Location: index.php?action=account');
-        exit();
+//            return $this->_errorController->goToErrorPage($ex);
+            //FIXME handle error!            
+        }               
+//        $this->_sessionController->setSessionAttr('current_user', '$user');
+//        header('Location: index.php?action=account');
+//        exit();
     }
 
 }

@@ -9,6 +9,8 @@
  */
 class UserValidationController {
 
+    private $_req = 'is required field.';
+
     public function __construct() {
         
     }
@@ -22,9 +24,11 @@ class UserValidationController {
      */
     public function validateLoginForm($loginArr, $sysAdmin) {
         $result = $this->getValidationArrayLogin();
-        $this->validateloginName($loginArr['loginName'], $result);
-        $this->validateLoginPw($loginArr['loginPw'], $result);
-        $this->validateLoginValid($loginArr['loginName'], $loginArr['loginPw'], $result, $sysAdmin);
+        if ($this->isHuman($loginArr['isHuman'], $result)) {
+            $this->validateloginName($loginArr['loginName'], $result);
+            $this->validateLoginPw($loginArr['loginPw'], $result);
+            $this->validateLoginValid($loginArr['loginName'], $loginArr['loginPw'], $result, $sysAdmin);
+        }
         return $result;
     }
 
@@ -67,6 +71,14 @@ class UserValidationController {
         return $validationArray;
     }
 
+    private function isHuman($inputFilter, &$result) {
+        if (!empty(trim($inputFilter))) {
+            $result['extraMessage'] = 'It seems like you filled in the are you a robot field..';
+            return false;
+        }
+        return true;
+    }
+
     /**
      * validatePwOld
      * Validates the old password field
@@ -80,17 +92,17 @@ class UserValidationController {
         $result['pwOldState']['errorMessage'] = '';
         if (!(trim($pwOld))) {
             $result['pwOldState']['errorClass'] = 'has-error';
-            $result['pwOldState']['errorMessage'] = 'Oud paswoord is een verplicht veld';
+            $result['pwOldState']['errorMessage'] = 'Old password ' . $this->_req;
         }
         try {
             $user = $sysAdmin->getByIdentifier($loginName, 'user');
             if ($user->authenticate($pwOld) < 1) {
                 $result['pwOldState']['errorClass'] = 'has-error';
-                $result['pwOldState']['errorMessage'] = 'Foute paswoord voor deze admin';
+                $result['pwOldState']['errorMessage'] = 'Wrong password for this user';
             }
         } catch (ServiceException $ex) {
             $result['pwOldState']['errorClass'] = 'has-error';
-            $result['pwOldState']['errorMessage'] = 'Foute paswoord voor deze admin';
+            $result['pwOldState']['errorMessage'] = 'Wrong password for this user';
         }
     }
 
@@ -105,7 +117,7 @@ class UserValidationController {
         $result['pwNewRepeatState']['errorMessage'] = '';
         if ($pwNew !== $pwNewrepeat) {
             $result['pwNewRepeatState']['errorClass'] = 'has-error';
-            $result['pwNewRepeatState']['errorMessage'] = 'Het herhaalde paswoord kwam niet overeen met het nieuwe paswoord.';
+            $result['pwNewRepeatState']['errorMessage'] = 'The repeated password did not match.';
         }
     }
 
@@ -121,20 +133,24 @@ class UserValidationController {
         $result['pwNewState']['prevVal'] = $pwNew;
         if (!(trim($pwNew))) {
             $result['pwNewState']['errorClass'] = 'has-error';
-            $result['pwNewState']['errorMessage'] = 'Paswoord is een verplicht veld';
+            $result['pwNewState']['errorMessage'] = 'Password ' . $this->_req;
         } else {
             $uppercase = preg_match('@[A-Z]@', $pwNew);
             $lowercase = preg_match('@[a-z]@', $pwNew);
             $number = preg_match('@[0-9]@', $pwNew);
+            $special = preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $pwNew);
             if (!$uppercase) {
                 $result['pwNewState']['errorClass'] = 'has-error';
-                $result['pwNewState']['errorMessage'] = 'Een paswoord moet minstens 1 hoofdletter bevatten.<br>';
+                $result['pwNewState']['errorMessage'] = 'A password should contain at least one uppercase character.<br>';
             } else if (!$lowercase) {
                 $result['pwNewState']['errorClass'] = 'has-error';
-                $result['pwNewState']['errorMessage'] = 'Een paswoord moet minstens 1 kleine letter bevatten.<br>';
+                $result['pwNewState']['errorMessage'] = 'A password should contain at least one lowercase character.<br>';
             } else if (!$number) {
                 $result['pwNewState']['errorClass'] = 'has-error';
-                $result['pwNewState']['errorMessage'] = 'Een paswoord moet minstens 1 cijfer bevatten.<br>';
+                $result['pwNewState']['errorMessage'] = 'A password should contain at least one number.<br>';
+            } else if (!$special) {
+                $result['pwNewState']['errorClass'] = 'has-error';
+                $result['pwNewState']['errorMessage'] = 'A password should contain at least one special character.<br>';
             }
         }
     }
@@ -171,7 +187,7 @@ class UserValidationController {
         $result['loginNameState']['prevVal'] = $loginName;
         if (!(trim($loginName))) {
             $result['loginNameState']['errorClass'] = 'has-error';
-            $result['loginNameState']['errorMessage'] = 'Gebruikersnaam is een verplicht veld';
+            $result['loginNameState']['errorMessage'] = 'Username ' . $this->_req;
         }
     }
 
@@ -187,7 +203,7 @@ class UserValidationController {
         $result['loginPwState']['prevVal'] = $loginPw;
         if (!(trim($loginPw))) {
             $result['loginPwState']['errorClass'] = 'has-error';
-            $result['loginPwState']['errorMessage'] = 'Paswoord is een verplicht veld';
+            $result['loginPwState']['errorMessage'] = 'Password ' . $this->_req;
         }
     }
 
@@ -201,9 +217,10 @@ class UserValidationController {
      */
     private function validateLoginValid($loginName, $loginPw, &$result, $sysAdmin) {
         try {
-            $user = $sysAdmin;
+            $user = $sysAdmin->getByIdentifier($loginName, 'user');
+            Globals::cleanDump($user);
         } catch (ServiceException $ex) {
-            $result['extraMessage'] = 'Geen gebruiker met deze gebruikersnaam en paswoord combinatie';
+            $result['extraMessage'] = 'No user with this username/email and password found';
             $result['loginNameState']['errorClass'] = 'has-error';
             $result['loginPwState']['errorClass'] = 'has-error';
         }
