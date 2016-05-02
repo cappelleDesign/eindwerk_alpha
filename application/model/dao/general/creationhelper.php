@@ -4,10 +4,10 @@
  * CreationHelper
  * This is a helper(factory) class to create objects from sql rows
  * @package dao
- * @subpackage dao.user
+ * @subpackage dao.general
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class UserCreationHelper {
+class CreationHelper{
 
     /**
      * * createUserSimple
@@ -76,7 +76,7 @@ class UserCreationHelper {
         if (!$row || !$poster || !$voters) {
             throw new DBException('could not create last comment', NULL);
         }
-        $comment = new Comment($row['parent_id'], $poster, $row['review_id'], $row['comment_txt'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
+        $comment = new Comment($row['parent_id'], $poster, $row['review_id'], $row['type'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
         $comment->setId($row['comment_id']);
         return $comment;
     }

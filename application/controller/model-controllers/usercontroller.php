@@ -1,7 +1,7 @@
 <?php
 
-class UserController extends SuperController{          
-    
+class UserController extends SuperController {
+
     public function __construct($sessionController, $service) {
         parent::__construct();
         $this->init($sessionController, $service);
@@ -12,16 +12,22 @@ class UserController extends SuperController{
         $this->setService($service);
     }
 
-    public function processUserRequest($action, $isJson) {        
+    public function processUserRequest($action, $isJson) {
         $page = '';
         switch ($action) {
-            case 'login': 
+            case 'login':
                 $page = $this->login($isJson);
                 break;
             case 'loginPage':
                 $page = 'login.php';
                 break;
-            default : 
+            case 'logout' :
+                $page = $this->logOut($isJson);
+                break;
+            case 'getUser' :
+                $page = $this->getUser($isJson);
+                break;
+            default :
                 //TODO HANDLE PAGE NOT FOUND
                 break;
         }
@@ -29,7 +35,7 @@ class UserController extends SuperController{
     }
 
     private function getLoginArr() {
-        if (isset($_POST['loginName']) && isset($_POST['loginPw'])) {            
+        if (isset($_POST['loginName']) && isset($_POST['loginPw'])) {
             $loginName = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'loginName'));
             $loginPw = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'loginPw'));
             $isHuman = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'input-filter'));
@@ -43,7 +49,7 @@ class UserController extends SuperController{
     }
 
     private function login($isJson) {
-        $userArr = $this->getLoginArr();        
+        $userArr = $this->getLoginArr();
         $loginFormData = $this->getValidator()->validateLoginForm($userArr, $this->getService());
         $this->getSessionController()->setSessionAttr('loginFormData', $loginFormData);
         if ($loginFormData['loginNameState']['errorClass'] === 'has-error' || $loginFormData['loginPwState']['errorClass'] === 'has-error') {
@@ -55,13 +61,31 @@ class UserController extends SuperController{
             return 'login.php';
         }
         try {
-            $user = $this->getService()->getByIdentifier($userArr['loginName'], 'user');            
+            $user = $this->getService()->getByIdentifier($userArr['loginName'], 'user');
         } catch (ServiceException $ex) {
 //            return $this->_errorController->goToErrorPage($ex);
             //FIXME handle error!            
-        }               
-        $this->getSessionController()->setSessionAttr('current_user', $user);        
+        }
+        $this->getSessionController()->setSessionAttr('current_user', $user);
+        $this->getSessionController()->updateUserActivity();
         $this->redirect('account');
+    }
+
+    private function logout($isJson) {
+        $this->getSessionController()->deleteSessionAttr('current_user');
+        $this->redirect('home');
+    }
+
+    public function getCurrentUser($isJson) {
+        $user = false;
+        if ($this->getSessionController()->isLoggedOn()) {
+            $user = $this->getSessionController()->getSessionAttr('current_user');
+        }
+        if(!$isJson) {
+            return $user;
+        } else {
+            
+        }
     }
 
 }

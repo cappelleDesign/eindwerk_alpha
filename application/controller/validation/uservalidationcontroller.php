@@ -219,6 +219,7 @@ class UserValidationController {
         try {
             $user = $sysAdmin->getByIdentifier($loginName, 'user');            
         } catch (ServiceException $ex) {
+            //FIXME if exception is severe handle differently
             $result['extraMessage'] = 'No user with this username/email and password found';
             $result['loginNameState']['errorClass'] = 'has-error';
             $result['loginPwState']['errorClass'] = 'has-error';

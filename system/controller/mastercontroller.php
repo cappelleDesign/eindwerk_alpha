@@ -20,7 +20,8 @@ class MasterController extends SuperController {
             $this->setSessionController(new SessionController());
             $this->_userController = new UserController($this->getSessionController(), $this->getService());
         } catch (Exception $ex) {
-            //TODO handle exception
+//            Globals::cleanDump($ex);
+            //FIXME handle error
         }
     }
 
@@ -53,17 +54,16 @@ class MasterController extends SuperController {
         if (isset($_GET['action'])) {
             $pure = $_GET['action'];
         }
-        $filtered = filter_var($pure, FILTER_SANITIZE_STRING);
-        $entit = htmlentities($filtered, ENT_QUOTES);
-        return $entit;
+        $clean = $this->getValidator()->sanitizeInput($pure, filter_input(INPUT_GET, 'action'));
+        return $clean;
     }
 
     private function containsMenuItem($action, $type) {
         return $this->getService()->containsMenuItem($action, $type);
     }
 
-    public function processRequest() {
-        $pageRoot = $this->getPagesRoot();
+    public function processRequest() {        
+        $this->getSessionController()->checkUserActivity();
         $nextPage = 'home.php';
         $action = 'home';
         $isJson = false;
@@ -87,6 +87,11 @@ class MasterController extends SuperController {
         }
         if (in_array($action, Globals::getHelperActions())) {
             $nextPage = $this->processHelperRequest($action, $isJson);
+        }    
+        $pageRoot = $this->getPagesRoot();
+        if($isJson){
+            $pageRoot = $this->getJsonRoot();
+            
         }        
         require_once $pageRoot . $nextPage;
     }
@@ -127,10 +132,7 @@ class MasterController extends SuperController {
     }
 
     public function getCurrentUser() {
-        if ($this->getSessionController()->isLoggedOn()) {
-            return $this->getSessionController()->getSessionAttr('current_user');
-        }
-        return FALSE;
+        return $this->_userController->getCurrentUser(false);
     }
 
     public function getSrcs() {
@@ -163,6 +165,10 @@ class MasterController extends SuperController {
 
     public function includeScripts() {
         $this->includeIncluder('scripts.php');
+    }
+    
+    public function includeLoginForm() {
+        $this->includeIncluder('login-form.php');
     }
 
 }

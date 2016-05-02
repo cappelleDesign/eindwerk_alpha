@@ -51,7 +51,10 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                                     <source srcset="<?php echo $hitmanSrcs['m-pri']; ?>" media="(max-width: 1040px)"> 
                                     <source srcset="<?php echo $hitmanSrcs['l']; ?>" media="(max-width: 1500px)"> 
                                     <img src="<?php echo $hitmanSrcs['xl']; ?>" alt="picture of hitman">
-                                </picture>            
+                                </picture>    
+                                <div class="slider-more">
+                                    <a href="#" class="btn btn-default">Read more</a>
+                                </div>
                                 <div class="slider-desc">
                                     <p>Hitman review</p>                                
                                     <div class="stars">
@@ -68,7 +71,10 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                                         '</div>' +
                                         '</div>' +
                                         '</div>' +
-                                        '<img class="jsImg" src="<?php echo $hitmanSrcs['xl']; ?>" alt="picture of hitman">';
+                                        '<img class="jsImg" src="<?php echo $hitmanSrcs['xl']; ?>" alt="picture of hitman">' +
+                                        '<div class="slider-more">' +
+                                        '<a href="#" class="btn btn-default">Read more</a>' +
+                                        '</div>';
                                 document.write($html);
                             </script>
 
@@ -80,6 +86,9 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                                     <source srcset="<?php echo $skySrcs['l']; ?>" media="(max-width: 1500px)">
                                     <img src="<?php echo $skySrcs['xl']; ?>" alt="picture of skyrim">
                                 </picture>
+                                <div class="slider-more">
+                                    <a href="#" class="btn btn-default">Read more</a>                                        
+                                </div>
                                 <div class="slider-desc">
                                     <p>The elder scrolls V: Skyrim<p>                                
                                     <div class="stars">
@@ -96,7 +105,10 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                                         '</div>' +
                                         '</div>' +
                                         '</div>' +
-                                        '<img class="jsImg" src="<?php echo $skySrcs['xl']; ?>" alt="picture of skyrim">';
+                                        '<img class="jsImg" src="<?php echo $skySrcs['xl']; ?>" alt="picture of skyrim">' +
+                                        '<div class="slider-more">' +
+                                        '<a href="#" class="btn btn-default">Read more</a>' +
+                                        '</div>';
                                 document.write($html);
                             </script>
 
@@ -108,6 +120,9 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                                     <source srcset="<?php echo $foSrcs['l']; ?>" media="(max-width: 1500px)">
                                     <img src="<?php echo $foSrcs['xl']; ?>" alt="picture of fallout 4">
                                 </picture>      
+                                <div class="slider-more">
+                                    <a href="#" class="btn btn-default">Read more</a>                                        
+                                </div>
                                 <div class="slider-desc">
                                     <p>Fallout 4<p>                                
                                     <div class="stars">
@@ -124,7 +139,10 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
                                         '</div>' +
                                         '</div>' +
                                         '</div>' +
-                                        '<img class="jsImg" src="<?php echo $foSrcs['xl']; ?>" alt="picture of fallout 4">';
+                                        '<img class="jsImg" src="<?php echo $foSrcs['xl']; ?>" alt="picture of fallout 4">' +
+                                        '<div class="slider-more">' +
+                                        '<a href="#" class="btn btn-default">Read more</a>' +
+                                        '</div>';
                                 document.write($html);
                             </script>                            
                         </div>
@@ -357,8 +375,8 @@ $newsfeedSrcs = $imgHelper->getNewsfeedSourceArray($newsfeedPics);
             <?php $this->includeFooter(); ?>
         </footer>
         <?php
-            $this->includeScripts();
+        $this->includeScripts();
         ?> 
-        <script src="<?php echo Globals::getRoot('view','app')?>/js/homepage-functions.js" type="text/javascript"></script>
+        <script src="<?php echo Globals::getRoot('view', 'app') ?>/js/homepage-functions.js" type="text/javascript"></script>
     </body>
 </html>

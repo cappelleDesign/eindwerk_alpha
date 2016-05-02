@@ -8,6 +8,7 @@
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class Globals {
+
     const APP_PATH = 'application/';
     const SYS_PATH = 'system/';
     const COMMENT_DIAMOND_KARMA = 50;
@@ -33,7 +34,7 @@ class Globals {
         }
         return $date;
     }
-
+//27 25
     static function randomString($length) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randstring = '';
@@ -42,7 +43,6 @@ class Globals {
         }
         return $randstring;
     }
-
     static function getTableName($instanceName) {
         $tableName = '';
         switch ($instanceName) {
@@ -102,16 +102,26 @@ class Globals {
             case 'review_vote':
                 $tableName = 'review_votes';
                 break;
+            case 'review_comment' :
+                $tableName = 'reviews_has_comments';
+                break;
             case 'user':
                 $tableName = 'users';
                 break;
             case 'userRole':
                 $tableName = 'user_roles';
                 break;
+            case 'video' :
+                $tableName = 'video';
+                break;
+            case 'video_comment' :
+                $tableName = 'video_has_comments';
+                break;
+                
             default :
                 throw new Exception('Could not find table for ' . $instanceName, NULL);
         }
-        return 'neoludus.' . $tableName;
+        return 'soufitq169_neoludus.' . $tableName;
     }
 
     static function getIdColumnName($instance) {
@@ -168,10 +178,10 @@ class Globals {
         echo '</pre>';
     }
 
-    static function getRoot($type, $superType = '', $server= false) {
+    static function getRoot($type, $superType = '', $server = false) {
         $root = '';
-        $superRoot ='';
-        if(!empty($superType)) {
+        $superRoot = '';
+        if (!empty($superType)) {
             $superRoot = Globals::getRoot($superType);
         }
         switch ($type) {
@@ -185,7 +195,7 @@ class Globals {
                 }
                 return $root . $superRoot . 'view';
             case 'sysView' :
-                
+
             default : throw new ServiceException($type . ' root not found');
         }
     }
@@ -193,6 +203,9 @@ class Globals {
     static function getUserActions() {
         $userActions = [
             'loginPage',
+            'login',
+            'logout',
+            'register',
             'registerPage',
             'accountPage',
             'addUser',
@@ -203,14 +216,11 @@ class Globals {
             'getUsers',
             'updateUser', //update methods,
             'addToUser',
-            'removeFromUser',            
-            'login',
-            'logout',
-            'register'
+            'removeFromUser'
         ];
         return $userActions;
     }
-    
+
     static function getHelperActions() {
         $helperActions = [
             'getCarouselSrcs',

@@ -4,7 +4,7 @@
  * Dao
  * This is an interface that is a super class for classes that have crud abilities
  * @package dao
- * @subpackage dao.general
+ * @subpackage dao
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 

@@ -60,6 +60,10 @@ abstract class SuperController {
         return Globals::getRoot('view', 'app') . '/pages/';
     }
 
+    public function getJsonRoot() {
+        return Globals::getRoot('view', 'app') . '/data/';
+    }
+    
     public function setService(MasterService $service) {
         $this->_service = $service;
     }

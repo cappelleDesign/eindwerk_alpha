@@ -23,9 +23,15 @@ class SessionController {
 
     public function checkUserActivity() {
         $this->startSession();
-        session_write_close();
-        return isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800);
-        // request 30 minates ago
+        if ($this->isLoggedOn()) {
+            if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+                // request 30 minates ago
+                $this->deleteSessionAttr('current_user');
+            } else {
+                $this->updateUserActivity();
+            }
+        }
+//        session_write_close();
     }
 
     public function updateUserActivity() {
@@ -60,6 +66,11 @@ class SessionController {
         $this->startSession();
         unset($_SESSION[$key]);
         session_write_close();
+    }
+
+    public function destroySession() {
+        $this->startSession();
+        session_destroy();
     }
 
 }

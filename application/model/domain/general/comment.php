@@ -3,7 +3,7 @@
 /**
  * Comment
  * @package model
- * @subpackage domain.review
+ * @subpackage domain.general
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class Comment implements DaoObject {
@@ -29,10 +29,10 @@ class Comment implements DaoObject {
     private $_poster;
 
     /**
-     * The id of the Review this comment belongs to
+     * The notification id whten this comment is commented on.
      * @var int 
      */
-    private $_reviewId;
+//    private $_notifId;
 
     /**
      * The body of the comment
@@ -52,11 +52,11 @@ class Comment implements DaoObject {
      */
     private $_voters;
 
-    public function __construct($parentId, UserSimple $poster, $reviewId, $body, $created, $voters, $dateFormat) {
+    public function __construct($parentId, UserSimple $poster, $body, $created, $voters, $dateFormat) {
         $this->init();
         $this->setParentId($parentId);
-        $this->setPoster($poster);
-        $this->setReviewId($reviewId);
+        $this->setPoster($poster);        
+//        $this->setNotifId($notifId);
         $this->setBody($body);
         $this->setCreated($created, $dateFormat);        
         $this->setVoters($voters);
@@ -80,10 +80,10 @@ class Comment implements DaoObject {
         $this->_poster = $poster;
     }
 
-    public function setReviewId($reviewId) {
-        $this->_reviewId = $reviewId;
-    }
-
+//    public function setNotifId($notifId) {
+//        $this->_notifId = $notifId;
+//    }
+    
     public function setBody($body) {
         $this->_body = $body;
     }
@@ -111,10 +111,10 @@ class Comment implements DaoObject {
         return $this->_poster;
     }
 
-    public function getReviewId() {
-        return $this->_reviewId;
-    }
-
+//    public function getNotifId() {
+//        return $this->_notifId;
+//    }
+    
     public function getBody() {
         return $this->_body;
     }

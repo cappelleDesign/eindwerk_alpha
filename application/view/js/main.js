@@ -98,7 +98,7 @@ function setListeners() {
                 triggerMobileSubmenu(false);
             }
         }
-    }, 'a.slicknav_btn');    
+    }, 'a.slicknav_btn');
     $('.mobile-menu-addon a').on({
         touchstart: function (e) {
             e.preventDefault();
@@ -109,7 +109,6 @@ function setListeners() {
             });
             triggerMobileMenuAddon(this);
         },
-        
     });
     $('.mobile-menu-addon').on({
         focusout: function () {
@@ -264,10 +263,15 @@ function triggerMobileProfile() {
     //TODO if user logged in -> logout button
     $('#mobile-addon-content').removeClass();
     $('#mobile-addon-content').addClass('profile');
-    $logout = '';
-    $login = '<a href=""><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
-    $register = '<a href=""><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
-    $html = $login + $register;
+    $loggedOn = $('#account-panel').data('logged-on');
+    $logout = '<a class="solo" href="index.php?action=logout&json=true"><i class="fa fa-sign-out fa-fw"></i><p>Sign out</p></a>';
+    $login = '<a href="index.php?action=loginPage&json=true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
+    $register = '<a href="index.php?action=register&json=true"><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
+    if ($loggedOn === false) {
+        $html = $login + $register;
+    } else {
+        $html = $logout;
+    }
     $('#mobile-addon-content').html($html);
 }
 function triggerMobileSearch() {

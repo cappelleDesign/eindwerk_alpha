@@ -3,7 +3,7 @@
  * DaoFactory
  * This is a class that functions as a factory class to get database subclasses
  * @package dao
- * @subpackage dao.general
+ * @subpackage dao
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class DaoFactory {

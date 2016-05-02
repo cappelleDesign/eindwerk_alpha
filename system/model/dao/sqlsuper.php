@@ -5,14 +5,14 @@
  * This a is class that is a super class for all sql subclasses.
  * It has functions that are sql related and can/will be used by sql classes
  * @package dao
- * @subpackage dao.general
+ * @subpackage dao
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class SqlSuper {
 
     /**
      * The creation helper (factory)
-     * @var UserCreationHelper
+     * @var CreationHelper
      */
     private $_creationHelper;
 
@@ -28,7 +28,7 @@ class SqlSuper {
         try {
             $this->_connection = new PDO($dsn, $username, $passwd);
             $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->_creationHelper = new UserCreationHelper();
+            $this->_creationHelper = new CreationHelper();
         } catch (PDOException $ex) {
             throw new DBException($ex->getMessage(), $ex);
         }
@@ -63,7 +63,7 @@ class SqlSuper {
     /**
      * getCreationHelper
      * returns the creationHelper 
-     * @return UserCreationHelper
+     * @return CreationHelper
      */
     protected function getCreationHelper() {
         return $this->_creationHelper;

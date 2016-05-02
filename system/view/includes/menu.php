@@ -55,7 +55,7 @@ $accountHtml = '<a href="#" class="">' .
         </div>
     </form>
     <div id="menuAddon" class="no-js-push">
-        <div id="account-panel" tabindex="3">
+        <div id="account-panel" tabindex="3" data-logged-on="<?php echo $user ? 'true' : 'false'?>">
             <?php echo $accountHtml; ?>
         </div>
         <div class="social-menu">

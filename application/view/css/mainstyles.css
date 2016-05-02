@@ -435,6 +435,36 @@ main {
     float: right;    
     padding-bottom: 0;
 }
+.slider-more {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 999999999;    
+}
+.slider-more a.btn.btn-default {
+    font-weight: bold;    
+    width: 20%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    background-color: #ef4123;
+    border-color: #ef4123;
+    color: #fff;
+    transition: 600ms;        
+}
+.slider-more a.btn.btn-default:hover {
+    background-color: #fff;
+    color: #ef4123;
+    border-color: #fff;
+    transition: 600ms;
+}
+.slider-more a.btn.btn-default:focus {
+    outline: none;
+}
+.slider-more a.btn.btn-default:after {
+    content: '>>';
+    margin-left: 5px;
+}
 .stars input {
     font-size: 18px !important;
     line-height: 19px !important;
@@ -914,6 +944,9 @@ footer {
         float: left;
         width: 50%;
     }
+    #mobile-addon-content.profile a.solo{
+        width: 100%;
+    }
     #search-form.mobile-search-form > .form-group {
         width: 100%;
         height: 20px;
@@ -1079,6 +1112,9 @@ footer {
     .newsfeed-desc {
         width: 98%;
         margin-left: 2%;
+    }
+    .slider-more a.btn.btn-default {   
+        width: 50%;
     }
 }
 @media all and (max-width: 310px) {
