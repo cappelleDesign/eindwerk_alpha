@@ -32,14 +32,14 @@ function setListeners() {
             $(this).prev().val();
         }
     });
-    $('.fa-icon').on({
-        mouseenter: function () {
-            $('i', this).addClass('fa-flip-horizontal');
-        },
-        mouseleave: function () {
-            $('i', this).removeClass('fa-flip-horizontal');
-        }
-    });
+//    $('.fa-icon').on({
+//        mouseenter: function () {
+//            $('i', this).addClass('fa-flip-horizontal');
+//        },
+//        mouseleave: function () {
+//            $('i', this).removeClass('fa-flip-horizontal');
+//        }
+//    });
     $('#account-panel > a:first-child').on({
         touchstart: function (e) {
             e.preventDefault();
@@ -264,9 +264,9 @@ function triggerMobileProfile() {
     $('#mobile-addon-content').removeClass();
     $('#mobile-addon-content').addClass('profile');
     $loggedOn = $('#account-panel').data('logged-on');
-    $logout = '<a class="solo" href="index.php?action=logout&json=true"><i class="fa fa-sign-out fa-fw"></i><p>Sign out</p></a>';
-    $login = '<a href="index.php?action=loginPage&json=true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
-    $register = '<a href="index.php?action=register&json=true"><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
+    $logout = '<a class="solo" href="index.php/account/logout/true"><i class="fa fa-sign-out fa-fw"></i><p>Sign out</p></a>';
+    $login = '<a href="index.php/account/loginPage/true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
+    $register = '<a href="index.php/account/register/true"><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
     if ($loggedOn === false) {
         $html = $login + $register;
     } else {

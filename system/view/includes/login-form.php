@@ -1,4 +1,4 @@
-<form id="loginForm" method="POST" action="index.php?action=login" autocomplete="off" class="">
+<form id="loginForm" method="POST" action="index.php/account/login" autocomplete="off" class="">
     <fieldset>
         <?php
         if (isset($loginFormData) && !empty($loginFormData)) {
@@ -66,13 +66,13 @@
         </div>
         <div class="pull-left login-links">
             <!--//TODO ajax-->
-            <a href="index.php?action=registerForm">Register</a>
+            <a href="index.php/account/registerForm">Register</a>
             <i>/</i>                                                        
-            <a href="index.php?action=forgotPassForm">Forgot password</a>
+            <a href="index.php/account/forgotPassForm">Forgot password</a>
         </div>
         <div class="pull-right login-buttons">              
 
-            <a href="index.php?action=home" class="btn btn-outline btn-danger">Cancel</a>
+            <a href="index.php/home" class="btn btn-outline btn-danger">Cancel</a>
             <button type="submit" class="btn btn-outline btn-success" id="submitButton">Login</button>
         </div>
     </fieldset>

@@ -2,11 +2,14 @@
 
 class MasterController extends SuperController {
 
-    /**
-     * The controller in charge of user functionality
-     * @var type 
-     */
-    private $_userController;
+    const DEFAULT_CONTROLLER = 'Home';
+    const DEFAULT_ACTION = 'index';
+    const CONTROLLER_PATH = 'application/controller/page-controllers/';
+    const CONTROLLER_FILE = 'index.php';
+
+    private $_controller;
+    private $_action;
+    private $_params;
 
     public function __construct() {
         parent::__construct();
@@ -15,13 +18,55 @@ class MasterController extends SuperController {
 
     private function init() {
         try {
-            $configs = $this->getConfigs();
-            $this->setService(new MasterService($configs));
-            $this->setSessionController(new SessionController());
-            $this->_userController = new UserController($this->getSessionController(), $this->getService());
+            $this->parseUri();
         } catch (Exception $ex) {
-//            Globals::cleanDump($ex);
+            Globals::cleanDump('error: ' . $ex);
+            die();
             //FIXME handle error
+        }
+    }
+
+    private function parseUri() {
+        $scriptprefix = str_replace(self::CONTROLLER_FILE, '', $_SERVER['SCRIPT_NAME']);
+        $uri = str_replace(self::CONTROLLER_FILE, '', $_SERVER['REQUEST_URI']);
+        $path = substr($uri, strlen($scriptprefix));
+        $path = preg_replace('/[^a-zA-Z0-9]\//', "", $path);
+        $path = trim($path, '/');
+
+        @list($controller, $action, $params) = explode("/", $path, 3);
+        if (isset($controller)) {
+            $this->setController($controller);
+        }
+        $this->setAction($action);
+        $this->setParams(explode("/", $params));
+    }
+
+    private function setController($controller) {
+        $controller = ($controller) ? $controller : self::DEFAULT_CONTROLLER;
+        $controllerfile = self::CONTROLLER_PATH . strtolower($controller) . 'controller' . '.php';
+        // check if controller file exists
+        if (!file_exists($controllerfile)) {
+            die("Controller '$controller' could not be found.");
+        } else {
+            require_once($controllerfile);
+            $this->_controller = $controller . 'Controller';
+        }
+        return $this;
+    }
+
+    function setAction($action) {
+        if ($action) {
+            $this->_action = $action;
+        } else {
+            $this->_action = self::DEFAULT_ACTION;
+        }
+    }
+
+    function setParams($params) {
+        if (isset($params)) {
+            $this->_params = $params;
+        } else {
+            $this->_params = [];
         }
     }
 
@@ -39,136 +84,17 @@ class MasterController extends SuperController {
         return $configs[$section];
     }
 
-    /**
-     * getMenu
-     * Returns the menu for this type to help build the menu
-     * @param string $type
-     * @return MenuItem[]
-     */
-    public function getMenu($type) {
-        return $this->getService()->getMenu($type);
-    }
-
-    private function getAction() {
-        $pure = '';
-        if (isset($_GET['action'])) {
-            $pure = $_GET['action'];
+    public function processRequest() {
+        $reflector = new ReflectionClass($this->_controller);
+        $method = $reflector->getMethod($this->_action);
+        $parameters = $method->getNumberOfRequiredParameters();
+        if (($parameters) > count($this->_params)) {
+            die("Action '$this->_action' in class '$this->_controller' expects $parameters mandatory
+parameter(s), you only provided " . count($this->_params) . ".");
+            //TODO handle error in proper way
         }
-        $clean = $this->getValidator()->sanitizeInput($pure, filter_input(INPUT_GET, 'action'));
-        return $clean;
-    }
-
-    private function containsMenuItem($action, $type) {
-        return $this->getService()->containsMenuItem($action, $type);
-    }
-
-    public function processRequest() {        
-        $this->getSessionController()->checkUserActivity();
-        $nextPage = 'home.php';
-        $action = 'home';
-        $isJson = false;
-        if (isset($_POST['isJson']) && !empty($_POST['isJson'])) {
-            $isJson = $this->getValidator()->sanitizeInput(filter_input(INPUT_GET, 'isJson'));
-        }
-        if ($this->getAction()) {
-            $action = $this->getAction();
-        }
-        if ($this->containsMenuItem($action, 'main')) {
-            $nextPage = $this->processMainMenuRequest($action);
-        }
-        if ($this->containsMenuItem($action, 'profile')) {
-            $this->processProfileMenuRequest($action);
-        }
-        if ($this->containsMenuItem($action, 'admin')) {
-            $this->processAdminMenuRequest($action);
-        }
-        if (in_array($action, Globals::getUserActions())) {
-            $nextPage = $this->processUserRequest($action, $isJson);
-        }
-        if (in_array($action, Globals::getHelperActions())) {
-            $nextPage = $this->processHelperRequest($action, $isJson);
-        }    
-        $pageRoot = $this->getPagesRoot();
-        if($isJson){
-            $pageRoot = $this->getJsonRoot();
-            
-        }        
-        require_once $pageRoot . $nextPage;
-    }
-
-    private function processMainMenuRequest($action) {        
-        switch ($action) {
-            case 'home' :
-                break;
-            default :
-                $action = 'home'; //FIXME TMP
-        }
-        $page = $this->getService()->containsMenuItem($action, 'main')->getPageName();
-        return $page;
-    }
-
-    private function processProfileMenuRequest($action) {
-//        echo '<script>console.log("profile request")</script>';
-    }
-
-    private function processAdminMenuRequest($action) {
-//        echo '<script>console.log("menu request")</script>';
-    }
-
-    private function processUserRequest($action, $isJson) {
-        return $this->_userController->processUserRequest($action, $isJson);
-    }
-
-    private function processHelperRequest($action, $isJson) {
-        switch ($action) {
-            case 'getCarouselSrcs':
-                return $this->getSrcs();
-            case 'getNewsfeedSrcs' :
-                return;
-            default :
-                //TODO ERROR LOG 
-                return;
-        }
-    }
-
-    public function getCurrentUser() {
-        return $this->_userController->getCurrentUser(false);
-    }
-
-    public function getSrcs() {
-//        $name = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'name'));
-//        $path = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'imagesPath'));
-//        $img = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'imageUrl'));
-//        $type = $this->_validator->sanitizeInput(filter_input(INPUT_POST, 'type'));
-//        $carouselSrcs = $this->_service->getImgSrcs($type, $name, $path, $img);
-//        $_POST['jsonData'] = $carouselSrcs;
-//        return 'data/json-data.php';
-    }
-
-    public function includeIncluder($fileName) {
-        $root = Globals::getRoot('view', 'sys') . '/includes/';
-        include $root . $fileName;
-    }
-
-    public function includeHeader() {
-        $this->includeIncluder('header.php');
-    }
-
-    public function includeMenu($page) {
-        $_GET['page'] = $page;
-        $this->includeIncluder('menu.php');
-    }
-
-    public function includeFooter() {
-        $this->includeIncluder('footer.php');
-    }
-
-    public function includeScripts() {
-        $this->includeIncluder('scripts.php');
-    }
-    
-    public function includeLoginForm() {
-        $this->includeIncluder('login-form.php');
+        $controller = new $this->_controller();
+        call_user_func_array(array($controller, $this->_action), $this->_params);
     }
 
 }

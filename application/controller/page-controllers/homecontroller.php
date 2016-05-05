@@ -1,5 +1,8 @@
 <?php
 
-class HomeController {
-    //put your code here
+class HomeController extends SuperController{
+    
+    public function index() {
+         $this->direct('home.php');
+    }
 }

@@ -1,19 +1,19 @@
 <?php
 $viewRoot = Globals::getRoot('view', 'app');
-$user = $this->getCurrentUser();
+$user = $this->getCurrentUser(FALSE);
 $userN = 'No profile';
 if($user){
     $userN = $user->getUsername();
 }
-$iconsNotLoggedIn = '<a href="index.php?action=loginPage" class="">' .
+$iconsNotLoggedIn = '<a href="index.php/account/loginpage" class="">' .
         '<i class="fa fa-sign-in fa-fw"></i>' .
         'Log In' .
         '</a>' .
-        '<a href="#register" class="">' .
+        '<a href="index.php/account/registerpage" class="">' .
         '<i class="fa fa-pencil-square-o fa-fw"></i>' .
         'Register' .
         '</a>';
-$iconsLoggedIn = '<a href="index.php?action=logout" class="">' .
+$iconsLoggedIn = '<a href="index.php/account/logout" class="">' .
         '<i class="fa fa-sign-out fa-fw"></i>' .
         'Sign out' .
         '</a>';
@@ -46,7 +46,7 @@ $accountHtml = '<a href="#" class="">' .
     <form id="search-form" class="search-form-main" method="POST" action="#">
         <div class="form-group">
             <input type="text" placeholder="search games.." tabindex="1">
-            <a class="script-only" id="main-search" href="#" tabindex="2">
+                <a class="script-only" id="main-search" href="#" tabindex="2">
                 <i class="fa fa-search"></i>
             </a>
             <button class="noScript" type="submit">
@@ -62,43 +62,43 @@ $accountHtml = '<a href="#" class="">' .
             <ul>
                 <li>
                     <a class="fa-icon" href="#">
-                        <span class="fa-stack ">                           
-                            <i class="fa fa-envelope" title="Mail us" aria-hidden="true"></i>                            
+                        <span class=" faa-parent animated-hover fa-stack ">                           
+                            <i class="fa fa-envelope faa-wrench faa-slow" title="Mail us" aria-hidden="true"></i>                            
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="fa-icon" href="https://www.facebook.com/Neoludus">
+                        <span class="faa-parent animated-hover fa-stack fa-stack">                            
+                            <i class="fa fa-facebook faa-wrench faa-slow" title="Visit our Facebook page" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>
                 <li>
                     <a class="fa-icon" href="#">
-                        <span class="fa-stack">                            
-                            <i class="fa fa-facebook" title="Visit our Facebook page" aria-hidden="true"></i>
+                        <span class="fa-stack faa-parent animated-hover fa-stack">
+                            <i class="fa fa-youtube faa-wrench faa-slow" title="Visit our Youtube channel" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>
                 <li>
                     <a class="fa-icon" href="#">
-                        <span class="fa-stack">
-                            <i class="fa fa-youtube" title="Visit our Youtube channel" aria-hidden="true"></i>
+                        <span class="fa-stack faa-parent animated-hover fa-stack">
+                            <i class="fa fa-twitch faa-wrench faa-slow" title="Visit our Twitch channel" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a class="fa-icon" href="https://twitter.com/Neoludus">
+                        <span class="fa-stack faa-parent animated-hover fa-stack">
+                            <i class="fa fa-twitter faa-wrench faa-slow" title="Visit our Twitter page" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>
                 <li>
                     <a class="fa-icon" href="#">
-                        <span class="fa-stack">
-                            <i class="fa fa-twitch" title="Visit our Twitch channel" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="fa-icon" href="#">
-                        <span class="fa-stack">
-                            <i class="fa fa-twitter" title="Visit our Twitter page" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a class="fa-icon" href="#">
-                        <span class="fa-stack">
-                            <i class="fa fa-paypal" title="Make a donation" aria-hidden="true"></i>
+                        <span class="fa-stack faa-parent animated-hover fa-stack">
+                            <i class="fa fa-paypal faa-wrench faa-slow" title="Make a donation" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>

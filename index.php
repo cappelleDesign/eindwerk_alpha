@@ -1,9 +1,10 @@
 <?php
+define('APPLICATION_PATH', 'application/');
+define('SYSTEM_PATH', 'system/');
 ini_set('display_errors', E_ALL);
-require_once 'system/model/globals.php';
 spl_autoload_register(function ($class_name) {
-    $sys = Globals::getRoot('sys');
-    $app = Globals::getRoot('app');
+    $sys = SYSTEM_PATH;
+    $app = APPLICATION_PATH;
     $dirs = array(
         'model/',
         'model/errorhandling/',
@@ -42,6 +43,7 @@ spl_autoload_register(function ($class_name) {
 //        ErrorLogger::logError(new ControllerException('could not initiate website', NULL));
     }
 });
+
 try {
     $controller = new MasterController();
     $controller->processRequest();

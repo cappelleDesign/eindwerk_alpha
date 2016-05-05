@@ -31,13 +31,35 @@ abstract class SuperController {
     }
 
     private function superInit() {
+        $configs = $this->getConfigs();
+        $this->_service = new MasterService($configs);
+        $this->_sessionController = new SessionController();
         $this->_validator = new formvalidationController();
         $this->_errorController = new ErrorController();
     }
 
-    public function redirect($action) {
-        header('Location: index.php?action=' . $action);
-        exit();
+    /**
+     * getConfigs
+     * Helper function to get correct database configuration
+     * @return array
+     */
+    private function getConfigs() {
+        $section = 'database_versio';
+        if (strpos(dirname(__FILE__), 'xampp')) {
+            $section = 'database_local';
+        }
+        $configs = parse_ini_file(dirname(__FILE__) . '/../model/config.ini', true);
+        return $configs[$section];
+    }
+
+    /**
+     * getMenu
+     * Returns the menu for this type to help build the menu
+     * @param string $type
+     * @return MenuItem[]
+     */
+    public function getMenu($type) {
+        return $this->getService()->getMenu($type);
     }
 
     public function getService() {
@@ -63,7 +85,19 @@ abstract class SuperController {
     public function getJsonRoot() {
         return Globals::getRoot('view', 'app') . '/data/';
     }
-    
+
+    public function getCurrentUser($isJson) {
+        $user = false;
+        if ($this->getSessionController()->isLoggedOn()) {
+            $user = $this->getSessionController()->getSessionAttr('current_user');
+        }
+        if (!$isJson) {
+            return $user;
+        } else {
+            
+        }
+    }
+
     public function setService(MasterService $service) {
         $this->_service = $service;
     }
@@ -80,6 +114,40 @@ abstract class SuperController {
         $this->_validator = $validator;
     }
 
+    public function includeIncluder($fileName) {
+        $root = Globals::getRoot('view', 'sys') . '/includes/';
+        include $root . $fileName;
+    }
 
-    
+    public function includeHeader() {
+        $this->includeIncluder('header.php');
+    }
+
+    public function includeMenu($page) {
+        $_GET['page'] = $page;
+        $this->includeIncluder('menu.php');
+    }
+
+    public function includeFooter() {
+        $this->includeIncluder('footer.php');
+    }
+
+    public function includeScripts() {
+        $this->includeIncluder('scripts.php');
+    }
+
+    public function includeLoginForm() {
+        $this->includeIncluder('login-form.php');
+    }
+
+    public function redirect($action) {
+        //fixme depends on server
+        header('Location: http://localhost/neoludus_alpha/' . 'index.php/' . $action);
+        exit();
+    }
+
+    public function direct($page) {
+        require $this->getPagesRoot() . $page;
+    }
+
 }

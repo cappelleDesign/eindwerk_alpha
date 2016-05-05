@@ -21,7 +21,7 @@
             ?>          
             <div class="fix"></div> 
             <main>
-                <div class="container login-container">
+                <div class="container-fluid login-container">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-6 col-xs-12">
 

@@ -1,6 +1,0 @@
-#RewriteEngine On // activate the rewrite engine
-#RewriteCond %{REQUEST_FILENAME} -s [OR] // if (requested filename is a file with a size > 0
-#RewriteCond %{REQUEST_FILENAME} -l [OR] // or requested filename is a symbolic link
-#RewriteCond %{REQUEST_FILENAME} -d // or requested filename is a directory)
-#RewriteRule ^.*$ - [NC,L] // then show the requested filename
-#RewriteRule ^.*$ index.php [NC,L] // else redirect to index.php page

@@ -212,15 +212,19 @@ class MasterService {
     }
 
     public function getByIdentifier($identifier, $type) {
-        switch ($type) {
-            case 'user':
-                return $this->getUserService()->getUserByStringId($identifier);
-            case 'userRole' :
-                return $this->getUserService()->getUserRole($identifier);
-            case 'achievement' :
-                return $this->getUserService()->getAchievement($identifier);
-            default :
-                $this->typeNotRecognized($type);
+        try {
+            switch ($type) {
+                case 'user':
+                    return $this->getUserService()->getUserByStringId($identifier);
+                case 'userRole' :
+                    return $this->getUserService()->getUserRole($identifier);
+                case 'achievement' :
+                    return $this->getUserService()->getAchievement($identifier);
+                default :
+                    $this->typeNotRecognized($type);
+            }
+        } catch (Exception $ex) {
+            throw new ServiceException($ex);
         }
     }
 

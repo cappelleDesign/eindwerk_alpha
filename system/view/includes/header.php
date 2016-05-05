@@ -1,6 +1,7 @@
 <?php
 $viewRoot = Globals::getRoot('view', 'app');
 ?>
+<base href="//localhost/neoludus_alpha/"/>
 <meta charset="UTF-8">
 <meta name="fragment" content="!">
 <meta name="description" content="website description here">
@@ -42,8 +43,10 @@ $viewRoot = Globals::getRoot('view', 'app');
 <!--SLICK NAV-->
 <link href="<?php echo $viewRoot ?>/js/plugins/slicknav/slicknav.min.css" rel="stylesheet" type="text/css"/>
 
-<!--MAIN MARKUP-->
+<!--FONT AWESOME-->
 <link href="<?php echo $viewRoot ?>/fonts/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> <!-- use CDN when life -->
+<link href="<?php echo $viewRoot ?>/fonts/font-awesome-4.5.0/css/font-awesome-animations.css" rel="stylesheet" type="text/css"/>
+<!--MAIN MARKUP-->
 <link href="<?php echo $viewRoot ?>/css/mainstyles.css" rel="stylesheet">
 <script>document.write('<link href="<?php echo $viewRoot ?>/css/noscript-style-remover.css" rel="stylesheet">');</script>
 <!--[if lt IE 9]>
