@@ -85,7 +85,7 @@ class CreationHelper{
             throw new DBException('could not create last comment', NULL);
         }
         try {
-        $comment = new Comment($row['parent_id'], $poster, $row['review_id'], $row['type'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
+        $comment = new Comment($row['parent_id'], $poster, $row['comment_txt'],$row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
         $comment->setId($row['comment_id']);
         return $comment;
         } catch (Exception $ex) {

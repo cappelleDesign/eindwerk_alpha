@@ -12,7 +12,6 @@ class UserValidationController {
     private $_req = 'is required field.';
 
     public function __construct() {
-        
     }
 
     /**
@@ -217,12 +216,20 @@ class UserValidationController {
      */
     private function validateLoginValid($loginName, $loginPw, &$result, $sysAdmin) {
         try {
-            $user = $sysAdmin->getByIdentifier($loginName, 'user');            
+            $valid = true;
+            $user = $sysAdmin->getByIdentifier($loginName, 'user');
+            if ($user->authenticate($loginPw) === -1) {                
+                $valid = false;
+            }
         } catch (ServiceException $ex) {
             //FIXME if exception is severe handle differently
-            $result['extraMessage'] = 'No user with this username/email and password found';
-            $result['loginNameState']['errorClass'] = 'has-error';
-            $result['loginPwState']['errorClass'] = 'has-error';
+            $valid = false;
+        } finally {
+            if (!$valid) {
+                $result['extraMessage'] = 'No user with this username/email and password found';
+                $result['loginNameState']['errorClass'] = 'has-error';
+                $result['loginPwState']['errorClass'] = 'has-error';
+            }
         }
     }
 

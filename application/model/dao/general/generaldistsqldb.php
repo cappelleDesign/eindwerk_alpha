@@ -2,8 +2,8 @@
 
 class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
 
-    public function __construct($host, $username, $passwd, $database) {
-        parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
+    public function __construct($connection) {
+        parent::__construct($connection);
     }
 
     /**

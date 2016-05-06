@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DaoFactory
  * This is a class that functions as a factory class to get database subclasses
@@ -7,6 +8,8 @@
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class DaoFactory {
+
+    private $_connection;
 
     public function __construct() {
         
@@ -33,9 +36,10 @@ class DaoFactory {
         $this->checkConfigs('users', $configs);
         $dbType = $configs['type.users'];
         $userDB = NULL;
-        switch ($dbType) {          
+        switch ($dbType) {
             case 'mysql' :
-                $userDB = new UserSqlDB($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $userDB = new UserSqlDB($this->_connection);
                 break;
             default :
                 throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);
@@ -57,6 +61,14 @@ class DaoFactory {
         }
         if (!array_key_exists('type.' . $type, $configs)) {
             throw new DBException('No config found for ' . $type . ' database type', NULL);
+        }        
+    }
+
+    private function createMysqlConnection($host, $username, $passwd, $database) {
+        if (!$this->_connection) {
+            $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
+            $this->_connection = new PDO($dsn, $username, $passwd);
+            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);                
         }
     }
 

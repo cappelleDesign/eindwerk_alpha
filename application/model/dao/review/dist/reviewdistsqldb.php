@@ -8,8 +8,8 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      */
     private $_generalDistDao;
 
-    public function __construct($host, $username, $passwd, $database, $generalDistDao) {
-        parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
+    public function __construct($connection, $generalDistDao) {
+        parent::__construct($connection);
         $this->init($generalDistDao);
     }
 

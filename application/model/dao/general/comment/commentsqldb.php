@@ -2,8 +2,8 @@
 
 class CommentSqlDB extends SqlSuper implements CommentDao {
 
-    public function __construct($host, $username, $passwd, $database) {
-        parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
+    public function __construct($connection) {
+        parent::__construct($connection);
         $this->init();
     }
 

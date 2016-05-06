@@ -129,7 +129,7 @@ function getLinkHtml($menuItem, $page, $subMenuCount) {
     $subMenu = $menuItem->getSubMenu();
     $subMenuClass = $subMenu ? $subMenuCount : '0';
     $html = '<li class="' . $active . ' submenu-trigger" data-submenu-trigger="' . $subMenuClass . '">';
-    $html .= '<a href="index.php?action=' . $menuItem->getAction() . '">' . $menuItem->getDescription() . '</a>';
+    $html .= '<a href="index.php/' . $menuItem->getAction() . '">' . $menuItem->getDescription() . '</a>';
     if ($subMenu) {
         $html.= '<ul class="menu submenu submenu-' . $subMenuCount . '">';
         $subMenuCount++;

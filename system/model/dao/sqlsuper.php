@@ -22,12 +22,10 @@ class SqlSuper {
      */
     private $_connection;
 
-    public function __construct($host, $username, $passwd, $database) {
-        //have to make sure database exists on sql server or find way to set db on the fly
-        $dsn = $host . ';dbname=' . $database;
+    public function __construct($connection) {
+        //have to make sure database exists on sql server or find way to set db on the fly        
         try {
-            $this->_connection = new PDO($dsn, $username, $passwd);
-            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->_connection = $connection;            
             $this->_creationHelper = new CreationHelper();
         } catch (PDOException $ex) {
             throw new DBException($ex->getMessage(), $ex);

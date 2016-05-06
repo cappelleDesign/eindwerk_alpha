@@ -1,3 +1,13 @@
+<?php
+$isReturn = isset($_POST['loginReturn']);
+$loginFormData = '';
+if ($isReturn) {
+    $loginFormData = $this->getSessionController()->getSessionAttr('loginFormData');
+} else {
+    $this->getSessionController()->deleteSessionAttr('loginFormData');
+}
+?>
+
 <form id="loginForm" method="POST" action="index.php/account/login" autocomplete="off" class="">
     <fieldset>
         <?php

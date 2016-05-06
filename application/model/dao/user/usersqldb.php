@@ -27,15 +27,15 @@ class UserSqlDB extends SqlSuper implements UserDao {
      */
     private $_generalDistDB;
 
-    public function __construct($host, $username, $passwd, $database) {
-        parent::__construct('mysql:host=' . $host, $username, $passwd, $database);
-        $this->init($host, $username, $passwd, $database);
+    public function __construct($connection) {
+        parent::__construct($connection);
+        $this->init($connection);
     }
 
-    private function init($host, $username, $passwd, $database) {
-        $this->_generalDistDB = new GeneralDistSqlDB($host, $username, $passwd, $database);
-        $this->_userDistDB = new UserDistSqlDB($host, $username, $passwd, $database, $this->_generalDistDB);
-        $this->_notificationDB = new NotificationSqlDB($host, $username, $passwd, $database);
+    private function init($connection) {
+        $this->_generalDistDB = new GeneralDistSqlDB($connection);
+        $this->_userDistDB = new UserDistSqlDB($connection, $this->_generalDistDB);
+        $this->_notificationDB = new NotificationSqlDB($connection);
     }
 
     /**

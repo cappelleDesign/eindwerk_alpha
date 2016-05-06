@@ -48,7 +48,7 @@ try {
     $controller = new MasterController();
     $controller->processRequest();
 } catch (Exception $ex) {
-    //FIXME handle error
+    Globals::cleanDump($ex);
 }
 
 ?>

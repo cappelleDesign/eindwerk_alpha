@@ -8,9 +8,9 @@ class ReviewSqlDB extends SqlSuper implements ReviewsDao {
     
     private $_generalDistDB;
     
-    public function __construct($host, $username, $passwd, $database) {
-        parent::__construct('mysql:host=' .$host, $username, $passwd, $database);
-        $this->init($host, $username, $passwd, $database);
+    public function __construct($connection) {
+        parent::__construct($connection);
+//        $this->init($host, $username, $passwd, $database);
     }
     
     private function init($host, $username, $passwd, $database) {

@@ -13,7 +13,7 @@ class SessionController {
         session_save_path($sessionPath);
     }
 
-    private function startSession() {
+    public function startSession() {
         if (session_status() == PHP_SESSION_NONE) {
             session_name('neoludus_service');
             session_set_cookie_params(0);
@@ -22,7 +22,6 @@ class SessionController {
     }
 
     public function checkUserActivity() {
-        $this->startSession();
         if ($this->isLoggedOn()) {
             if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
                 // request 30 minates ago
@@ -31,17 +30,15 @@ class SessionController {
                 $this->updateUserActivity();
             }
         }
-//        session_write_close();
+        session_write_close();
     }
 
     public function updateUserActivity() {
-        $this->startSession();
         $_SESSION['LAST_ACTIVITY'] = time();
         session_write_close();
     }
 
     public function isLoggedOn() {
-        $this->startSession();
         session_write_close();
         return isset($_SESSION['current_user']);
     }
@@ -53,7 +50,6 @@ class SessionController {
     }
 
     public function getSessionAttr($key) {
-        $this->startSession();
         session_write_close();
         $val = '';
         if (isset($_SESSION[$key])) {
@@ -63,14 +59,15 @@ class SessionController {
     }
 
     public function deleteSessionAttr($key) {
-        $this->startSession();
+//        $this->startSession();
         unset($_SESSION[$key]);
         session_write_close();
     }
 
     public function destroySession() {
-        $this->startSession();
+//        $this->startSession();
         session_destroy();
+        session_write_close();
     }
 
 }

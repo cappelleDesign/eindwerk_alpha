@@ -1,6 +1,6 @@
 <?php
 
-abstract class SuperController {
+abstract class SuperController extends NavigationController{
 
     /**
      * The master service used to execute functions
@@ -36,6 +36,7 @@ abstract class SuperController {
         $this->_sessionController = new SessionController();
         $this->_validator = new formvalidationController();
         $this->_errorController = new ErrorController();
+        $this->getSessionController()->startSession();
     }
 
     /**
@@ -48,7 +49,7 @@ abstract class SuperController {
         if (strpos(dirname(__FILE__), 'xampp')) {
             $section = 'database_local';
         }
-        $configs = parse_ini_file(dirname(__FILE__) . '/../model/config.ini', true);
+        $configs = parse_ini_file(dirname(__FILE__) . '/../model/config/config.ini', true);
         return $configs[$section];
     }
 
@@ -78,14 +79,6 @@ abstract class SuperController {
         return $this->_validator;
     }
 
-    public function getPagesRoot() {
-        return Globals::getRoot('view', 'app') . '/pages/';
-    }
-
-    public function getJsonRoot() {
-        return Globals::getRoot('view', 'app') . '/data/';
-    }
-
     public function getCurrentUser($isJson) {
         $user = false;
         if ($this->getSessionController()->isLoggedOn()) {
@@ -113,41 +106,4 @@ abstract class SuperController {
     public function setValidator(FormValidationController $validator) {
         $this->_validator = $validator;
     }
-
-    public function includeIncluder($fileName) {
-        $root = Globals::getRoot('view', 'sys') . '/includes/';
-        include $root . $fileName;
-    }
-
-    public function includeHeader() {
-        $this->includeIncluder('header.php');
-    }
-
-    public function includeMenu($page) {
-        $_GET['page'] = $page;
-        $this->includeIncluder('menu.php');
-    }
-
-    public function includeFooter() {
-        $this->includeIncluder('footer.php');
-    }
-
-    public function includeScripts() {
-        $this->includeIncluder('scripts.php');
-    }
-
-    public function includeLoginForm() {
-        $this->includeIncluder('login-form.php');
-    }
-
-    public function redirect($action) {
-        //fixme depends on server
-        header('Location: http://localhost/neoludus_alpha/' . 'index.php/' . $action);
-        exit();
-    }
-
-    public function direct($page) {
-        require $this->getPagesRoot() . $page;
-    }
-
 }

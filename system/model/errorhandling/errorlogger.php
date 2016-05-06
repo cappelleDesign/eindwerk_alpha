@@ -1,6 +1,6 @@
 <?php
 
-require_once 'view/phpscripts/PHPMailer-master/PHPMailerAutoLoad.php';
+require_once 'system/view/phpscripts/PHPMailer-master/PHPMailerAutoLoad.php';
 
 class ErrorLogger {
 
@@ -14,7 +14,7 @@ class ErrorLogger {
 
     public static function logError($error) {
         error_log(ErrorLogger::getDate() . PHP_EOL . var_export($error, true) . PHP_EOL, 3, ErrorLogger::getLogLocation());
-        ErrorLogger::sendMail($error);
+//        ErrorLogger::sendMail($error);
     }
 
     public static function testStuff($stuff) {

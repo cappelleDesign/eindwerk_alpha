@@ -1,6 +1,6 @@
 <?php
 
-class MasterController extends SuperController {
+class MasterController {
 
     const DEFAULT_CONTROLLER = 'Home';
     const DEFAULT_ACTION = 'index';
@@ -11,8 +11,7 @@ class MasterController extends SuperController {
     private $_action;
     private $_params;
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct() {               
         $this->init();
     }
 
