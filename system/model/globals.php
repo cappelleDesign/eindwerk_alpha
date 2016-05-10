@@ -34,6 +34,7 @@ class Globals {
         }
         return $date;
     }
+
 //27 25
     static function randomString($length) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -43,6 +44,7 @@ class Globals {
         }
         return $randstring;
     }
+
     static function getTableName($instanceName) {
         $tableName = '';
         switch ($instanceName) {
@@ -117,7 +119,7 @@ class Globals {
             case 'video_comment' :
                 $tableName = 'video_has_comments';
                 break;
-                
+
             default :
                 throw new Exception('Could not find table for ' . $instanceName, NULL);
         }
@@ -200,33 +202,13 @@ class Globals {
         }
     }
 
-    static function getUserActions() {
-        $userActions = [
-            'loginPage',
-            'login',
-            'logout',
-            'register',
-            'registerPage',
-            'accountPage',
-            'addUser',
-            'rmUser',
-            'getUser', //by id detailed, by id simple, by name/mail
-            'checkAvailable',
-            'getUserDist', //user role, avatar, achievements,..
-            'getUsers',
-            'updateUser', //update methods,
-            'addToUser',
-            'removeFromUser'
-        ];
-        return $userActions;
-    }
-
-    static function getHelperActions() {
-        $helperActions = [
-            'getCarouselSrcs',
-            'getNewsfeedSrcs'
-        ];
-        return $helperActions;
+    static function getBasePath() {
+        $base = 'http://localhost/neoludus_alpha/';
+        $localHost = ['127.0.0.1', '::1'];
+        if (!in_array($_SERVER['REMOTE_ADDR'], $localHost)) {
+            $base = 'http://test.neoludus.com/';
+        }
+        return $base;
     }
 
 }

@@ -37,10 +37,9 @@ class NavigationController {
     }
 
     public function redirect($action) {
-        //fixme depends on server
-        $_SESSION['forward'] = 'not lost';
+        $base = Globals::getBasePath();
         session_write_close();
-        header('Location: http://localhost/neoludus_alpha/' . 'index.php/' . $action);
+        header('Location: '. $base . 'index.php/' . $action);
         $this->getSessionController()->startSession();
     }
 
