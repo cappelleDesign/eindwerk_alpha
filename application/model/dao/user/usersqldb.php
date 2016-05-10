@@ -436,8 +436,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param int $notificationId
      * @param boolean $isRead
      */
-    public function updateNotification($notificationId, $isRead) {
-        $this->_notificationDB->updateNotification($notificationId, $isRead);
+    public function updateNotification($notificationId, $text,$isRead) {
+        $this->_notificationDB->updateNotification($notificationId, $text,$isRead);
     }
 
     /**

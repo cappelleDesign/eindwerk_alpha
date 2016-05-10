@@ -85,7 +85,7 @@ class CreationHelper{
             throw new DBException('could not create last comment', NULL);
         }
         try {
-        $comment = new Comment($row['parent_id'], $poster, $row['comment_txt'],$row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
+        $comment = new Comment($row['parent_id'], $poster, $row['commented_on_notif_id'],$row['comment_txt'],$row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
         $comment->setId($row['comment_id']);
         return $comment;
         } catch (Exception $ex) {
@@ -159,4 +159,12 @@ class CreationHelper{
         }
     }
 
+    public function createVote($row) {
+        try {
+            $vote = new Vote($row['user_id'], $row['comment_id'], $row['voted_on_notif_id'], $row['user_name'], $row['vote_flag']); 
+            return $vote;
+        } catch (Exception $ex) {
+            throw new DBException($ex);
+        }
+    }
 }

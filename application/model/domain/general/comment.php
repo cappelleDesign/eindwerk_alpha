@@ -47,18 +47,18 @@ class Comment implements DaoObject {
     private $_created;
 
     /**
-     * Assoc array with all voters form = voters(voterId=>info(userName => voter username,voteFlag => 1/2/3)
-     * @var array 
+     * array of votes
+     * @var Vote[]
      */
     private $_voters;
 
-    public function __construct($parentId, UserSimple $poster, $body, $created, $voters, $dateFormat) {
+    public function __construct($parentId, UserSimple $poster, $notifId, $body, $created, $voters, $dateFormat) {
         $this->init();
         $this->setParentId($parentId);
-        $this->setPoster($poster);        
-//        $this->setNotifId($notifId);
+        $this->setPoster($poster);
+        $this->setNotifId($notifId);
         $this->setBody($body);
-        $this->setCreated($created, $dateFormat);        
+        $this->setCreated($created, $dateFormat);
         $this->setVoters($voters);
     }
 
@@ -80,10 +80,10 @@ class Comment implements DaoObject {
         $this->_poster = $poster;
     }
 
-//    public function setNotifId($notifId) {
-//        $this->_notifId = $notifId;
-//    }
-    
+    public function setNotifId($notifId) {
+        $this->_notifId = $notifId;
+    }
+
     public function setBody($body) {
         $this->_body = $body;
     }
@@ -111,10 +111,10 @@ class Comment implements DaoObject {
         return $this->_poster;
     }
 
-//    public function getNotifId() {
-//        return $this->_notifId;
-//    }
-    
+    public function getNotifId() {
+        return $this->_notifId;
+    }
+
     public function getBody() {
         return $this->_body;
     }
@@ -122,7 +122,7 @@ class Comment implements DaoObject {
     public function getCreated() {
         return $this->_created;
     }
-    
+
     public function getVoters() {
         return $this->_voters;
     }
@@ -137,8 +137,9 @@ class Comment implements DaoObject {
      * @param string $voterName
      * @param int $voteFlag
      */
-    public function addVoter($voterId, $voterName, $voteFlag) {
-        $this->_voters[$voterId] = array('userName' => $voterName, 'voteFlag' => $voteFlag);
+    public function addVoter($voterId, $votedOnId, $votedOnNotifId, $voterName, $voteFlag) {
+        $voter = new Vote($voterId, $votedOnId, $votedOnNotifId, $voterName, $voteFlag);
+        $this->_voters[$voterId] = $voter;
     }
 
     /**
@@ -160,7 +161,7 @@ class Comment implements DaoObject {
      */
     public function updateVoter($voterId, $voteFlag) {
         if (array_key_exists($voterId, $this->getVoters())) {
-            $this->_voters[$voterId]['voteFlag'] = $voteFlag;
+            $this->_voters[$voterId]->setVoteFlag($voteFlag);
         }
     }
 
@@ -182,8 +183,8 @@ class Comment implements DaoObject {
      */
     public function getNumberOfVotes() {
         $votes = 0;
-        foreach($this->_voters as $voter) {
-            if($voter['voteFlag'] < 2){
+        foreach ($this->_voters as $voter) {
+            if ($voter->getVoteFlag() < 2) {
                 $votes --;
             } else {
                 $votes ++;
@@ -198,9 +199,14 @@ class Comment implements DaoObject {
      * @return boolean
      */
     public function getHasDiamond() {
-        return isset(array_column($this->_voters,'username','voteFlag')['3']);
+        foreach ($this->_voters as $voter) {
+            if($voter->getVoteFlag() === 3) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

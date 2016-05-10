@@ -228,7 +228,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
     private function getVoters($commentId) {
         $userT = Globals::getTableName('user');
         $combo = Globals::getTableName('comment_vote');
-        $query = 'SELECT ' . $userT . '.user_id, ' . $userT . '.user_name,' . $combo . '.vote_flag' .
+        $query = 'SELECT ' . $userT . '.user_id, ' . $combo . '.comment_id,' . $combo . '.voted_on_notif_id,' . $userT . '.user_name,' . $combo . '.vote_flag' .
                 ' FROM ' . $combo . ' INNER JOIN ' . $userT . ' ON ' . $combo . '.users_upvoter_id = ' . $userT . '.user_id' .
                 ' WHERE ' . $combo . '.comment_id = ?';
         $statement = parent::prepareStatement($query);
@@ -238,7 +238,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $result = $statement->fetchAll();
         $voters = array();
         foreach ($result as $row) {
-            $voters[$row['user_id']] = array('userName' => $row['user_name'], 'voteFlag' => $row['vote_flag']);
+            $voters[$row['user_id']] = parent::getCreationHelper()->createVote($row);
         }
         return $voters;
     }
