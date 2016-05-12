@@ -126,6 +126,7 @@ class Globals {
         return 'soufitq169_neoludus.' . $tableName;
     }
 
+    //FIXME NOT USED YET
     static function getIdColumnName($instance) {
         switch ($instance) {
             case 'achievement' :
@@ -159,7 +160,7 @@ class Globals {
             case 'achievement_user':
                 return 'user_id';
             case 'comment_vote':
-                return 'users_upvoter_id';
+                return 'users_voter_id';
             case 'game_genre':
                 return 'game_id';
             case 'game_platform':

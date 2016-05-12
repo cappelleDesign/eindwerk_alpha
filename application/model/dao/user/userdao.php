@@ -140,9 +140,10 @@ interface UserDao extends Dao {
      * updateNotification
      * Updates the Notification with this id
      * @param int $notificationId
+     * @param int $text
      * @param boolean $isRead
      */
-    public function updateNotification($notificationId, $isRead);
+    public function updateNotification($notificationId, $text, $isRead);
 
     /**
      * removeNotification

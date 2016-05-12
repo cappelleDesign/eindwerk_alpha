@@ -219,17 +219,18 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
       comment_votes.vote_flag
       FROM
       `comment_votes` INNER JOIN
-      users ON comment_votes.users_upvoter_id = users.user_id
+      users ON comment_votes.users_voter_id = users.user_id
       WHERE comment_votes.comment_id = 1
      * END ORIGINAL SQL STATEMENT
      * 
      * @param int $commentId
+     * @return Vote[] $voters
      */
-    private function getVoters($commentId) {
+    public function getVoters($commentId) {
         $userT = Globals::getTableName('user');
         $combo = Globals::getTableName('comment_vote');
         $query = 'SELECT ' . $userT . '.user_id, ' . $combo . '.comment_id,' . $combo . '.voted_on_notif_id,' . $userT . '.user_name,' . $combo . '.vote_flag' .
-                ' FROM ' . $combo . ' INNER JOIN ' . $userT . ' ON ' . $combo . '.users_upvoter_id = ' . $userT . '.user_id' .
+                ' FROM ' . $combo . ' INNER JOIN ' . $userT . ' ON ' . $combo . '.users_voter_id = ' . $userT . '.user_id' .
                 ' WHERE ' . $combo . '.comment_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $commentId);
@@ -309,7 +310,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @return Comment
      */
     private function createLastComment($row, UserSimple $poster, $voters) {
-        return parent::getCreationHelper()->createLastComment($row, $poster, $voters);
+        return parent::getCreationHelper()->createComment($row, $poster, $voters);
     }
 
     /**

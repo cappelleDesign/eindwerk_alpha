@@ -2,6 +2,7 @@
 define('APPLICATION_PATH', 'application/');
 define('SYSTEM_PATH', 'system/');
 ini_set('display_errors', E_ALL);
+date_default_timezone_set('utc');
 spl_autoload_register(function ($class_name) {
     $sys = SYSTEM_PATH;
     $app = APPLICATION_PATH;
@@ -14,6 +15,7 @@ spl_autoload_register(function ($class_name) {
         'model/domain/review/',
         'model/dao/',
         'model/dao/general/',
+        'model/dao/general/comment/',
         'model/dao/user/',
         'model/dao/user/dist/',
         'model/dao/user/notification/',

@@ -105,8 +105,12 @@ class SqlSuper {
      * @return PDOStatement
      */
     protected function prepareStatement($query) {
+        try{
         $statement = $this->_connection->prepare($query);
         return $statement;
+        }  catch (Exception $ex) {
+            throw new DBException($ex->getMessage(),$ex);
+        }
     }
 
     /**

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">        
-        <title></title>
+        <title></title>       
+        <?php
+        $viewRoot = Globals::getRoot('view','app');
+        $base = Globals::getBasePath();
+        ?>
+        <base href="<?php echo $base?>"/>
     </head>
     <body>      
         <?php
@@ -37,7 +37,7 @@ and open the template in the editor.
         if (isset($_COOKIE['timezone'])) {
             $timeZone = $_COOKIE['timezone'];
         }
-//        echo $timeZone;
+        echo 'current timezone: ' . $timeZone . '<br>';
         $date2 = DateFormatter::getDateTimeInZone('d/m/Y H:i:s', $date->format('d/m/Y H:i:s'), $timeZone);
         echo $date2->format('d/m/Y H:i:s') . ' --- ' . $date2->getTimeZone()->getName();
         echo '<br>';
@@ -47,10 +47,11 @@ and open the template in the editor.
         echo 'server date: ' . $date3->format('d/m/Y H:i:s');
         echo '<br>';
         echo $date2->format('d/m/Y H:i:s');
+        echo '<br> original: ' . $date->format('d/m/Y H:i:s') ;
         ?>
-        <script src="view/js/jquery-2.2.0.min.js"></script>
-        <script src="view/js/plugins/cookies/js.cookie.js"></script>
-        <script src="view/js/plugins/datetime/jstz.min.js"></script>
+        <script src="<?php echo $viewRoot ?>/js/jquery-2.2.3.min.js" type="text/javascript"></script>
+        <script src="<?php echo $viewRoot?>/js/plugins/cookies/js.cookie.js"></script>
+        <script src="<?php echo $viewRoot?>/js/plugins/datetime/jstz.min.js"></script>
         <script>
             function getTimezone() {
                 var timezone = jstz.determine();

@@ -7,7 +7,7 @@
  * @subpackage dao.general
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class CreationHelper{
+class CreationHelper {
 
     /**
      * * createUserSimple
@@ -30,16 +30,16 @@ class CreationHelper{
         if (!$userRole) {
             throw new DBException('could not create user. User role was missing', NULL);
         }
-        try{
-        $id = $row['user_id'];
-        $simpleUser = new UserSimple($userRole, $avatar, $row['user_name'], $row['donated_amount']);
-        $simpleUser->setId($id);
-        return $simpleUser;
+        try {
+            $id = $row['user_id'];
+            $simpleUser = new UserSimple($userRole, $avatar, $row['user_name'], $row['donated_amount']);
+            $simpleUser->setId($id);
+            return $simpleUser;
         } catch (Exception $ex) {
             throw new DBException($ex);
         }
     }
-    
+
     /**
      * * createDetailedUser
      * Creates a UserDetailed object from a UserSimple,an SQL row, 
@@ -64,9 +64,9 @@ class CreationHelper{
         $lastLogin = $row['last_login'];
         $activeTime = $row['active_seconds'];
         try {
-        $detailedUser = new UserDetailed($simpleUser->getUserRole(), $simpleUser->getAvatar(), $simpleUser->getUsername(), $simpleUser->getDonated(), $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, $lastComment, $recentNotifications, $achievements, Globals::getDateTimeFormat('mysql', true));
-        $detailedUser->setId($userId);
-        return $detailedUser;
+            $detailedUser = new UserDetailed($simpleUser->getUserRole(), $simpleUser->getAvatar(), $simpleUser->getUsername(), $simpleUser->getDonated(), $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime, $lastComment, $recentNotifications, $achievements, Globals::getDateTimeFormat('mysql', true));
+            $detailedUser->setId($userId);
+            return $detailedUser;
         } catch (Exception $ex) {
             throw new DBException($ex);
         }
@@ -80,14 +80,14 @@ class CreationHelper{
      * @param array $voters
      * @return Comment
      */
-    public function createLastComment($row, UserSimple $poster, $voters) {
-        if (!$row || !$poster || !$voters) {
+    public function createComment($row, UserSimple $poster, $voters) {
+        if (!$row || !$poster) {
             throw new DBException('could not create last comment', NULL);
         }
         try {
-        $comment = new Comment($row['parent_id'], $poster, $row['commented_on_notif_id'],$row['comment_txt'],$row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
-        $comment->setId($row['comment_id']);
-        return $comment;
+            $comment = new Comment($row['parent_id'], $poster, $row['commented_on_notif_id'], $row['comment_txt'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
+            $comment->setId($row['comment_id']);
+            return $comment;
         } catch (Exception $ex) {
             throw new DBException($ex);
         }
@@ -118,9 +118,9 @@ class CreationHelper{
      */
     public function createAvatar($row, Image $image) {
         try {
-        $avatar = new Avatar($image, $row['tier']);
-        $avatar->setId($row['avatar_id']);
-        return $avatar;
+            $avatar = new Avatar($image, $row['tier']);
+            $avatar->setId($row['avatar_id']);
+            return $avatar;
         } catch (Exception $ex) {
             throw new DBException($ex);
         }
@@ -136,8 +136,8 @@ class CreationHelper{
     public function createAchievement($row, Image $image) {
         try {
             $achievement = new Achievement($image, $row['name'], $row['desc'], $row['karma_award'], $row['diamond_award']);
-        $achievement->setId($row['achievement_id']);
-        return $achievement;
+            $achievement->setId($row['achievement_id']);
+            return $achievement;
         } catch (Exception $ex) {
             throw new DBException($ex);
         }
@@ -151,9 +151,9 @@ class CreationHelper{
      */
     public function createUserRole($row) {
         try {
-        $userRole = new UserRole($row['user_role_name'], $row['user_role_access_flag'], $row['user_role_karma_min'], $row['user_role_diamond_min']);
-        $userRole->setId($row['user_role_id']);
-        return $userRole;
+            $userRole = new UserRole($row['user_role_name'], $row['user_role_access_flag'], $row['user_role_karma_min'], $row['user_role_diamond_min']);
+            $userRole->setId($row['user_role_id']);
+            return $userRole;
         } catch (Exception $ex) {
             Throw new DBException($ex);
         }
@@ -161,10 +161,11 @@ class CreationHelper{
 
     public function createVote($row) {
         try {
-            $vote = new Vote($row['user_id'], $row['comment_id'], $row['voted_on_notif_id'], $row['user_name'], $row['vote_flag']); 
+            $vote = new Vote($row['user_id'], $row['comment_id'], $row['voted_on_notif_id'], $row['user_name'], $row['vote_flag']);
             return $vote;
         } catch (Exception $ex) {
             throw new DBException($ex);
         }
     }
+
 }

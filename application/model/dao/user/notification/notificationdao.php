@@ -20,9 +20,10 @@ interface NotificationDao {
      * updateNotification
      * Updates the readed state of a notification if the id matches 
      * @param int $notificationId
+     * @param int $text 
      * @param boolean $isRead
      */
-    public function updateNotification($notificationId, $isRead);
+    public function updateNotification($notificationId, $text, $isRead);
 
     /**
      * removeNotification

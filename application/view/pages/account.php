@@ -30,10 +30,11 @@
                             </div>
                         </div>
                     </div>
-                    <?php } else {
-     Globals::cleanDump($this->getCurrentUser(FALSE)->getLastComment()->getVoters());
+                <?php
+                } else {
+                    Globals::cleanDump($this->getCurrentUser(FALSE)->getLastComment());
                     ?>
-                        
+
                 <?php }
                 ?>
             </main>

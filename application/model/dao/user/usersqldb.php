@@ -10,6 +10,12 @@
 class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
+     * The comment db handles comment related db functions
+     * @var CommentDao 
+     */
+//    private $_commentDB;
+
+    /**
      * The user dist db handles user related db functions
      * @var UserDistDao
      */
@@ -36,6 +42,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $this->_generalDistDB = new GeneralDistSqlDB($connection);
         $this->_userDistDB = new UserDistSqlDB($connection, $this->_generalDistDB);
         $this->_notificationDB = new NotificationSqlDB($connection);
+//        $this->_commentDB = new CommentSqlDB($connection , $this);
     }
 
     /**
@@ -166,8 +173,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
-        if(empty($result)){
-            throw new DBException('No user with this username/email: ' . $identifier,NULL);
+        if (empty($result)) {
+            throw new DBException('No user with this username/email: ' . $identifier, NULL);
         }
         $row = $result[0];
         $id = $row['user_id'];
@@ -436,8 +443,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param int $notificationId
      * @param boolean $isRead
      */
-    public function updateNotification($notificationId, $text,$isRead) {
-        $this->_notificationDB->updateNotification($notificationId, $text,$isRead);
+    public function updateNotification($notificationId, $text, $isRead) {
+        $this->_notificationDB->updateNotification($notificationId, $text, $isRead);
     }
 
     /**
@@ -573,6 +580,10 @@ class UserSqlDB extends SqlSuper implements UserDao {
      */
     public function getAchievement($name) {
         return $this->_userDistDB->getAchievement($name);
+    }
+
+    public function getUserDistDB() {
+        return $this->_userDistDB;
     }
 
 }

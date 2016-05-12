@@ -16,8 +16,7 @@ class Comment implements DaoObject {
 
     /**
      * The id of this comment's parent.
-     * If this id is the same as the id of the 
-     * comment then this comment is the root comment.
+     * If this id is NULL then this comment is the root comment.
      * @var int 
      */
     private $_parentId;
