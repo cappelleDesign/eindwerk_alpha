@@ -31,8 +31,8 @@
                         </div>
                     </div>
                 <?php
-                } else {
-                    Globals::cleanDump($this->getCurrentUser(FALSE)->getLastComment());
+                } else {                                                            
+                    Globals::cleanDump($this->getCurrentUser(FALSE)->getRecentNotifications());
                     ?>
 
                 <?php }

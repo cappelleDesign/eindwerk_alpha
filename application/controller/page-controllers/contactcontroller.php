@@ -11,6 +11,6 @@
  *
  * @author Jens
  */
-class contactcontroller {
+class ContactController {
     //put your code here
 }

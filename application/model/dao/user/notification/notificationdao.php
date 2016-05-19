@@ -34,7 +34,7 @@ interface NotificationDao {
 
     /**
      * getNotifications
-     * Gets all the notifications for this user limitied by the limt param
+     * Gets all the notifications for this user limited by the limit param
      * @param int $userId
      * @param int $limit
      * @return array $notifications

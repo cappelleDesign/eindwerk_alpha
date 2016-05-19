@@ -27,6 +27,12 @@ class Notification implements DaoObject {
     private $_text;
 
     /**
+     * The link of the notification 
+     * @var string
+     */
+    private $_link;
+
+    /**
      * When the notification was created (date and time)
      * @var DateTime 
      */
@@ -38,9 +44,10 @@ class Notification implements DaoObject {
      */
     private $_isRead;
 
-    public function __construct($userId, $text, $created, $isRead, $format) {
+    public function __construct($userId, $text, $link, $created, $isRead, $format) {
         $this->setUserId($userId);
         $this->setText($text);
+        $this->setLink($link);
         $this->setCreated($created, $format);
         $this->setIsRead($isRead);
     }
@@ -58,7 +65,11 @@ class Notification implements DaoObject {
     public function setText($text) {
         $this->_text = $text;
     }
-
+    
+    public function setLink($link) {
+        $this->_link = $link;
+    }
+    
     public function setCreated($created, $format) {
         $this->_created = DateTime::createFromFormat($format, $created);
     }
@@ -81,7 +92,11 @@ class Notification implements DaoObject {
         return $this->_text;
     }
 
-    public function getCrated() {
+    public function getLink() {
+        return $this->_link;
+    }
+        
+    public function getCreated() {
         return $this->_created;
     }
 

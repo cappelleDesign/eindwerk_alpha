@@ -11,6 +11,6 @@
  *
  * @author jens
  */
-class VideoController {
+class VideosController {
     //put your code here
 }

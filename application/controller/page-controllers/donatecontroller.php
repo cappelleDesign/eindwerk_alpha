@@ -11,6 +11,6 @@
  *
  * @author Jens
  */
-class donatecontroller {
+class DonateController {
     //put your code here
 }

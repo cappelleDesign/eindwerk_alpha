@@ -14,9 +14,16 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      */
     private $_userDB;
 
+    /**
+     * Vote sqldb to handle vote related functions
+     * @var VoteSqlDB
+     */
+    private $_voteDB;
+
     public function __construct($connection, $userSqlDb) {
         parent::__construct($connection);
         $this->_userDB = $userSqlDb;
+        $this->_voteDB = new VoteSqlDB($connection);
         $this->init();
     }
 
@@ -31,12 +38,13 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         if (parent::containsId($comment->getId(), 'comment')) {
             throw new DBException('The database already contains a comment with this id', NULL);
         }
-        $query = 'INSERT INTO ' . $this->_commentT . ' (`users_writer_id`, `parent_id`, `commented_on_notif_id`,`comment_txt`, `comment_created`)';
-        $query.= 'VALUES (:users_writer_id, :parent_id, :commented_on_notif_id, :comment_txt, :comment_created)';
+        $query = 'INSERT INTO ' . $this->_commentT . ' (`users_writer_id`, `parent_id`, parent_root_id,`commented_on_notif_id`,`comment_txt`, `comment_created`)';
+        $query.= 'VALUES (:users_writer_id, :parent_id, :parent_root_id,:commented_on_notif_id, :comment_txt, :comment_created)';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
             ':users_writer_id' => $comment->getPoster()->getId(),
             ':parent_id' => $comment->getParentId(),
+            ':parent_root_id' => $comment->getParentRootId(),
             ':commented_on_notif_id' => $comment->getNotifId(),
             ':comment_txt' => $comment->getBody(),
             ':comment_created' => $comment->getCreatedStr(Globals::getDateTimeFormat('mysql', true))
@@ -81,109 +89,161 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute();
     }
 
-    private function getNotifId($commentId, $voteFlag) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('comment_vote') . ' WHERE comment_id = :commentId AND vote_flag = :voteFlag';
+    public function updateCommentText($commentId, $text) {
+        parent::triggerIdNotFound($commentId, 'comment');
+        $query = 'UPDATE ' . $this->_commentT . ' SET comment_txt = :text WHERE comment_id = :commentId';
         $statement = parent::prepareStatement($query);
-        $queryArgs = array (
-            ':commentId' => $commentId,
-            ':voteFlag' => $voteFlag
+        $queryArgs = array(
+            ':text' => $text,
+            ':commentId' => $commentId
         );
         $statement->execute($queryArgs);
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        if(empty($result)) {
-            return -1;
-        } 
-        $row = $result[0];
-        return $row['voted_on_notif_id'];
-        
     }
-    
-    private function getVoteText($voteFlag) {
-        switch ($voteFlag) {
-            case '1':
-                return ' downvoted your comment :(';
-            case '2' :
-                return ' upvoted your comment!';
-            case '3' :
-                return ' gave your comment a diamond';
-        }
-    }
-    
-    public function addVoter($commentId, $voterId, $voterName,$voteFlag) {
-        parent::triggerIdNotFound($commentId, 'comment');
-        parent::triggerIdNotFound($voterId, 'user');
-        $notifId = $this->getNotifId($commentId, $voteFlag);
-        if($notifId < 0) {
-//            $row['user_id'], $row['notification_txt'], $row['notification_date'], $row['notification_isread'], Globals::getDateTimeFormat('mysql', true)
-            $notifRow = array(
-                'user_id' => $voterId,
-                'notification_txt' => $voterName . $this->getVoteText($voteFlag)
-            );
-            $notification = parent::getCreationHelper()->createNotification($notifRow);
-            $this->_userDB->addNotification($userId, $notification);
-        } else {
-            
-        }
-//        $query = 'INSERT INTO ' . Globals::getTableName('comment_vote') . '(comment_id,users_voter_id,voted_on_notif_id,vote_flag)';
+
+//    public function getParentId($subId) {
+//        parent::triggerIdNotFound($id, 'comment');
+//        $query = '';
 //        $statement = parent::prepareStatement($query);
 //        $queryArgs = array(
 //        );
 //        $statement->execute($queryArgs);
+//    }
+
+    public function getSubComments($parentId, $limit) {
+        parent::triggerIdNotFound($parentId, 'comment');
+        $idCol = 'parent_id';
+        $query = 'SELECT * FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ? ORDER BY comment_created DESC LIMIT ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $parentId);
+        $statement->bindParam(2, $limit, PDO::PARAM_INT);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+
+        $subComments = array();
+        foreach ($result as $row) {
+            $poster = $this->_userDB->getSimple($row['users_writer_id']);
+            $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+            $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+            array_push($subComments, $comment);
+        }
+        return $subComments;
     }
 
-    public function removeVoter($commentId, $voterId) {
-        parent::triggerIdNotFound($id, 'comment');
-        $query = '';
+    public function getSubCommentsCount($parentId) {
+        parent::triggerIdNotFound($parentId, 'comment');
+        $idCol = 'parent_id';
+        $query = 'SELECT COUNT(*) as count FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ?';
         $statement = parent::prepareStatement($query);
-        $queryArgs = array(
-        );
-        $statement->execute($queryArgs);
+        $statement->bindParam(1, $parentId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        return $result[0]['count'];
     }
 
-    public function updateComment(Comment $comment) {
-        $id = $comment->getId();
-        parent::triggerIdNotFound($id, 'comment');
-        $query = '';
+    /**
+     * getReviewRootcomments
+     * Returns all root comments for the review with this id
+     * 
+     * START ORIGINAL SQL
+      SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created
+      FROM
+      comments c LEFT JOIN reviews_has_comments r
+      ON c.comment_id = r.comments_comment_id
+      WHERE r.reviews_review_id = 1
+      ORDER BY c.comment_created DESC
+     * END ORIGINAL SQL
+     * 
+     * @param int $reviewId
+     * @return Review[]
+     * @throws DBException
+     */
+    public function getReviewRootComments($reviewId) {
+        //FIXME getRootComments($objectname, $objectId,..)
+        parent::triggerIdNotFound($reviewId, 'review');
+        $query = 'SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created ';
+        $query .= 'FROM ' . $this->_commentT . ' c LEFT JOIN ' . Globals::getTableName('review_comment') . ' r ';
+        $query .= 'ON c.comment_id = r.comments_comment_id ';
+        $query .= 'WHERE r.reviews_review_id = ? ';
+        $query .= 'ORDER BY c.comment_created DESC';
         $statement = parent::prepareStatement($query);
-        $queryArgs = array(
-        );
-        $statement->execute($queryArgs);
+        $statement->bindParam(1, $reviewId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        if (!empty($result)) {
+            $comments = array();
+            foreach ($result as $row) {
+                $poster = $this->_userDB->getSimple($row['users_writer_id']);
+                $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+                $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+                array_push($comments, $comment);
+            }
+            return $comments;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * getVideoRootComments
+     * Returns all root comments for the video with this id
+     * 
+     * START ORIGINAL SQL
+      SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created
+      FROM
+      comments c LEFT JOIN video_has_comments v
+      ON c.comment_id = v.comments_comment_id
+      WHERE v.video_video_id = 1
+      ORDER BY c.comment_created DESC
+     * END ORIGINAL SQL
+     * 
+     * @param int $videoId
+     * @return Review[]
+     * @throws DBException
+     */
+    public function getVideoRootComments($videoId) {
+        //FIXME getRootComments($objectname, $objectId,..)
+        parent::triggerIdNotFound($videoId, 'video');
+        $query = 'SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created ';
+        $query .= 'FROM ' . $this->_commentT . ' c LEFT JOIN ' . Globals::getTableName('video_comment') . ' v ';
+        $query .= 'ON c.comment_id = v.comments_comment_id ';
+        $query .= 'WHERE v.video_video_id = ? ';
+        $query .= 'ORDER BY c.comment_created DESC';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $videoId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        if (!empty($result)) {
+            $comments = array();
+            foreach ($result as $row) {
+                $poster = $this->_userDB->getSimple($row['users_writer_id']);
+                $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+                $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+                array_push($comments, $comment);
+            }
+            return $comments;
+        } else {
+            return NULL;
+        }
+    }
+
+    public function addVoter($commentId, $voterId, $notifId, $voteFlag) {
+        $this->_voteDB->addVoter('comment', $commentId, $voterId, $notifId, $voteFlag);
     }
 
     public function updateVoter($commentId, $voterId, $voteFlag) {
-        parent::triggerIdNotFound($id, 'comment');
-        $query = '';
-        $statement = parent::prepareStatement($query);
-        $queryArgs = array(
-        );
-        $statement->execute($queryArgs);
+        $this->_voteDB->updateVoter('comment', $commentId, $voterId, $voteFlag);
     }
 
-    public function getParentId($subId) {
-        parent::triggerIdNotFound($id, 'comment');
-        $query = '';
-        $statement = parent::prepareStatement($query);
-        $queryArgs = array(
-        );
-        $statement->execute($queryArgs);
+    public function removeVoter($commentId, $voterId) {
+        $this->_voteDB->removeVoter('comment', $commentId, $voterId);
     }
 
-    public function getSubComments($parentID) {
-        parent::triggerIdNotFound($id, 'comment');
-        $query = '';
-        $statement = parent::prepareStatement($query);
-        $queryArgs = array(
-        );
-        $statement->execute($queryArgs);
-    }
-
-    public function getReviewRootComments($reviewId) {
-        
-    }
-
-    public function getVideoRootComments($videoId) {
-        
+    public function getVotedNotifId($commentId, $voteFlag) {
+        return $this->_voteDB->getVotedNotifId('comment', $commentId, $voteFlag);
     }
 
 }

@@ -73,7 +73,7 @@ class CreationHelper {
     }
 
     /**
-     * createLastComment
+     * createComment
      * Creates a comment object from an SQL row, a UserSimple and a voters array
      * @param array $row
      * @param UserSimple $poster
@@ -85,7 +85,7 @@ class CreationHelper {
             throw new DBException('could not create last comment', NULL);
         }
         try {
-            $comment = new Comment($row['parent_id'], $poster, $row['commented_on_notif_id'], $row['comment_txt'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
+            $comment = new Comment($row['parent_id'], $row['parent_root_id'],$poster, $row['commented_on_notif_id'], $row['comment_txt'], $row['comment_created'], $voters, Globals::getDateTimeFormat('mysql', true));
             $comment->setId($row['comment_id']);
             return $comment;
         } catch (Exception $ex) {
@@ -100,11 +100,11 @@ class CreationHelper {
      * @return Notification
      * @throws DBException
      */
-    public function createNotification($row) {
+    public function createNotification($row, $format) {
         if (!$row) {
             throw new DBException('could not create notification', NULL);
         }
-        $notif = new Notification($row['user_id'], $row['notification_txt'], $row['notification_date'], $row['notification_isread'], Globals::getDateTimeFormat('mysql', true));
+        $notif = new Notification($row['user_id'], $row['notification_txt'], $row['notification_link'], $row['notification_date'], $row['notification_isread'], $format);
         $notif->setId($row['notification_id']);
         return $notif;
     }

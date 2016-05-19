@@ -37,6 +37,7 @@ abstract class SuperController extends NavigationController{
         $this->_validator = new formvalidationController();
         $this->_errorController = new ErrorController();
         $this->getSessionController()->startSession();
+        $this->getSessionController()->checkUserActivity();
     }
 
     /**

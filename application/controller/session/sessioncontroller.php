@@ -13,7 +13,7 @@ class SessionController {
         session_save_path($sessionPath);
     }
 
-    public function startSession() {
+    public function startSession() {     
         if (session_status() == PHP_SESSION_NONE) {
             session_name('neoludus_service');
             session_set_cookie_params(0);

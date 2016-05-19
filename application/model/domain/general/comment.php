@@ -22,6 +22,12 @@ class Comment implements DaoObject {
     private $_parentId;
 
     /**
+     * The id of the root comment of all parents of this comment
+     * If this id is NULL then this comment is the parent root
+     * @var int
+     */
+    private $_parentRootId;
+    /**
      * The poster of the comment
      * @var UserSimple 
      */
@@ -51,9 +57,10 @@ class Comment implements DaoObject {
      */
     private $_voters;
 
-    public function __construct($parentId, UserSimple $poster, $notifId, $body, $created, $voters, $dateFormat) {
+    public function __construct($parentId, $parentRootId,UserSimple $poster, $notifId, $body, $created, $voters, $dateFormat) {
         $this->init();
         $this->setParentId($parentId);
+        $this->setParentRootId($parentRootId);
         $this->setPoster($poster);
         $this->setNotifId($notifId);
         $this->setBody($body);
@@ -75,6 +82,10 @@ class Comment implements DaoObject {
         $this->_parentId = $parentId;
     }
 
+    public function setParentRootId($parentRootId) {
+        $this->_parentRootId = $parentRootId;
+    }
+        
     public function setPoster(UserSimple $poster) {
         $this->_poster = $poster;
     }
@@ -105,7 +116,11 @@ class Comment implements DaoObject {
     public function getParentId() {
         return $this->_parentId;
     }
-
+    
+    public function getParentRootId() {
+        return $this->_parentRootId;
+    }
+    
     public function getPoster() {
         return $this->_poster;
     }

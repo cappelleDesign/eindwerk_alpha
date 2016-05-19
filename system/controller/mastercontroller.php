@@ -10,7 +10,8 @@ class MasterController {
     private $_controller;
     private $_action;
     private $_params;
-
+    private $_sessionController;
+    
     public function __construct() {               
         $this->init();
     }
@@ -25,7 +26,7 @@ class MasterController {
         }
     }
 
-    private function parseUri() {
+    private function parseUri() {        
         $scriptprefix = str_replace(self::CONTROLLER_FILE, '', $_SERVER['SCRIPT_NAME']);
         $uri = str_replace(self::CONTROLLER_FILE, '', $_SERVER['REQUEST_URI']);
         $path = substr($uri, strlen($scriptprefix));

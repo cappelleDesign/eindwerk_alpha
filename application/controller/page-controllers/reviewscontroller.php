@@ -11,6 +11,9 @@
  *
  * @author jens
  */
-class ReviewController {
-    //put your code here
+class ReviewsController extends SuperController {
+    
+    public function index() {
+        
+    }
 }

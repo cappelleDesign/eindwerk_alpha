@@ -27,12 +27,13 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
             throw new DBException('Notification with id ' . $notification->getId() . ' already exists', NULL);
         }
         $notifT = Globals::getTableName('notification');
-        $query = 'INSERT INTO ' . $notifT . ' (`user_id`, `notification_txt`, `notification_date`, `notification_isread`) ' .
-                'VALUES (:userId, :message, :time, :read);';
+        $query = 'INSERT INTO ' . $notifT . ' (`user_id`, `notification_txt`, notification_link,`notification_date`, `notification_isread`) ' .
+                'VALUES (:userId, :message, :link,:time, :read);';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
             ':userId' => $userId,
             ':message' => $notification->getText(),
+            ':link' => $notification->getLink(),
             ':time' => $notification->getCreatedStr(Globals::getDateTimeFormat('mysql', TRUE)),
             ':read' => '0'
         );
@@ -96,7 +97,8 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
         $notifications = array();
         foreach ($result as $row) {
             try {
-                $notif = $this->createNotification($row);
+                $format = Globals::getDateTimeFormat('mysql', true);
+                $notif = $this->createNotification($row, $format);
                 $notifications[$notif->getId()] = $notif;
             } catch (DomainModelException $ex) {
                 throw new DBException($ex->getMessage(), $ex);
@@ -111,8 +113,8 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
      * @param array $row
      * @return Notification
      */
-    private function createNotification($row) {
-        return parent::getCreationHelper()->createNotification($row);
+    private function createNotification($row, $format) {
+        return parent::getCreationHelper()->createNotification($row, $format);
     }
 
 }

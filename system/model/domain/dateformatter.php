@@ -38,4 +38,14 @@ class DateFormatter {
        $date->setTimeZone(new DateTimezone($timezone));
        return $date;
    }
+  
+   /**
+    * getNow
+    * Returns now as a DateTime object
+    * @return DateTime
+    */
+   public static function getNow() {
+       $date = new DateTime('now', new DateTimeZone('utc'));
+       return $date;
+   }
 }
