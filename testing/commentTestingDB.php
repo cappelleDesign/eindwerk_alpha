@@ -28,7 +28,8 @@
 //            $obj = $db->addVoter(1, 2, 1, 1);
 //            $db->removeVoter(1, 2);
 //            $db->updateCommentText(6, 'updated true databaseclass');
-            $obj = $db->getReviewRootComments(1);
+//            $obj = $db->getReviewRootComments(1);
+            $obj = $db->getSuperParentId(1);                   
             echo '<h2 style="color:green;">SUCCESS</h2>';
             Globals::cleanDump($obj);
         } catch (Exception $ex) {

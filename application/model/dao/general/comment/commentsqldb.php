@@ -50,6 +50,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
             ':comment_created' => $comment->getCreatedStr(Globals::getDateTimeFormat('mysql', true))
         );
         $statement->execute($queryArgs);
+        return parent::getLastId();
     }
 
     public function get($id) {
@@ -83,7 +84,8 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
 
     public function remove($id) {
         parent::triggerIdNotFound($id, 'comment');
-        $query = 'DELETE FROM ' . $this->_commentT . ' WHERE comment_id=?';
+        
+        $query = 'DELETE FROM ' . $this->_commentT . ' WHERE comment_id=?;DELETE FROM';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
@@ -100,6 +102,17 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute($queryArgs);
     }
 
+    public function updateCommentNotification($commentId, $notificationId) {
+        parent::triggerIdNotFound($commentId, 'comment');
+        $query = 'UPDATE ' . $this->_commentT . ' SET commented_on_notif_id = :notifId WHERE comment_id = :commentId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':notifId' => $notificationId,
+            ':commentId' => $commentId
+        );
+        $statement->execute($queryArgs);
+    }
+
 //    public function getParentId($subId) {
 //        parent::triggerIdNotFound($id, 'comment');
 //        $query = '';
@@ -109,10 +122,14 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
 //        $statement->execute($queryArgs);
 //    }
 
-    public function getSubComments($parentId, $limit) {
+    public function getSubComments($parentId, $limit, $group = FALSE) {
         parent::triggerIdNotFound($parentId, 'comment');
         $idCol = 'parent_id';
-        $query = 'SELECT * FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ? ORDER BY comment_created DESC LIMIT ?';
+        $groupBy = '';
+        if ($group) {
+            $groupBy = ' GROUP BY users_writer_id ';
+        }
+        $query = 'SELECT * FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ?' . $groupBy . ' ORDER BY comment_created DESC LIMIT ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $parentId);
         $statement->bindParam(2, $limit, PDO::PARAM_INT);
@@ -130,10 +147,14 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         return $subComments;
     }
 
-    public function getSubCommentsCount($parentId) {
+    public function getSubCommentsCount($parentId, $group) {
         parent::triggerIdNotFound($parentId, 'comment');
+        $count = '*';
+        if ($group) {
+            $count = 'DISTINCT users_writer_id';
+        }
         $idCol = 'parent_id';
-        $query = 'SELECT COUNT(*) as count FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ?';
+        $query = 'SELECT COUNT(' . $count . ') as count FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $parentId);
         $statement->execute();
@@ -227,6 +248,34 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
             return $comments;
         } else {
             return NULL;
+        }
+    }
+
+    public function getSuperParentId($commentId) {
+        $rev = $this->searchSuperParent('review', 'reviews_review_id', $commentId);
+        if ($rev > -1) {
+            return $rev;
+        } else {
+            $vid = $this->searchSuperParent('video', 'video_video_id', $commentId);
+            if ($vid > -1) {
+                return $vid;
+            } else {
+                return -1;
+            }
+        }
+    }
+
+    private function searchSuperParent($objectName, $objectIdName, $commentId) {
+        $query = 'SELECT ' . $objectIdName . ' FROM ' . Globals::getTableName($objectName . '_comment') . ' WHERE comments_comment_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $commentId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        if (empty($result)) {
+            return -1;
+        } else {
+            return $result[0][$objectIdName];
         }
     }
 

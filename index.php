@@ -20,6 +20,8 @@ spl_autoload_register(function ($class_name) {
         'model/dao/user/',
         'model/dao/user/dist/',
         'model/dao/user/notification/',
+        'model/dao/review/',
+        'model/dao/review/dist/',
         'model/service/',
         'controller/',
         'controller/validation/',

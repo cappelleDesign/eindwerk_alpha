@@ -21,6 +21,10 @@ class TestController extends SuperController{
         require 'testing/commentTestingDB.php';
     }
     
+    public function commentServiceTests() {
+        require 'testing/commentTestingService.php';
+    }
+    
     public function dateTests() {
         require 'testing/timeTesting.php';
     }

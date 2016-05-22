@@ -2,7 +2,6 @@
 
 interface CommentDao extends Dao {
 
-    public function updateCommentText($commentId, $text);
 
     public function addVoter($commentId, $voterId, $notifId, $voteFlag);
 
@@ -10,15 +9,22 @@ interface CommentDao extends Dao {
 
     public function updateVoter($commentId, $voterId, $voteFlag);
 
-    public function getSubComments($parentID, $limit);
+    public function updateCommentText($commentId, $text);
+    
+    public function updateCommentNotification($commentId, $notificationId);
+    
+    public function getSubComments($parentID, $limit, $group);
 
-    public function getSubcommentsCount($parentID);
+    public function getSubcommentsCount($parentID, $group);
 
 //    public function getParentId($subId);
+    
+    public function getSuperParentId($commentId);
 
     public function getReviewRootComments($reviewId);
 
     public function getVideoRootComments($videoId);
 
     public function getVotedNotifId($commentId, $voteFlag);
+        
 }

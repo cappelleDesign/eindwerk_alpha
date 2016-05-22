@@ -4,7 +4,7 @@ class MasterController {
 
     const DEFAULT_CONTROLLER = 'Home';
     const DEFAULT_ACTION = 'index';
-    const CONTROLLER_PATH = 'application/controller/page-controllers/';
+    const CONTROLLER_PATH = 'application/controller/main-controllers/';
     const CONTROLLER_FILE = 'index.php';
 
     private $_controller;

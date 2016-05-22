@@ -37,7 +37,7 @@ class Comment implements DaoObject {
      * The notification id whten this comment is commented on.
      * @var int 
      */
-//    private $_notifId;
+    private $_notifId;
 
     /**
      * The body of the comment

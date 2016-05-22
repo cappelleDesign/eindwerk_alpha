@@ -1,6 +1,7 @@
 <?php
 
 //FIXME SECURITY
+// implement new version of secure session : https://github.com/ezimuel/PHP-Secure-Session
 class SessionController {
 
     public function __construct() {
@@ -8,9 +9,9 @@ class SessionController {
     }
 
     private function init() {
-        new SecureSession();
-        $sessionPath = sys_get_temp_dir();
-        session_save_path($sessionPath);
+//        new SecureSession();
+//        $sessionPath = sys_get_temp_dir();
+//        session_save_path($sessionPath);
     }
 
     public function startSession() {     
@@ -30,27 +31,21 @@ class SessionController {
                 $this->updateUserActivity();
             }
         }
-        session_write_close();
     }
 
     public function updateUserActivity() {
         $_SESSION['LAST_ACTIVITY'] = time();
-        session_write_close();
     }
 
     public function isLoggedOn() {
-        session_write_close();
         return isset($_SESSION['current_user']);
     }
 
-    public function setSessionAttr($key, $val) {
-        $this->startSession();
-        $_SESSION[$key] = $val;
-        session_write_close();
+    public function setSessionAttr($key, $val) {       
+        $_SESSION[$key] = $val;        
     }
 
-    public function getSessionAttr($key) {
-        session_write_close();
+    public function getSessionAttr($key) {        
         $val = '';
         if (isset($_SESSION[$key])) {
             $val = $_SESSION[$key];
@@ -60,14 +55,12 @@ class SessionController {
 
     public function deleteSessionAttr($key) {
 //        $this->startSession();
-        unset($_SESSION[$key]);
-        session_write_close();
+        unset($_SESSION[$key]);       
     }
 
     public function destroySession() {
 //        $this->startSession();
-        session_destroy();
-        session_write_close();
+        session_destroy();        
     }
 
 }

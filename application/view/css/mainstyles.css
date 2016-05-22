@@ -221,7 +221,9 @@ header > form {
 #account-panel > a:first-child > p{
     float: left;    
     width: 80%;
-    text-align: center;    
+    text-transform: uppercase;
+    margin-left: 3px;
+    margin-top: 1px;
     margin-bottom: 0;
 }
 #account-panel > a:first-child:focus {

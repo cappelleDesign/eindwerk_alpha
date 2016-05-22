@@ -117,7 +117,13 @@ class Review implements DaoObject {
      */
     private $_gallery;
 
-    public function __construct(UserSimple $writer, Game $game, $reviewedOn, $title, $score, $text, $videoUrl, $created, Image $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format) {
+    /**
+     * To quickly check if a review is created by a user;
+     * @var boolean  
+     */
+    private $_isUserReview;
+
+    public function __construct(UserSimple $writer, Game $game, $reviewedOn, $title, $score, $text, $videoUrl, $created, Image $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format, $isUserReview = false) {
         $this->setWriter($writer);
         $this->setGame($game);
         $this->setReviewedOn($reviewedOn);
@@ -134,6 +140,7 @@ class Review implements DaoObject {
         $this->setGoods($goods);
         $this->setBads($bads);
         $this->setTags($tags);
+        $this->setIsUserReview($isUserReview);
     }
 
     /* ---------------------------------------------------------------------- */
@@ -207,6 +214,10 @@ class Review implements DaoObject {
         $this->_gallery = $gallery;
     }
 
+    public function setIsUserReview($isUserReview) {
+        $this->_isUserReview = $isUserReview;
+    }
+
     /* ---------------------------------------------------------------------- */
 
     public function getId() {
@@ -275,6 +286,10 @@ class Review implements DaoObject {
 
     public function getGallery() {
         return $this->_gallery;
+    }
+
+    public function getIsUserReview() {
+        return $this->_isUserReview;
     }
 
     /**

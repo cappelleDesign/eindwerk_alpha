@@ -39,8 +39,8 @@ class AccountController extends SuperController {
         if (array_key_exists('extraMessage', $loginFormData)) {
             $hasError = true;
         }
-        if ($hasError) {
-            $_POST['loginReturn'] = 'return';
+        if ($hasError) {            
+            $_POST['loginReturn'] = 'return';            
             $this->loginPage($isJson);
         } else {            
             try {
