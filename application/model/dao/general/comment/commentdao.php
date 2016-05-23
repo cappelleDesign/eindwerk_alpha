@@ -16,8 +16,6 @@ interface CommentDao extends Dao {
     public function getSubComments($parentID, $limit, $group);
 
     public function getSubcommentsCount($parentID, $group);
-
-//    public function getParentId($subId);
     
     public function getSuperParentId($commentId);
 

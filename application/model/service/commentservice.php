@@ -47,17 +47,35 @@ class CommentService {
         try {
             $commentId = $this->_commentDB->add($comment);
             $comment->setId($commentId);
-            $this->_notificationHandler->notifyParentWriter($comment);            
+            $this->_notificationHandler->notifyParentWriterCommented($comment);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }
-    
-    public function removeComment($commentId, $notifId) {
-        try{
-            //FIXME remove everything this comment is linked to and update the notification 
-        } catch (Exception $ex) {
 
+    public function removeComment($commentId) {
+        try {
+            $this->_commentDB->startTransaction();
+            $this->_commentDB->remove($commentId);
+            $this->_commentDB->endTransaction();
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function getComment($commentId) {
+        try {
+            return $this->_commentDB->get($commentId);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function addVoter($commentId, $voterId, $voterName, $voteFlag) {
+        try {
+            $notifId = $this->_notificationHandler->notifyParentWriterVote($commentId, $voterId, $voterName, $voteFlag);
+        } catch (Exception $ex) {
+            
         }
     }
 

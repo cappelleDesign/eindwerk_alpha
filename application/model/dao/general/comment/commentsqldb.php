@@ -31,6 +31,13 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $this->_commentT = Globals::getTableName('comment');
     }
 
+    /**
+     * add
+     * Adds a comment to the database
+     * @param Comment $comment
+     * @return int the id of the added comment
+     * @throws DBException
+     */
     public function add(DaoObject $comment) {
         if (!$comment instanceof Comment) {
             throw new DBException('The object you tried to add was not a comment object', NULL);
@@ -53,6 +60,12 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         return parent::getLastId();
     }
 
+    /**
+     * get
+     * Returns the comment with this id
+     * @param int $id
+     * @return Comment
+     */
     public function get($id) {
         parent::triggerIdNotFound($id, 'comment');
         $query = 'SELECT * FROM ' . $this->_commentT . ' WHERE comment_id=?';
@@ -68,6 +81,12 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         return $comment;
     }
 
+    /**
+     * getByString
+     * Returns the comment with this text
+     * @param string $identifier the body of the comment that is searched
+     * @return Comment
+     */
     public function getByString($identifier) {
         $query = 'SELECT comment_id FROM ' . $this->_commentT . ' WHERE comment_txt = :identifier';
         $statement = parent::prepareStatement($query);
@@ -82,15 +101,92 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         return $this->get($row['comment_id']);
     }
 
+    /**
+     * remove
+     * Removes the comment with this id from the database
+     * @param int $id
+     */
     public function remove($id) {
         parent::triggerIdNotFound($id, 'comment');
-        
-        $query = 'DELETE FROM ' . $this->_commentT . ' WHERE comment_id=?;DELETE FROM';
+
+        $notifId1 = $this->getVotedNotifId($id, 1);
+        $notifId2 = $this->getVotedNotifId($id, 2);
+        $notifId3 = $this->getVotedNotifId($id, 3);
+        $commentedNotifId = $this->getCommentedOnNotif($id);
+
+        $this->removeRelatedVotes($id);
+        $this->removeSubComments($id);
+        $query = 'DELETE FROM ' . $this->_commentT . ' WHERE comment_id=?;';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
+
+        $this->removeNotifications($notifId1);
+        $this->removeNotifications($notifId2);
+        $this->removeNotifications($notifId3);
+        $this->removeNotifications($commentedNotifId);
     }
 
+    /**
+     * removeSubComments
+     * Helper function for remove. 
+     * Removes all the sub comments for this comment
+     * @param int $commentId
+     */
+    private function removeSubComments($commentId) {
+        $query = 'SELECT comment_id FROM ' . $this->_commentT . ' WHERE parent_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $commentId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        foreach ($result as $row) {
+            $this->remove($row['comment_id']);
+        }
+    }
+
+    /**
+     * removeRelatedVotes
+     * Helper function for remove. 
+     * Removes all the votes for this comment
+     * @param int $commentId
+     */
+    private function removeRelatedVotes($commentId) {
+        $query = 'DELETE FROM ' . Globals::getTableName('comment_vote') . ' WHERE comment_id=?;';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $commentId);
+        $statement->execute();
+    }
+
+    private function removeNotifications($notifId) {
+        if ($notifId && $notifId != -1) {
+            $query = 'DELETE FROM ' . Globals::getTableName('notification') . ' WHERE notification_id=?';
+            $statement = parent::prepareStatement($query);
+            $statement->bindParam(1, $notifId);
+            $statement->execute();
+        }
+    }
+
+    private function getCommentedOnNotif($commentId) {
+        $query = 'SELECT commented_on_notif_id FROM ' . $this->_commentT . ' WHERE comment_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $commentId);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
+        $notifId = NULL;
+        if (!empty($result)) {
+            $notifId = $result[0]['commented_on_notif_id'];
+        }        
+        return $notifId;
+    }
+
+    /**
+     * updateCommentText
+     * Updates the comment body
+     * @param int $commentId
+     * @param string $text
+     */
     public function updateCommentText($commentId, $text) {
         parent::triggerIdNotFound($commentId, 'comment');
         $query = 'UPDATE ' . $this->_commentT . ' SET comment_txt = :text WHERE comment_id = :commentId';
@@ -102,6 +198,12 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute($queryArgs);
     }
 
+    /**
+     * updateCommentNotification
+     * Updates the notification id for this comment
+     * @param int $commentId
+     * @param int $notificationId
+     */
     public function updateCommentNotification($commentId, $notificationId) {
         parent::triggerIdNotFound($commentId, 'comment');
         $query = 'UPDATE ' . $this->_commentT . ' SET commented_on_notif_id = :notifId WHERE comment_id = :commentId';
@@ -113,15 +215,16 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute($queryArgs);
     }
 
-//    public function getParentId($subId) {
-//        parent::triggerIdNotFound($id, 'comment');
-//        $query = '';
-//        $statement = parent::prepareStatement($query);
-//        $queryArgs = array(
-//        );
-//        $statement->execute($queryArgs);
-//    }
-
+    /**
+     * getSubComments
+     * Returns the sub comments for this comment.
+     * Can be limited by a number.
+     * Can be grouped by the id so no double writers are returned
+     * @param int $parentId
+     * @param int $limit
+     * @param boolean $group
+     * @return Comment[]
+     */
     public function getSubComments($parentId, $limit, $group = FALSE) {
         parent::triggerIdNotFound($parentId, 'comment');
         $idCol = 'parent_id';
@@ -147,6 +250,14 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         return $subComments;
     }
 
+    /**
+     * getSubCommentsCount
+     * Returns the number of sub comments.
+     * Can be grouped so a writer is only counted once
+     * @param int $parentId
+     * @param boolean $group
+     * @return int
+     */
     public function getSubCommentsCount($parentId, $group) {
         parent::triggerIdNotFound($parentId, 'comment');
         $count = '*';
@@ -251,6 +362,13 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         }
     }
 
+    /**
+     * getSuperParentId
+     * Returns the id of the parent of a root comment.
+     * This id can belong to a review or to a video
+     * @param int $commentId
+     * @return int
+     */
     public function getSuperParentId($commentId) {
         $rev = $this->searchSuperParent('review', 'reviews_review_id', $commentId);
         if ($rev > -1) {
@@ -265,6 +383,15 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         }
     }
 
+    /**
+     * searchSuperParent
+     * Helperfunction for getSuperParentId
+     * returns the id of the super parent searching for the specific parent type (review or video)
+     * @param type $objectName
+     * @param type $objectIdName
+     * @param type $commentId
+     * @return type
+     */
     private function searchSuperParent($objectName, $objectIdName, $commentId) {
         $query = 'SELECT ' . $objectIdName . ' FROM ' . Globals::getTableName($objectName . '_comment') . ' WHERE comments_comment_id = ?';
         $statement = parent::prepareStatement($query);
@@ -279,18 +406,46 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         }
     }
 
+    /**
+     * addVoter
+     * Adds a voter to a comment
+     * @param int $commentId
+     * @param int $voterId
+     * @param int $notifId
+     * @param int $voteFlag
+     */
     public function addVoter($commentId, $voterId, $notifId, $voteFlag) {
         $this->_voteDB->addVoter('comment', $commentId, $voterId, $notifId, $voteFlag);
     }
 
+    /**
+     * updateVoter
+     * Updates a vote for this comment
+     * @param int $commentId
+     * @param int $voterId
+     * @param int $voteFlag
+     */
     public function updateVoter($commentId, $voterId, $voteFlag) {
         $this->_voteDB->updateVoter('comment', $commentId, $voterId, $voteFlag);
     }
 
+    /**
+     * removeVoter
+     * Removes a voter from this comment
+     * @param int $commentId
+     * @param int $voterId
+     */
     public function removeVoter($commentId, $voterId) {
         $this->_voteDB->removeVoter('comment', $commentId, $voterId);
     }
 
+    /**
+     * getVotedNotifId
+     * Get the id of the notification linked to this vote
+     * @param int $commentId
+     * @param int $voteFlag
+     * @return int
+     */
     public function getVotedNotifId($commentId, $voteFlag) {
         return $this->_voteDB->getVotedNotifId('comment', $commentId, $voteFlag);
     }

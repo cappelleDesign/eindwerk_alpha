@@ -8,7 +8,6 @@
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
 class UserSqlDB extends SqlSuper implements UserDao {
-
     /**
      * The comment db handles comment related db functions
      * @var CommentDao 
@@ -443,8 +442,8 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param int $notificationId
      * @param boolean $isRead
      */
-    public function updateNotification($notificationId, $text, $isRead) {
-        $this->_notificationDB->updateNotification($notificationId, $text, $isRead);
+    public function updateNotification($notificationId, $text, $isRead = FALSE, $link = '') {
+        $this->_notificationDB->updateNotification($notificationId, $text, $isRead, $link);
     }
 
     /**

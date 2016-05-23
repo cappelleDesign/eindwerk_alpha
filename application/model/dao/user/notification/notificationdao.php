@@ -23,7 +23,7 @@ interface NotificationDao {
      * @param int $text 
      * @param boolean $isRead
      */
-    public function updateNotification($notificationId, $text, $isRead);
+    public function updateNotification($notificationId, $text, $isRead = FALSE, $link = '');
 
     /**
      * removeNotification

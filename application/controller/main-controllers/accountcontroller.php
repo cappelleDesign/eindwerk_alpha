@@ -39,12 +39,14 @@ class AccountController extends SuperController {
         if (array_key_exists('extraMessage', $loginFormData)) {
             $hasError = true;
         }
-        if ($hasError) {            
-            $_POST['loginReturn'] = 'return';            
+        if ($hasError) {
+            $_POST['loginReturn'] = 'return';
             $this->loginPage($isJson);
-        } else {            
+        } else {
             try {
                 $user = $this->getService()->getByIdentifier($userArr['loginName'], 'user');
+                $format = Globals::getDateTimeFormat('mysql', true);
+                $this->getService()->updateUser($user, 'lastLogin', DateFormatter::getNow()->format($format), $format);
             } catch (ServiceException $ex) {
                 Globals::cleanDump($ex);
                 die();

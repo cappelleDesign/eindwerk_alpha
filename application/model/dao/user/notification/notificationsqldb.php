@@ -48,16 +48,22 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
      * @param boolean $isRead
      * @throws DBException
      */
-    public function updateNotification($notificationId, $text, $isRead) {
+    public function updateNotification($notificationId, $text, $isRead = FALSE, $link = NULL) {
         parent::triggerIdNotFound($notificationId, 'notification');
         $notifT = Globals::getTableName('notification');
-        $query = 'UPDATE ' . $notifT . ' SET ' . $notifT . '.notification_txt = :txt,' . $notifT . '.notification_isread = :read WHERE ' . $notifT . '.notification_id = :notifId';
-        $statement = parent::prepareStatement($query);
         $queryArgs = array(
             ':read' => $isRead,
             ':txt' => $text,
             ':notifId' => $notificationId
         );
+        $linkPart = '';
+        if ($link) {
+            $linkPart = $notifT . '.notification_link = :link,';
+            $queryArgs[':link'] = $link;
+        }
+        $query = 'UPDATE ' . $notifT . ' SET ' . $notifT . '.notification_txt = :txt,' . $linkPart . $notifT . '.notification_isread = :read WHERE ' . $notifT . '.notification_id = :notifId';
+        $statement = parent::prepareStatement($query);
+
         $statement->execute($queryArgs);
     }
 

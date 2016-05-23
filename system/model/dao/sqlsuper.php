@@ -98,6 +98,14 @@ class SqlSuper {
         return $result[0]['COUNT(*)'];
     }
 
+    public function startTransaction() {
+        $this->_connection->beginTransaction();
+    }
+    
+    public function endTransaction() {
+        $this->_connection->commit();
+    }
+    
     /**
      * prepareStatement
      * Uses PDO to create a PDOStatement

@@ -35,7 +35,7 @@ class notificationHandler {
      * Notifies the direct parent of this comment and the rootparent if necessary
      * @param Comment $comment
      */
-    public function notifyParentWriter($comment) {
+    public function notifyParentWriterCommented($comment) {
         $txt = 'replied to your comment';
         if ($comment->getParentId()) {
             $parent = $this->_commentDb->get($comment->getParentId());
@@ -55,18 +55,10 @@ class notificationHandler {
         }
     }
 
-    private function handleCommentNotification($comment) {
-        //TODO IMPLEMENT
-    }
-
-    private function notifyWriter($commentId, $voterId, $voterName, $voteFlag) {
+    public function notifyParentWriterVoted($commentId, $voterId, $voterName, $voteFlag) {
         $notifId = $this->_commentDb->getVotedNotifId($commentId, $voteFlag);
         if ($notifId < 0) {
-            $notifRow = array(
-                'user_id' => $voterId,
-                'notification_txt' => $voterName . $this->getVoteText($voteFlag),
-            );
-
+            $body = $voterName . $this->getVoteText($voteFlag);
             $notification = $this->createNotif($commentId, $voterId, $body);
             $this->_userDb->addNotification($voterId, $notification);
         } else {

@@ -46,12 +46,16 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
 
     public function getVotedNotifId($objectName, $objectId, $voteFlag) {
         $idRowName = $this->getIdRowName($objectName);
-        $query = 'SELECT * FROM ' . Globals::getTableName($objectName . '_vote') . ' WHERE ' . $idRowName . ' = :objectId AND vote_flag = :voteFlag';
-        $statement = parent::prepareStatement($query);
         $queryArgs = array(
-            ':objectId' => $objectId,
-            ':voteFlag' => $voteFlag
+            ':objectId' => $objectId,            
         );
+        $flagPart = '';
+        if($voteFlag != -1) {
+            $flagPart = 'AND vote_flag = :voteFlag';
+            $queryArgs[':voteFlag'] = $voteFlag;
+        } 
+        $query = 'SELECT * FROM ' . Globals::getTableName($objectName . '_vote') . ' WHERE ' . $idRowName . ' = :objectId ' . $flagPart;
+        $statement = parent::prepareStatement($query);
         $statement->execute($queryArgs);
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
