@@ -477,6 +477,11 @@ class Review implements DaoObject {
         }
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

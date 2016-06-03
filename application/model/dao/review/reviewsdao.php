@@ -1,8 +1,10 @@
 <?php
 
-interface ReviewsDao extends Dao {
-
-    public function getReviews();    
+interface ReviewsDao extends VoteFunctionalityDao {
+    
+    public function getReviews($limit = -1, $orderType = 'date', $order = 'DESC');    
+    
+    public function getUserReviews($gameId);
 
     public function updateReviewCore($reviewId, $reviewedOn, $title, $score, $text, $videoUrl, Image $headerImg, $goods, $bads, $tags, $gallery, $format);
 
@@ -11,12 +13,6 @@ interface ReviewsDao extends Dao {
     public function removeUserScore($reviewId, $userId);
 
     public function udpateUserScore($reviewId, $userId, $newScore);
-
-    public function addVoter($reviewId, $voterId, $voterFlag);
-    
-    public function removeVoter($reviewId, $voterId);
-    
-    public function updateVoter($reviewId, $voterId, $voterFlag);
 
     public function addRootComment($reviewId, Comment $rootComment);
     
@@ -27,8 +23,6 @@ interface ReviewsDao extends Dao {
     public function addGoodBadTag($reviewId,$goodBadTag);
     
     public function removeGoodBadTag($reviewId, $goodBadTagId);
-    
-    //FIXME should there be an update goodBadTag ?
     
     public function addGalleryImage($reviewId, Image $image);
     

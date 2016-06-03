@@ -95,6 +95,11 @@ class UserSimple implements DaoObject {
         return $this->_donated;
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

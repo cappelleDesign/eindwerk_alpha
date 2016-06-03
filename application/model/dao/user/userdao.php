@@ -148,7 +148,7 @@ interface UserDao extends Dao {
     /**
      * removeNotification
      * Removes the notification with this id from the database
-     * @param type $notificationId
+     * @param int $notificationId
      */
     public function removeNotification($notificationId);
 
@@ -163,15 +163,15 @@ interface UserDao extends Dao {
     /**
      * getUserRole
      * Returns the user role with this id
-     * @param type $userRoleId
+     * @param int $accessFlag
      * @return UserRole $userRole
      */
-    public function getUserRole($userRoleId);
+    public function getUserRole($accessFlag);
 
     /**
      * getAvatar
      * Returns the avatar with this id
-     * @param type $avatarId
+     * @param int $avatarId
      * @return Avatar $avatar
      */
     public function getAvatar($avatarId);

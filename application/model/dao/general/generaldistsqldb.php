@@ -8,7 +8,7 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
 
     /**
      * getImage
-     * Gets an image from the SQL database and returns it as an Image object
+     * Returns an image from the SQL database and returns it as an Image object
      * @param int $imageId
      * @return Image
      */

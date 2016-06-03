@@ -221,6 +221,11 @@ class Comment implements DaoObject {
         return false;
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

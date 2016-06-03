@@ -22,6 +22,7 @@ class UserService {
 
     /**
      * addUser
+     * Adds a user to the database
      * @param UserDetailed $user
      * @throws ServiceException
      */
@@ -33,6 +34,12 @@ class UserService {
         }
     }
 
+    /**
+     * removeUser
+     * Removes a user from the database
+     * @param int $userId
+     * @throws ServiceException
+     */
     public function removeUser($userId) {
         try {
             $this->_userDB->remove($userId);
@@ -41,6 +48,13 @@ class UserService {
         }
     }
 
+    /**
+     * getUser
+     * Returns the user with this id from the database as a user object
+     * @param int $userId
+     * @return UserDetailed $user
+     * @throws DBException if the no user with this id was found
+     */
     public function getUser($userId) {
         try {
             return $this->_userDB->get($userId);
@@ -49,6 +63,13 @@ class UserService {
         }
     }
 
+    /**
+     * getByStringId
+     * Returns a user by searching for it's username or email
+     * @param string $identifier being the username or the email of a user
+     * @return UserDetailed
+     * @throws DBException if no users with this username or email exists
+     */
     public function getUserByStringId($identifier) {
         try {
             return $this->_userDB->getByString($identifier);
@@ -57,6 +78,12 @@ class UserService {
         }
     }
 
+    /**
+     * checkEmailAvailable
+     * Checks if an email is already in use on the site
+     * @param string $mail
+     * @return bool
+     */
     public function checkEmailAvailable($mail) {
         try {
             return $this->_userDB->emailAvailable($mail);
@@ -65,6 +92,12 @@ class UserService {
         }
     }
 
+    /**
+     * checkUsernameAvailable
+     * Checks if a username is already in use on the site
+     * @param string $username
+     * @return bool
+     */
     public function checkUsernameAvailable($username) {
         try {
             return $this->_userDB->usernameAvailable($username);
@@ -73,22 +106,41 @@ class UserService {
         }
     }
 
-    public function getSimpleUser($user_id) {
+    /**
+     * getSimpleUser
+     * returns a UserSimple object with id when no detailed information is needed
+     * @param int $userId
+     * @return UserSimple 
+     * @throws DBException if no user with this id was found
+     */
+    public function getSimpleUser($userId) {
         try {
-            return $this->_userDB->getSimple($user_id);
+            return $this->_userDB->getSimple($userId);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }
 
-    public function getUserRole($flag) {
+    /**
+     * getUserRole
+     * Returns the user role with this id 
+     * @param int $accessFlag
+     * @return UserRole
+     */
+    public function getUserRole($accessFlag) {
         try {
-            return $this->_userDB->getUserRole($flag);
+            return $this->_userDB->getUserRole($accessFlag);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }
 
+    /**
+     * getAvatar
+     * Returns the avatar with this id
+     * @param int $avatarId
+     * @return Avatar
+     */
     public function getAvatar($avatarId) {
         try {
             return $this->_userDB->getAvatar($avatarId);
@@ -97,6 +149,11 @@ class UserService {
         }
     }
 
+    /**
+     * getUsers
+     * Returns all users in the database
+     * @return array of UserSimple objects
+     */
     public function getUsers() {
         try {
             return $this->_userDB->getUsers();
@@ -105,6 +162,11 @@ class UserService {
         }
     }
 
+    /**
+     * getAvatars
+     * Returns all the avatars
+     * @return array
+     */
     public function getAvatars() {
         try {
             return $this->_userDB->getAvatars();
@@ -113,6 +175,11 @@ class UserService {
         }
     }
 
+    /**
+     * getUserRoles
+     * Returns all the user roles
+     * @return array
+     */
     public function getUserRoles() {
         try {
             return $this->_userDB->getUserRoles();
@@ -121,6 +188,11 @@ class UserService {
         }
     }
 
+    /**
+     * getAllAchievements
+     * Returns all the achievements
+     * @return array
+     */
     public function getAllAchievements() {
         try {
             return $this->_userDB->getAllAchievements();
@@ -129,6 +201,13 @@ class UserService {
         }
     }
 
+    /**
+     * updatePw
+     * updates the password for a user with this id
+     * @param UserDetailed $user
+     * @param string $pwOld
+     * @param string $pwNew as new encrypted password
+     */
     public function updatePw(UserDetailed $user, $pwOld, $pwNew) {
         if (password_verify($pwOld, $user->getPwEncrypted())) {
             try {
@@ -144,6 +223,12 @@ class UserService {
         return null;
     }
 
+    /**
+     * updateUserUserRole
+     * Updates the user role in the users table if the user id matches
+     * @param UserDetailed $user
+     * @param UserRole $userRole
+     */
     public function updateUserUserRole(UserDetailed $user, UserRole $userRole) {
         try {
             $this->_userDB->updateUserUserRole($user->getId(), $userRole->getId());
@@ -153,6 +238,12 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserAvatar
+     * Updates the avatar in the users table if the user id matches
+     * @param UserDetailed $user
+     * @param Avatar $avatar
+     */
     public function updateUserAvatar(UserDetailed $user, Avatar $avatar) {
         try {
             $this->_userDB->updateUserAvatar($user->getId(), $avatar->getId());
@@ -162,6 +253,12 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserDonated
+     * updates the amount donated for the user with this id
+     * @param UserDetailed $user
+     * @param int $donation to be added
+     */
     public function updateUserDonated(UserDetailed $user, $donation) {
         try {
             $donated = $user->getDonated() + $donation;
@@ -172,6 +269,12 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserKarma
+     * udpates the karma of the user to a new amount
+     * @param UserDetailed $user
+     * @param int $karma to be added
+     */
     public function updateUserKarma(UserDetailed $user, $karma) {
         try {
             $user->updateKarma($karma);
@@ -181,6 +284,12 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserRegKey
+     * Updates the reg key for user with this id
+     * @param UserDetailed $user
+     * @param string $regKey
+     */
     public function updateUserRegKey(UserDetailed $user, $regKey) {
         try {
             $this->_userDB->updateUserRegKey($user->getId(), $regKey);
@@ -190,6 +299,11 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserWarnings
+     * Updates the amount of warnings for user with this id
+     * @param UserDetailed $user     
+     */
     public function updateUserWarnings(UserDetailed $user) {
         try {
             $user->addWarning();
@@ -199,6 +313,13 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserDiamonds
+     * updates the amount of diamonds for user with this id
+     * @param UserDetailed $user
+     * @param int $diamonds total amount
+     * @param int $karma
+     */
     public function updateUserDiamonds(UserDetailed $user, $diamonds, $karma) {
         try {
             $user->updateDiamonds($diamonds, $karma);
@@ -209,6 +330,13 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserDateTimePref
+     * Updates the time preference setting for the user with this id
+     * @param UserDetailed $user
+     * @param string $dateTimePref
+     * @throws ServiceException
+     */
     public function updateUserDateTimePref(UserDetailed $user, $dateTimePref) {
         try {
             $this->_userDB->updateUserDateTimePref($user->getId(), $dateTimePref);
@@ -218,6 +346,14 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserLastLogin
+     * Updates the last login time of the user with this id
+     * @param UserDetailed $user
+     * @param DateTime $lastLogin
+     * @param string $format
+     * @throws ServiceException
+     */
     public function updateUserLastLogin(UserDetailed $user, $lastLogin, $format) {
         try {
             $user->setLastLogin($lastLogin, $format);
@@ -227,6 +363,13 @@ class UserService {
         }
     }
 
+    /**
+     * updateUserActiveTime
+     * Updates the total seconds of active time of user with this id
+     * @param UserDetailed $user
+     * @param int $activeTime
+     * @throws ServiceException
+     */
     public function updateUserActiveTime(UserDetailed $user, $activeTime) {
         try {
             $user->updateActiveTime($activeTime);
@@ -236,6 +379,13 @@ class UserService {
         }
     }
 
+    /**
+     * addNotification
+     * Adds a notification for a user to the Notifications table
+     * @param UserDetailed $user
+     * @param Notification $notifcation
+     * @throws ServiceException
+     */
     public function addNotification(UserDetailed $user, Notification $notifcation) {
         try {
             $this->_userDB->addNotification($user->getId(), $notifcation);
@@ -245,6 +395,14 @@ class UserService {
         }
     }
 
+    /**
+     * updateNotification
+     * Updates a notification in the Notifications table if id matches 
+     * @param UserDetailed $user
+     * @param int $notificationId
+     * @param bool $isRead
+     * @throws ServiceException
+     */
     public function updateNotification(UserDetailed $user, $notificationId, $isRead) {
         try {
             $this->_userDB->updateNotification($notificationId, $isRead);
@@ -254,6 +412,13 @@ class UserService {
         }
     }
 
+    /**
+     * removeNotification
+     * Removes a notification from the Notifications table if the user id matches
+     * @param UserDetailed $user
+     * @param int $notificationId
+     * @throws ServiceException
+     */
     public function removeNotification(UserDetailed $user, $notificationId) {
         try {
             $this->_userDB->removeNotification($notificationId);
@@ -263,6 +428,14 @@ class UserService {
         }
     }
 
+    /**
+     * addAchievement
+     * Adds a record to the achievements_users table.
+     * This means that a user now has this achievement
+     * @param UserDetailed $user
+     * @param Achievement $achievement
+     * @throws ServiceException
+     */
     public function addAchievement(UserDetailed $user, Achievement $achievement) {
         try {
             $this->_userDB->addAchievement($user->getId(), $achievement->getId());
@@ -272,6 +445,13 @@ class UserService {
         }
     }
 
+    /**
+     * getAchievement
+     * Returns the achievement if the name matches
+     * @param string $name
+     * @return Achievement
+     * @throws ServiceException
+     */
     public function getAchievement($name) {
         try {
             return $this->_userDB->getAchievement($name);

@@ -54,6 +54,15 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
         $statement->execute($queryArgs);
     }
 
+    /**
+     * updateVoterNotif
+     * Updates the link between an vote and the notification
+     * @param string $objectName
+     * @param int $objectId
+     * @param int $voterId
+     * @param int $notifId
+     * @throws DBException
+     */
     public function updateVoterNotif($objectName, $objectId, $voterId, $notifId) {
         if (!$this->rowPresent($objectName, $objectId, $voterId)) {
             throw new DBException('No row found for a vote on this ' . $objectName);

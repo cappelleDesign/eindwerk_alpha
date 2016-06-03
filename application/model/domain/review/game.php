@@ -221,8 +221,8 @@ class Game implements DaoObject {
     /**
      * addGenre
      * Adds a genre to this game
-     * @param type $genreId
-     * @param type $genreName
+     * @param int $genreId
+     * @param string $genreName
      */
     public function addGenre($genreId, $genreName) {
         $this->_genres[$genreId] = $genreName;
@@ -231,7 +231,7 @@ class Game implements DaoObject {
     /**
      * removeGenre
      * Removes a genre from this game
-     * @param type $genreId     
+     * @param int $genreId     
      */
     public function removeGenre($genreId) {
         if (array_key_exists($genreId, $this->getGenres())) {
@@ -242,8 +242,8 @@ class Game implements DaoObject {
     /**
      * addPlatform
      * Adds a platform to this game
-     * @param type $platformId
-     * @param type $platformName
+     * @param int $platformId
+     * @param string $platformName
      */
     public function addPlatform($platformId, $platformName) {
         $this->_platforms[$platformId] = $platformName;
@@ -252,7 +252,7 @@ class Game implements DaoObject {
     /**
      * removePlatform
      * Removes a platform from this game
-     * @param type $platformId     
+     * @param int $platformId     
      */
     public function removePlatform($platformId) {
         if (array_key_exists($platformId, $this->getPlatforms())) {
@@ -271,6 +271,11 @@ class Game implements DaoObject {
         return $this->getRelease()->format($format);
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

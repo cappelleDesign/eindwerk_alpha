@@ -56,6 +56,11 @@ class Avatar implements DaoObject {
         return $this->_tier;
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

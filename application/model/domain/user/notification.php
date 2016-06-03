@@ -65,11 +65,11 @@ class Notification implements DaoObject {
     public function setText($text) {
         $this->_text = $text;
     }
-    
+
     public function setLink($link) {
         $this->_link = $link;
     }
-    
+
     public function setCreated($created, $format) {
         $this->_created = DateTime::createFromFormat($format, $created);
     }
@@ -95,7 +95,7 @@ class Notification implements DaoObject {
     public function getLink() {
         return $this->_link;
     }
-        
+
     public function getCreated() {
         return $this->_created;
     }
@@ -115,6 +115,11 @@ class Notification implements DaoObject {
         return $this->_created->format($format);
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

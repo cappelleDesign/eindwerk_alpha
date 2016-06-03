@@ -46,9 +46,9 @@ class CreationHelper {
      *  $recentNotifications, $lastComment and $achievements.
      * @param UserSimple $simpleUser
      * @param array $row   
-     * @param type $recentNotifications
-     * @param type $lastComment
-     * @param type $achievements
+     * @param Notification[] $recentNotifications
+     * @param Comment $lastComment
+     * @param Achievement[] $achievements
      * @return UserDetailed
      */
     public function createUserDetailed(UserSimple $simpleUser, $row, $recentNotifications, $lastComment, $achievements) {
@@ -159,6 +159,13 @@ class CreationHelper {
         }
     }
 
+    /**
+     * createVote
+     * Creates a Vote object from an SQL row
+     * @param array $row
+     * @return Vote
+     * @throws DBException
+     */
     public function createVote($row) {
         try {
             $vote = new Vote($row['user_id'], $row['comment_id'], $row['voted_on_notif_id'], $row['user_name'], $row['vote_flag']);

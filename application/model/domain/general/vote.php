@@ -86,6 +86,11 @@ class Vote {
         $this->_voteFlag = $voteFlag;
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

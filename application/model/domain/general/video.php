@@ -147,14 +147,26 @@ class Video implements DaoObject {
 
     /* ---------------------------------------------------------------------- */
 
+    /**
+     * addLike
+     * Adds a like to this video
+     */
     public function addLike() {
         $this->_likes++;
     }
 
+    /**
+     * removeLike
+     * Removes a like from this video
+     */
     public function removeLike() {
         $this->_likes--;
     }
 
+    /**
+     * addView
+     * Adds a view to this video
+     */
     public function addView() {
         $this->_views++;
     }
@@ -191,6 +203,11 @@ class Video implements DaoObject {
         return $this->_created->format($format);
     }
     
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         //TODO IMPLEMENT
     }

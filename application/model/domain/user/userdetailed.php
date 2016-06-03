@@ -348,11 +348,11 @@ class UserDetailed extends UserSimple {
      * @param boolean $isRead
      */
     public function updateNotification($notificationId, $isRead) {
-        if(array_key_exists($notificationId, $this->getRecentNotifications())) {
+        if (array_key_exists($notificationId, $this->getRecentNotifications())) {
             $this->_recentNotifications[$notificationId]->setIsRead($isRead);
         }
     }
-    
+
     /**
      * updateActiveTime
      * Adds x seconds to the active time
@@ -381,6 +381,11 @@ class UserDetailed extends UserSimple {
         $this->updateDiamonds($achievement->getDiamondReward(), $achievement->getKarmaReward());
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement

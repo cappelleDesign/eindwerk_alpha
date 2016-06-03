@@ -145,7 +145,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
 
     /**
      * getAvatar
-     * Gets an avatar from the SQL database and returns it as an Avatar object
+     * Returns an avatar from the SQL database and returns it as an Avatar object
      * @param int $avatarId
      * @return Avatar
      */
@@ -167,7 +167,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
 
     /**
      * getImage
-     * Gets an image from the SQL database and returns it as an Image object
+     * Returns an image from the SQL database and returns it as an Image object
      * @param int $imageId
      * @return Image
      */
@@ -198,14 +198,14 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
 
     /**
      * getUserRole
-     * Gets a User Role from the SQL database
-     * @param int $userRoleId
+     * Returns a User Role from the SQL database
+     * @param int $accessFlag
      * @return UserRole
      */
-    public function getUserRole($userRoleId) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_id = ?';
+    public function getUserRole($accessFlag) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_access_flag = ?';
         $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $userRoleId);
+        $statement->bindParam(1, $accessFlag);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
@@ -217,7 +217,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
 
     /**
      * getLastComment
-     * Gets the user's last Comment from the SQL database
+     * Returns the user's last Comment from the SQL database
      * @param UserSimple $simpleUser
      * @return Comment
      */

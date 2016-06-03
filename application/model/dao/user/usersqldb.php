@@ -510,7 +510,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * getAvatar
-     * Gets the avatar with this id
+     * Returns the avatar with this id
      * @param int $avatarId
      * @return Avatar
      */
@@ -520,17 +520,17 @@ class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * getUserRole
-     * Gets the user role with this id 
-     * @param int $userRoleId
+     * Returns the user role with this id 
+     * @param int $accessFlag
      * @return UserRole
      */
-    public function getUserRole($userRoleId) {
-        return $this->_userDistDB->getUserRole($userRoleId);
+    public function getUserRole($accessFlag) {
+        return $this->_userDistDB->getUserRole($accessFlag);
     }
 
     /**
      * getAchievements
-     * Gets the achievements for the user with this id
+     * Returns the achievements for the user with this id
      * @param int $userId
      * @return array
      */
@@ -540,7 +540,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * getAvatars
-     * Gets all the avatars
+     * Returns all the avatars
      * @return array
      */
     public function getAvatars() {
@@ -549,7 +549,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * getUserRoles
-     * Gets all the user roles
+     * Returns all the user roles
      * @return array
      */
     public function getUserRoles() {
@@ -558,7 +558,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * getAllAchievements
-     * Gets all the achievements
+     * Returns all the achievements
      * @return array
      */
     public function getAllAchievements() {

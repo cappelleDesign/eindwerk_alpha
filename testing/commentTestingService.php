@@ -16,6 +16,8 @@ try {
     $posterJens4 = $userDb->get(4);
     $posterJens5 = $userDb->get(5);
     $posterJens6 = $userDb->get(6);
+    
+    Globals::cleanDump($posterJens);
 
     
 //    $service->updateCommentText(1, 'updated text');
@@ -30,8 +32,15 @@ try {
 //   $service->addVoter($comment->getId(), $posterJens4->getId(), $posterJens4->getUsername(), 3);
 //   $service->addVoter($comment->getId(), $posterJens5->getId(), $posterJens5->getUsername(), 2);
 //   $service->addVoter($comment->getId(), $posterJens6->getId(), $posterJens6->getUsername(), 2);
-   $service->addVoter($comment->getId(), $posterJens->getId(), $posterJens->getUsername(), 1);
-   
+//   $service->addVoter($comment->getId(), $posterJens->getId(), $posterJens->getUsername(), 1);
+//    $obj1 = $service->getDownVotersCount($comment->getId());
+//    $obj2 = $service->getUpVotersCount($comment->getId());
+//    $obj3 = $service->getDiamondVotersCount($comment->getId());
+//   
+//    Globals::cleanDump($obj1);
+//    Globals::cleanDump($obj2);
+//    Globals::cleanDump($obj3);
+//    echo $service->hasVoted($comment->getId(), $posterJens4->getId());
     echo '<h1 style="color: green">SUCCESS</h1>';
 } catch (Exception $ex) {
     echo '<h1 style="color:red">ERROR</h1>';

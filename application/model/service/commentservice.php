@@ -43,6 +43,12 @@ class CommentService {
         $this->_notificationHandler = $notificationHandler;
     }
 
+    /**
+     * addComment
+     * Adds a comment to the database
+     * @param Comment $comment
+     * @throws ServiceException
+     */
     public function addComment(Comment $comment) {
         try {
             $commentId = $this->_commentDB->add($comment);
@@ -142,7 +148,7 @@ class CommentService {
         try {
             $flagPrev = $this->_commentDB->hasVoted($commentId, $voterId);
             if ($flagPrev === -1) {
-                $notifId = $this->_notificationHandler->notifyParentWriterVoted($commentId, $voterId, $voterName, $voteFlag);
+                $notifId = $this->_notificationHandler->notifyParentWriterVoted('comment' ,$commentId, $voterId, $voterName, $voteFlag);
                 $this->_commentDB->addVoter($commentId, $voterId, $notifId, $voteFlag);
             } else if ($flagPrev === $voteFlag) {
                 $this->removeVoter($commentId, $voterId, $voteFlag);
@@ -157,23 +163,32 @@ class CommentService {
     public function updateVoter($commentId, $voterId, $voterName, $voteFlag, $prevFlag) {
         try {
             $notifPrev = $this->_commentDB->getVotedNotifId($commentId, $prevFlag);
-            $notifId = $this->_notificationHandler->notifyParentWriterVoted($commentId, $voterId, $voterName, $voteFlag);
+            $notifId = $this->_notificationHandler->notifyParentWriterVoted('comment', $commentId, $voterId, $voterName, $voteFlag);
             $this->_commentDB->updateVoter($commentId, $voterId, $voteFlag);
             $this->_commentDB->updateVoterNotif($commentId, $voterId, $notifId);
-            $this->_notificationHandler->notifyParentWriterVoted($commentId, $voterId, -1, $prevFlag, $notifPrev);
+            $this->_notificationHandler->notifyParentWriterVoted('comment', $commentId, $voterId, -1, $prevFlag, $notifPrev);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }
 
     public function removeVoter($commentId, $voterId, $voteFlag) {
-        Globals::cleanDump('rm');
-//        try {
-//            $this->_commentDB->removeVoter($commentId, $voterId);
-//            $this->_notificationHandler->notifyParentWriterVoted($commentId, $voterId, -1, $voteFlag);
-//        } catch (Exception $ex) {
-//            throw new ServiceException($ex->getMessage(), $ex);
-//        }
+        try {
+            $notifPrev = $this->_commentDB->getVotedNotifId($commentId, $voteFlag);
+            $this->_commentDB->removeVoter($commentId, $voterId);
+
+            $this->_notificationHandler->notifyParentWriterVoted('comment' ,$commentId, $voterId, -1, $voteFlag, $notifPrev);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function hasVoted($commentId, $userId) {
+        try {
+            return $this->_commentDB->hasVoted($commentId, $userId);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
     }
 
 }

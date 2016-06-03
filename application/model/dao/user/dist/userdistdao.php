@@ -58,10 +58,10 @@ interface UserDistDao {
     /**
      * getUserRole
      * Returns the user role with this id
-     * @param int $flag
+     * @param int $accessFlag
      * @return UserRole $userRole
      */
-    public function getUserRole($flag);
+    public function getUserRole($accessFlag);
 
     /**
      * getLastComment

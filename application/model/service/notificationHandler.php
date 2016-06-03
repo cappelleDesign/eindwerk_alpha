@@ -31,11 +31,30 @@ class notificationHandler {
     }
 
     /**
+     * getActiveDb
+     * Returns the db related to the objectname
+     * @param string $objectName
+     * @return VoteFunctionalityDao
+     * @throws ServiceException
+     */
+    private function getActiveDb($objectName) {
+        switch ($objectName) {
+            case 'comment' :
+                return $this->_commentDb;
+            case 'review' :
+                return $this->_reviewDb;
+            default :
+                throw new ServiceException('No active db found for: ' . $objectName);
+        }
+    }
+
+    /**
      * notifyParents
      * Notifies the direct parent of this comment and the rootparent if necessary
      * @param Comment $comment
+     * @param DaoObject $superParentObject (video/review
      */
-    public function notifyParentWriterCommented($comment) {
+    public function notifyParentWriterCommented($comment, $superParentObject = NULL) {
         $txt = 'replied to your comment';
         if ($comment->getParentId()) {
             $parent = $this->_commentDb->get($comment->getParentId());
@@ -60,15 +79,27 @@ class notificationHandler {
         }
     }
 
-    public function notifyParentWriterVoted($commentId, $voterId, $voterName, $voteFlag, $notifIdPrev = 0) {
-        $notifId = $notifIdPrev ? $notifIdPrev : $this->_commentDb->getVotedNotifId($commentId, $voteFlag);
+    /**
+     * notiffyParentWriterVoted
+     * Handles notification add/update/remove for this object.
+     * Returns the notification id
+     * @param int $objectId
+     * @param int $voterId
+     * @param string $voterName
+     * @param int $voteFlag
+     * @param int $notifIdPrev
+     * @return int $notifId
+     */
+    public function notifyParentWriterVoted($objectName, $objectId, $voterId, $voterName, $voteFlag, $notifIdPrev = 0) {
+        $activeDb = $this->getActiveDb($objectName);
+        $notifId = $notifIdPrev ? $notifIdPrev : $activeDb->getVotedNotifId($objectId, $voteFlag);
         $text = $this->getVoteText($voteFlag);
         if ($notifId < 0 && $voterName > -1) {
             $body = $voterName . ' ' . $text;
-            $notification = $this->createNotif($commentId, $voterId, $body);
+            $notification = $this->createNotif($objectId, $voterId, $body);
             $notifId = $this->_userDb->addNotification($voterId, $notification);
         } else {
-            $body = $this->buildVoteNotifBody($commentId, $voteFlag, $voterName, $text);
+            $body = $this->buildVoteNotifBody($activeDb, $objectId, $voteFlag, $voterName, $text);
             if ($body === -1) {
                 $this->_userDb->removeNotification($notifId);
             } else {
@@ -78,6 +109,12 @@ class notificationHandler {
         return $notifId;
     }
 
+    /**
+     * getVoteText
+     * Returns the text for this flag (downvote/updvote/diamond)
+     * @param int $voteFlag
+     * @return string
+     */
     private function getVoteText($voteFlag) {
         switch ($voteFlag) {
             case '1':
@@ -89,13 +126,24 @@ class notificationHandler {
         }
     }
 
-    private function buildVoteNotifBody($commentId, $flag, $voterName, $text) {
-        $voters = $this->_commentDb->getVoters($commentId, $flag, 2);
+    /**
+     * buildVoteNotiBody
+     * Builds and returns the body for a notification.
+     * The outcome depends on the flag, the number of voters and the text
+     * @param VoteFunctionalityDao $activeDb
+     * @param int $objectId
+     * @param int $flag
+     * @param string $voterName
+     * @param string $text
+     * @return string $body
+     */
+    private function buildVoteNotifBody($activeDb, $objectId, $flag, $voterName, $text) {
+        $voters = $activeDb->getVoters($objectId, $flag, 2);
         $keys = array_keys($voters);
-        $count = $this->_commentDb->getVotersCount($commentId, $flag);        
+        $count = $activeDb->getVotersCount($objectId, $flag);
         if (!$count) {
             return -1;
-        }        
+        }
         $body = '';
         $i = 0;
         if ($voterName !== -1) {
@@ -104,7 +152,7 @@ class notificationHandler {
             $i = 1;
             $body = $voters[$keys[0]]->getVoterName();
         }
-        if ($count > 2 + $i) {            
+        if ($count > 2 + $i) {
             $body .= ', ' . $voters[$keys[0 + $i]]->getVoterName();
             $body .= ', ' . $voters[$keys[1 + $i]]->getVoterName();
             $body .= ' and ' . ($count - 2) . ' other(s)';
@@ -121,7 +169,7 @@ class notificationHandler {
 
     /**
      * buildNotificationBody
-     * Creates the correct body for comment related notification
+     * Builds and returns the correct body for comment related notification
      * @param int $subsForId     
      * @param string $text
      */
@@ -148,6 +196,14 @@ class notificationHandler {
         return $body;
     }
 
+    /**
+     * createNotif
+     * Creates a Notification object using the comment id, user id and a body
+     * @param int $commentId
+     * @param int $userId
+     * @param string $body
+     * @return Notification
+     */
     private function createNotif($commentId, $userId, $body) {
         $linkBase = 'index.php/comments/show-comment/';
         $format = Globals::getDateTimeFormat('mysql', true);

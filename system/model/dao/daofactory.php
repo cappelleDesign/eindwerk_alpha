@@ -47,6 +47,13 @@ class DaoFactory {
         return $userDB;
     }
 
+    /**
+     * getVoteDB
+     * Returns a Vote database with the type depending on the configs
+     * @param array $configs
+     * @return VoteSqlDB
+     * @throws DBException
+     */
     public function getVoteDB($configs) {
         $this->checkConfigs('votes', $configs);
         $dbType = $configs['type.votes'];
@@ -79,6 +86,14 @@ class DaoFactory {
         }        
     }
 
+    /**
+     * createMysqlConnection
+     * If the connection is not yet initialized, it will be set with these settings
+     * @param string $host
+     * @param string $username
+     * @param string $passwd
+     * @param string $database
+     */
     private function createMysqlConnection($host, $username, $passwd, $database) {
         if (!$this->_connection) {
             $dsn = 'mysql:host=' . $host . ';dbname=' . $database;

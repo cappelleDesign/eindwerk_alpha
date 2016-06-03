@@ -55,6 +55,11 @@ class Image implements DaoObject {
         return $this->_alt;
     }
 
+    /**
+     * jsonSerialize
+     * Returns object as Json array
+     * @return array
+     */
     public function jsonSerialize() {
         $arr = array();
         //TODO implement
