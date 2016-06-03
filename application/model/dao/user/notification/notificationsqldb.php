@@ -63,8 +63,7 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
         }
         $query = 'UPDATE ' . $notifT . ' SET ' . $notifT . '.notification_txt = :txt,' . $linkPart . $notifT . '.notification_isread = :read WHERE ' . $notifT . '.notification_id = :notifId';
         $statement = parent::prepareStatement($query);
-
-        $statement->execute($queryArgs);
+        $statement->execute($queryArgs);        
     }
 
     /**
@@ -81,7 +80,7 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
         $queryArgs = array(
             ':notifId' => $notificationId
         );
-        $statement->execute($queryArgs);
+        $statement->execute($queryArgs);        
     }
 
     /**

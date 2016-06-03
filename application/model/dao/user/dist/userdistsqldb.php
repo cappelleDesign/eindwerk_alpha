@@ -13,14 +13,21 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @var GeneralDistDao 
      */
     private $_generalDistDao;
+    
+    /**
+     * An instance of the vote db to help with vote related functions
+     * @var VoteDao
+     */
+    private $_voteDao;
 
-    public function __construct($connection, $generalDistDao) {
+    public function __construct($connection, $generalDistDao, $voteDao) {
         parent::__construct($connection);
-        $this->init($generalDistDao);
+        $this->init($generalDistDao, $voteDao);
     }
 
-    private function init($generalDistDao) {
+    private function init($generalDistDao, $voteDao) {
         $this->_generalDistDao = $generalDistDao;
+        $this->_voteDao = $voteDao;
     }
 
     /**
@@ -149,10 +156,10 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
-        if(empty($result)) {
+        if (empty($result)) {
             throw new DBException('No avatar found with id: ' . $avatarId, NULL);
         }
-        $row = $result[0];        
+        $row = $result[0];
         $image = $this->getImage($row['images_image_id']);
         $avatar = $this->createAvatar($row, $image);
         return $avatar;
@@ -206,43 +213,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $row = $result[0];
         $userRole = $this->createUserRole($row);
         return $userRole;
-    }
-
-    /**
-     * getVoters
-     * returns all votes for a comment
-     * 
-     * START ORIGINAL SQL STATEMENT
-      SELECT
-      users.user_id,
-      users.user_name,
-      comment_votes.vote_flag
-      FROM
-      `comment_votes` INNER JOIN
-      users ON comment_votes.users_voter_id = users.user_id
-      WHERE comment_votes.comment_id = 1
-     * END ORIGINAL SQL STATEMENT
-     * 
-     * @param int $commentId
-     * @return Vote[] $voters
-     */
-    public function getVoters($commentId) {
-        $userT = Globals::getTableName('user');
-        $combo = Globals::getTableName('comment_vote');
-        $query = 'SELECT ' . $userT . '.user_id, ' . $combo . '.comment_id,' . $combo . '.voted_on_notif_id,' . $userT . '.user_name,' . $combo . '.vote_flag' .
-                ' FROM ' . $combo . ' INNER JOIN ' . $userT . ' ON ' . $combo . '.users_voter_id = ' . $userT . '.user_id' .
-                ' WHERE ' . $combo . '.comment_id = ?';
-        $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $commentId);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-        $voters = array();
-        foreach ($result as $row) {
-            $voters[$row['user_id']] = parent::getCreationHelper()->createVote($row);
-        }
-        return $voters;
-    }
+    }   
 
     /**
      * getLastComment
@@ -258,14 +229,15 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         $result = $statement->fetchAll();
-        if(empty($result)){
+        if (empty($result)) {
             return Null;
         }
         $row = $result[0];
-        $voters = array();
-        if ($row && isset($row['comment_id'])) {
-            $voters = $this->getVoters($row['comment_id']);
-        }
+        $voters = $this->_voteDao->getVoters('comment', $row['comment_id']);
+//        $voters = array();
+//        if ($row && isset($row['comment_id'])) {
+//            $voters = $this->getVoters($row['comment_id']);
+//        }
         return $this->createLastComment($row, $simpleUser, $voters);
     }
 

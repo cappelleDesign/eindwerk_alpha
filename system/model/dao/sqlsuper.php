@@ -25,7 +25,8 @@ class SqlSuper {
     public function __construct($connection) {
         //have to make sure database exists on sql server or find way to set db on the fly        
         try {
-            $this->_connection = $connection;            
+            $this->_connection = $connection;      
+            $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $this->_creationHelper = new CreationHelper();
         } catch (PDOException $ex) {
             throw new DBException($ex->getMessage(), $ex);
@@ -115,6 +116,10 @@ class SqlSuper {
     protected function prepareStatement($query) {
         try{
         $statement = $this->_connection->prepare($query);
+        $err = $this->_connection->errorInfo();
+        if($err['2']) {
+            throw new DBException($err['2']);
+        }
         return $statement;
         }  catch (Exception $ex) {
             throw new DBException($ex->getMessage(),$ex);

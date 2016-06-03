@@ -20,10 +20,10 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      */
     private $_voteDB;
 
-    public function __construct($connection, $userSqlDb) {
+    public function __construct($connection, $userSqlDb, $voteSqlDb) {
         parent::__construct($connection);
         $this->_userDB = $userSqlDb;
-        $this->_voteDB = new VoteSqlDB($connection);
+        $this->_voteDB = $voteSqlDb;
         $this->init();
     }
 
@@ -76,7 +76,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $result = $statement->fetchAll();
         $row = $result[0];
         $poster = $this->_userDB->getSimple($row['users_writer_id']);
-        $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+        $voters = $this->getVoters($row['comment_id']);
         $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
         return $comment;
     }
@@ -158,6 +158,11 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute();
     }
 
+    /**
+     * removeNotifications
+     * Removes notifications related to a comment
+     * @param int $notifId
+     */
     private function removeNotifications($notifId) {
         if ($notifId && $notifId != -1) {
             $query = 'DELETE FROM ' . Globals::getTableName('notification') . ' WHERE notification_id=?';
@@ -167,6 +172,12 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         }
     }
 
+    /**
+     * getCommentedOnNotif
+     * Returns the notification id if this comment was commented on
+     * @param int $commentId
+     * @return int or NULL if not found
+     */
     private function getCommentedOnNotif($commentId) {
         $query = 'SELECT commented_on_notif_id FROM ' . $this->_commentT . ' WHERE comment_id = ?';
         $statement = parent::prepareStatement($query);
@@ -177,7 +188,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $notifId = NULL;
         if (!empty($result)) {
             $notifId = $result[0]['commented_on_notif_id'];
-        }        
+        }
         return $notifId;
     }
 
@@ -225,7 +236,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      * @param boolean $group
      * @return Comment[]
      */
-    public function getSubComments($parentId, $limit, $group = FALSE) {
+    public function getSubComments($parentId, $limit = 100, $group = FALSE) {
         parent::triggerIdNotFound($parentId, 'comment');
         $idCol = 'parent_id';
         $groupBy = '';
@@ -243,7 +254,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $subComments = array();
         foreach ($result as $row) {
             $poster = $this->_userDB->getSimple($row['users_writer_id']);
-            $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+            $voters = $this->getVoters($row['comment_id']);
             $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
             array_push($subComments, $comment);
         }
@@ -308,7 +319,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
             $comments = array();
             foreach ($result as $row) {
                 $poster = $this->_userDB->getSimple($row['users_writer_id']);
-                $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+                $voters = $this->getVoters($row['comment_id']);
                 $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
                 array_push($comments, $comment);
             }
@@ -352,7 +363,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
             $comments = array();
             foreach ($result as $row) {
                 $poster = $this->_userDB->getSimple($row['users_writer_id']);
-                $voters = $this->_userDB->getUserDistDB()->getVoters($row['comment_id']);
+                $voters = $this->getVoters($row['comment_id']);
                 $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
                 array_push($comments, $comment);
             }
@@ -387,10 +398,10 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      * searchSuperParent
      * Helperfunction for getSuperParentId
      * returns the id of the super parent searching for the specific parent type (review or video)
-     * @param type $objectName
-     * @param type $objectIdName
-     * @param type $commentId
-     * @return type
+     * @param string $objectName
+     * @param string $objectIdName
+     * @param int $commentId
+     * @return DaoObject review/video or -1 if not founc
      */
     private function searchSuperParent($objectName, $objectIdName, $commentId) {
         $query = 'SELECT ' . $objectIdName . ' FROM ' . Globals::getTableName($objectName . '_comment') . ' WHERE comments_comment_id = ?';
@@ -404,6 +415,31 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         } else {
             return $result[0][$objectIdName];
         }
+    }
+
+    /* ----------------------------------Vote---------------------------------- */
+
+    /**
+     * getVoters
+     * Returns all voters for the given params 
+     * @param int $commentId
+     * @param int $flag (if -1, search all flags)
+     * @param int $limit
+     * @return Vote[]
+     */
+    public function getVoters($commentId, $flag = -1, $limit = -1) {
+        return $this->_voteDB->getVoters('comment', $commentId, $flag, $limit);
+    }
+
+    /**
+     * getVotersCount
+     * Returns the number of voters for this flag
+     * @param int $commentId
+     * @param int $flag
+     * @return int
+     */
+    public function getVotersCount($commentId, $flag) {
+        return $this->_voteDB->getVotersCount('comment', $commentId, $flag);
     }
 
     /**
@@ -430,6 +466,18 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
     }
 
     /**
+     * updateVoterNotif
+     * Updates the notification linked to this vote
+     * @param int $commentId
+     * @param int $voterId
+     * @param int $notifId
+     * @throws DBException     
+     */
+    public function updateVoterNotif($commentId, $voterId, $notifId) {
+        $this->_voteDB->updateVoterNotif('comment', $commentId, $voterId, $notifId);
+    }
+
+    /**
      * removeVoter
      * Removes a voter from this comment
      * @param int $commentId
@@ -448,6 +496,20 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      */
     public function getVotedNotifId($commentId, $voteFlag) {
         return $this->_voteDB->getVotedNotifId('comment', $commentId, $voteFlag);
+    }
+
+    /**
+     * hasVoted
+     * Returns if a user voted on this object.
+     * Return value is the flag related to this vote or -1 if the user did 
+     * not yet vote on this comment
+     * @param string $objectName
+     * @param int $objectId
+     * @param int $userId
+     * @return int
+     */
+    public function hasVoted($commentId, $userId) {
+        return $this->_voteDB->hasVoted('comment', $commentId, $userId);
     }
 
 }

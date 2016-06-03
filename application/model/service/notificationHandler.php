@@ -41,10 +41,15 @@ class notificationHandler {
             $parent = $this->_commentDb->get($comment->getParentId());
             if ($parent->getNotifId()) {
                 $body = $this->buildNotificationBody($comment->getParentId(), $txt);
-                $this->_userDb->updateNotification($parent->getNotifId(), $body, FALSE);
+                if ($body === -1) {
+                    $this->_commentDb->updateCommentNotification($parent->getId(), NULL);
+                    $this->_userDb->removeNotification($parent->getNotifId());
+                } else {
+                    $this->_userDb->updateNotification($parent->getNotifId(), $body, FALSE);
+                }
             } else {
                 $body = $comment->getPoster()->getUsername() . ' ' . $txt;
-                $notif = $this->createNotif($comment->getId(), $parent->getPoster()->getId(), $body);
+                $notif = $this->createNotif($parent->getId(), $parent->getPoster()->getId(), $body);
                 $notifId = $this->_userDb->addNotification($parent->getPoster()->getId(), $notif);
                 $this->_commentDb->updateCommentNotification($comment->getParentId(), $notifId);
             }
@@ -55,26 +60,63 @@ class notificationHandler {
         }
     }
 
-    public function notifyParentWriterVoted($commentId, $voterId, $voterName, $voteFlag) {
-        $notifId = $this->_commentDb->getVotedNotifId($commentId, $voteFlag);
-        if ($notifId < 0) {
-            $body = $voterName . $this->getVoteText($voteFlag);
+    public function notifyParentWriterVoted($commentId, $voterId, $voterName, $voteFlag, $notifIdPrev = 0) {
+        $notifId = $notifIdPrev ? $notifIdPrev : $this->_commentDb->getVotedNotifId($commentId, $voteFlag);
+        $text = $this->getVoteText($voteFlag);
+        if ($notifId < 0 && $voterName > -1) {
+            $body = $voterName . ' ' . $text;
             $notification = $this->createNotif($commentId, $voterId, $body);
-            $this->_userDb->addNotification($voterId, $notification);
+            $notifId = $this->_userDb->addNotification($voterId, $notification);
         } else {
-            
+            $body = $this->buildVoteNotifBody($commentId, $voteFlag, $voterName, $text);
+            if ($body === -1) {
+                $this->_userDb->removeNotification($notifId);
+            } else {
+                $this->_userDb->updateNotification($notifId, $body);
+            }
         }
+        return $notifId;
     }
 
     private function getVoteText($voteFlag) {
         switch ($voteFlag) {
             case '1':
-                return ' downvoted your comment :(';
+                return 'downvoted your comment :(';
             case '2' :
-                return ' upvoted your comment!';
+                return 'upvoted your comment!';
             case '3' :
-                return ' gave your comment a diamond';
+                return 'gave your comment a diamond';
         }
+    }
+
+    private function buildVoteNotifBody($commentId, $flag, $voterName, $text) {
+        $voters = $this->_commentDb->getVoters($commentId, $flag, 2);
+        $keys = array_keys($voters);
+        $count = $this->_commentDb->getVotersCount($commentId, $flag);        
+        if (!$count) {
+            return -1;
+        }        
+        $body = '';
+        $i = 0;
+        if ($voterName !== -1) {
+            $body = $voterName;
+        } else {
+            $i = 1;
+            $body = $voters[$keys[0]]->getVoterName();
+        }
+        if ($count > 2 + $i) {            
+            $body .= ', ' . $voters[$keys[0 + $i]]->getVoterName();
+            $body .= ', ' . $voters[$keys[1 + $i]]->getVoterName();
+            $body .= ' and ' . ($count - 2) . ' other(s)';
+        } else if ($count > 1 + $i) {
+            $body .= ', ' . $voters[$keys[0 + $i]]->getVoterName() . ' and ' . $voters[$keys[1]]->getVoterName();
+        } else if ($count > 0 + $i) {
+            $body .= ' and ' . $voters[$keys[0 + $i]]->getVoterName();
+        } else if ($voterName === -1) {
+            return $voterName;
+        }
+        $body .= ' ' . $text;
+        return $body;
     }
 
     /**
@@ -84,8 +126,12 @@ class notificationHandler {
      * @param string $text
      */
     private function buildNotificationBody($subsForId, $text) {
+
         $lastComments = $this->_commentDb->getSubComments($subsForId, 3, true);
         $count = $this->_commentDb->getSubCommentsCount($subsForId, true);
+        if (!$count) {
+            return -1;
+        }
         $body = $lastComments[0]->getPoster()->getUsername();
         if ($count > 3) {
             $body .= ', ' . $lastComments[1]->getPoster()->getUsername();

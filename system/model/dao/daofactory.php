@@ -32,14 +32,14 @@ class DaoFactory {
      * @return UserDao
      * @throws DBException
      */
-    public function getUserDB($configs) {
+    public function getUserDB($configs, $voteDb) {
         $this->checkConfigs('users', $configs);
         $dbType = $configs['type.users'];
         $userDB = NULL;
         switch ($dbType) {
             case 'mysql' :
-                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
-                $userDB = new UserSqlDB($this->_connection);
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
+                $userDB = new UserSqlDB($this->_connection, $voteDb);
                 break;
             default :
                 throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);
@@ -47,6 +47,21 @@ class DaoFactory {
         return $userDB;
     }
 
+    public function getVoteDB($configs) {
+        $this->checkConfigs('votes', $configs);
+        $dbType = $configs['type.votes'];
+        $voteDb = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
+                $voteDb = new VoteSqlDB($this->_connection);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for votes: ' . $dbType, NULL);
+        }
+        return $voteDb;
+    }
+    
     /**
      * checkConfigs
      * Checks if the configs contain all the needed informations for the given type.

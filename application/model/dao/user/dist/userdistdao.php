@@ -92,11 +92,4 @@ interface UserDistDao {
      */
     public function getAvatars();
 
-    /**
-     * getVoters
-     * Returns all the voters for a comment
-     * @param int $commentId
-     * @return Vote[] $voters
-     */
-    public function getVoters($commentId);
 }

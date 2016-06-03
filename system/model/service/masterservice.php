@@ -46,7 +46,8 @@ class MasterService {
 
     private function init($configs) {
         $this->_daoFactory = new DaoFactory();
-        $userDB = $this->_daoFactory->getUserDB($configs);
+        $votedDB = $this->_daoFactory->getVoteDB($configs);
+        $userDB = $this->_daoFactory->getUserDB($configs, $votedDB);
         $this->_userService = new UserService($userDB);
         //TODO add other services init
         $this->createMenus();

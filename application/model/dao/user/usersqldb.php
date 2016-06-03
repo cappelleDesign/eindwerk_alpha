@@ -7,12 +7,7 @@
  * @subpackage dao.user
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class UserSqlDB extends SqlSuper implements UserDao {
-    /**
-     * The comment db handles comment related db functions
-     * @var CommentDao 
-     */
-//    private $_commentDB;
+class UserSqlDB extends SqlSuper implements UserDao {   
 
     /**
      * The user dist db handles user related db functions
@@ -32,16 +27,15 @@ class UserSqlDB extends SqlSuper implements UserDao {
      */
     private $_generalDistDB;
 
-    public function __construct($connection) {
+    public function __construct($connection, $voteDB) {
         parent::__construct($connection);
-        $this->init($connection);
+        $this->init($connection, $voteDB);
     }
 
-    private function init($connection) {
+    private function init($connection, $voteDB) {
         $this->_generalDistDB = new GeneralDistSqlDB($connection);
-        $this->_userDistDB = new UserDistSqlDB($connection, $this->_generalDistDB);
+        $this->_userDistDB = new UserDistSqlDB($connection, $this->_generalDistDB, $voteDB);
         $this->_notificationDB = new NotificationSqlDB($connection);
-//        $this->_commentDB = new CommentSqlDB($connection , $this);
     }
 
     /**
