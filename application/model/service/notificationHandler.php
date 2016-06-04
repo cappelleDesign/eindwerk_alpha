@@ -16,11 +16,11 @@ class notificationHandler {
 
     /**
      * The review database handler
-     * @var ReviewsDao 
+     * @var ReviewDao 
      */
     private $_reviewDb;
 
-    public function __construct(UserDao $userDb, CommentDao $commentDb, ReviewsDao $reviewDb) {
+    public function __construct(UserDao $userDb, CommentDao $commentDb, ReviewDao $reviewDb) {
         $this->init($userDb, $commentDb, $reviewDb);
     }
 

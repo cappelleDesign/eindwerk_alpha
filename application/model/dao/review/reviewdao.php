@@ -1,15 +1,58 @@
 <?php
 /**
- * ReviewDistDao
- * This is an interface for all classes that handle review dist database functionality
+ * ReviewDao
+ * This is an interface for all classes that handle review database functionality
  * @package dao
- * @subpackage dao.review.dist
+ * @subpackage dao.review
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-interface ReviewDistDao {
+interface ReviewDao extends VoteFunctionalityDao {
 
     /**
-     * AddUserScore
+     * getReviews
+     * Returns all reviews with these options.
+     * possible options: int $limit, string $orderBy, string $order, int $minScore, 
+     * int $maxScore, array $platforms, arrya $genres, array $tags
+     * @param array $options      
+     * @return Review[]
+     */
+    public function getReviews($options);
+
+    /**
+     * getUserReviewsForGame
+     * Returns all reviews for this game, written by non-admin users.
+     * Can be limited
+     * @param int $gameId
+     * @param int $limit
+     * * @return Review[]
+     */
+    public function getUserReviewsForGame($gameId, $limit = -1);
+
+    /**
+     * getUserReviewsForUser
+     * Returns all the reviews written by user with this id.
+     * Can be limited
+     * @param int $userId
+     * @param int $limit
+     * @return Review[]
+     */
+    public function getUserReviewsForUser($userId, $limit = -1);
+
+    /**
+     * updateReviewCore
+     * Updates a review withoud updating the characteristics of the related game
+     * @param int $reviewId
+     * @param string $reviewedOn
+     * @param string $title
+     * @param int $score
+     * @param string $text
+     * @param string $videoUrl
+     * @param Image $headerImg
+     */
+    public function updateReviewCore($reviewId, $reviewedOn, $title, $score, $text, $videoUrl, Image $headerImg);
+
+    /**
+     * addUserScore
      * Adds a user score to the user scores
      * @param int $reviewId
      * @param int $userId
@@ -27,7 +70,7 @@ interface ReviewDistDao {
     public function udpateUserScore($reviewId, $userId, $newScore);
 
     /**
-     * RemoveUserScore
+     * removeUserScore
      * Removes a user score from the user scores
      * @param int $reviewId
      * @param int $userId
@@ -65,7 +108,15 @@ interface ReviewDistDao {
      * @param int $imageId
      */
     public function removeGalleryImage($reviewId, $imageId);
-    
+
+    /**
+     * updateGame
+     * Updates the game for this review
+     * @param int $reviewId
+     * @param Game $game
+     */
+    public function updateGame($reviewId, Game $game);
+
     /**
      * addRootComment
      * Adds a root comment to this review.
@@ -83,30 +134,4 @@ interface ReviewDistDao {
      * @param int $commentId
      */
     public function removeRootComment($reviewId, $commentId);
-
-    /**
-     * addVoter
-     * Adds a voter to this review
-     * @param int $reviewId
-     * @param int $voterId
-     * @param int $voterFlag
-     */
-    public function addVoter($reviewId, $voterId, $voterFlag);
-
-    /**
-     * removeVoter
-     * Removes a voter from this review
-     * @param int $reviewId
-     * @param int $voterId
-     */
-    public function removeVoter($reviewId, $voterId);
-
-    /**
-     * updateVoter
-     * Updates a voter for this review
-     * @param int $reviewId
-     * @param int $voterId
-     * @param int $voterFlag
-     */
-    public function updateVoter($reviewId, $voterId, $voterFlag);
 }

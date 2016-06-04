@@ -12,77 +12,77 @@ interface VoteFunctionalityDao extends Dao{
     /**
      * getVoters
      * Returns all voters for the given params 
-     * @param int $commentId
+     * @param int $objectId
      * @param int $flag (if -1, search all flags)
      * @param int $limit
      * @return Vote[]
      */
-    public function getVoters($commentId, $flag = -1, $limit = -1);
+    public function getVoters($objectId, $flag = -1, $limit = -1);
 
     /**
      * getVotersCount
      * Returns the number of voters for this flag
-     * @param int $commentId
+     * @param int $objectId
      * @param int $flag
      * @return int
      */
-    public function getVotersCount($commentId, $flag);
+    public function getVotersCount($objectId, $flag);
 
     /**
      * addVoter
-     * Adds a voter to a comment
-     * @param int $commentId
+     * Adds a voter to a VoteFunctionalityObject
+     * @param int $objectId
      * @param int $voterId
      * @param int $notifId
      * @param int $voteFlag
      */
-    public function addVoter($commentId, $voterId, $notifId, $voteFlag);
+    public function addVoter($objectId, $voterId, $notifId, $voteFlag);
 
     /**
      * removeVoter
-     * Removes a voter from this comment
-     * @param int $commentId
+     * Removes a voter from this VoteFunctionalityObject
+     * @param int $objectId
      * @param int $voterId
      */
-    public function removeVoter($commentId, $voterId);
+    public function removeVoter($objectId, $voterId);
 
     /**
      * updateVoter
-     * Updates a vote for this comment
-     * @param int $commentId
+     * Updates a vote for this VoteFunctionalityObject
+     * @param int $objectId
      * @param int $voterId
      * @param int $voteFlag
      */
-    public function updateVoter($commentId, $voterId, $voteFlag);
+    public function updateVoter($objectId, $voterId, $voteFlag);
 
     /**
      * updateVoterNotif
      * Updates the notification linked to this vote
-     * @param int $commentId
+     * @param int $objectId
      * @param int $voterId
      * @param int $notifId
      * @throws DBException     
      */
-    public function updateVoterNotif($commentId, $voterId, $notifId);
+    public function updateVoterNotif($objectId, $voterId, $notifId);
 
     /**
      * getVotedNotifId
      * Get the id of the notification linked to this vote
-     * @param int $commentId
+     * @param int $objectId
      * @param int $voteFlag
      * @return int
      */
-    public function getVotedNotifId($commentId, $voteFlag);
+    public function getVotedNotifId($objectId, $voteFlag);
 
     /**
      * hasVoted
      * Returns if a user voted on this object.
      * Return value is the flag related to this vote or -1 if the user did 
-     * not yet vote on this comment
+     * not yet vote on this VoteFunctionalityObject
      * @param string $objectName
      * @param int $objectId
      * @param int $userId
      * @return int
      */
-    public function hasVoted($commentId, $userId);
+    public function hasVoted($objectId, $userId);
 }

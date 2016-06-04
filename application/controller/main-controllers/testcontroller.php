@@ -18,14 +18,18 @@ class TestController extends SuperController{
     }
     
     public function commentDbTests() {
-        require 'testing/commentTestingDB.php';
+        require 'testing/db/commentTestingDB.php';
     }
     
     public function commentServiceTests() {
-        require 'testing/commentTestingService.php';
+        require 'testing/service/commentTestingService.php';
     }
     
     public function dateTests() {
-        require 'testing/timeTesting.php';
+        require 'testing/model/timeTesting.php';
+    }
+    
+    public function gameDistDbTest() {
+        require 'testing/db/game_dist_db_tests.php';
     }
 }

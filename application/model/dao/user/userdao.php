@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DaoObject
+ * UserDao
  * This is an interface for all classes that handle user database functionality
  * @package dao
  * @subpackage dao.user

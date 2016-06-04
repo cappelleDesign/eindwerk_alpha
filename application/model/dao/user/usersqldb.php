@@ -27,13 +27,13 @@ class UserSqlDB extends SqlSuper implements UserDao {
      */
     private $_generalDistDB;
 
-    public function __construct($connection, $voteDB) {
+    public function __construct($connection, $voteDB, $genDistDb) {
         parent::__construct($connection);
-        $this->init($connection, $voteDB);
+        $this->init($connection, $voteDB, $genDistDb);
     }
 
-    private function init($connection, $voteDB) {
-        $this->_generalDistDB = new GeneralDistSqlDB($connection);
+    private function init($connection, $voteDB, $genDistDb) {
+        $this->_generalDistDB = $genDistDb;
         $this->_userDistDB = new UserDistSqlDB($connection, $this->_generalDistDB, $voteDB);
         $this->_notificationDB = new NotificationSqlDB($connection);
     }

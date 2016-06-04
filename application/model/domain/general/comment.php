@@ -6,7 +6,7 @@
  * @subpackage domain.general
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class Comment implements DaoObject {
+class Comment extends VoteFuncionalityObject implements DaoObject {
 
     /**
      * The user id
@@ -51,25 +51,14 @@ class Comment implements DaoObject {
      */
     private $_created;
 
-    /**
-     * array of votes
-     * @var Vote[]
-     */
-    private $_voters;
-
     public function __construct($parentId, $parentRootId,UserSimple $poster, $notifId, $body, $created, $voters, $dateFormat) {
-        $this->init();
+        parent::__construct($voters);   
         $this->setParentId($parentId);
         $this->setParentRootId($parentRootId);
         $this->setPoster($poster);
         $this->setNotifId($notifId);
         $this->setBody($body);
         $this->setCreated($created, $dateFormat);
-        $this->setVoters($voters);
-    }
-
-    public function init() {
-        $this->_voters = [];
     }
 
     /* ---------------------------------------------------------------------- */
@@ -103,10 +92,6 @@ class Comment implements DaoObject {
         $this->_created = $date;
     }
 
-    public function setVoters($voters) {
-        $this->_voters = $voters;
-    }
-
     /* ---------------------------------------------------------------------- */
 
     public function getId() {
@@ -137,47 +122,7 @@ class Comment implements DaoObject {
         return $this->_created;
     }
 
-    public function getVoters() {
-        return $this->_voters;
-    }
-
     /* ---------------------------------------------------------------------- */
-
-    /**
-     * addVoter
-     * Adds a new voter to this comment.
-     * The voteFlag can be 1 (downvote), 2 (upvote) or 3 (diamond)
-     * @param int $voterId
-     * @param string $voterName
-     * @param int $voteFlag
-     */
-    public function addVoter($voterId, $votedOnId, $votedOnNotifId, $voterName, $voteFlag) {
-        $voter = new Vote($voterId, $votedOnId, $votedOnNotifId, $voterName, $voteFlag);
-        $this->_voters[$voterId] = $voter;
-    }
-
-    /**
-     * removeVoter
-     * removes a voter from this comment
-     * @param int $voterId
-     */
-    public function removeVoter($voterId) {
-        if (array_key_exists($voterId, $this->_voters)) {
-            unset($this->_voters[$voterId]);
-        }
-    }
-
-    /**
-     * updateVoter
-     * Changes the flag that represents what type of vote it was (1(downvote)/2(upvote)/3(diamond))
-     * @param int $voterId
-     * @param int $voteFlag
-     */
-    public function updateVoter($voterId, $voteFlag) {
-        if (array_key_exists($voterId, $this->getVoters())) {
-            $this->_voters[$voterId]->setVoteFlag($voteFlag);
-        }
-    }
 
     /**
      * getCreatedStr
@@ -188,37 +133,6 @@ class Comment implements DaoObject {
      */
     public function getCreatedStr($format) {
         return $this->_created->format($format);
-    }
-
-    /**
-     * getNumberOfVotes
-     * returns the total vote count for this comment
-     * @return int $votes total number of votes
-     */
-    public function getNumberOfVotes() {
-        $votes = 0;
-        foreach ($this->_voters as $voter) {
-            if ($voter->getVoteFlag() < 2) {
-                $votes --;
-            } else {
-                $votes ++;
-            }
-        }
-        return $votes;
-    }
-
-    /**
-     * getHasDiamond
-     * checks if the comment has already got a diamond
-     * @return boolean
-     */
-    public function getHasDiamond() {
-        foreach ($this->_voters as $voter) {
-            if($voter->getVoteFlag() === 3) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

@@ -1,20 +1,26 @@
 <?php
-
+/**
+ * ReviewDistSqlDB
+ * This is a class that handles review dist SQL database functions
+ * @package dao
+ * @subpackage dao.review.dist
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
 
     /**
      * An instance of the general dist database to help create some objects
      * @var GeneralDistDao 
      */
-    private $_generalDistDao;
+    private $_genDistDao;
 
-    public function __construct($connection, $generalDistDao) {
+    public function __construct($connection, $genDistDb) {
         parent::__construct($connection);
-        $this->init($generalDistDao);
+        $this->init($genDistDb);
     }
 
     private function init($generalDistDao) {
-        $this->_generalDistDao = $generalDistDao;
+        $this->_genDistDao = $generalDistDao;
     }
 
     public function addGalleryImage($reviewId, Image $image) {
@@ -65,12 +71,9 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
         
     }
 
-    public function updateRootcomment($reviewId, $commentId, Comment $rootComment) {
-        
-    }
-
     public function updateVoter($reviewId, $voterId, $voterFlag) {
         
     }
+
 
 }

@@ -32,19 +32,41 @@ class DaoFactory {
      * @return UserDao
      * @throws DBException
      */
-    public function getUserDB($configs, $voteDb) {
+    public function getUserDB($configs, $voteDb, $genDistDb) {
         $this->checkConfigs('users', $configs);
         $dbType = $configs['type.users'];
         $userDB = NULL;
         switch ($dbType) {
             case 'mysql' :
                 $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
-                $userDB = new UserSqlDB($this->_connection, $voteDb);
+                $userDB = new UserSqlDB($this->_connection, $voteDb, $genDistDb);
                 break;
             default :
                 throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);
         }
         return $userDB;
+    }
+    
+    /**
+     * geGeneralDistDB
+     * Returns a user database with the type depending on the configs
+     * @param array $configs
+     * @return UserDao
+     * @throws DBException
+     */
+    public function getGeneralDistDB($configs) {
+        $this->checkConfigs('generalDist', $configs);
+        $dbType = $configs['type.generalDist'];
+        $generalDist = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
+                $generalDist = new GeneralDistSqlDB($this->_connection);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+        }
+        return $generalDist;
     }
 
     /**

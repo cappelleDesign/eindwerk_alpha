@@ -6,7 +6,7 @@
  * @subpackage domain.review
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class Review implements DaoObject {
+class Review extends VoteFuncionalityObject implements DaoObject {
 
     /**
      * The id of this review
@@ -83,13 +83,6 @@ class Review implements DaoObject {
     private $_rootComments;
 
     /**
-     * Assoc array with all voters.
-     * Form: voters(voterId=>info(userName => voter username,voteFlag => 1/2/3)
-     * @var array 
-     */
-    private $_voters;
-
-    /**
      * Assoc array with all the good points of the game.
      * Form: goods(goodId , goodText)
      * @var array 
@@ -124,6 +117,7 @@ class Review implements DaoObject {
     private $_isUserReview;
 
     public function __construct(UserSimple $writer, Game $game, $reviewedOn, $title, $score, $text, $videoUrl, $created, Image $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format, $isUserReview = false) {
+        parent::__construct($voters);
         $this->setWriter($writer);
         $this->setGame($game);
         $this->setReviewedOn($reviewedOn);
@@ -136,7 +130,6 @@ class Review implements DaoObject {
         $this->setGallery($gallery);
         $this->setUserScores($userScores);
         $this->setRootComments($rootComments);
-        $this->setVoters($voters);
         $this->setGoods($goods);
         $this->setBads($bads);
         $this->setTags($tags);
@@ -192,10 +185,6 @@ class Review implements DaoObject {
 
     public function setRootComments($rootComments) {
         $this->_rootComments = $rootComments;
-    }
-
-    public function setVoters($voters) {
-        $this->_voters = $voters;
     }
 
     public function setGoods($goods) {
@@ -268,10 +257,6 @@ class Review implements DaoObject {
         return $this->_rootComments;
     }
 
-    public function getVoters() {
-        return $this->_voters;
-    }
-
     public function getGoods() {
         return $this->_goods;
     }
@@ -290,41 +275,6 @@ class Review implements DaoObject {
 
     public function getIsUserReview() {
         return $this->_isUserReview;
-    }
-
-    /**
-     * addVoter
-     * Adds a new voter to this review.
-     * The voteFlag can be 1 (downvote), 2 (upvote) or 3 (diamond)
-     * @param int $voterId
-     * @param string $voterName
-     * @param int $voteFlag
-     */
-    public function addVoter($voterId, $voterName, $voteFlag) {
-        $this->_voters[$voterId] = array('userName' => $voterName, 'voteFlag' => $voteFlag);
-    }
-
-    /**
-     * removeVoter
-     * removes a voter from this review
-     * @param int $voterId
-     */
-    public function removeVoter($voterId) {
-        if (array_key_exists($voterId, $this->_voters)) {
-            unset($this->_voters[$voterId]);
-        }
-    }
-
-    /**
-     * updateVoter
-     * Changes the flag that represents what type of vote it was (1(downvote)/2(upvote)/3(diamond))
-     * @param int $voterId
-     * @param int $voteFlag
-     */
-    public function updateVoter($voterId, $voteFlag) {
-        if (array_key_exists($voterId, $this->getVoters())) {
-            $this->_voters[$voterId]['voteFlag'] = $voteFlag;
-        }
     }
 
     /**
