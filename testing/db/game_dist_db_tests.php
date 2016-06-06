@@ -6,14 +6,17 @@ try {
     $gdDb = new GameDistSqlDB($connection);
     
     $genreNameNew = 'Gangsta3';
-    $genreDesc = 'About gangsters';
+    $genreDesc = 'About gangsters3';
     
     $platformName = 'ps360';
+    $platformNameNew = 'ps720';
         
     
 //    $gdDb->addGenre($genreNameNew, $genreDesc);
-    $gdDb->addPlatform($platformName);
-    
+//    $gdDb->addPlatform($platformName);
+//    $gdDb->updatePlatform($platformName, $platformNameNew);
+    Globals::cleanDump($gdDb->getAll('platform'));
+    Globals::cleanDump($gdDb->getAll('genre'));
     echo '<h1 style="color: green">NO ERRORS</h1>';
 } catch (Exception $ex) {
     echo '<h1 style="color:red">ERROR</h1>';

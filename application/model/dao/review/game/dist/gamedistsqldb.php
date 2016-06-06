@@ -68,15 +68,38 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
      * @param type $genreName
      */
     public function getGenreDesc($genreName) {
-        Globals::cleanDump('get genre desc');
+        $query = 'SELECT genre_description FROM ' . $this->_genreT . ' WHERE genre_name = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $genreName);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $statement->fetch();
+        return $result['genre_description'];
     }
 
     public function updateGenre($genreNamePrev, $genreName, $genreDesc) {
-        Globals::cleanDump('genre upd');
+        $query = 'UPDATE ' . $this->_genreT;
+        $query .= ' SET genre_name = :name, genre_description = :desc';
+        $query .= ' WHERE genre_name = :prevName';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':name' => $genreName,
+            'desc' => $genreDesc,
+            ':prevName' => $genreNamePrev
+        );
+        $statement->execute($queryArgs);
     }
 
     public function updatePlatform($platformPrevName, $platformName) {
-        Globals::cleanDump('plat upd');
+        $query = 'UPDATE ' . $this->_platT;
+        $query .= ' SET platform_name = :name';
+        $query .= ' WHERE platform_name = :namePrev';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':name' => $platformName,
+            ':namePrev' => $platformPrevName
+        );                
+        $statement->execute($queryArgs);
     }
 
     public function search($objectName, $objectNameVal) {
@@ -91,7 +114,13 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
     }
 
     public function getAll($objectName) {
-        
+        $table = Globals::getTableName($objectName);
+        $query = 'SELECT * FROM ' . $table;
+        $statement = parent::prepareStatement($query);
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
     }
 
 }
