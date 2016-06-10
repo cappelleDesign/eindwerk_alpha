@@ -56,7 +56,8 @@ class MasterController {
 
     function setAction($action) {
         if ($action) {
-            $this->_action = $action;
+            $actionClean = str_replace('-', '', $action);            
+            $this->_action = $actionClean;
         } else {
             $this->_action = self::DEFAULT_ACTION;
         }
@@ -68,20 +69,6 @@ class MasterController {
         } else {
             $this->_params = [];
         }
-    }
-
-    /**
-     * getConfigs
-     * Helper function to get correct database configuration
-     * @return array
-     */
-    private function getConfigs() {
-        $section = 'database_versio';
-        if (strpos(dirname(__FILE__), 'xampp')) {
-            $section = 'database_local';
-        }
-        $configs = parse_ini_file(dirname(__FILE__) . '/../model/config.ini', true);
-        return $configs[$section];
     }
 
     public function processRequest() {

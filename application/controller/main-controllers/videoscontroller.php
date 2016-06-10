@@ -12,11 +12,11 @@ class VideosController extends SuperController {
         $this->internalDirect('video.php');
     }
 
-    public function liveStream() {
+    public function liveStreams() {
         $this->internalDirect('live.php');
     }
 
-    public function streams() {
+    public function letsPlays() {
         $this->internalDirect('lets_play.php');
     }
 

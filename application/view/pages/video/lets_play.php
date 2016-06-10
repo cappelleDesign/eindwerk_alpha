@@ -9,7 +9,7 @@
     <body>
         <div id="wrapper">
             <?php
-            $page = 'videos.php';
+            $page = 'video.php';
             $this->includeMenu($page);
             ?>            
             <main role="main" class="content container-fluid construction">

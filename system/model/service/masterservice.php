@@ -115,8 +115,8 @@ class MasterService {
     private function createMainMenu() {
         $menuHome = new MenuItem('home', 'Home', 'home.php');
         $menuReview = new MenuItem('reviews', 'Reviews', 'reviews.php');
-        $subMenuVideo1 = new MenuItem('videos/liveStream', 'Live', 'video.php');
-        $subMenuVideo2 = new MenuItem('videos/streams', 'Lets plays', 'video.php');
+        $subMenuVideo1 = new MenuItem('videos/live-streams', 'Live', 'video.php');
+        $subMenuVideo2 = new MenuItem('videos/lets-plays', 'Lets plays', 'video.php');
         $subMenuVideo3 = new MenuItem('videos/podcasts', 'Podcasts', 'video.php');
         $subMenuVideo = array($subMenuVideo1, $subMenuVideo2, $subMenuVideo3);
         $menuVideo = new MenuItem('videos', 'Video', 'video.php', $subMenuVideo);
