@@ -63,4 +63,42 @@ interface GameDistDao {
      * @return array $genres
      */
     public function getAll($objectName);
+
+    /**
+     * addToGame
+     * Adds attributes to the game
+     * This function is primarily used for adding genres or platforms to a game
+     * @param string $objectName
+     * @param int $gameId
+     * @param string $objectNameVal
+     */
+    public function addToGame($objectName, $gameId, $objectNameVal);
+
+    /**
+     * removeFromGame
+     * Removes attributes from the game
+     * This function is primarily used for removing genres or platforms from a game
+     * @param string $objectName
+     * @param int $gameId
+     * @param string $objectNameVal
+     */
+    public function removeFromGame($objectName, $gameId, $objectNameVal);
+
+    /**
+     * removeGameLinked
+     * Removes linked rows from the game_genre and game_platform tables if 
+     * the game id matches
+     * @param int $gameId
+     */
+    public function removeGameLinked($gameId);
+
+    /**
+     * getGameAttr
+     * Returns an attribute of the game with this id
+     * This function is primarily used for getting the genres or platforms for a game
+     * @param string $objectName
+     * @param int $gameId
+     * @return string
+     */
+    public function getGameAttr($objectName, $gameId);
 }

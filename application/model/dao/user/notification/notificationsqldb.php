@@ -95,9 +95,8 @@ class NotificationSqlDB extends SqlSuper implements NotificationDao {
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $userId);
         $statement->bindParam(2, $limit, PDO::PARAM_INT);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
 
         $notifications = array();
         foreach ($result as $row) {

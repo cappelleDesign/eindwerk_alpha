@@ -38,6 +38,42 @@ class MasterService {
      */
     private $_imgHelper;
 
+    /**
+     * The comment database
+     * @var CommentDao 
+     */
+    private $_commentDB;
+
+    /**
+     * The vote database
+     * @var VoteDao 
+     */
+    private $_voteDB;
+
+    /**
+     * The general dist database
+     * @var GeneralDistDao 
+     */
+    private $_generalDistDB;
+
+    /**
+     * The user database
+     * @var UserDao 
+     */
+    private $_userDB;
+
+    /**
+     * The user dist database
+     * @var UserDistDao
+     */
+    private $_userDistDB;
+
+    /**
+     * The notification database
+     * @var NotificationDao
+     */
+    private $_notificationDB;
+
     //TODO other services
 
     public function __construct($configs) {
@@ -46,13 +82,28 @@ class MasterService {
 
     private function init($configs) {
         $this->_daoFactory = new DaoFactory();
-        $votedDB = $this->_daoFactory->getVoteDB($configs);
-        $genDistDb = $this->_daoFactory->getGeneralDistDB($configs);
-        $userDB = $this->_daoFactory->getUserDB($configs, $votedDB, $genDistDb);
-        $this->_userService = new UserService($userDB);
-        //TODO add other services init
         $this->createMenus();
         $this->_imgHelper = new imageHelper();
+        $this->createDatabases($configs);
+        $this->createServices();
+    }
+
+    /**
+     * createDatabases
+     * Creates the Databases that are needed for the services     
+     * @param array $configs
+     */
+    private function createDatabases($configs) {
+        $this->_voteDB = $this->_daoFactory->getVoteDB($configs);
+        $this->_generalDistDB = $this->_daoFactory->getGeneralDistDB($configs);
+        $this->_notificationDB = $this->_daoFactory->getNotificationDB($configs);
+        $this->_userDistDB = $this->_daoFactory->getUserDistDB($configs, $this->_generalDistDB, $this->_voteDB);
+        $this->_userDB = $this->_daoFactory->getUserDB($configs, $this->_userDistDB, $this->_notificationDB);
+        $this->_commentDB = $this->_daoFactory->getCommentDB($configs, $this->_userDB, $this->_voteDB);
+    }
+
+    private function createServices() {
+        $this->_userService = new UserService($this->_userDB);
     }
 
     private function createMenus() {
@@ -64,11 +115,11 @@ class MasterService {
     private function createMainMenu() {
         $menuHome = new MenuItem('home', 'Home', 'home.php');
         $menuReview = new MenuItem('reviews', 'Reviews', 'reviews.php');
-        $subMenuVideo1 = new MenuItem('liveStream', 'Live', 'livestream.php');
-        $subMenuVideo2 = new MenuItem('streams', 'Lets plays', 'streams.php');
-        $subMenuVideo3 = new MenuItem('podcasts', 'Podcasts', 'podcasts.php');
+        $subMenuVideo1 = new MenuItem('videos/liveStream', 'Live', 'video.php');
+        $subMenuVideo2 = new MenuItem('videos/streams', 'Lets plays', 'video.php');
+        $subMenuVideo3 = new MenuItem('videos/podcasts', 'Podcasts', 'video.php');
         $subMenuVideo = array($subMenuVideo1, $subMenuVideo2, $subMenuVideo3);
-        $menuVideo = new MenuItem('videos', 'Video', 'video', $subMenuVideo);
+        $menuVideo = new MenuItem('videos', 'Video', 'video.php', $subMenuVideo);
         $menuDonate = new MenuItem('donate', 'Donate', 'donate.php');
         $menuAccount = new MenuItem('account', 'Account', 'account.php');
         $menuContact = new MenuItem('contact', 'Contact', 'contact.php');

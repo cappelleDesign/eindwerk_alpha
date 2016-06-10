@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ReviewDao
  * This is an interface for all classes that handle review database functionality
@@ -61,6 +62,16 @@ interface ReviewDao extends VoteFunctionalityDao {
     public function addUserScore($reviewId, $userId, $userScore);
 
     /**
+     * userRatedReview
+     * Checks if a user has already rated a review.
+     * If the user did, return the score, else return -1
+     * @param int $reviewId
+     * @param int $userId
+     * @return int
+     */
+    public function userRatedReview($reviewId, $userId);
+
+    /**
      * updateUserScore
      * Updates the user score for this user and review combination
      * @param int $reviewId
@@ -81,9 +92,10 @@ interface ReviewDao extends VoteFunctionalityDao {
      * addGoodBadTag
      * Adds a good, a bad or a tag to the database
      * @param int $reviewId
-     * @param int $goodBadTag
+     * @param string $goodBadTag
+     * @param string $type
      */
-    public function addGoodBadTag($reviewId, $goodBadTag);
+    public function addGoodBadTag($reviewId, $goodBadTag, $type);
 
     /**
      * removeGoodBadTag
@@ -112,10 +124,10 @@ interface ReviewDao extends VoteFunctionalityDao {
     /**
      * updateGame
      * Updates the game for this review
-     * @param int $reviewId
+     * @param int $gameId
      * @param Game $game
      */
-    public function updateGame($reviewId, Game $game);
+    public function updateGameCore($gameId, Game $game);
 
     /**
      * addRootComment

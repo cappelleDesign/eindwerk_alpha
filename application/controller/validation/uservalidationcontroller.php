@@ -223,6 +223,7 @@ class UserValidationController {
             }
         } catch (ServiceException $ex) {
             //FIXME if exception is severe handle differently
+//            ErrorLogger::logError($ex);
             $valid = false;
         } finally {
             if (!$valid) {

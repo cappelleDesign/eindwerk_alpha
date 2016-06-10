@@ -4,7 +4,7 @@
         <?php
         $this->includeHeader();
         ?>        
-        <title>login</title>
+        <title>Account</title>
     </head>
     <body>
         <div id="wrapper">

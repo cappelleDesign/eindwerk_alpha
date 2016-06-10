@@ -21,32 +21,57 @@ class DaoFactory {
      * @return string
      */
     public function getSupportedTypes() {
-        $supported = array('memdb', 'mysql');
+        $supported = array('mysql');
         return $supported;
     }
 
+    /* GENERAL DAO'S */
+
     /**
-     * getUserDB
-     * Returns a user database with the type depending on the configs
-     * @param array $configs
-     * @return UserDao
+     * 
+     * @param type $configs
+     * @param UserDao $userDao
+     * @param VoteDao $voteDao
+     * @return CommentDao
      * @throws DBException
      */
-    public function getUserDB($configs, $voteDb, $genDistDb) {
-        $this->checkConfigs('users', $configs);
-        $dbType = $configs['type.users'];
-        $userDB = NULL;
+    public function getCommentDB($configs, UserDao $userDao, VoteDao $voteDao) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $commentDB = NULL;
         switch ($dbType) {
             case 'mysql' :
-                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
-                $userDB = new UserSqlDB($this->_connection, $voteDb, $genDistDb);
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $commentDB = new CommentSqlDB($this->_connection, $userDao, $voteDao);
                 break;
             default :
-                throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);
+                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
         }
-        return $userDB;
+        return $commentDB;
     }
-    
+
+    /**
+     * getVoteDB
+     * Returns a Vote database with the type depending on the configs
+     * @param array $configs
+     * @return VoteDao
+     * @throws DBException
+     */
+    public function getVoteDB($configs) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $voteDb = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $voteDb = new VoteSqlDB($this->_connection);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for votes: ' . $dbType, NULL);
+        }
+        return $voteDb;
+    }
+
     /**
      * geGeneralDistDB
      * Returns a user database with the type depending on the configs
@@ -55,57 +80,163 @@ class DaoFactory {
      * @throws DBException
      */
     public function getGeneralDistDB($configs) {
-        $this->checkConfigs('generalDist', $configs);
-        $dbType = $configs['type.generalDist'];
-        $generalDist = NULL;
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $generalDistDB = NULL;
         switch ($dbType) {
             case 'mysql' :
-                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
-                $generalDist = new GeneralDistSqlDB($this->_connection);
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $generalDistDB = new GeneralDistSqlDB($this->_connection);
                 break;
             default :
                 throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
         }
-        return $generalDist;
+        return $generalDistDB;
+    }
+
+    /* REVIEW RELATED DAO'S */
+
+    /**
+     * getGameDistDB
+     * Returns a game dist database with the type depending on the configs
+     * @param array $configs
+     * @return GameDistDao
+     * @throws DBException
+     */
+    public function getGameDistDB($configs) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $gameDistDB = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $gameDistDB = new GameDistSqlDB($this->_connection);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+        }
+        return $gameDistDB;
     }
 
     /**
-     * getVoteDB
-     * Returns a Vote database with the type depending on the configs
+     * getGameDB
+     * Returns a game database with the type depending on the configs
      * @param array $configs
-     * @return VoteSqlDB
+     * @param GameDistDao $gameDistDao
+     * @return GameDao
      * @throws DBException
      */
-    public function getVoteDB($configs) {
-        $this->checkConfigs('votes', $configs);
-        $dbType = $configs['type.votes'];
-        $voteDb = NULL;
+    public function getGameDB($configs, GameDistDao $gameDistDao) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $gameDB = NULL;
         switch ($dbType) {
             case 'mysql' :
-                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);                
-                $voteDb = new VoteSqlDB($this->_connection);
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $gameDB = new GameSqlDB($this->_connection, $gameDistDao);
                 break;
             default :
-                throw new DBException('This type of database is not (yet) supported for votes: ' . $dbType, NULL);
+                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
         }
-        return $voteDb;
+        return $gameDB;
     }
-    
+
+    public function getReviewDistDB() {
+        //TODO implement
+        return null;
+    }
+
+    public function getReviewDB() {
+        //TODO implement
+        return null;
+    }
+
+    /* USER RELATED DAO'S */
+
+    /**
+     * getUserDB
+     * Returns a user database with the type depending on the configs
+     * @param array $configs
+     * @param UserDistDao $userDistDao
+     * @param NotificationDao $notificationDao
+     * @return UserDao
+     * @throws DBException
+     */
+    public function getUserDB($configs, UserDistDao $userDistDao, NotificationDao $notificationDao) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $userDB = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $userDB = new UserSqlDB($this->_connection, $userDistDao, $notificationDao);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);
+        }
+        return $userDB;
+    }
+
+    /**
+     * getUserDistDB
+     * Returns a User dist database with the type depending on the configs
+     * @param array $configs
+     * @param GeneralDistDao $generalDistDao
+     * @param VoteDao $voteDao
+     * @return UserDistDao
+     * @throws DBException
+     */
+    public function getUserDistDB($configs, GeneralDistDao $generalDistDao, VoteDao $voteDao) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $userDistDB = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $userDistDB = new UserDistSqlDB($this->_connection, $generalDistDao, $voteDao);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for users: ' . $dbType, NULL);
+        }
+        return $userDistDB;
+    }
+
+    /**
+     * getNotificationDB
+     * Returns a Notification database with the type depending on the configs
+     * @param array $configs
+     * @return NotificationDao
+     * @throws DBException
+     */
+    public function getNotificationDB($configs) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $notificationDB = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $notificationDB = new NotificationSqlDB($this->_connection);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+        }
+        return $notificationDB;
+    }
+
     /**
      * checkConfigs
      * Checks if the configs contain all the needed informations for the given type.
-     * If no exception is thrown, all needed info was present
-     * @param string $type
+     * If no exception is thrown, all needed info was present     
      * @param array $configs
      * @throws DBException
      */
-    private function checkConfigs($type, $configs) {
+    private function checkConfigs($configs) {
         if (!isset($configs) || !is_array($configs) || empty($configs)) {
             throw new DBException('No valid configuration found', NULL);
         }
-        if (!array_key_exists('type.' . $type, $configs)) {
-            throw new DBException('No config found for ' . $type . ' database type', NULL);
-        }        
+        if (!array_key_exists('type', $configs)) {
+            throw new DBException('No config found', NULL);
+        }
     }
 
     /**
@@ -120,7 +251,7 @@ class DaoFactory {
         if (!$this->_connection) {
             $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
             $this->_connection = new PDO($dsn, $username, $passwd);
-            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);                
+            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
     }
 

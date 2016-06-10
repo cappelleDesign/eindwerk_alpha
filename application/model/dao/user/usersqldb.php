@@ -7,7 +7,7 @@
  * @subpackage dao.user
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class UserSqlDB extends SqlSuper implements UserDao {   
+class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * The user dist db handles user related db functions
@@ -21,26 +21,19 @@ class UserSqlDB extends SqlSuper implements UserDao {
      */
     private $_notificationDB;
 
-    /**
-     * The general dist db handles general dist db functions
-     * @var GeneralDistDao;
-     */
-    private $_generalDistDB;
-
-    public function __construct($connection, $voteDB, $genDistDb) {
+    public function __construct($connection, $userDistDB, $notificationSqlDB) {
         parent::__construct($connection);
-        $this->init($connection, $voteDB, $genDistDb);
+        $this->init($userDistDB, $notificationSqlDB);
     }
 
-    private function init($connection, $voteDB, $genDistDb) {
-        $this->_generalDistDB = $genDistDb;
-        $this->_userDistDB = new UserDistSqlDB($connection, $this->_generalDistDB, $voteDB);
-        $this->_notificationDB = new NotificationSqlDB($connection);
+    private function init($userDistDB, $notificationSqlDB) {
+        $this->_userDistDB = $userDistDB;
+        $this->_notificationDB = $notificationSqlDB;
     }
 
     /**
      * add
-     * Adds a user to 
+     * Adds a user to the database
      * @param UserDetailed $user
      * @throws DBException
      */
@@ -91,8 +84,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $mail);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $result = parent::fetch($statement, TRUE);
         return !count($result);
     }
 
@@ -108,8 +100,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $username);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $result = parent::fetch($statement, TRUE);
         return count($result) < 1;
     }
 
@@ -139,8 +130,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $result = parent::fetch($statement, TRUE);
         $row = $result[0];
         $avatar = $this->getAvatar($row['avatars_avatar_id']);
         $userRole = $this->getUserRole($row['user_roles_user_role_id']);
@@ -160,12 +150,14 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @throws DBException if no users with this username or email exists
      */
     public function getByString($identifier) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('user') . ' WHERE user_name = :identifier OR user_email = :identifier';
+        $query = 'SELECT * FROM ' . Globals::getTableName('user') . ' WHERE user_name = :identifier1 OR user_email = :identifier2';
         $statement = parent::prepareStatement($query);
-        $statement->bindParam(':identifier', $identifier);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $queryArgs = array(
+            ':identifier1' => $identifier,
+            ':identifier2' => $identifier
+        );
+        $statement->execute($queryArgs);
+        $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             throw new DBException('No user with this username/email: ' . $identifier, NULL);
         }
@@ -190,8 +182,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $query = 'SELECT user_id, user_roles_user_role_id, avatars_avatar_id, user_name , donated_amount FROM ' . Globals::getTableName('user');
         $statement = parent::prepareStatement($query);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $result = parent::fetch($statement, TRUE);
 
         $users = array();
         foreach ($result as $row) {
@@ -396,8 +387,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $id);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $result = parent::fetch($statement, TRUE);
         return $result;
     }
 
@@ -521,11 +511,11 @@ class UserSqlDB extends SqlSuper implements UserDao {
     /**
      * getUserRole
      * Returns the user role with this id 
-     * @param int $accessFlag
+     * @param int $id
      * @return UserRole
      */
-    public function getUserRole($accessFlag) {
-        return $this->_userDistDB->getUserRole($accessFlag);
+    public function getUserRole($id) {
+        return $this->_userDistDB->getUserRole($id);
     }
 
     /**

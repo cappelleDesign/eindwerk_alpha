@@ -76,14 +76,12 @@ class Game implements DaoObject {
 
     /**
      * The generes that are associated to this game.
-     * assoc array (id, genre name)
      * @var array
      */
     private $_genres;
 
     /**
-     * The platforms this game was released on.
-     * assoc array (id, platform name)
+     * The platforms this game was released on.     
      * @var array
      */
     private $_platforms;
@@ -221,42 +219,40 @@ class Game implements DaoObject {
     /**
      * addGenre
      * Adds a genre to this game
-     * @param int $genreId
      * @param string $genreName
      */
-    public function addGenre($genreId, $genreName) {
-        $this->_genres[$genreId] = $genreName;
+    public function addGenre($genreName) {
+        $this->_genres[$genreName] = $genreName;
     }
 
     /**
      * removeGenre
      * Removes a genre from this game
-     * @param int $genreId     
+     * @param string $genreName    
      */
-    public function removeGenre($genreId) {
-        if (array_key_exists($genreId, $this->getGenres())) {
-            unset($this->_genres[$genreId]);
+    public function removeGenre($genreName) {
+        if (array_key_exists($genreName, $this->getGenres())) {
+            unset($this->_genres[$genreName]);
         }
     }
 
     /**
      * addPlatform
      * Adds a platform to this game
-     * @param int $platformId
      * @param string $platformName
      */
-    public function addPlatform($platformId, $platformName) {
-        $this->_platforms[$platformId] = $platformName;
+    public function addPlatform($platformName) {
+        $this->_platforms[$platformName] = $platformName;
     }
 
     /**
      * removePlatform
      * Removes a platform from this game
-     * @param int $platformId     
+     * @param string $platformName   
      */
-    public function removePlatform($platformId) {
-        if (array_key_exists($platformId, $this->getPlatforms())) {
-            unset($this->_genres[$platformId]);
+    public function removePlatform($platformName) {
+        if (array_key_exists($platformName, $this->getPlatforms())) {
+            unset($this->_genres[$platformName]);
         }
     }
 

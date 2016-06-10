@@ -2,19 +2,22 @@
 
 class AccountController extends SuperController {
 
+    private $_subFolder;
+    
     public function __construct() {
-        parent::__construct();
+        parent::__construct('account/');
+     
     }
-
+    
     public function index() {
-        $this->direct('account.php');
+        $this->internalDirect('account.php');
     }
 
     public function loginPage($isJson) {
         if ($isJson && $isJson === 'true') {
             Globals::cleanDump('json enabled');
         } else {
-            $this->direct('account.php');
+            $this->internalDirect('account.php');
         }
     }
 

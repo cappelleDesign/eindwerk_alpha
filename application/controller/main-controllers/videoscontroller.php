@@ -1,16 +1,27 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+class VideosController extends SuperController {
 
-/**
- * Description of videocontroller
- *
- * @author jens
- */
-class VideosController {
-    //put your code here
+    private $_subFolder;
+
+    public function __construct() {
+        parent::__construct('video/');        
+    }
+
+    public function index() {
+        $this->internalDirect('video.php');
+    }
+
+    public function liveStream() {
+        $this->internalDirect('live.php');
+    }
+
+    public function streams() {
+        $this->internalDirect('lets_play.php');
+    }
+
+    public function podcasts() {
+        $this->internalDirect('podcast.php');
+    }
+
 }

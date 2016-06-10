@@ -82,9 +82,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
                 ' WHERE  ' . $combiTable . '.user_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $userId);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
 
         $achievements = array();
         foreach ($result as $row) {
@@ -107,9 +106,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $query = 'SELECT * FROM ' . $achTable . ' WHERE name = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $name);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
 
         if (empty($result)) {
             throw new DBException('No achievement found with name: ' . $name);
@@ -153,9 +151,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $query = 'SELECT * FROM ' . Globals::getTableName('avatar') . ' WHERE avatar_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $avatarId);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             throw new DBException('No avatar found with id: ' . $avatarId, NULL);
         }
@@ -199,17 +196,15 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
     /**
      * getUserRole
      * Returns a User Role from the SQL database
-     * @param int $accessFlag
+     * @param int $id
      * @return UserRole
      */
-    public function getUserRole($accessFlag) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_access_flag = ?';
+    public function getUserRole($id) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_id = ?';
         $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $accessFlag);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
-
+        $statement->bindParam(1, $id);
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);       
         $row = $result[0];
         $userRole = $this->createUserRole($row);
         return $userRole;
@@ -226,9 +221,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $query = 'SELECT * FROM ' . $comT . ' WHERE ' . $comT . '.users_writer_id = ? ORDER BY comment_created DESC LIMIT 1';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $simpleUser->getId());
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();       
+        $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             return Null;
         }
@@ -294,9 +288,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $avatarT = Globals::getTableName('avatar');
         $query = 'SELECT * FROM ' . $avatarT;
         $statement = parent::prepareStatement($query);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
         $avatars = array();
         foreach ($result as $row) {
             $image = $this->getImage($row['images_image_id']);
@@ -315,9 +308,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $userRolesT = Globals::getTableName('userRole');
         $query = 'SELECT * FROM ' . $userRolesT;
         $statement = parent::prepareStatement($query);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
         $userRoles = array();
         foreach ($result as $row) {
             $userRole = $this->createUserRole($row);
@@ -335,9 +327,8 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $achievementT = Globals::getTableName('achievement');
         $query = 'SELECT * FROM ' . $achievementT;
         $statement = parent::prepareStatement($query);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
         $achievements = array();
         foreach ($result as $row) {
             $image = $this->getImage($row['image_id']);

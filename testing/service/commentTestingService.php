@@ -1,14 +1,21 @@
+<h1>COMMENT SERVICE TESTS</h1>
 <?php
-
 try {
+    $obj = 'Test without print';
     $connection = new PDO('mysql:host=127.0.0.1;dbname=soufitq169_neoludus', 'neoludus_admin', 'Admin001');
-    $generalDistDao = new GeneralDistSqlDB($connection);
     $voteDb = new VoteSqlDB($connection);
-    $userDb = new UserSqlDB($connection, $voteDb, $generalDistDao);
-    $commentDb = new CommentSqlDB($connection, $userDb, $voteDb);    
-    $reviewDb = new ReviewSqlDB($connection, $commentDb, $generalDistDao, NULL);
+    $genDistDb = new GeneralDistSqlDB($connection);
+    $notifDB = new NotificationSqlDB($connection);
+    $userDist = new UserDistSqlDB($connection, $genDistDb, $voteDb);
+    $userDb = new UserSqlDB($connection, $userDist, $notifDB);
+    $commentDb = new CommentSqlDB($connection, $userDb, $voteDb);
+    $gameDistDb = new GameDistSqlDB($connection);
+    $gameDB = new GameSqlDB($connection, $gameDistDb);
+    $reviewDistDb = new ReviewDistSqlDB($connection, $genDistDb);
+    $reviewDb = new ReviewSqlDB($connection, $commentDb, $genDistDb, $gameDB, $reviewDistDb);
     $notifHandler = new notificationHandler($userDb, $commentDb, $reviewDb);
     $service = new CommentService($commentDb, $userDb, $notifHandler);
+
     $comment = $commentDb->get(1);
 
     $posterJens = $userDb->get(1);
@@ -21,10 +28,9 @@ try {
     $posters = [$posterJens, $posterJens2, $posterJens3, $posterJens4, $posterJens5, $posterJens6];
 //    $service->updateCommentText(1, 'updated text');
 //    addIt($service, $posters);
-//    Globals::cleanDump($service->getSubComments(1));
+//    $obj = ($service->getSubComments(1));
 //    $service->removeComment(9, 1);
-
-    Globals::cleanDump($service->getComment(1));
+//    $obj = ($service->getComment(1));
 //   $service->addVoter($comment->getId(), $posterJens->getId(), $posterJens->getUsername(), 3);
 //   $service->addVoter($comment->getId(), $posterJens2->getId(), $posterJens2->getUsername(), 2);
 //   $service->addVoter($comment->getId(), $posterJens3->getId(), $posterJens3->getUsername(), 3);
@@ -39,7 +45,9 @@ try {
 //    Globals::cleanDump($obj1);
 //    Globals::cleanDump($obj2);
 //    Globals::cleanDump($obj3);
-//    echo $service->hasVoted($comment->getId(), $posterJens4->getId());
+//    $obj = $service->hasVoted($comment->getId(), $posterJens4->getId());
+
+    Globals::cleanDump($obj);
     echo '<h1 style="color: green">SUCCESS</h1>';
 } catch (Exception $ex) {
     echo '<h1 style="color:red">ERROR</h1>';

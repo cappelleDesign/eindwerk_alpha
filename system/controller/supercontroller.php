@@ -26,7 +26,8 @@ abstract class SuperController extends NavigationController{
      */
     private $_validator;
 
-    public function __construct() {
+    public function __construct($subFolder = '') {
+        parent::__construct($subFolder);
         $this->superInit();
     }
 

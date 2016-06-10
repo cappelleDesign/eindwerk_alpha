@@ -93,9 +93,8 @@ class SqlSuper {
         $query = 'SELECT COUNT(*) FROM ' . Globals::getTableName($instance) . ' WHERE ' . $idCol . '=?';
         $statement = $this->prepareStatement($query);
         $statement->bindParam(1, $id);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();          
+        $result = $this->fetch($statement, TRUE);
         return $result[0]['COUNT(*)'];
     }
 
@@ -120,12 +119,31 @@ class SqlSuper {
         if($err['2']) {
             throw new DBException($err['2']);
         }
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
         return $statement;
         }  catch (Exception $ex) {
             throw new DBException($ex->getMessage(),$ex);
         }
     }
 
+    /**
+     * fetch
+     * Uses PDOStatement to fetch a result set
+     * @param PDOStatement $statement
+     * @param bool $all
+     * @return array
+     */
+    protected function fetch($statement, $all) {
+        $statement->setFetchMode(PDO::FETCH_ASSOC);        
+        $result = '';
+        if($all) {            
+            $result = $statement->fetchAll();
+        } else {
+            $result = $statement->fetch();
+        }
+        return $result;
+    }
+    
     /**
      * getLastId
      * Uses PDO to get the id of the last insert
@@ -158,8 +176,7 @@ class SqlSuper {
      */
     protected function executeExternalQuery($query, $queryArgs) {
         $statement = $this->prepareStatement($query);
-        $statement->execute($queryArgs);
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $statement->execute($queryArgs);        
         $result = $statement->fetchAll();
         return $result;
     }

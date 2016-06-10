@@ -1,16 +1,15 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+class ContactController extends SuperController{
 
-/**
- * Description of contactcontroller
- *
- * @author Jens
- */
-class ContactController {
-    //put your code here
+    private $_subFolder;
+    
+    public function __construct() {
+        parent::__construct('contact/');
+    }
+    
+    public function index() {
+        $this->internalDirect('contact.php');
+    }
+
 }

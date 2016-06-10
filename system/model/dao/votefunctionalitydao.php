@@ -7,7 +7,17 @@
  * @subpackage dao
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-interface VoteFunctionalityDao extends Dao{
+interface VoteFunctionalityDao extends Dao {
+
+    /**
+     * addVoter
+     * Adds a voter to a VoteFunctionalityObject
+     * @param int $objectId
+     * @param int $voterId
+     * @param int $notifId
+     * @param int $voteFlag
+     */
+    public function addVoter($objectId, $voterId, $notifId, $voteFlag);
 
     /**
      * getVoters
@@ -29,22 +39,15 @@ interface VoteFunctionalityDao extends Dao{
     public function getVotersCount($objectId, $flag);
 
     /**
-     * addVoter
-     * Adds a voter to a VoteFunctionalityObject
+     * hasVoted
+     * Returns if a user voted on this object.
+     * Return value is the flag related to this vote or -1 if the user did 
+     * not yet vote on this VoteFunctionalityObject     
      * @param int $objectId
-     * @param int $voterId
-     * @param int $notifId
-     * @param int $voteFlag
+     * @param int $userId
+     * @return int
      */
-    public function addVoter($objectId, $voterId, $notifId, $voteFlag);
-
-    /**
-     * removeVoter
-     * Removes a voter from this VoteFunctionalityObject
-     * @param int $objectId
-     * @param int $voterId
-     */
-    public function removeVoter($objectId, $voterId);
+    public function hasVoted($objectId, $userId);
 
     /**
      * updateVoter
@@ -75,14 +78,10 @@ interface VoteFunctionalityDao extends Dao{
     public function getVotedNotifId($objectId, $voteFlag);
 
     /**
-     * hasVoted
-     * Returns if a user voted on this object.
-     * Return value is the flag related to this vote or -1 if the user did 
-     * not yet vote on this VoteFunctionalityObject
-     * @param string $objectName
+     * removeVoter
+     * Removes a voter from this VoteFunctionalityObject
      * @param int $objectId
-     * @param int $userId
-     * @return int
+     * @param int $voterId
      */
-    public function hasVoted($objectId, $userId);
+    public function removeVoter($objectId, $voterId);
 }

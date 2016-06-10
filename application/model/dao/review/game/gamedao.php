@@ -7,17 +7,23 @@
  * @subpackage dao.review.game
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-interface GameDao extends Dao {        
-    
+interface GameDao extends Dao {
+
     /**
      * addGenreToGame
      * Adds a genre to the game. If the genre does not yet exist in the database,
      * it will be added.
      * @param int $gameId
-     * @param string $genreName
-     * @param string $genreDesc
+     * @param string $genreName     
      */
-    public function addGenreToGame($gameId, $genreName, $genreDesc);           
+    public function addGenreToGame($gameId, $genreName);
+
+    /**
+     * getGameGenres
+     * Returns all genres for this game
+     * @param int $gameId
+     */
+    public function getGameGenres($gameId);
 
     /**
      * updateGameGenre
@@ -42,7 +48,14 @@ interface GameDao extends Dao {
      * @param int $gameId
      * @param string $platformName
      */
-    public function addPlatformToGame($gameId, $platformName);    
+    public function addPlatformToGame($gameId, $platformName);
+
+    /**
+     * getGamePlatforms
+     * Returns all platforms for this game
+     * @param int $gameId
+     */
+    public function getGamePlatforms($gameId);
 
     /**
      * updateGamePlatform
@@ -52,7 +65,7 @@ interface GameDao extends Dao {
      * @param string $platformNameNew
      */
     public function updateGamePlatform($gameId, $platformNamePrev, $platformNameNew);
-    
+
     /**
      * removePlatformFromGame
      * Removes a platform from a game
@@ -60,4 +73,12 @@ interface GameDao extends Dao {
      * @param string $platformName
      */
     public function removePlatformFromGame($gameId, $platformName);
+
+    /**
+     * updateGame
+     * Updates the game for this review
+     * @param int $gameId
+     * @param Game $game
+     */
+    public function updateGameCore($gameId, Game $game);
 }

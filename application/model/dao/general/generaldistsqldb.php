@@ -16,9 +16,8 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
         $query = 'SELECT * FROM ' . Globals::getTableName('image') . ' WHERE image_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $imageId);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
         $image = NULL;
         $row = $result[0];
         if ($row) {
@@ -36,9 +35,8 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
     public function getImages() {
         $query = 'SELECT * FROM ' . Globals::getTableName('image');
         $statement = parent::prepareStatement($query);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $statement->fetchAll();
+        $statement->execute();        
+        $result = parent::fetch($statement, TRUE);
         $images = array();
         foreach ($result as $row) {
             $image = new Image($row['img_uri'], $row['alt']);

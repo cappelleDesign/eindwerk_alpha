@@ -16,6 +16,10 @@ $iconsNotLoggedIn = '<a href="index.php/account/loginpage" class="">' .
 $iconsLoggedIn = '<a href="index.php/account/logout" class="">' .
         '<i class="fa fa-sign-out fa-fw"></i>' .
         'Sign out' .
+        '</a>' .
+        '<a href="index.php/account/getNotifications" class="">' .
+        '<i class="fa fa-bell fa-fw"><span class="notif-count">1 new</span></i>' . 
+        'Notifications' . 
         '</a>';
 $accountHtml = '<a href="#" class="">' .
         '<i class="fa fa-user fa-fw"></i>' .
@@ -34,6 +38,7 @@ $accountHtml = '<a href="#" class="">' .
         <a id="mobile-social-trigger" href="#"><i class="fa fa-heart"></i></a>
         <a id="mobile-profile-trigger" href="#"><i class="fa fa-user"></i></a>
         <a id="mobile-search-trigger" href="#"><i class="fa fa-search"></i></a>
+        <a id="mobile-notification-trigger" href="#"><i class="fa fa-bell"></i></a>
     </div>
     <div id="mobile-menu-addon-extended">
         <div id="mobile-addon-content">           

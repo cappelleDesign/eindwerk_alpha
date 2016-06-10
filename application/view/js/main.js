@@ -32,14 +32,7 @@ function setListeners() {
             $(this).prev().val();
         }
     });
-//    $('.fa-icon').on({
-//        mouseenter: function () {
-//            $('i', this).addClass('fa-flip-horizontal');
-//        },
-//        mouseleave: function () {
-//            $('i', this).removeClass('fa-flip-horizontal');
-//        }
-//    });
+
     $('#account-panel > a:first-child').on({
         touchstart: function (e) {
             e.preventDefault();
@@ -181,7 +174,7 @@ function triggerSubMenu($el, $show) {
         $subEl.addClass('submenu-visible');
         $subEl.stop().fadeIn('slow');
     } else {
-        $subEl.stop().fadeOut('slow', function () {
+        $subEl.stop().fadeOut('fast', function () {
             $subEl.removeClass('submenu-visible');
         });
     }

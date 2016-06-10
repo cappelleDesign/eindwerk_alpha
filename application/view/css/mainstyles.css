@@ -249,6 +249,7 @@ header > form {
     z-index: 9999;
     top: 2px;
     padding-top: 10px;
+    padding-bottom: 5px;
     text-align: right; 
     background-color: rgba(1,1,1,.9);
     border-bottom-left-radius: 5px;
@@ -266,6 +267,13 @@ header > form {
 #account-panel > .account-drop-down > a > i {
     float: left;
     margin-top: 4px;
+}
+#account-panel .notif-count {        
+    position: absolute;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .social-menu {    
     float: left;
@@ -441,7 +449,7 @@ main {
     position: absolute;
     bottom: 0;
     width: 100%;
-    z-index: 999999999;    
+    z-index: 999;    
 }
 .slider-more a.btn.btn-default {
     font-weight: bold;    
@@ -699,17 +707,22 @@ footer {
 .fix {
     clear: left;
 }
+.construction {
+    margin-top: 100px;
+}
 
 /*RESPONSIVE*/
 @media all and (max-width: 1500px) {
     *{
         font-size: .9em;
     }
+
     #search-form > .form-group {
         width: 360px;
     }
     #search-form > .form-group > input {
         width: 320px;
+        color: #231f20;
     }
     #menuAddon { 
         margin-left: 550px;
@@ -884,18 +897,46 @@ footer {
     }    
 }
 @media all and (max-width: 810px) {
+
+    #search-form > .form-group > input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: #231f20;        
+    }
+    #search-form > .form-group > input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: #231f20;        
+    }
+    #search-form > .form-group > input::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: #231f20;        
+    }
+    #search-form > .form-group > input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #231f20;        
+    }
+    #search-form > .form-group > input:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+        color: #231f20;        
+    }
+
+    #search-form > .form-group > input {
+        background-color: #fff;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    
+    #search-form > .form-group > a#main-search > i{   
+        margin-left: 3px;
+        color: #fff;
+    }
+
     .slicknav_menu ,.mobile-menu-addon,.mobile-latest-header, .mobile-new-header{
         display: block;
     }
     .slicknav_menu, .mobile-menu-addon,#mobile-menu-addon-extended{
         position: fixed;
-        z-index: 9999998;
+        z-index: 999999998;
     }
     #mobile-menu-addon-extended {
-        z-index: 9999997;
+        z-index: 999999997;
     }
     .mobile-menu-addon  {
-        z-index: 9999999;        
+        z-index: 999999999;        
     }
 
     #mobile-menu-addon-extended{
@@ -1119,29 +1160,32 @@ footer {
         width: 50%;
     }
 }
-@media all and (max-width: 310px) {
+@media all and (max-width: 368px) {
     #search-form.mobile-search-form > .form-group > input {
         width: 88%;
     }
     .mobile-menu-addon a, .mobile-menu-addon a:visited {
-        padding: 0 12px;
+        padding: 0 10px;
     }
 }
 @media all and (max-width: 290px) {
     header{
         height: 100px;
-    }
+    }    
     .mobile-menu-addon {
         margin-top: 50px;
         width: 100%;
         max-width: 100%;
+        height: 50px;
+        line-height: 50px;
+        background-color: #231f20;
     }
     .mobile-menu-addon a, .mobile-menu-addon a:visited {
         padding: 0;
-        width: 33.33%;
+        width: 25%;
         text-align: center;
     }
     #mobile-menu-addon-extended{
-        margin-top: 104px;
+        margin-top: 100px;
     }
 }
