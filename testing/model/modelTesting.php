@@ -111,9 +111,9 @@ $gallery['5'] = $gallery5;
 
 $headerImg = new Image('header_dummy.jpg', 'header pic of this review', 'this represents the header pic of this review');
 
-$goods = ['0' => 'Nice graphics', '1' => 'There are boobs'];
-$bads = ['2' => 'There are dicks'];
-$tags = ['3' => 'action', '4' => 'game1' , '5' => 'boobs'];
+$goods = ['Nice graphics' => 'Nice graphics', 'There are boobs' => 'There are boobs'];
+$bads = ['There are dicks' => 'There are dicks'];
+$tags = ['action' => 'action', 'game1' => 'game1' , 'boobs' => 'boobs'];
 $userScores = ['0' => 9, '1'=> 10];
 
 $pw = password_hash('Jens', PASSWORD_BCRYPT);

@@ -15,6 +15,30 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      */
     private $_genDistDao;
 
+    /**
+     * The table used for user score related functions
+     * @var string 
+     */
+    private $_userScoreT;
+
+    /**
+     * The table used for good, bad and tag related function
+     * @var string
+     */
+    private $_gbtT;
+
+    /**
+     * The review_image table
+     * @var string 
+     */
+    private $_imgT;
+
+    /**
+     * The review has comments table
+     * @var string 
+     */
+    private $_commentT;
+
     public function __construct($connection, $genDistDb) {
         parent::__construct($connection);
         $this->init($genDistDb);
@@ -22,6 +46,10 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
 
     private function init($generalDistDao) {
         $this->_genDistDao = $generalDistDao;
+        $this->_userScoreT = Globals::getTableName('review_userScore');
+        $this->_gbtT = Globals::getTableName('good');
+        $this->_imgT = Globals::getTableName('review_image');
+        $this->_commentT = Globals::getTableName('review_comment');
     }
 
     /**
@@ -32,14 +60,20 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param int $userScore
      */
     public function addUserScore($reviewId, $userId, $userScore) {
-        $table = Globals::getTableName('review_userScore');
-        if($this->userRatedReview($reviewId, $userId) > -1) {
+        $t = $this->_userScoreT;
+        if ($this->userRatedReview($reviewId, $userId) > -1) {
             $this->updateUserScore($reviewId, $userId, $userScore);
         } else {
-//            INSERT INTO `review_user_scores` (`review_id`, `user_id`, `score`) VALUES ('1', '2', '8');
-            $query = 'INSERT INTO ' . $table;
+            $query = 'INSERT INTO ' . $t;
             $query .= ' (review_id, user_id, score)';
-            $query .= ' VALUES ()'; 
+            $query .= ' VALUES (:revId, :userId, :score)';
+            $statement = parent::prepareStatement($query);
+            $queryArgs = array(
+                ':revId' => $reviewId,
+                ':userId' => $userId,
+                ':score' => $userScore
+            );
+            $statement->execute($queryArgs);
         }
     }
 
@@ -52,9 +86,19 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @return int
      */
     public function userRatedReview($reviewId, $userId) {
-        
+        $t = $this->_userScoreT;
+        $query = 'SELECT score FROM ' . $t;
+        $query.= ' WHERE review_id = :revId AND user_id = :userId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':userId' => $userId
+        );
+        $statement->execute($queryArgs);
+        $result = parent::fetch($statement, FALSE);
+        return $result ? $result['score'] : -1;
     }
-    
+
     /**
      * updateUserScore
      * Updates the user score for this user and review combination
@@ -63,7 +107,16 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param int $newScore
      */
     public function updateUserScore($reviewId, $userId, $newScore) {
-        
+        $t = $this->_userScoreT;
+        $query = 'UPDATE ' . $t . ' SET score = :score';
+        $query .= ' WHERE review_id = :revId AND user_id = :userId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':score' => $newScore,
+            ':revId' => $reviewId,
+            ':userId' => $userId
+        );
+        $statement->execute($queryArgs);
     }
 
     /**
@@ -73,7 +126,15 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param int $userId
      */
     public function removeUserScore($reviewId, $userId) {
-        
+        $t = $this->_userScoreT;
+        $query = 'DELETE FROM ' . $t;
+        $query .= ' WHERE review_id = :revId AND user_id = :userId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':userId' => $userId
+        );
+        $statement->execute($queryArgs);
     }
 
     /**
@@ -84,7 +145,19 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param string $type
      */
     public function addGoodBadTag($reviewId, $goodBadTag, $type) {
-        
+        $t = $this->_gbtT;
+        if ($this->searchGBT($reviewId, $goodBadTag, $type) === -1) {
+            $query = 'INSERT INTO ' . $t;
+            $query .= '(review_id, good_bad_tag_txt, good_bad_tag_type)';
+            $query .= ' VALUES(:revId, :body, :type)';
+            $statement = parent::prepareStatement($query);
+            $queryArgs = array(
+                ':revId' => $reviewId,
+                ':body' => $goodBadTag,
+                ':type' => $type
+            );
+            $statement->execute($queryArgs);
+        }
     }
 
     /**
@@ -95,34 +168,119 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param string $type
      */
     public function addGoodBadTagsFull($revId, $arr, $type) {
-        $table = Globals::getTableName($type);
-        $query = 'INSERT INTO ' . $table . ' ';
-        $query.= '(review_id, good_bad_tag_txt, good_bad_tag_type)';
-        $query.= 'VALUES(';
-        foreach ($arr as $el) {
-            
+        $t = $this->_gbtT;
+        $last = end($arr);
+        $queryArgs = array();
+        $query = 'INSERT INTO ' . $t . ' ';
+        $query .= '(review_id, good_bad_tag_txt, good_bad_tag_type)';
+        $query .= ' VALUES';
+        foreach ($arr as $key => $el) {
+            $query .= '(';
+            $query .= ':revId' . $key . ', :gbtTxt' . $key . ', :gbtType' . $key;
+            $query .= ')';
+            $query .= $el === $last ? '' : ',';
+            $queryArgs[':gbtTxt' . $key] = $el;
+            $queryArgs[':revId' . $key] = $revId;
+            $queryArgs[':gbtType' . $key] = $type;
         }
-        $query.= ')';
+        $statement = parent::prepareStatement($query);
+        $statement->execute($queryArgs);
+    }
+
+    /**
+     * searchGBT
+     * Searches for a good, bad or tag by name and returns it's id if found,
+     * -1 otherwise
+     * @param int $revId
+     * @param string $gbtText
+     * @param string $type
+     */
+    public function searchGBT($revId, $gbtText, $type) {
+        $t = $this->_gbtT;
+        $query = 'SELECT good_bad_tag_id as found FROM ' . $t;
+        $query .= ' WHERE review_id = :revId AND good_bad_tag_txt = :gbtText AND good_bad_tag_type = :gbtType';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $revId,
+            ':gbtText' => $gbtText,
+            ':gbtType' => $type
+        );
+        $statement->execute($queryArgs);
+        $result = parent::fetch($statement, FALSE);
+        return $result ? $result['found'] : -1;
     }
 
     /**
      * removeGoodBadTag
      * Removew a good, a bad or a tag from the database
      * @param int $reviewId
-     * @param int $goodBadTagId
+     * @param string $goodBadTag
+     * @throws DBException
      */
-    public function removeGoodBadTag($reviewId, $goodBadTagId){
-        
+    public function removeGoodBadTag($reviewId, $goodBadTag, $type) {
+        $id = $this->searchGBT($reviewId, $goodBadTag, $type);
+        if ($id === -1) {
+            throw new DBException('Could not find a ' . $type . ' with this text: ' . $goodBadTag);
+        }
+        $t = $this->_gbtT;
+        $query = 'DELETE FROM ' . $t;
+        $query .= ' WHERE good_bad_tag_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $id);
+        $statement->execute();
+    }
+
+    /**
+     * addHeaderImage
+     * Adds the header image to this review
+     * @param int $reviewId
+     * @param int $imageId
+     */
+    public function addHeaderImage($reviewId, $imageId) {
+        $this->addImagetoReview($reviewId, $imageId, TRUE);
     }
 
     /**
      * addGalleryImage
      * Adds a image to the gallery of this review
      * @param int $reviewId
-     * @param Image $image
+     * @param int $imageId
      */
-    public function addGalleryImage($reviewId, Image $image){
-        
+    public function addGalleryImage($reviewId, $imageId) {
+        $this->addImagetoReview($reviewId, $imageId, FALSE);
+    }
+
+    private function addImagetoReview($reviewId, $imageId, $header) {
+        $t = $this->_imgT;
+        $query = 'INSERT INTO ' . $t;
+        $query .= ' (reviews_review_id, images_image_id, headerpic)';
+        $query .= ' VALUES(:revId, :imageId, :header)';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':imageId' => $imageId,
+            ':header' => $header
+        );
+        $statement->execute($queryArgs);
+    }
+
+    /**
+     * updateHeaderImage
+     * Updates the header image of this review
+     * @param type $reviewId
+     * @param int $imageId
+     */
+    public function updateHeaderImage($reviewId, $imageId) {
+        $t = $this->_imgT;
+        $query = 'UPDATE ' . $t;
+        $query .= ' SET images_image_id = :imgId';
+        $query .= ' WHERE reviews_review_id = :revId AND headerpic = 1';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':imgId' => $imageId,
+            ':revId' => $reviewId
+        );
+        $statement->execute($queryArgs);
     }
 
     /**
@@ -131,8 +289,16 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param int $reviewId
      * @param int $imageId
      */
-    public function removeGalleryImage($reviewId, $imageId){
-        
+    public function removeGalleryImage($reviewId, $imageId) {
+        $t = $this->_imgT;
+        $query = 'DELETE FROM ' . $t;
+        $query .= ' WHERE reviews_review_id = :revId AND images_image_id = :imgId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':imgId' => $imageId
+        );
+        $statement->execute($queryArgs);
     }
 
     /**
@@ -140,11 +306,40 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * Adds a root comment to this review.
      * A root comment is a comment that is a direct child of this review
      * @param int $reviewId
-     * @param int commentId
-     * @param Comment $rootComment
+     * @param int commentId     
      */
-    public function addRootComment($reviewId, $commentId, Comment $rootComment){
-        
+    public function addRootComment($reviewId, $commentId) {
+        $t = $this->_commentT;
+        $query = 'INSERT INTO ' . $t;
+        $query .= ' (reviews_review_id, comments_comment_id, commented_on_notif_id)';
+        $query .= ' VALUES(:revId, :comId, NULL)';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':comId' => $commentId
+        );
+        $statement->execute($queryArgs);
+    }
+
+    /**
+     * updateRootCommentNotification
+     * Updates the notification id for this review comment combination
+     * @param int $reviewId
+     * @param int $commentId
+     * @param int $notifId
+     */
+    public function updateRootCommentNotification($reviewId, $commentId, $notifId) {
+        $t = $this->_commentT;
+        $query = 'UPDATE ' . $t;
+        $query .= ' SET commented_on_notif_id = :notifId';
+        $query .= ' WHERE reviews_review_id = :revId AND comments_comment_id = :comId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':notifId' => $notifId,
+            ':revId' => $reviewId,
+            ':comId' => $commentId
+        );
+        $statement->execute($queryArgs);
     }
 
     /**
@@ -154,99 +349,16 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
      * @param int $reviewId
      * @param int $commentId
      */
-    public function removeRootComment($reviewId, $commentId){
-        
+    public function removeRootComment($reviewId, $commentId) {
+        $t = $this->_commentT;
+        $query = 'DELETE FROM ' . $t;
+        $query .= ' WHERE reviews_review_id = :revId AND comments_comment_id = :comId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':comId' => $commentId
+        );
+        $statement->execute($queryArgs);
     }
 
-    /**
-     * addVoter
-     * Adds a voter to a VoteFunctionalityObject
-     * @param int $reviewId
-     * @param int $voterId
-     * @param int $notifId
-     * @param int $voteFlag
-     */
-    public function addVoter($reviewId, $voterId, $notifId, $voteFlag){
-        
-    }
-
-    /**
-     * getVotedNotifId
-     * Get the id of the notification linked to this vote
-     * @param int $objectId
-     * @param int $voteFlag
-     * @return int
-     */
-    public function getVotedNotifId($objectId, $voteFlag){
-        
-    }
-
-    /**
-     * getVoters
-     * Returns all voters for the given params 
-     * @param int $objectId
-     * @param int $flag (if -1, search all flags)
-     * @param int $limit
-     * @return Vote[]
-     */
-    public function getVoters($objectId, $flag = -1, $limit = -1){
-        
-    }
-
-    /**
-     * getVotersCount
-     * Returns the number of voters for this flag
-     * @param int $objectId
-     * @param int $flag
-     * @return int
-     */
-    public function getVotersCount($objectId, $flag){
-        
-    }
-
-    /**
-     * hasVoted
-     * Returns if a user voted on this Review.
-     * Return value is the flag related to this vote or -1 if the user did 
-     * not yet vote on this Review     
-     * @param int $objectId
-     * @param int $userId
-     * @return int
-     */
-    public function hasVoted($objectId, $userId){
-        
-    }
-
-    /**
-     * updateVoterNotif
-     * Updates the notification linked to this vote
-     * @param int $objectId
-     * @param int $voterId
-     * @param int $notifId
-     * @throws DBException     
-     */
-    public function updateVoterNotif($objectId, $voterId, $notifId){
-        
-    }
-
-    /**
-     * updateVoter
-     * Updates a voter for this review
-     * @param int $reviewId
-     * @param int $voterId
-     * @param int $voterFlag
-     */
-    public function updateVoter($reviewId, $voterId, $voterFlag){
-        
-    }
-
-    /**
-     * removeVoter
-     * Removes a voter from this review
-     * @param int $reviewId
-     * @param int $voterId
-     */
-    public function removeVoter($reviewId, $voterId){
-        
-    }
 }

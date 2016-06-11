@@ -40,6 +40,15 @@ interface ReviewDao extends VoteFunctionalityDao {
     public function getUserReviewsForUser($userId, $limit = -1);
 
     /**
+     * getUserReviewForGameAndUser
+     * Returns the user review for this game and this user is present.
+     * Else returns -1
+     * @param int $gameId
+     * @param int $userId
+     */
+    public function getUserReviewForGameAndUser($gameId, $userId);
+
+    /**
      * updateReviewCore
      * Updates a review withoud updating the characteristics of the related game
      * @param int $reviewId
@@ -98,12 +107,39 @@ interface ReviewDao extends VoteFunctionalityDao {
     public function addGoodBadTag($reviewId, $goodBadTag, $type);
 
     /**
-     * removeGoodBadTag
-     * Removew a good, a bad or a tag from the database
+     * removeGood
+     * Removew a good from the database
      * @param int $reviewId
-     * @param int $goodBadTagId
+     * @param string $good
+     * @throws DBException
      */
-    public function removeGoodBadTag($reviewId, $goodBadTagId);
+    public function removeGood($reviewId, $good);
+
+    /**
+     * removeBad
+     * Removew a bad from the database
+     * @param int $reviewId
+     * @param string $bad
+     * @throws DBException
+     */
+    public function removebad($reviewId, $bad);
+
+    /**
+     * removeTag
+     * Removew a tag from the database
+     * @param int $reviewId
+     * @param string $tag
+     * @throws DBException
+     */
+    public function removeTag($reviewId, $tag);
+
+    /**
+     * addHeaderImage
+     * Adds the header image to this review
+     * @param int $reviewId
+     * @param Image $image
+     */
+    public function addHeaderImage($reviewId, Image $image);
 
     /**
      * addGalleryImage
@@ -112,6 +148,14 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param Image $image
      */
     public function addGalleryImage($reviewId, Image $image);
+
+    /**
+     * updateHeaderImage
+     * Updates the header image of this review
+     * @param type $reviewId
+     * @param Image $image
+     */
+    public function updateHeaderImage($reviewId, Image $image);
 
     /**
      * removeGalleryImage
@@ -137,6 +181,24 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param Comment $rootComment
      */
     public function addRootComment($reviewId, Comment $rootComment);
+
+    /**
+     * getReviewRootcomments
+     * Returns all root comments for the review with this id   
+     * @param int $reviewId
+     * @return Comment[]
+     * @throws DBException
+     */
+    public function getRootComments($reviewId);
+
+    /**
+     * updateRootCommentNotification
+     * Updates the notification id for this review comment combination
+     * @param int $reviewId
+     * @param int $commentId
+     * @param int $notifId
+     */
+    public function updateRootCommentNotification($reviewId, $commentId, $notifId);
 
     /**
      * removeRootComment

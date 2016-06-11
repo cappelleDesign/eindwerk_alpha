@@ -51,6 +51,15 @@ interface GameDao extends Dao {
     public function addPlatformToGame($gameId, $platformName);
 
     /**
+     * search
+     * Checks if this genre/platform exists
+     * @param string objectName
+     * @param string $objectNameVal
+     * @return int $id if found, NULL otherwise
+     */
+    public function search($objectName, $objectNameVal);
+
+    /**
      * getGamePlatforms
      * Returns all platforms for this game
      * @param int $gameId

@@ -63,13 +63,21 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
         if (!$review instanceof Review) {
             throw new DBException('The object you tried to add was not a review object', NULL);
         }
-        if ($this->getByString($review->getTitle())) {
+        $rev = $this->getByString($review->getTitle());
+        if ($rev && !$review->getIsUserReview()) {
             throw new DBException('The database already contains a review with this title');
         }
         if ($this->_gameDB->getByString($review->getGame()->getName())) {
-            throw new DBException('The database already contains a review for this game');
+            if (!$review->getIsUserReview()) {
+                throw new DBException('The database already contains a review for this game');
+            }
         }
+        if ($this->getUserReviewForGameAndUser($review->getGame()->getId(), $review->getWriter()->getId()) !== -1) {
+            throw new DBException('You have already written a review for this game');
+        }
+
         $gameId = $this->addGame($review->getGame());
+        $platformId = $this->_gameDB->search('platform', $review->getReviewedOn());
         $query = 'INSERT INTO ' . $this->_revT . '(users_writer_id, game_id,';
         $query .= 'platforms_platform_id, review_title, review_score, review_txt,';
         $query .= 'review_video_url, review_created, is_user_review) ';
@@ -78,15 +86,9 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
         $queryArgs = array(
         );
         $statement->execute($queryArgs);
-        foreach ($review->getGoods() as $good) {
-            
-        }
-        foreach ($review->getBads() as $bad) {
-            
-        }
-        foreach ($review->getTags() as $tag) {
-            
-        }
+        $this->addGoodBadTagsFull($review->getId(), $review->getGoods(), 'good');
+        $this->addGoodBadTagsFull($review->getId(), $review->getBads(), 'bad');
+        $this->addGoodBadTagsFull($review->getId(), $review->getTags(), 'tag');
         return parent::getLastId();
     }
 
@@ -164,6 +166,19 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     }
 
     /**
+     * getUserReviewForGameAndUser
+     * Returns the user review for this game and this user is present.
+     * Else returns -1
+     * @param int $gameId
+     * @param int $userId
+     * @return Review (or -1 if not present)
+     */
+    public function getUserReviewForGameAndUser($gameId, $userId) {
+        return NULL;
+//        TODO IMPLEMENT
+    }
+
+    /**
      * updateReviewCore
      * Updates a review withoud updating the characteristics of the related game
      * @param int $reviewId
@@ -190,6 +205,17 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     }
 
     /**
+     * addHeaderImage
+     * Adds the header image to this review
+     * @param int $reviewId
+     * @param Image $image
+     */
+    public function addHeaderImage($reviewId, Image $image) {
+        $id = $this->getImgId($image);
+        $this->_reviewDistDB->addHeaderImage($reviewId, $id);
+    }
+
+    /**
      * addGalleryImage
      * Adds a image to the gallery of this review
      * @param int $reviewId
@@ -197,7 +223,42 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @return int $imageId
      */
     public function addGalleryImage($reviewId, Image $image) {
-        return $this->_reviewDistDB->addGalleryImage($reviewId, $image);
+        $id = $this->getImgId($image);
+        $this->_reviewDistDB->addGalleryImage($reviewId, $id);
+    }
+
+    /**
+     * getImgId
+     * Helper function to get the image id
+     * @param Image $image
+     */
+    private function getImgId(Image $image) {
+        $imgOg = $this->_genDistDB->searchImage($image->getUrl());
+        $id = '';
+        if ($imgOg !== -1) {
+            $id = $imgOg->getId();
+        } else {
+            $id = $this->_genDistDB->addImage($image);
+        }
+        return $id;
+    }
+
+    /**
+     * updateHeaderImage
+     * Updates the header image of this review
+     * @param type $reviewId
+     * @param Image $image
+     */
+    public function updateHeaderImage($reviewId, Image $image, $delete = false) {
+        $prevId = FALSE;
+        if ($delete) {
+            $prevId = $this->get($reviewId)->getHeaderImg()->getId();
+        }
+        $id = $this->getImgId($image);
+        $this->_reviewDistDB->updateHeaderImage($reviewId, $id);
+        if ($delete) {
+            $this->_genDistDB->removeImage($prevId);
+        }
     }
 
     /**
@@ -206,8 +267,12 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param int $reviewId
      * @param int $imageId
      */
-    public function removeGalleryImage($reviewId, $imageId) {
+    public function removeGalleryImage($reviewId, $imageId, $permanent = false) {
+        parent::triggerIdNotFound($imageId, 'image');
         $this->_reviewDistDB->removeGalleryImage($reviewId, $imageId);
+        if ($permanent) {
+            $this->_genDistDB->removeImage($imageId);
+        }
     }
 
     /**
@@ -216,20 +281,42 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param int $reviewId
      * @param int $goodBadTag
      * @param string $type
-     * @return int $goodBadTagId
      */
     public function addGoodBadTag($reviewId, $goodBadTag, $type) {
         return $this->_reviewDistDB->addGoodBadTag($reviewId, $goodBadTag, $type);
     }
 
     /**
-     * removeGoodBadTag
-     * Removew a good, a bad or a tag from the database
+     * removeGood
+     * Removew a good from the database
      * @param int $reviewId
-     * @param int $goodBadTagId
+     * @param string $good
+     * @throws DBException
      */
-    public function removeGoodBadTag($reviewId, $goodBadTagId) {
-        $this->_reviewDistDB->removeGoodBadTag($reviewId, $goodBadTagId);
+    public function removeGood($reviewId, $good) {
+        $this->_reviewDistDB->removeGoodBadTag($reviewId, $good, 'good');
+    }
+
+    /**
+     * removeBad
+     * Removew a bad from the database
+     * @param int $reviewId
+     * @param string $bad
+     * @throws DBException
+     */
+    public function removebad($reviewId, $bad) {
+        $this->_reviewDistDB->removeGoodBadTag($reviewId, $bad, 'bad');
+    }
+
+    /**
+     * removeTag
+     * Removew a tag from the database
+     * @param int $reviewId
+     * @param string $tag
+     * @throws DBException
+     */
+    public function removeTag($reviewId, $tag) {
+        $this->_reviewDistDB->removeGoodBadTag($reviewId, $tag, 'tag');
     }
 
     /**
@@ -246,6 +333,28 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     }
 
     /**
+     * getReviewRootcomments
+     * Returns all root comments for the review with this id   
+     * @param int $reviewId
+     * @return Comment[]
+     * @throws DBException
+     */
+    public function getRootComments($reviewId) {
+        return $this->_commentDB->getReviewRootComments($reviewId);
+    }
+
+    /**
+     * updateRootCommentNotification
+     * Updates the notification id for this review comment combination
+     * @param int $reviewId
+     * @param int $commentId
+     * @param int $notifId
+     */
+    public function updateRootCommentNotification($reviewId, $commentId, $notifId) {
+        $this->_reviewDistDB->updateRootCommentNotification($reviewId, $commentId, $notifId);
+    }
+
+    /**
      * removeRootComment
      * Removew a root comment from this review.
      * A root comment is a comment that is a direct child of this review
@@ -253,8 +362,8 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param int $commentId
      */
     public function removeRootComment($reviewId, $commentId) {
-        $this->_commentDB->remove($commentId);
         $this->_reviewDistDB->removeRootComment($reviewId, $commentId);
+        $this->_commentDB->remove($commentId);
     }
 
     /**
@@ -279,7 +388,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     public function userRatedReview($reviewId, $userId) {
         return $this->_reviewDistDB->userRatedReview($reviewId, $userId);
     }
-    
+
     /**
      * updateUserScore
      * Updates the user score for this user and review combination
@@ -422,7 +531,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param string $type
      */
     private function addGoodBadTagsFull($revId, $arr, $type) {
-        $this->_reviewDistDB->addGoodBadTagsFull($revId, $arr, $type);
+        $this->_reviewDistDB->addGoodBadTagsFull($revId, array_values($arr), $type);
     }
 
 }

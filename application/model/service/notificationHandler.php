@@ -19,6 +19,8 @@ class notificationHandler {
      * @var ReviewDao 
      */
     private $_reviewDb;
+    
+//    private $_videoDb;
 
     public function __construct(UserDao $userDb, CommentDao $commentDb, ReviewDao $reviewDb) {
         $this->init($userDb, $commentDb, $reviewDb);

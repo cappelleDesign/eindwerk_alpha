@@ -52,7 +52,7 @@ interface GameDistDao {
      * Checks if this genre/platform exists
      * @param string objectName
      * @param string $objectNameVal
-     * @return bool $found
+     * @return int $id if found, NULL otherwise
      */
     public function search($objectName, $objectNameVal);
 

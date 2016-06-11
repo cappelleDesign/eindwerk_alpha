@@ -27,7 +27,7 @@ interface ReviewDistDao {
      * @return int
      */
     public function userRatedReview($reviewId, $userId);
-    
+
     /**
      * updateUserScore
      * Updates the user score for this user and review combination
@@ -64,20 +64,47 @@ interface ReviewDistDao {
     public function addGoodBadTagsFull($revId, $arr, $type);
 
     /**
+     * searchGBT
+     * Searches for a good, bad or tag by name and returns it's id if found,
+     * -1 otherwise
+     * @param int $revId
+     * @param string $gbtText
+     * @param string $type
+     */
+    public function searchGBT($revId, $gbtText, $type);
+
+    /**
      * removeGoodBadTag
      * Removew a good, a bad or a tag from the database
      * @param int $reviewId
      * @param int $goodBadTagId
+     * @param string $type
      */
-    public function removeGoodBadTag($reviewId, $goodBadTagId);
+    public function removeGoodBadTag($reviewId, $goodBadTagId, $type);
+
+    /**
+     * addHeaderImage
+     * Adds the header image to this review
+     * @param int $reviewId
+     * @param int $imageId
+     */
+    public function addHeaderImage($reviewId, $imageId);
 
     /**
      * addGalleryImage
      * Adds a image to the gallery of this review
      * @param int $reviewId
-     * @param Image $image
+     * @param int $imageId
      */
-    public function addGalleryImage($reviewId, Image $image);
+    public function addGalleryImage($reviewId, $imageId);
+
+    /**
+     * updateHeaderImage
+     * Updates the header image of this review
+     * @param type $reviewId
+     * @param int $imageId
+     */
+    public function updateHeaderImage($reviewId, $imageId);
 
     /**
      * removeGalleryImage
@@ -92,10 +119,18 @@ interface ReviewDistDao {
      * Adds a root comment to this review.
      * A root comment is a comment that is a direct child of this review
      * @param int $reviewId
-     * @param int commentId
-     * @param Comment $rootComment
+     * @param int commentId     
      */
-    public function addRootComment($reviewId, $commentId, Comment $rootComment);
+    public function addRootComment($reviewId, $commentId);
+
+    /**
+     * updateRootCommentNotification
+     * Updates the notification id for this review comment combination
+     * @param int $reviewId
+     * @param int $commentId
+     * @param int $notifId
+     */
+    public function updateRootCommentNotification($reviewId, $commentId, $notifId);
 
     /**
      * removeRootComment
@@ -105,80 +140,4 @@ interface ReviewDistDao {
      * @param int $commentId
      */
     public function removeRootComment($reviewId, $commentId);
-
-    /**
-     * addVoter
-     * Adds a voter to a VoteFunctionalityObject
-     * @param int $reviewId
-     * @param int $voterId
-     * @param int $notifId
-     * @param int $voteFlag
-     */
-    public function addVoter($reviewId, $voterId, $notifId,$voteFlag);
-
-    /**
-     * getVotedNotifId
-     * Get the id of the notification linked to this vote
-     * @param int $objectId
-     * @param int $voteFlag
-     * @return int
-     */
-    public function getVotedNotifId($objectId, $voteFlag);
-
-    /**
-     * getVoters
-     * Returns all voters for the given params 
-     * @param int $objectId
-     * @param int $flag (if -1, search all flags)
-     * @param int $limit
-     * @return Vote[]
-     */
-    public function getVoters($objectId, $flag = -1, $limit = -1);
-
-    /**
-     * getVotersCount
-     * Returns the number of voters for this flag
-     * @param int $objectId
-     * @param int $flag
-     * @return int
-     */
-    public function getVotersCount($objectId, $flag);
-
-    /**
-     * hasVoted
-     * Returns if a user voted on this Review.
-     * Return value is the flag related to this vote or -1 if the user did 
-     * not yet vote on this Review     
-     * @param int $objectId
-     * @param int $userId
-     * @return int
-     */
-    public function hasVoted($objectId, $userId);
-
-    /**
-     * updateVoterNotif
-     * Updates the notification linked to this vote
-     * @param int $objectId
-     * @param int $voterId
-     * @param int $notifId
-     * @throws DBException     
-     */
-    public function updateVoterNotif($objectId, $voterId, $notifId);
-
-    /**
-     * updateVoter
-     * Updates a voter for this review
-     * @param int $reviewId
-     * @param int $voterId
-     * @param int $voterFlag
-     */
-    public function updateVoter($reviewId, $voterId, $voterFlag);
-
-    /**
-     * removeVoter
-     * Removes a voter from this review
-     * @param int $reviewId
-     * @param int $voterId
-     */
-    public function removeVoter($reviewId, $voterId);
 }

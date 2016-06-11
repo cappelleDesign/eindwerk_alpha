@@ -83,23 +83,20 @@ class Review extends VoteFuncionalityObject implements DaoObject {
     private $_rootComments;
 
     /**
-     * Assoc array with all the good points of the game.
-     * Form: goods(goodId , goodText)
-     * @var array 
+     * Array with all the good points of the game.     
+     * @var string[]
      */
     private $_goods;
 
     /**
-     * Assoc array with all the bad points of the game.
-     * Form: bads(badId , baddText)
-     * @var array 
+     * Array with all the bad points of the game.     
+     * @var string[]
      */
     private $_bads;
 
     /**
-     * Assoc array with all the tags for the game.
-     * Form: tags(tagId , tagText)
-     * @var array 
+     * Aarray with all the tags for the game.
+     * @var string[]
      */
     private $_tags;
 
@@ -345,64 +342,64 @@ class Review extends VoteFuncionalityObject implements DaoObject {
 
     /**
      * addGood
-     * Adds a good to this review
-     * @param int $id
+     * Adds a good to this review     
      * @param String $good
      */
-    public function addGood($id, $good) {
-        $this->_goods[$id] = $good;
+    public function addGood($good) {
+//        FIXME TOOK EASY WAY OUT
+        $this->_goods[$good] = $good;
     }
 
     /**
      * removeGood
      * Removes a good from this review
-     * @param int $id
+     * @param string $good
      */
-    public function removeGood($id) {
-        if (array_key_exists($id, $this->getGoods())) {
-            unset($this->_goods[$id]);
+    public function removeGood($good) {
+        if (array_key_exists($good, $this->getGoods())) {
+            unset($this->_goods[$good]);
         }
     }
 
     /**
      * addBad
      * Adds a bad to this review
-     * @param int $id
      * @param String $bad
      */
-    public function addBad($id, $bad) {
-        $this->_bads[$id] = $bad;
+    public function addBad($bad) {
+//        FIXME TOOK EASY WAY OUT
+        $this->_bads[$bad] = $bad;
     }
 
     /**
      * removeBad
      * Removes a bad from this review
-     * @param int $id
+     * @param string $bad
      */
-    public function removeBad($id) {
-        if (array_key_exists($id, $this->getBads())) {
-            unset($this->_bads[$id]);
+    public function removeBad($bad) {
+        if (array_key_exists($bad, $this->getBads())) {
+            unset($this->_bads[$bad]);
         }
     }
 
     /**
      * addTag
      * Adds a tag to this review
-     * @param int $id
      * @param String $tag
      */
-    public function addTag($id, $tag) {
-        $this->_tags[$id] = $tag;
+    public function addTag($tag) {
+//        FIXME TOOK EASY WAY OUT
+        $this->_tags[$tag] = $tag;
     }
 
     /**
      * removeTag
      * Removes a Tag from this review
-     * @param int $id
+     * @param string $tag
      */
-    public function removeTag($id) {
-        if (array_key_exists($id, $this->getTags())) {
-            unset($this->_tags[$id]);
+    public function removeTag($tag) {
+        if (array_key_exists($tag, $this->getTags())) {
+            unset($this->_tags[$tag]);
         }
     }
 

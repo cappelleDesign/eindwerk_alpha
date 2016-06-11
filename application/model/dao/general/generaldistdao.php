@@ -10,6 +10,13 @@
 interface GeneralDistDao {
 
     /**
+     * Adds an image to the database
+     * @param Image $image
+     * @return int $imageId
+     */
+    public function addImage(Image $image);
+            
+    /**
      * getImage
      * Returns the image with this id
      * @param int $imageId
@@ -18,9 +25,24 @@ interface GeneralDistDao {
     public function getImage($imageId);
 
     /**
+     * searchImage
+     * Searches for an image and returns it if found,
+     * -1 otherwise
+     * @param string $imgUrl
+     * @return Image or -1 if not found
+     */
+    public function searchImage($imgUrl);
+    
+    /**
      * getImages
      * Returns all the images in the database
      * @return array $images
      */
     public function getImages();
+    
+    /**
+     * Removes an image from the database
+     * @param int $imageId
+     */
+    public function removeImage($imageId);
 }

@@ -190,6 +190,17 @@ class GameSqlDB extends SqlSuper implements GameDao {
     public function addPlatformToGame($gameId, $platformName) {
         $this->_gameDistDb->addToGame('platform', $gameId, $platformName);
     }
+    
+    /**
+     * search
+     * Checks if this genre/platform exists
+     * @param string objectName
+     * @param string $objectNameVal
+     * @return int $id if found, NULL otherwise
+     */
+    public function search($objectName, $objectNameVal) {
+        return $this->_gameDistDb->search($objectName, $objectNameVal);
+    }
 
     /**
      * updateGamePlatform

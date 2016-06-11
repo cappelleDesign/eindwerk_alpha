@@ -90,7 +90,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query = 'SELECT comment_id FROM ' . $this->_commentT . ' WHERE comment_txt = :identifier';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(':identifier', $identifier);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             throw new DBException('No comment with this body: ' . $identifier);
@@ -135,7 +135,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query = 'SELECT comment_id FROM ' . $this->_commentT . ' WHERE parent_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $commentId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         foreach ($result as $row) {
             $this->remove($row['comment_id']);
@@ -179,7 +179,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query = 'SELECT commented_on_notif_id FROM ' . $this->_commentT . ' WHERE comment_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $commentId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $notifId = NULL;
         if (!empty($result)) {
@@ -243,7 +243,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $parentId);
         $statement->bindParam(2, $limit, PDO::PARAM_INT);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
 
         $subComments = array();
@@ -274,7 +274,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query = 'SELECT COUNT(' . $count . ') as count FROM ' . $this->_commentT . ' WHERE ' . $idCol . '= ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $parentId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         return $result[0]['count'];
     }
@@ -293,7 +293,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      * END ORIGINAL SQL
      * 
      * @param int $reviewId
-     * @return Review[]
+     * @return Comment[]
      * @throws DBException
      */
     public function getReviewRootComments($reviewId) {
@@ -306,7 +306,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query .= 'ORDER BY c.comment_created DESC';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $reviewId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (!empty($result)) {
             $comments = array();
@@ -336,7 +336,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
      * END ORIGINAL SQL
      * 
      * @param int $videoId
-     * @return Review[]
+     * @return comment[]
      * @throws DBException
      */
     public function getVideoRootComments($videoId) {
@@ -349,7 +349,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query .= 'ORDER BY c.comment_created DESC';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $videoId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (!empty($result)) {
             $comments = array();
@@ -399,7 +399,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $query = 'SELECT ' . $objectIdName . ' FROM ' . Globals::getTableName($objectName . '_comment') . ' WHERE comments_comment_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $commentId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             return -1;

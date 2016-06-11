@@ -125,8 +125,7 @@ class Globals {
         }
         return 'soufitq169_neoludus.' . $tableName;
     }
-
-    //FIXME NOT USED YET
+    
     static function getIdColumnName($instance) {
         switch ($instance) {
             case 'achievement' :
