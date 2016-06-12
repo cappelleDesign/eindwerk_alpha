@@ -78,7 +78,7 @@ class Review extends VoteFuncionalityObject implements DaoObject {
     /**
      * Comments on this review that are not comments on comments.
      * assoc array (commentId , comment) 
-     * @var array
+     * @var Comment[]
      */
     private $_rootComments;
 
@@ -113,7 +113,7 @@ class Review extends VoteFuncionalityObject implements DaoObject {
      */
     private $_isUserReview;
 
-    public function __construct(UserSimple $writer, Game $game, $reviewedOn, $title, $score, $text, $videoUrl, $created, Image $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format, $isUserReview = false) {
+    public function __construct(UserSimple $writer, Game $game, $reviewedOn, $title, $score, $text, $videoUrl, $created, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format, $isUserReview = false) {
         parent::__construct($voters);
         $this->setWriter($writer);
         $this->setGame($game);
@@ -164,40 +164,68 @@ class Review extends VoteFuncionalityObject implements DaoObject {
     }
 
     public function setVideoUrl($videoUrl) {
-        $this->_videoUrl = $videoUrl;
+        if ($videoUrl) {
+            $this->_videoUrl = $videoUrl;
+        } else {
+            $this->_videoUrl = '';
+        }
     }
 
     public function setCreated($created, $format) {
-        $date = DateTime::createFromFormat($format, $created);
+        $date = DateTime::createFromFormat($format, $created);       
         $this->_created = $date;
     }
 
-    public function setHeaderImg(Image $headerImg) {
+    public function setHeaderImg($headerImg) {
         $this->_headerImg = $headerImg;
     }
 
     public function setUserScores($userScores) {
-        $this->_userScores = $userScores;
+        if ($userScores) {
+            $this->_userScores = $userScores;
+        } else {
+            $this->_userScores = array();
+        }
     }
 
     public function setRootComments($rootComments) {
-        $this->_rootComments = $rootComments;
+        if ($rootComments) {
+            $this->_rootComments = $rootComments;
+        } else {
+            $this->_rootComments = array();
+        }
     }
 
     public function setGoods($goods) {
-        $this->_goods = $goods;
+        if ($goods) {
+            $this->_goods = $goods;
+        } else {
+            $this->_goods = array();
+        }
     }
 
     public function setBads($bads) {
-        $this->_bads = $bads;
+        if ($bads) {
+            $this->_bads = $bads;
+        } else {
+            $this->_bads = array();
+        }
     }
 
     public function setTags($tags) {
-        $this->_tags = $tags;
+        if ($tags) {
+            $this->_tags = $tags;
+        } else {
+            $this->_tags = array();
+        }
     }
 
     public function setGallery($gallery) {
-        $this->_gallery = $gallery;
+        if ($gallery) {
+            $this->_gallery = $gallery;
+        } else {
+            $this->_gallery = array();
+        }
     }
 
     public function setIsUserReview($isUserReview) {
@@ -281,7 +309,7 @@ class Review extends VoteFuncionalityObject implements DaoObject {
      * @param string $format
      * @return string
      */
-    public function getCreatedStr($format) {
+    public function getCreatedStr($format) {        
         return $this->_created->format($format);
     }
 

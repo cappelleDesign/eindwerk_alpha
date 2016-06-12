@@ -106,6 +106,10 @@ class SqlSuper {
         $this->_connection->commit();
     }
     
+    public function cancelTransaction(){
+        $this->_connection->rollBack();
+    }
+    
     /**
      * prepareStatement
      * Uses PDO to create a PDOStatement

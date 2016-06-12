@@ -17,7 +17,7 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param array $options      
      * @return Review[]
      */
-    public function getReviews($options);
+    public function getReviews($options = array());
 
     /**
      * getUserReviewsForGame
@@ -59,7 +59,7 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param string $videoUrl
      * @param Image $headerImg
      */
-    public function updateReviewCore($reviewId, $reviewedOn, $title, $score, $text, $videoUrl, Image $headerImg);
+    public function updateReviewCore($reviewId, $reviewedOn, $title, $score, $text, $videoUrl, $headerImg);
 
     /**
      * addUserScore
@@ -81,6 +81,13 @@ interface ReviewDao extends VoteFunctionalityDao {
     public function userRatedReview($reviewId, $userId);
 
     /**
+     * getUserScores     
+     * @param int $reviewId
+     * @return array $userScores
+     */
+    public function getUserScores($reviewId);
+
+    /**
      * updateUserScore
      * Updates the user score for this user and review combination
      * @param int $reviewId
@@ -98,13 +105,52 @@ interface ReviewDao extends VoteFunctionalityDao {
     public function removeUserScore($reviewId, $userId);
 
     /**
-     * addGoodBadTag
-     * Adds a good, a bad or a tag to the database
+     * addGood
+     * Adds a good the database
      * @param int $reviewId
-     * @param string $goodBadTag
-     * @param string $type
+     * @param string $good    
      */
-    public function addGoodBadTag($reviewId, $goodBadTag, $type);
+    public function addGood($reviewId, $good);
+
+    /**
+     * addBad
+     * Adds a bad to the database
+     * @param int $reviewId
+     * @param string $bad     
+     */
+    public function addBad($reviewId, $bad);
+
+    /**
+     * addTag
+     * Adds a tag to the database
+     * @param int $reviewId
+     * @param string $tag
+     */
+    public function addTag($reviewId, $tag);
+
+    /**
+     * getGoods
+     * Returns all the good points for a review
+     * @param int $reviewId
+     * @return string[]
+     */
+    public function getGoods($reviewId);
+
+    /**
+     * getGoods
+     * Returns all the good points for a review
+     * @param int $reviewId
+     * @return string[]
+     */
+    public function getBads($reviewId);
+
+    /**
+     * getGoods
+     * Returns all the good points for a review
+     * @param int $reviewId
+     * @return string[]
+     */
+    public function getTags($reviewId);
 
     /**
      * removeGood
@@ -150,9 +196,25 @@ interface ReviewDao extends VoteFunctionalityDao {
     public function addGalleryImage($reviewId, Image $image);
 
     /**
+     * getHeaderImage
+     * Returns the header image for this review
+     * @param itn $reviewId
+     * @return Image $headerImage
+     */
+    public function getHeaderImage($reviewId);
+
+    /**
+     * getGallery
+     * Returns the image gallery for this review
+     * @param int $reviewId
+     * @return Image[]
+     */
+    public function getGallery($reviewId);
+
+    /**
      * updateHeaderImage
      * Updates the header image of this review
-     * @param type $reviewId
+     * @param int $reviewId
      * @param Image $image
      */
     public function updateHeaderImage($reviewId, Image $image);
@@ -164,6 +226,14 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param int $imageId
      */
     public function removeGalleryImage($reviewId, $imageId);
+
+    /**
+     * getGame
+     * returns the game for this review
+     * @param type $reviewId
+     * @return Game
+     */
+    public function getGame($reviewId);
 
     /**
      * updateGame
@@ -208,4 +278,12 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param int $commentId
      */
     public function removeRootComment($reviewId, $commentId);
+
+    /**
+     * getWriter
+     * Returns the writer of this review
+     * @param int $reviewId
+     * @return UserSimple $writer
+     */
+    public function getWriter($reviewId);
 }

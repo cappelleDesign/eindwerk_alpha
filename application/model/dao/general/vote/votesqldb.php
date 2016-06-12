@@ -167,9 +167,10 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
         $statement = parent::prepareStatement($query);
         $statement->execute($queryArgs);        
         $result = parent::fetch($statement, TRUE);
-        $voters = array();
+        $voters = array();        
         foreach ($result as $row) {
-            $voters[$row['user_id']] = parent::getCreationHelper()->createVote($row);
+            $voters[$row['user_id']] = parent::getCreationHelper()->createVote($row,$idCol);
+            
         }
         return $voters;
     }

@@ -85,7 +85,7 @@ interface GameDao extends Dao {
 
     /**
      * updateGame
-     * Updates the game for this review
+     * Updates the game in the database
      * @param int $gameId
      * @param Game $game
      */

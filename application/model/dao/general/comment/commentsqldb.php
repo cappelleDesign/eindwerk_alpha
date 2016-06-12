@@ -318,7 +318,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
             }
             return $comments;
         } else {
-            return NULL;
+            return array();
         }
     }
 

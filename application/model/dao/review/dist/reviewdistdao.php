@@ -29,6 +29,13 @@ interface ReviewDistDao {
     public function userRatedReview($reviewId, $userId);
 
     /**
+     * getUserScores     
+     * @param int $reviewId
+     * @return array $userScores
+     */
+    public function getUserScores($reviewId);
+
+    /**
      * updateUserScore
      * Updates the user score for this user and review combination
      * @param int $reviewId
@@ -64,6 +71,15 @@ interface ReviewDistDao {
     public function addGoodBadTagsFull($revId, $arr, $type);
 
     /**
+     * getGoodsBasTags
+     * Returns all the good/bad/tag points for a review
+     * @param int $reviewId
+     * @param string $type
+     * @return string[]
+     */
+    public function getGoodsBadsTags($reviewId, $type);
+
+    /**
      * searchGBT
      * Searches for a good, bad or tag by name and returns it's id if found,
      * -1 otherwise
@@ -97,6 +113,22 @@ interface ReviewDistDao {
      * @param int $imageId
      */
     public function addGalleryImage($reviewId, $imageId);
+
+    /**
+     * getHeaderImageId
+     * Returns the header image id for this review
+     * @param itn $reviewId
+     * @return int $headerImageId
+     */
+    public function getHeaderImageId($reviewId);
+
+    /**
+     * getGalleryIds
+     * Returns the image gallery id's for this review
+     * @param int $reviewId
+     * @return int[]
+     */
+    public function getGalleryIds($reviewId);
 
     /**
      * updateHeaderImage

@@ -100,6 +100,26 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
     }
 
     /**
+     * getUserScores     
+     * @param int $reviewId
+     * @return array $userScores
+     */
+    public function getUserScores($reviewId) {
+        $t = $this->_userScoreT;
+        $query = 'SELECT * FROM ' . $t;
+        $query .= ' WHERE review_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $reviewId);
+        $statement->execute();
+        $result = parent::fetch($statement, TRUE);
+        $userScores = array();
+        foreach ($result as $row) {
+            $userScores[$row['user_id']] = $row['score'];
+        }
+        return $userScores;
+    }
+
+    /**
      * updateUserScore
      * Updates the user score for this user and review combination
      * @param int $reviewId
@@ -156,8 +176,33 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
                 ':body' => $goodBadTag,
                 ':type' => $type
             );
-            $statement->execute($queryArgs);
+            $statement->execute($queryArgs);            
         }
+    }
+
+    /**
+     * getGoodsBasTags
+     * Returns all the good/bad/tag points for a review
+     * @param int $reviewId
+     * @param string $type
+     * @return string[]
+     */
+    public function getGoodsBadsTags($reviewId, $type) {
+        $t = $this->_gbtT;
+        $query = 'SELECT good_bad_tag_txt as txt FROM ' . $t;
+        $query .= ' WHERE review_id = :revId AND good_bad_tag_type = :type';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId,
+            ':type' => $type
+        );
+        $statement->execute($queryArgs);
+        $result = parent::fetch($statement, TRUE);
+        $gbts = array();
+        foreach ($result as $row) {
+            $gbts[$row['txt']] = $row['txt'];
+        }
+        return $gbts;
     }
 
     /**
@@ -262,6 +307,42 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
             ':header' => $header
         );
         $statement->execute($queryArgs);
+    }
+
+    /**
+     * getHeaderImageId
+     * Returns the header image for this review
+     * @param itn $reviewId
+     * @return int $headerImageId
+     */
+    public function getHeaderImageId($reviewId) {
+        $t = $this->_imgT;
+        $query = 'SELECT * FROM ' . $t;
+        $query .= ' WHERE reviews_review_id = :revId AND headerpic = TRUE';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':revId' => $reviewId
+        );
+        $statement->execute($queryArgs);
+        $result = parent::fetch($statement, FALSE);
+        return $result['images_image_id'];
+    }
+
+    /**
+     * getGalleryIds
+     * Returns the image gallery id's for this review
+     * @param int $reviewId
+     * @return int[]
+     */
+    public function getGalleryIds($reviewId) {
+        $t = $this->_imgT;
+        $query = 'SELECT images_image_id FROM ' . $t;
+        $query .= ' WHERE reviews_review_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $reviewId);
+        $statement->execute();
+        $result = parent::fetch($statement, TRUE);
+        return $result;
     }
 
     /**

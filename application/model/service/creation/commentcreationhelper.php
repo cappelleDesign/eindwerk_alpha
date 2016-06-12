@@ -38,9 +38,9 @@ class CommentCreationHelper {
      * @return Vote
      * @throws ServiceException
      */
-    public function createVote($row) {
+    public function createVote($row, $idCol) {
         try {
-            $vote = new Vote($row['user_id'], $row['comment_id'], $row['voted_on_notif_id'], $row['user_name'], $row['vote_flag']);
+            $vote = new Vote($row['user_id'], $row[$idCol], $row['voted_on_notif_id'], $row['user_name'], $row['vote_flag']);
             return $vote;
         } catch (Exception $ex) {
             throw new ServiceException($ex);

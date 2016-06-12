@@ -125,7 +125,7 @@ class Globals {
         }
         return 'soufitq169_neoludus.' . $tableName;
     }
-    
+
     static function getIdColumnName($instance) {
         switch ($instance) {
             case 'achievement' :
@@ -209,6 +209,16 @@ class Globals {
             $base = 'http://test.neoludus.com/';
         }
         return $base;
+    }
+
+    static function checkNullParams() {
+        $params = func_get_args();
+        foreach ($params as $param) {
+            if (!$param) {                
+                return false;
+            }
+        }
+        return true;
     }
 
 }

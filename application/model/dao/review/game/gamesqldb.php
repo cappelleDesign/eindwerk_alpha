@@ -97,7 +97,7 @@ class GameSqlDB extends SqlSuper implements GameDao {
 
     /**
      * updateGame
-     * Updates the game for this review
+     * Updates the game in the database
      * @param int $gameId
      * @param Game $game
      */
@@ -311,8 +311,6 @@ class GameSqlDB extends SqlSuper implements GameDao {
         $result = parent::fetch($statement, FALSE);
         if ($result) {
             return $this->createGame($result);
-        } else {
-            return null;
         }
     }
 

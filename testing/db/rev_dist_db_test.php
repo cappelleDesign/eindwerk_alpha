@@ -13,7 +13,7 @@ try {
     $gameDistDb = new GameDistSqlDB($connection);
     $gameDB = new GameSqlDB($connection, $gameDistDb);
     $reviewDistDb = new ReviewDistSqlDB($connection, $genDistDb);
-    $reviewDb = new ReviewSqlDB($connection, $commentDb, $genDistDb, $gameDB, $reviewDistDb);
+    $reviewDb = new ReviewSqlDB($connection, $commentDb, $genDistDb, $gameDB, $reviewDistDb, $voteDb, $userDb);
 
     $now = DateFormatter::getNow()->format(Globals::getDateTimeFormat('be', FALSE));
 
@@ -51,7 +51,18 @@ try {
 //    $reviewDistDb->addGalleryImage(1, 10);s
 //    $reviewDistDb->addRootComment(1, 1);
 //    $reviewDistDb->updateRootCommentNotification(1, 1, 1);
-    $reviewDistDb->removeRootComment(1, 1);
+//    $reviewDistDb->removeRootComment(1, 1);
+//    $obj = $reviewDistDb->getHeaderImageId(1);
+//    $obj = $reviewDistDb->getUserScores(1);
+//    $imgIds = $reviewDistDb->getGalleryIds(1);
+//    $gallery = array();
+//    foreach ($imgIds as $id) {
+//        $img = $genDistDb->getImage($id['images_image_id']);
+//        $gallery[$id['images_image_id']] = $img;
+//    }
+//    $obj = $gallery;
+  
+//    $obj = $reviewDistDb->getGoodsBadsTags(1, 'good');
     Globals::cleanDump($obj);
     echo '<h1 style="color: green">SUCCESS</h1>';
 } catch (Exception $ex) {

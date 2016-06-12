@@ -5,7 +5,7 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
     public function __construct($connection) {
         parent::__construct($connection);
     }
-    
+
     /**
      * Adds an image to the database
      * @param Image $image
@@ -36,15 +36,16 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
         $query = 'SELECT * FROM ' . Globals::getTableName('image') . ' WHERE image_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $imageId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $image = NULL;
-        $row = $result[0];
-        if ($row) {
+        if ($result) {
+            $row = $result[0];
             $image = new Image($row['img_uri'], $row['alt']);
             $image->setId($row['image_id']);
-        }                
-        return $image;
+            return $image;
+        }
+        return -1;
     }
 
     /**
@@ -54,22 +55,22 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
      * @param string $imgUrl
      * @return Image or -1 if not found
      */
-    public function searchImage($imgUrl){
+    public function searchImage($imgUrl) {
         $t = Globals::getTableName('image');
         $query = 'SELECT * FROM ' . $t;
-        $query .= 'WHERE img_uri = ?';
+        $query .= ' WHERE img_uri = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $imgUrl);
         $statement->execute();
         $row = parent::fetch($statement, FALSE);
-        if($row) {
+        if ($row) {
             $image = new Image($row['img_uri'], $row['alt']);
             $image->setId($row['image_id']);
-            return $image;            
+            return $image;
         }
         return -1;
     }
-    
+
     /**
      * getImages
      * Returns all the images
@@ -78,7 +79,7 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
     public function getImages() {
         $query = 'SELECT * FROM ' . Globals::getTableName('image');
         $statement = parent::prepareStatement($query);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $images = array();
         foreach ($result as $row) {
@@ -90,10 +91,17 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
     }
 
     /**
+     * removeImage
      * Removes an image from the database
      * @param int $imageId
      */
-    public function removeImage($imageId){
-        
+    public function removeImage($imageId) {
+        $t = Globals::getTableName('image');
+        $query = 'DELETE FROM ' . $t;
+        $query .= ' WHERE image_id = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $imageId);
+        $statement->execute();
     }
+
 }

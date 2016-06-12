@@ -134,8 +134,8 @@ class CreationHelper {
      * @return Vote
      * @throws ServiceException
      */
-    public function createVote($row) {
-        return $this->_commentCreationHelper->createVote($row);
+    public function createVote($row, $idCol) {
+        return $this->_commentCreationHelper->createVote($row, $idCol);
     }
 
     /**
@@ -150,4 +150,27 @@ class CreationHelper {
     public function createGame($row, $platforms, $genres) {
         return $this->_reviewCreationHelper->createGame($row, $platforms, $genres);
     }
+
+    /**
+     * createReview
+     * Creates a Review object from an SQL row, a UserSimple Object, a Game object,
+     * an Image object, an Image array, an array for userScores, a Comments array
+     * and 3 string arrays for goods, bads and tags
+     * @param string[] $row
+     * @param UserSimple $writer
+     * @param Game $game
+     * @param string $reviewedOn
+     * @param Image $headerPic
+     * @param Image[] $gallery
+     * @param array $userScores (int userId, int score)
+     * @param Comment[] $rootComments
+     * @param array $voters
+     * @param string[] $goods
+     * @param string[] $bads
+     * @param string[] $tags
+     */
+    public function createReview($row, UserSimple $writer, Game $game, $reviewedOn, $headerPic, $gallery, $userScores, $rootComments, $voters, $goods, $bads, $tags) {
+        return $this->_reviewCreationHelper->createReview($row, $writer, $game, $reviewedOn, $headerPic, $gallery, $userScores, $rootComments, $voters, $goods, $bads, $tags);
+    }
+
 }
