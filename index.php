@@ -17,6 +17,7 @@ spl_autoload_register(function ($class_name) {
         'model/dao/general/',
         'model/dao/general/comment/',
         'model/dao/general/vote/',
+        'model/dao/general/newsfeed/',
         'model/dao/user/',
         'model/dao/user/dist/',
         'model/dao/user/notification/',

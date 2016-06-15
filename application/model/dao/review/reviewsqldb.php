@@ -51,14 +51,14 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      */
     private $_revT;
 
-    public function __construct($connection, $commentDb, $genDistDb, $gameDB, $reviewDistDB, $voteDB, $userDB) {
+    public function __construct($connection, $commentDB, $genDistDB, $gameDB, $reviewDistDB, $voteDB, $userDB) {
         parent::__construct($connection);
-        $this->init($commentDb, $genDistDb, $gameDB, $reviewDistDB, $voteDB, $userDB);
+        $this->init($commentDB, $genDistDB, $gameDB, $reviewDistDB, $voteDB, $userDB);
     }
 
-    private function init($commentDb, $genDistDb, $gameDB, $reviewDistDB, $voteDB, $userDB) {
-        $this->_commentDB = $commentDb;
-        $this->_genDistDB = $genDistDb;
+    private function init($commentDB, $genDistDB, $gameDB, $reviewDistDB, $voteDB, $userDB) {
+        $this->_commentDB = $commentDB;
+        $this->_genDistDB = $genDistDB;
         $this->_reviewDistDB = $reviewDistDB;
         $this->_gameDB = $gameDB;
         $this->_voteDB = $voteDB;
@@ -220,11 +220,6 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
         $this->removeReviews($id);
         if (!$isUserRev) {
             $this->_gameDB->remove($gameId);
-//            if($imgIds && is_array($imgIds)){
-//                foreach ($imagesIds as $imgId) {
-//                    $this->_genDistDB->removeImage($imgId['images_image_id']);
-//                }
-//            }
         }
     }
 
@@ -270,7 +265,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param int $reviewId
      * @return int $notifId
      */
-    private function getCommentedNotification($reviewId) {
+    public function getCommentedNotification($reviewId) {
         $t = Globals::getTableName('review_comment');
         $query = 'SELECT commented_on_notif_id as notif_id FROM ' . $t;
         $query .= ' WHERE reviews_review_id = ?';
@@ -320,11 +315,16 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     /**
      * getReviews
      * Returns all reviews with these options.
-     * possible options: array where, array having, array order, array limit
+     * possible options: 
+     * -where: string platform, string genre, string gbt, string gameName, 
+     *  stringtitle, string txt, boolean userReview
+     * -having: int minScore, int maxScore
+     * -order: string col, string order
+     * -limit: int limit 
      * @param array $options      
      * @return Review[]
      */
-    public function getReviews($options = array()) {
+    public function getReviews($options) {
         $t = $this->_revT;
         $query = '';
         $queryArgs = array();
@@ -359,8 +359,8 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
             return '';
         }
         $where = $this->buildWhereQuery($options['whereOptions'], $from, $queryArgs);
-        $having = $this->buildHavingQuery($options['havingOptions'], $from, $queryArgs);
-        $order = $this->buildOrderQuery($options['orderOptions'], $queryArgs);
+        $having = $this->buildHavingQuery($options['havingOptions'], $queryArgs);
+        $order = $this->buildOrderQuery($options['orderOptions']);
         $limit = $this->buildLimitQuery($options['limitOptions'], $queryArgs);
         return $where . $having . $order . $limit;
     }
@@ -434,7 +434,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param array $queryArgs
      * @return string
      */
-    private function buildHavingQuery($havingOptions, &$from, &$queryArgs) {
+    private function buildHavingQuery($havingOptions, &$queryArgs) {
         if ($havingOptions && !empty($havingOptions)) {
             $having = '';
             if (array_key_exists('minScore', $havingOptions)) {
@@ -459,7 +459,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param array $queryArgs
      * @return string
      */
-    private function buildOrderQuery($orderOptions, &$queryArgs) {
+    private function buildOrderQuery($orderOptions) {
         if ($orderOptions && !empty($orderOptions)) {
             $order = ' ORDER BY ';
             $order .= $orderOptions['col'] . ' ' . $orderOptions['order'];
@@ -492,7 +492,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * Can be limited
      * @param int $gameId
      * @param int $limit
-     * * @return Review[]
+     * @return Review[]
      */
     public function getUserReviewsForGame($gameId, $limit = -1) {
         return $this->getUserReviewsFor('game_id', $gameId, $limit);
@@ -546,7 +546,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
 
     /**
      * getUserReviewForGameAndUser
-     * Returns the user review for this game and this user is present.
+     * Returns the user review for this game and this review is present.
      * Else returns -1
      * @param int $gameId
      * @param int $userId
@@ -614,7 +614,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     }
 
     /**
-     * updateGame
+     * updateGameCore
      * Updates the game for this review
      * @param int $gameId
      * @param Game $game
@@ -679,18 +679,12 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param Image $image
      */
     private function getImgId(Image $image) {
-        $imgOg = $this->_genDistDB->searchImage($image->getUrl());
-        $id = '';
-        if ($imgOg !== -1) {
-            $id = $imgOg->getId();
-        } else {
-            $id = $this->_genDistDB->addImage($image);
-        }
-        return $id;
+        return $this->_genDistDB->addImage($image);       
     }
 
     /**
      * updateHeaderImage
+     * Updates the header image of this review and deletes the old one if delete is true
      * Updates the header image of this review
      * @param type $reviewId
      * @param Image $image
@@ -814,6 +808,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
         $this->_reviewDistDB->removeGoodBadTag($reviewId, $tag, 'tag');
     }
 
+    //HERE
     /**
      * addRootComment
      * Adds a root comment to this review.
@@ -825,17 +820,19 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
     public function addRootComment($reviewId, Comment $rootComment) {
         $commentId = $this->_commentDB->add($rootComment);
         $this->_reviewDistDB->addRootComment($reviewId, $commentId, $rootComment);
+        return $commentId;
     }
 
     /**
      * getReviewRootcomments
      * Returns all root comments for the review with this id   
      * @param int $reviewId
+     * @param int $limit
      * @return Comment[]
      * @throws DBException
      */
-    public function getRootComments($reviewId) {
-        return $this->_commentDB->getReviewRootComments($reviewId);
+    public function getRootComments($reviewId, $limit = 100) {
+        return $this->_commentDB->getReviewRootComments($reviewId, $limit);
     }
 
     /**
@@ -886,6 +883,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
 
     /**
      * getUserScores     
+     * Returns the user scores for this review
      * @param int $reviewId
      * @return array $userScores
      */
@@ -900,7 +898,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param int $userId
      * @param int $newScore
      */
-    public function udpateUserScore($reviewId, $userId, $newScore) {
+    public function updateUserScore($reviewId, $userId, $newScore) {
         $this->_reviewDistDB->updateUserScore($reviewId, $userId, $newScore);
     }
 

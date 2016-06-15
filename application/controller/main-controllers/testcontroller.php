@@ -20,11 +20,11 @@ class TestController extends SuperController {
     public function userDistDbTest() {
         require 'testing/db/user_dist_db_tests.php';
     }
-    
+
     public function userDbTest() {
         require 'testing/db/user_db_tests.php';
     }
-    
+
     public function commentDbTests() {
         require 'testing/db/commentTestingDB.php';
     }
@@ -48,8 +48,21 @@ class TestController extends SuperController {
     public function reviewDistDbTest() {
         require 'testing/db/rev_dist_db_test.php';
     }
-    
+
     public function reviewDbTest() {
         require 'testing/db/rev_db_test.php';
     }
+
+    public function reviewServiceTest() {
+        require 'testing/service/review_service_test.php';
+    }
+
+    public function newsfeedDbTest() {
+        require 'testing/db/newsfeed_db_test.php';
+    }
+
+    public function ytApitest() {
+        require 'testing/api/yt_api_test.php';
+    }
+
 }

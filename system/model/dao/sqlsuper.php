@@ -27,6 +27,7 @@ class SqlSuper {
         try {
             $this->_connection = $connection;      
             $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->_creationHelper = new CreationHelper();
         } catch (PDOException $ex) {
             throw new DBException($ex->getMessage(), $ex);

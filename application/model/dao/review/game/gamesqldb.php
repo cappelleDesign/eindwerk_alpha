@@ -30,6 +30,14 @@ class GameSqlDB extends SqlSuper implements GameDao {
         $this->_gameDistDb = $gameDistDb;
         $this->_gameT = Globals::getTableName('game');
     }
+    
+    /**
+     * 
+     * @return GameDistDao
+     */
+    public function getGameDistDB() {
+        return $this->_gameDistDb;
+    }
 
     /**
      * add
@@ -96,7 +104,7 @@ class GameSqlDB extends SqlSuper implements GameDao {
     }
 
     /**
-     * updateGame
+     * updateGameCore
      * Updates the game in the database
      * @param int $gameId
      * @param Game $game

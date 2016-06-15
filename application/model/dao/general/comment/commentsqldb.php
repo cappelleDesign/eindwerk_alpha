@@ -282,30 +282,26 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
     /**
      * getReviewRootcomments
      * Returns all root comments for the review with this id
-     * 
-     * START ORIGINAL SQL
-      SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created
-      FROM
-      comments c LEFT JOIN reviews_has_comments r
-      ON c.comment_id = r.comments_comment_id
-      WHERE r.reviews_review_id = 1
-      ORDER BY c.comment_created DESC
-     * END ORIGINAL SQL
-     * 
      * @param int $reviewId
      * @return Comment[]
      * @throws DBException
      */
-    public function getReviewRootComments($reviewId) {
+    public function getReviewRootComments($reviewId, $limit = 100, $group = false) {
         //FIXME getRootComments($objectname, $objectId,..)
         parent::triggerIdNotFound($reviewId, 'review');
+        $groupBy = '';
+        if ($group) {
+            $groupBy = ' GROUP BY c.users_writer_id ';
+        }
         $query = 'SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created ';
         $query .= 'FROM ' . $this->_commentT . ' c LEFT JOIN ' . Globals::getTableName('review_comment') . ' r ';
         $query .= 'ON c.comment_id = r.comments_comment_id ';
         $query .= 'WHERE r.reviews_review_id = ? ';
-        $query .= 'ORDER BY c.comment_created DESC';
+        $query .= $groupBy;
+        $query .= 'ORDER BY c.comment_created DESC LIMIT ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $reviewId);
+        $statement->bindParam(2, $limit);
         $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (!empty($result)) {
@@ -324,17 +320,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
 
     /**
      * getVideoRootComments
-     * Returns all root comments for the video with this id
-     * 
-     * START ORIGINAL SQL
-      SELECT c.comment_id, c.users_writer_id, c.parent_id, c.parent_root_id, c.commented_on_notif_id, c.comment_txt, c.comment_created
-      FROM
-      comments c LEFT JOIN video_has_comments v
-      ON c.comment_id = v.comments_comment_id
-      WHERE v.video_video_id = 1
-      ORDER BY c.comment_created DESC
-     * END ORIGINAL SQL
-     * 
+     * Returns all root comments for the video with this id   
      * @param int $videoId
      * @return comment[]
      * @throws DBException

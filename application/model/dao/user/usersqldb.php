@@ -250,7 +250,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
 
     /**
      * updateUserKarma
-     * udpates the karma of the user to a new amount
+     * Updates the karma of the user to a new amount
      * @param int $userId
      * @param int $newAmount of karma total
      */

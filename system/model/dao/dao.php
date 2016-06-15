@@ -40,4 +40,22 @@ interface Dao {
      * @return array $daoObjects
      */
     public function getByString($identifier);
+    
+    /**
+     * startTransaction
+     * Starts a transaction in sql
+     */
+    public function startTransaction();
+    
+    /**
+     * endTransaction
+     * Ends a transaction in sql
+     */
+    public function endTransaction();
+    
+    /**
+     * cancelTransaction
+     * sends a rollback to sql
+     */
+    public function cancelTransaction();
 }

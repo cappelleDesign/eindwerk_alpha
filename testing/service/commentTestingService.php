@@ -6,15 +6,15 @@ try {
     $voteDb = new VoteSqlDB($connection);
     $genDistDb = new GeneralDistSqlDB($connection);
     $notifDB = new NotificationSqlDB($connection);
-    $userDist = new UserDistSqlDB($connection, $genDistDb, $voteDb);
+   $userDist = new UserDistSqlDB($connection, $genDistDb, $voteDb);
     $userDb = new UserSqlDB($connection, $userDist, $notifDB);
     $commentDb = new CommentSqlDB($connection, $userDb, $voteDb);
-    $gameDistDb = new GameDistSqlDB($connection);
+     $gameDistDb = new GameDistSqlDB($connection);
     $gameDB = new GameSqlDB($connection, $gameDistDb);
     $reviewDistDb = new ReviewDistSqlDB($connection, $genDistDb);
-    $reviewDb = new ReviewSqlDB($connection, $commentDb, $genDistDb, $gameDB, $reviewDistDb);
+    $reviewDb = new ReviewSqlDB($connection, $commentDb, $genDistDb, $gameDB, $reviewDistDb, $voteDb, $userDb);
     $notifHandler = new notificationHandler($userDb, $commentDb, $reviewDb);
-    $service = new CommentService($commentDb, $userDb, $notifHandler);
+    $service = new CommentService($commentDb, $notifHandler);
 
     $comment = $commentDb->get(1);
 
@@ -31,13 +31,12 @@ try {
 //    $obj = ($service->getSubComments(1));
 //    $service->removeComment(9, 1);
 //    $obj = ($service->getComment(1));
-//   $service->addVoter($comment->getId(), $posterJens->getId(), $posterJens->getUsername(), 3);
+//   $service->addVoter($comment->getId(), $posterJens->getId(), $posterJens->getUsername(), 1);
 //   $service->addVoter($comment->getId(), $posterJens2->getId(), $posterJens2->getUsername(), 2);
 //   $service->addVoter($comment->getId(), $posterJens3->getId(), $posterJens3->getUsername(), 3);
-//   $service->addVoter($comment->getId(), $posterJens4->getId(), $posterJens4->getUsername(), 3);
+//   $service->addVoter($comment->getId(), $posterJens4->getId(), $posterJens4->getUsername(), 1);
 //   $service->addVoter($comment->getId(), $posterJens5->getId(), $posterJens5->getUsername(), 2);
-//   $service->addVoter($comment->getId(), $posterJens6->getId(), $posterJens6->getUsername(), 2);
-//   $service->addVoter($comment->getId(), $posterJens->getId(), $posterJens->getUsername(), 1);
+//   $service->addVoter($comment->getId(), $posterJens6->getId(), $posterJens6->getUsername(), 3);
 //    $obj1 = $service->getDownVotersCount($comment->getId());
 //    $obj2 = $service->getUpVotersCount($comment->getId());
 //    $obj3 = $service->getDiamondVotersCount($comment->getId());

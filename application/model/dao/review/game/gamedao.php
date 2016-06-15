@@ -10,6 +10,13 @@
 interface GameDao extends Dao {
 
     /**
+     * getGameDistDB
+     * returns the game dist database
+     * @return GameDistDao
+     */
+    public function getGameDistDB();
+    
+    /**
      * addGenreToGame
      * Adds a genre to the game. If the genre does not yet exist in the database,
      * it will be added.

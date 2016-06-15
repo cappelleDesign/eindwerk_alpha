@@ -176,7 +176,7 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
                 ':body' => $goodBadTag,
                 ':type' => $type
             );
-            $statement->execute($queryArgs);            
+            $statement->execute($queryArgs);
         }
     }
 
@@ -296,17 +296,35 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
     }
 
     private function addImagetoReview($reviewId, $imageId, $header) {
+        if (!$this->containsImg($reviewId, $imageId, $header)) {
+            $t = $this->_imgT;
+            $query = 'INSERT INTO ' . $t;
+            $query .= ' (reviews_review_id, images_image_id, headerpic)';
+            $query .= ' VALUES(:revId, :imageId, :header)';
+            $statement = parent::prepareStatement($query);
+            $queryArgs = array(
+                ':revId' => $reviewId,
+                ':imageId' => $imageId,
+                ':header' => $header
+            );
+            $statement->execute($queryArgs);
+        }
+    }
+
+    private function containsImg($revId, $imgId, $header) {
         $t = $this->_imgT;
-        $query = 'INSERT INTO ' . $t;
-        $query .= ' (reviews_review_id, images_image_id, headerpic)';
-        $query .= ' VALUES(:revId, :imageId, :header)';
+        $query = 'SELECT * FROM ' . $t;
+        $query .= ' WHERE reviews_review_id = :revId AND ';
+        $query .= ' images_image_id = :imgId AND headerpic = :header';
         $statement = parent::prepareStatement($query);
         $queryArgs = array(
-            ':revId' => $reviewId,
-            ':imageId' => $imageId,
+            ':revId' => $revId,
+            ':imgId' => $imgId,
             ':header' => $header
         );
         $statement->execute($queryArgs);
+        $result = parent::fetch($statement, FALSE);
+        return $result ? TRUE : FALSE;
     }
 
     /**

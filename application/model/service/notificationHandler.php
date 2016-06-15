@@ -19,8 +19,6 @@ class notificationHandler {
      * @var ReviewDao 
      */
     private $_reviewDb;
-    
-//    private $_videoDb;
 
     public function __construct(UserDao $userDb, CommentDao $commentDb, ReviewDao $reviewDb) {
         $this->init($userDb, $commentDb, $reviewDb);
@@ -53,15 +51,17 @@ class notificationHandler {
     /**
      * notifyParents
      * Notifies the direct parent of this comment and the rootparent if necessary
-     * @param Comment $comment
-     * @param DaoObject $superParentObject (video/review
+     * @param Comment $comment     
      */
-    public function notifyParentWriterCommented($comment, $superParentObject = NULL) {
+    public function notifyParentWriterCommented($comment) {
         $txt = 'replied to your comment';
         if ($comment->getParentId()) {
             $parent = $this->_commentDb->get($comment->getParentId());
             if ($parent->getNotifId()) {
-                $body = $this->buildNotificationBody($comment->getParentId(), $txt);
+                $subsForId = $comment->getParentId();
+                $lastComments = $this->_commentDb->getSubComments($subsForId, 3, true);
+                $count = $this->_commentDb->getSubCommentsCount($subsForId, 10000, true);
+                $body = $this->buildNotificationBody($lastComments, $count, $txt);
                 if ($body === -1) {
                     $this->_commentDb->updateCommentNotification($parent->getId(), NULL);
                     $this->_userDb->removeNotification($parent->getNotifId());
@@ -74,10 +74,29 @@ class notificationHandler {
                 $notifId = $this->_userDb->addNotification($parent->getPoster()->getId(), $notif);
                 $this->_commentDb->updateCommentNotification($comment->getParentId(), $notifId);
             }
+        }
+    }
+
+    public function notifyReviewWriterCommented(Review $review, Comment $comment) {
+        $txt = 'commented on your review';
+        $notifId = $this->_reviewDb->getCommentedNotification($review->getId());
+        if ($notifId) {
+            $reviewId = $review->getId();
+            $lastComments = $this->_commentDb->getReviewRootComments($reviewId, 3, true);
+            $count = count($this->_commentDb->getReviewRootComments($reviewId, 10000, true));
+            $body = $this->buildNotificationBody($lastComments, $count, $txt);
+            if ($body === -1) {
+                $this->_reviewDb->updateRootCommentNotification($review->getId(), $comment->getId(), NULL);
+                $this->_userDb->removeNotification($notifId);
+            } else {
+                $this->_reviewDb->updateRootCommentNotification($review->getId(), $comment->getId(), $notifId);
+                $this->_userDb->updateNotification($notifId, $body, FALSE);
+            }
         } else {
-            $txt = 'commented on your ';
-            $parent = $this->_commentDb->getSuperParentId($comment->getId());
-            //TODO notify review writer if user review when review db is ready
+            $body = $comment->getPoster()->getUsername() . ' ' . $txt;
+            $notif = $this->createNotif($comment->getId(), $review->getWriter()->getId(), $body);
+            $notifId = $this->_userDb->addNotification($review->getWriter()->getId(), $notif);
+            $this->_reviewDb->updateRootCommentNotification($review->getId(), $comment->getId(), $notifId);
         }
     }
 
@@ -95,7 +114,7 @@ class notificationHandler {
     public function notifyParentWriterVoted($objectName, $objectId, $voterId, $voterName, $voteFlag, $notifIdPrev = 0) {
         $activeDb = $this->getActiveDb($objectName);
         $notifId = $notifIdPrev ? $notifIdPrev : $activeDb->getVotedNotifId($objectId, $voteFlag);
-        $text = $this->getVoteText($voteFlag);
+        $text = $this->getVoteText($voteFlag, $objectName);
         if ($notifId < 0 && $voterName > -1) {
             $body = $voterName . ' ' . $text;
             $notification = $this->createNotif($objectId, $voterId, $body);
@@ -117,14 +136,14 @@ class notificationHandler {
      * @param int $voteFlag
      * @return string
      */
-    private function getVoteText($voteFlag) {
+    private function getVoteText($voteFlag, $objName) {
         switch ($voteFlag) {
             case '1':
-                return 'downvoted your comment :(';
+                return 'downvoted your ' . $objName . ' :(';
             case '2' :
-                return 'upvoted your comment!';
+                return 'upvoted your ' . $objName . '!';
             case '3' :
-                return 'gave your comment a diamond';
+                return 'gave your ' . $objName . ' a diamond';
         }
     }
 
@@ -175,10 +194,7 @@ class notificationHandler {
      * @param int $subsForId     
      * @param string $text
      */
-    private function buildNotificationBody($subsForId, $text) {
-
-        $lastComments = $this->_commentDb->getSubComments($subsForId, 3, true);
-        $count = $this->_commentDb->getSubCommentsCount($subsForId, true);
+    private function buildNotificationBody($lastComments, $count, $text) {
         if (!$count) {
             return -1;
         }
@@ -189,7 +205,7 @@ class notificationHandler {
             $body .= ' and ' . ($count - 3) . ' other(s)';
         } else {
             if ($count > 2) {
-                $body .= ', ' . $lastComments[1]->getPoster()->getUsername() . ' and ' . ($count - 2) . ' other(s)';
+                $body .= ', ' . $lastComments[1]->getPoster()->getUsername() . ' and ' . $lastComments[2]->getPoster()->getUsername();
             } else if ($count > 1) {
                 $body .= ' and ' . $lastComments[1]->getPoster()->getUsername();
             }

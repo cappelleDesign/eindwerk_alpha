@@ -48,7 +48,7 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
     /**
      * addPlatform
      * Adds a platform to the database
-     * @param type $platformName
+     * @param string $platformName
      */
     public function addPlatform($platformName) {
         if (!$this->search('platform', $platformName)) {
@@ -65,7 +65,8 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
     /**
      * getGenreDesc
      * Returns the description for this genre
-     * @param type $genreName
+     * @return string
+     * @param string $genreName
      */
     public function getGenreDesc($genreName) {
         $query = 'SELECT genre_description FROM ' . $this->_genreT . ' WHERE genre_name = ?';
@@ -135,7 +136,7 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
      * getAll
      * Returns all genres/platforms from database
      * @param $objectName
-     * @return array $genres
+     * @return array 
      */
     public function getAll($objectName) {
         $table = Globals::getTableName($objectName);

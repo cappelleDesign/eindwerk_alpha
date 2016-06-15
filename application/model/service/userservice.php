@@ -271,7 +271,7 @@ class UserService {
 
     /**
      * updateUserKarma
-     * udpates the karma of the user to a new amount
+     * Updates the karma of the user to a new amount
      * @param UserDetailed $user
      * @param int $karma to be added
      */

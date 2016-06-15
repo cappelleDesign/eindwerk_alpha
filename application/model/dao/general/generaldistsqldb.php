@@ -12,6 +12,10 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
      * @return int $imageId
      */
     public function addImage(Image $image) {
+        $search = $this->searchImage($image->getUrl());
+        if($search !== -1) {
+            return $search->getId();
+        }
         $t = Globals::getTableName('image');
         $query = 'INSERT INTO ' . $t;
         $query .= ' (img_uri, alt)';

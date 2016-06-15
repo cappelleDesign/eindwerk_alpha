@@ -12,12 +12,16 @@ interface ReviewDao extends VoteFunctionalityDao {
     /**
      * getReviews
      * Returns all reviews with these options.
-     * possible options: int $limit, string $orderBy, string $order, int $minScore, 
-     * int $maxScore, array $platforms, arrya $genres, array $tags
+     * possible options: 
+     * -where: string platform, string genre, string gbt, string gameName, 
+     *  stringtitle, string txt, boolean userReview
+     * -having: int minScore, int maxScore
+     * -order: string col, string order
+     * -limit: int limit 
      * @param array $options      
      * @return Review[]
      */
-    public function getReviews($options = array());
+    public function getReviews($options);
 
     /**
      * getUserReviewsForGame
@@ -94,7 +98,7 @@ interface ReviewDao extends VoteFunctionalityDao {
      * @param int $userId
      * @param int $newScore
      */
-    public function udpateUserScore($reviewId, $userId, $newScore);
+    public function updateUserScore($reviewId, $userId, $newScore);
 
     /**
      * removeUserScore
@@ -256,10 +260,20 @@ interface ReviewDao extends VoteFunctionalityDao {
      * getReviewRootcomments
      * Returns all root comments for the review with this id   
      * @param int $reviewId
+     * @param int $limit
      * @return Comment[]
      * @throws DBException
      */
-    public function getRootComments($reviewId);
+    public function getRootComments($reviewId, $limit = 100);
+
+    /**
+     * getCommentedNotification
+     * Helper function to assist the remove function
+     * Returns the id of the notification for commented on or -1 if none are found
+     * @param int $reviewId
+     * @return int $notifId
+     */
+    public function getCommentedNotification($reviewId);
 
     /**
      * updateRootCommentNotification
