@@ -28,8 +28,33 @@ class DaoFactory {
     /* GENERAL DAO'S */
 
     /**
-     * 
-     * @param type $configs
+     * getNewsfeedDB
+     * Returns a newsfeed database with the type depending on the configs
+     * @param array $configs
+     * @param UserDao $userDao
+     * @param GeneralDistDao $genDistDao
+     * @return NewsfeedDao
+     * @throws DBException
+     */
+    public function getNewsfeedDB($configs, UserDao $userDao, GeneralDistDao $genDistDao) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $newsfeedDB = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $newsfeedDB = new NewsfeedSqlDB($this->_connection, $userDao, $genDistDao);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for newsfeed: ' . $dbType, NULL);
+        }
+        return $newsfeedDB;
+    }
+
+    /**
+     * getCommentDB
+     * Returns a comment database with the type depending on the configs
+     * @param array $configs
      * @param UserDao $userDao
      * @param VoteDao $voteDao
      * @return CommentDao
@@ -45,7 +70,7 @@ class DaoFactory {
                 $commentDB = new CommentSqlDB($this->_connection, $userDao, $voteDao);
                 break;
             default :
-                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+                throw new DBException('This type of database is not (yet) supported for comment: ' . $dbType, NULL);
         }
         return $commentDB;
     }
@@ -113,7 +138,7 @@ class DaoFactory {
                 $gameDistDB = new GameDistSqlDB($this->_connection);
                 break;
             default :
-                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+                throw new DBException('This type of database is not (yet) supported for game dist: ' . $dbType, NULL);
         }
         return $gameDistDB;
     }
@@ -136,19 +161,60 @@ class DaoFactory {
                 $gameDB = new GameSqlDB($this->_connection, $gameDistDao);
                 break;
             default :
-                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+                throw new DBException('This type of database is not (yet) supported for game: ' . $dbType, NULL);
         }
         return $gameDB;
     }
 
-    public function getReviewDistDB() {
-        //TODO implement
-        return null;
+    /**
+     * getReviewDB
+     * Returns a review database with the type depending on the configs
+     * @param array $configs
+     * @param CommentDao $commentDoa
+     * @param GeneralDistDao $genDistDao
+     * @param GameDao $gameDB
+     * @param ReviewDistDao $reviewDistDB
+     * @param VoteDao $voteDB
+     * @param UserDao $userDB
+     * @return ReviewDao
+     * @throws DBException
+     */
+    public function getReviewDB($configs, CommentDao $commentDoa, GeneralDistDao $genDistDao, GameDao $gameDB, ReviewDistDao $reviewDistDB, VoteDao $voteDB, UserDao $userDB) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $reviewDB = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $reviewDB = new ReviewSqlDB($this->_connection, $commentDoa, $genDistDao, $gameDB, $reviewDistDB, $voteDB, $userDB);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for review: ' . $dbType, NULL);
+        }
+        return $reviewDB;
     }
 
-    public function getReviewDB() {
-        //TODO implement
-        return null;
+    /**
+     * getReviewDistDB
+     * Returns a review dist database with the type depending on the configs
+     * @param array $configs
+     * @param GeneralDistDao $genDistDao
+     * @return ReviewDistDao
+     * @throws DBException
+     */
+    public function getReviewDistDB($configs, GeneralDistDao $genDistDao) {
+        $this->checkConfigs($configs);
+        $dbType = $configs['type'];
+        $reviewDistDao = NULL;
+        switch ($dbType) {
+            case 'mysql' :
+                $this->createMysqlConnection($configs['host'], $configs['username'], $configs['password'], $configs['database']);
+                $reviewDistDao = new ReviewDistSqlDB($this->_connection, $genDistDao);
+                break;
+            default :
+                throw new DBException('This type of database is not (yet) supported for review dist: ' . $dbType, NULL);
+        }
+        return $reviewDistDao;
     }
 
     /* USER RELATED DAO'S */
@@ -218,7 +284,7 @@ class DaoFactory {
                 $notificationDB = new NotificationSqlDB($this->_connection);
                 break;
             default :
-                throw new DBException('This type of database is not (yet) supported for general dist: ' . $dbType, NULL);
+                throw new DBException('This type of database is not (yet) supported for notification: ' . $dbType, NULL);
         }
         return $notificationDB;
     }

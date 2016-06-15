@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * VoteSqlDB
+ * This is a class that handles Vote SQL database functions
+ * @package dao
+ * @subpackage dao.general.vote
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class VoteSqlDB extends SqlSuper implements VoteDao {
 
     /**
@@ -121,7 +128,7 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
         }
         $query = 'SELECT * FROM ' . Globals::getTableName($objectName . '_vote') . ' WHERE ' . $idColName . ' = :objectId ' . $flagPart;
         $statement = parent::prepareStatement($query);
-        $statement->execute($queryArgs);        
+        $statement->execute($queryArgs);
         $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             return -1;
@@ -165,12 +172,11 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
                 ' WHERE ' . $combo . '.' . $idCol . ' = :object_id ' . $flagPart .
                 ' ORDER BY ' . $objectName . '_created DESC ' . $limitPart;
         $statement = parent::prepareStatement($query);
-        $statement->execute($queryArgs);        
+        $statement->execute($queryArgs);
         $result = parent::fetch($statement, TRUE);
-        $voters = array();        
+        $voters = array();
         foreach ($result as $row) {
-            $voters[$row['user_id']] = parent::getCreationHelper()->createVote($row,$idCol);
-            
+            $voters[$row['user_id']] = parent::getCreationHelper()->createVote($row, $idCol);
         }
         return $voters;
     }
@@ -195,7 +201,7 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
             ':object_id' => $objectId,
             ':flag' => $flag
         );
-        $statement->execute($queryArgs);        
+        $statement->execute($queryArgs);
         $result = parent::fetch($statement, TRUE);
         if (!$result) {
             return -1;
@@ -222,7 +228,7 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
             ':id' => $objectId,
             ':userId' => $userId
         );
-        $statement->execute($queryArgs);        
+        $statement->execute($queryArgs);
         $result = parent::fetch($statement, TRUE);
         if (!empty($result)) {
             $flag = $result[0]['vote_flag'];
@@ -244,7 +250,7 @@ class VoteSqlDB extends SqlSuper implements VoteDao {
         $statement = $this->prepareStatement($query);
         $statement->bindParam(1, $objectId);
         $statement->bindParam(2, $voterId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         return $result[0]['COUNT(*)'];
     }

@@ -195,11 +195,26 @@ class Globals {
                 if ($server && strpos(dirname(__FILE__), 'xampp')) {
                     $root .= 'neoludus_alpha/';
                 }
-                return $root . $superRoot . 'view';
-            case 'sysView' :
-
+                return $root . $superRoot . 'view';         
+            case 'img' :
+               if ($server && strpos(dirname(__FILE__), 'xampp')) {
+                    $root .= 'neoludus_alpha/';
+                }
+                return $root . $superRoot . 'view/images/';         
             default : throw new ServiceException($type . ' root not found');
         }
+    }
+    
+    static function getGameHeaderRoot($gameName, $server = false) {
+        $root = Globals::getRoot('img','app',$server);
+        $root .= '/games/'.$gameName . '/';
+        return $root;
+    }
+    
+    static function getGameGalleryRoot($gameName, $server = false) {        
+        $root = Globals::getGameHeaderRoot($gameName, $server);
+        $root .= 'gallery/';
+        return $root;
     }
 
     static function getBasePath() {

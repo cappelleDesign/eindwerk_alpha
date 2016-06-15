@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * VoteDao
+ * This is an interface for all classes that handle vote database functionality
+ * @package dao
+ * @subpackage dao.genearl.vote
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 interface VoteDao {
 
     /**

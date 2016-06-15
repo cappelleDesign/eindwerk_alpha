@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * ReviewDistDao
+ * This is an interface for all classes that handle review dist database functionality
+ * @package dao
+ * @subpackage dao.general.comment
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 interface CommentDao extends VoteFunctionalityDao {
 
     /**
@@ -66,5 +73,5 @@ interface CommentDao extends VoteFunctionalityDao {
      * @return Comment[]
      * @throws DBException
      */
-    public function getVideoRootComments($videoId);    
+    public function getVideoRootComments($videoId);
 }

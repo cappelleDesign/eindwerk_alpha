@@ -65,4 +65,8 @@ class TestController extends SuperController {
         require 'testing/api/yt_api_test.php';
     }
 
+    public function masterServiceTest() {
+        require 'testing/service/master_service_test.php';
+    }
+
 }

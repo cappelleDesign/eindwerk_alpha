@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * CommentSqlDB
+ * This is a class that handles comment SQL database functions
+ * @package dao
+ * @subpackage dao.general.comment
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class CommentSqlDB extends SqlSuper implements CommentDao {
 
     /**

@@ -1,4 +1,6 @@
-<?php ?>
+<?php 
+    echo Globals::getGameGalleryRoot('hitman');
+?>
 
 <!doctype html>
 <html>

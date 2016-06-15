@@ -15,6 +15,30 @@ class MasterService {
     private $_userService;
 
     /**
+     * The service in charge of newsfeed related actions
+     * @var NewsfeedService
+     */
+    private $_newsfeedService;
+
+    /**
+     * The service in charge of comment related actions
+     * @var CommentService 
+     */
+    private $_commentService;
+
+    /**
+     * The service in charge of the review related actions
+     * @var ReviewService
+     */
+    private $_reviewService;
+
+    /**
+     * The handler for notifications
+     * @var notificationHandler 
+     */
+    private $_notificationHandler;
+
+    /**
      * The main menu items
      * @var MenuItem[]
      */
@@ -39,6 +63,12 @@ class MasterService {
     private $_imgHelper;
 
     /**
+     * The newsfeed database
+     * @var NewsfeedDao
+     */
+    private $_newsfeedDB;
+
+    /**
      * The comment database
      * @var CommentDao 
      */
@@ -55,6 +85,30 @@ class MasterService {
      * @var GeneralDistDao 
      */
     private $_generalDistDB;
+
+    /**
+     * The game dist database
+     * @var GameDistDao
+     */
+    private $_gameDistDB;
+
+    /**
+     * The game database
+     * @var GameDao
+     */
+    private $_gameDB;
+
+    /**
+     * The review database
+     * @var ReviewDao
+     */
+    private $_reviewDB;
+
+    /**
+     * The review dist database
+     * @var ReviewDistDao;
+     */
+    private $_reviewDistDB;
 
     /**
      * The user database
@@ -97,13 +151,22 @@ class MasterService {
         $this->_voteDB = $this->_daoFactory->getVoteDB($configs);
         $this->_generalDistDB = $this->_daoFactory->getGeneralDistDB($configs);
         $this->_notificationDB = $this->_daoFactory->getNotificationDB($configs);
+        $this->_gameDistDB = $this->_daoFactory->getGameDistDB($configs);
         $this->_userDistDB = $this->_daoFactory->getUserDistDB($configs, $this->_generalDistDB, $this->_voteDB);
         $this->_userDB = $this->_daoFactory->getUserDB($configs, $this->_userDistDB, $this->_notificationDB);
         $this->_commentDB = $this->_daoFactory->getCommentDB($configs, $this->_userDB, $this->_voteDB);
+        $this->_newsfeedDB = $this->_daoFactory->getNewsfeedDB($configs, $this->_userDB, $this->_generalDistDB);
+        $this->_gameDB = $this->_daoFactory->getGameDB($configs, $this->_gameDistDB);
+        $this->_reviewDistDB = $this->_daoFactory->getReviewDistDB($configs, $this->_generalDistDB);
+        $this->_reviewDB = $this->_daoFactory->getReviewDB($configs, $this->_commentDB, $this->_generalDistDB, $this->_gameDB, $this->_reviewDistDB, $this->_voteDB, $this->_userDB);
     }
 
     private function createServices() {
+        $this->_notificationHandler = new notificationHandler($this->_userDB, $this->_commentDB, $this->_reviewDB);
         $this->_userService = new UserService($this->_userDB);
+        $this->_newsfeedService = new NewsfeedService($this->_newsfeedDB);
+        $this->_commentService = new CommentService($this->_commentDB, $this->_notificationHandler);
+        $this->_reviewService = new ReviewService($this->_gameDB, $this->_reviewDB, $this->_notificationHandler);
     }
 
     private function createMenus() {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * GeneralDistSqlDB
+ * This is a class that handles general dist SQL database functions
+ * @package dao
+ * @subpackage dao.general
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
 
     public function __construct($connection) {
@@ -13,7 +20,7 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
      */
     public function addImage(Image $image) {
         $search = $this->searchImage($image->getUrl());
-        if($search !== -1) {
+        if ($search !== -1) {
             return $search->getId();
         }
         $t = Globals::getTableName('image');
