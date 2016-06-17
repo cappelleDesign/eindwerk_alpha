@@ -66,6 +66,14 @@ interface CommentDao extends VoteFunctionalityDao {
     public function getReviewRootComments($reviewId, $limit = 100, $group = FALSE);
 
     /**
+     * getCommentsForUser
+     * Returns all comments for one user
+     * @param int $userId
+     * @param int $limit
+     */
+    public function getCommentsForUser($userId, $limit = 100);
+
+    /**
      * DEPRECATED
      * getVideoRootComments
      * Returns all root comments for the video with this id

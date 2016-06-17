@@ -73,7 +73,7 @@ class VoteService {
      * @param int $prevFlag
      * @throws ServiceException
      */
-    public function updateVoter($objectId, $voterId, $voterName, $voteFlag, $prevFlag) {
+    private function updateVoter($objectId, $voterId, $voterName, $voteFlag, $prevFlag) {
         try {
             $notifPrev = $this->_activeDB->getVotedNotifId($objectId, $prevFlag);
             $notifId = $this->_notificationHandler->notifyParentWriterVoted($this->_subClassHandles, $objectId, $voterId, $voterName, $voteFlag);
@@ -94,7 +94,7 @@ class VoteService {
      * @param int $voteFlag
      * @throws ServiceException
      */
-    public function removeVoter($objectId, $voterId, $voteFlag) {
+    private function removeVoter($objectId, $voterId, $voteFlag) {
         try {
             $notifPrev = $this->_activeDB->getVotedNotifId($objectId, $voteFlag);
             $this->_activeDB->removeVoter($objectId, $voterId);

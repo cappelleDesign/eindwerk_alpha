@@ -45,4 +45,24 @@ interface GeneralDistDao {
      * @param int $imageId
      */
     public function removeImage($imageId);
+    
+    /**
+     * Adds an avatar to the database
+     * @param Avatar $avatar
+     * @return int $id
+     */
+    public function addAvatar(Avatar $avatar);
+    
+    /**
+     * Returns an avatar with this url for image
+     * @param string $url
+     * @return Avatar
+     */
+    public function getAvatarByUrl($url);
+    
+    /**
+     * Removes the avatar with this id from the database
+     * @param int $avatarId
+     */
+    public function removeAvatar($avatarId);
 }

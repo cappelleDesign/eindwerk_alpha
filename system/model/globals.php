@@ -195,23 +195,23 @@ class Globals {
                 if ($server && strpos(dirname(__FILE__), 'xampp')) {
                     $root .= 'neoludus_alpha/';
                 }
-                return $root . $superRoot . 'view';         
+                return $root . $superRoot . 'view';
             case 'img' :
-               if ($server && strpos(dirname(__FILE__), 'xampp')) {
+                if ($server && strpos(dirname(__FILE__), 'xampp')) {
                     $root .= 'neoludus_alpha/';
                 }
-                return $root . $superRoot . 'view/images/';         
+                return $root . $superRoot . 'view/images/';
             default : throw new ServiceException($type . ' root not found');
         }
     }
-    
+
     static function getGameHeaderRoot($gameName, $server = false) {
-        $root = Globals::getRoot('img','app',$server);
-        $root .= '/games/'.$gameName . '/';
+        $root = Globals::getRoot('img', 'app', $server);
+        $root .= '/games/' . $gameName . '/';
         return $root;
     }
-    
-    static function getGameGalleryRoot($gameName, $server = false) {        
+
+    static function getGameGalleryRoot($gameName, $server = false) {
         $root = Globals::getGameHeaderRoot($gameName, $server);
         $root .= 'gallery/';
         return $root;
@@ -229,7 +229,7 @@ class Globals {
     static function checkNullParams() {
         $params = func_get_args();
         foreach ($params as $param) {
-            if (!$param) {                
+            if (!$param) {
                 return false;
             }
         }

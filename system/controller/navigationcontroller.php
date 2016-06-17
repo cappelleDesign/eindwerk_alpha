@@ -45,6 +45,10 @@ class NavigationController {
     public function includeLoginForm() {
         $this->includeIncluder('login-form.php');
     }
+    
+    public function includeFileUpload() {
+        $this->includeIncluder('file-upload-multi.php');
+    }
 
     public function redirect($action) {
         $base = Globals::getBasePath();

@@ -115,4 +115,80 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
         $statement->execute();
     }
 
+    /**
+     * Adds an avatar to the database
+     * @param Avatar $avatar
+     * @return int $id
+     */
+    public function addAvatar(Avatar $avatar) {
+        $imgId = $this->addImage($avatar->getImage());
+        $found = $this->getAvatarByUrl($avatar->getImage()->getUrl());
+        if ($found) {
+            $this->updateAvatar($found->getId(), $imgId);
+            return;
+        }
+        $t = Globals::getTableName('avatar');
+        $query = 'INSERT INTO ' . $t;
+        $query .= '(images_image_id, tier)';
+        $query .= ' VALUES(:imgId, :tier)';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':imgId' => $imgId,
+            ':tier' => $avatar->getTier()
+        );
+        $statement->execute($queryArgs);
+        return parent::getLastId();
+    }
+
+    /**
+     * Returns an avatar with this url for image
+     * @param string $url
+     * @return Avatar
+     */
+    public function getAvatarByUrl($url) {
+        $avT = Globals::getTableName('avatar') . ' a';
+        $imgT = Globals::getTableName('image') . ' i';
+        $query = 'SELECT * FROM ' . $avT;
+        $query .= ' LEFT JOIN ' . $imgT . ' ON a.images_image_id = i.image_id';
+        $query .= ' WHERE i.img_uri = ?';
+        $statement = parent::prepareStatement($query);
+        $statement->bindParam(1, $url);
+        $statement->execute();
+        $result = parent::fetch($statement, FALSE);
+        if ($result) {
+            $image = new Image($result['img_uri'], $result ['alt']);
+            $image->setId($result['image_id']);
+            $avatar = parent::getCreationHelper()->createAvatar($result, $image);
+            return $avatar;
+        }
+    }
+
+    public function updateAvatar($avatarId, $imgId) {
+        $avT = Globals::getTableName('avatar');
+        $query = 'UPDATE ' . $avT;
+        $query .= ' SET images_image_id = :imgId';
+        $query .= ' WHERE avatar_id = :avId';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':imgId' => $imgId,
+            ':avId' => $avatarId
+        );
+        $statement->execute($queryArgs);
+    }
+
+    /**
+     * Removes the avatar with this id from the database
+     * @param int $avatarId
+     */
+    public function removeAvatar($avatarId) {
+        //FIXME every user that had this avatar needs an other avatar
+        parent::triggerIdNotFound($avatarId, 'avatar');
+        $t = Globals::getTableName('avatar');
+        $query = 'DELETE FROM ' . $t;
+        $query .= ' WHERE avatar_id = ?';
+        $statmenet = parent::prepareStatement($query);
+        $statmenet->bindParam(1, $avatarId);
+        $statmenet->execute();
+    }
+
 }

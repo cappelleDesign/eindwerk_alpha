@@ -679,7 +679,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @param Image $image
      */
     private function getImgId(Image $image) {
-        return $this->_genDistDB->addImage($image);       
+        return $this->_genDistDB->addImage($image);
     }
 
     /**
@@ -808,7 +808,6 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
         $this->_reviewDistDB->removeGoodBadTag($reviewId, $tag, 'tag');
     }
 
-    //HERE
     /**
      * addRootComment
      * Adds a root comment to this review.

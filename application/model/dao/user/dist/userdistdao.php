@@ -30,7 +30,7 @@ interface UserDistDao {
      * @param string $name
      */
     public function getAchievement($name);
-    
+
     /**
      * addAchievementToUser
      * Adds an achievement to the user with this id
@@ -58,10 +58,18 @@ interface UserDistDao {
     /**
      * getUserRole
      * Returns the user role with this id
-     * @param int $accessFlag
+     * @param int $id
      * @return UserRole $userRole
      */
-    public function getUserRole($accessFlag);
+    public function getUserRole($id);
+
+    /**
+     * getUserRoleByFlag
+     * Returns the user role with this flag
+     * @param int $flag
+     * @return UserRole $userRole
+     */
+    public function getUserRoleByFlag($flag);
 
     /**
      * getLastComment
@@ -91,5 +99,4 @@ interface UserDistDao {
      * @return array $avatars
      */
     public function getAvatars();
-
 }

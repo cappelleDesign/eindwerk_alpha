@@ -521,10 +521,10 @@ class ReviewService extends VoteService {
      * @param Game $game
      * @throws ServiceException
      */
-    public function updateGameCore($gameId, Game $game) {
+    public function updateGameCore(Game $game) {
         try {
             $this->_gameDb->startTransaction();
-            $this->_reviewDb->updateGameCore($gameId, $game);
+            $this->_reviewDb->updateGameCore($game->getId(), $game);
             $this->_gameDb->endTransaction();
         } catch (Exception $ex) {
             $this->_gameDb->cancelTransaction();
@@ -602,6 +602,14 @@ class ReviewService extends VoteService {
             return $platId;
         } catch (Exception $ex) {
             $this->_gameDb->cancelTransaction();
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function removePlatformFromGame($gameId, $platform) {
+        try {
+            $this->_gameDb->removePlatformFromGame($gameId, $platform);
+        } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }

@@ -9,6 +9,13 @@ class UserService {
      */
     private $_userDB;
 
+    /**
+     * The user dist database
+     * The type of the database depends on the config file
+     * @var UserDistDao
+     */
+    private $_userDistDB;
+
     public function __construct($userDB) {
         $this->init($userDB);
     }
@@ -18,6 +25,7 @@ class UserService {
             throw new ServiceException('Could not initialize the user database', NULL);
         }
         $this->_userDB = $userDB;
+        $this->_userDistDB = $userDB->getDistDB();
     }
 
     /**
@@ -123,13 +131,13 @@ class UserService {
 
     /**
      * getUserRole
-     * Returns the user role with this id 
+     * Returns the user role with this flag 
      * @param int $accessFlag
      * @return UserRole
      */
     public function getUserRole($accessFlag) {
         try {
-            return $this->_userDB->getUserRole($accessFlag);
+            return $this->_userDB->getUserRoleByFlag($accessFlag);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }
@@ -196,6 +204,15 @@ class UserService {
     public function getAllAchievements() {
         try {
             return $this->_userDB->getAllAchievements();
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(), $ex);
+        }
+    }
+
+    public function updateAvatar(UserSimple $user, Avatar $avatar) {
+        try {
+            $this->_userDistDB->updateUserAvatar($user->getId(), $avatar->getId());
+            $user->setAvatar($avatar);
         } catch (Exception $ex) {
             throw new ServiceException($ex->getMessage(), $ex);
         }

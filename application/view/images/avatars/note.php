@@ -1,5 +1,0 @@
-$dirname = "media/images/iconized/";
-$images = glob($dirname."*.png");
-foreach($images as $image) {
-echo '<img src="'.$image.'" /><br />';
-}

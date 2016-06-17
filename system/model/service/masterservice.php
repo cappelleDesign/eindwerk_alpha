@@ -39,6 +39,12 @@ class MasterService {
     private $_notificationHandler;
 
     /**
+     * The file handler
+     * @var FileHandler
+     */
+    private $_fileHandler;
+
+    /**
      * The main menu items
      * @var MenuItem[]
      */
@@ -162,6 +168,7 @@ class MasterService {
     }
 
     private function createServices() {
+        $this->_fileHandler = new FileHandler();
         $this->_notificationHandler = new notificationHandler($this->_userDB, $this->_commentDB, $this->_reviewDB);
         $this->_userService = new UserService($this->_userDB);
         $this->_newsfeedService = new NewsfeedService($this->_newsfeedDB);
@@ -279,21 +286,108 @@ class MasterService {
         return $this->_userService;
     }
 
-    public function add(DaoObject $daoObj, $type) {
+    public function getNewsfeedService() {
+        return $this->_newsfeedService;
+    }
+
+    public function getCommentService() {
+        return $this->_commentService;
+    }
+
+    public function getReviewService() {
+        return $this->_reviewService;
+    }
+
+    public function getNotificationHandler() {
+        return $this->_notificationHandler;
+    }
+
+    public function getFileHandler() {
+        return $this->_fileHandler;
+    }
+
+    public function add($mixedObj, $type, $extra = array()) {
+        $errName = '';
         switch ($type) {
+            case 'comment' :
+                if ($mixedObj instanceof Comment) {
+                    $this->getCommentService()->addComment($mixedObj);
+                    return $mixedObj;
+                }
+                $errName = 'comment';
+                break;
+            case 'newsfeed' :
+                if ($mixedObj instanceof NewsfeedItem) {
+                    $url = $this->addNewsfeedImg($mixedObj, $extra);
+                    $img = new Image($url, 'Newsfeed image for ' . $mixedObj->getSubject());
+                    $mixedObj->setImage($img);
+                    $this->getNewsfeedService()->addNewsfeedItem($mixedObj);
+                    return $mixedObj;
+                }
+                $errName = 'newsfeed item';
+                break;
             case 'user':
-                $this->getUserService()->addUser($daoObj);
-                return $daoObj;
+                if ($mixedObj instanceof UserDetailed) {
+                    $this->getUserService()->addUser($mixedObj);
+                    return $mixedObj;
+                }
+                $errName = 'user';
+                break;
+            case 'review':
+                if ($mixedObj instanceof Review) {
+                    $this->addImgtoReview('header', $mixedObj->getGame()->getGameName(), $extra[0]);
+                    $gallery = array_splice($extra, 1);
+                    $this->addImgtoReview('gallery', $mixedObj->getGame()->getGameName(), $gallery);
+                    $this->getReviewService()->addReview($mixedObj);
+                    return $mixedObj;
+                }
+                $errName = 'review';
+                break;
+            case 'avatar' :
+                if ($mixedObj instanceof Avatar) {
+                    $url = $this->addAvatarPic($mixedObj->getTier(), $extra);
+                    $img = new Image($url, $mixedObj->getImage()->getAlt());
+                    $mixedObj->setImage($img);
+                    $this->_generalDistDB->addAvatar($mixedObj);
+                    return $mixedObj;
+                }
+                $errName = 'avatar';
+                break;
+            case 'genre' :
+                $this->getReviewService()->addGenre($mixedObj, $extra);
+                return;
+            case 'platform':
+                $this->getReviewService()->addPlatform($mixedObj);
+                return;
+
             default :
                 $this->typeNotRecognized($type);
         }
+        $err = 'To add a ' . $errName . ', you sould give a ' . $errName;
+        throw new ServiceException($err);
     }
 
-    public function remove($daoId, $type) {
+    public function remove($mixedObj, $type) {
         switch ($type) {
+            case 'comment' :
+                $this->getCommentService()->removeComment($mixedObj);
+                return;
+            case 'newsfeed':
+                if ($mixedObj instanceof NewsfeedItem) {
+                    $url = $mixedObj->getImage()->getUrl();
+                    $imgId = $this->_generalDistDB->searchImage($url);
+                    $this->getNewsfeedService()->removeNewsfeedItem($mixedObj->getId());
+                    $this->_generalDistDB->removeImage($imgId->getId());
+                    $this->getFileHandler()->removeFile('application/view/images/newsfeeditems/' . $url);
+                    return;
+                }
+                throw new ServiceException('Needed a NewsfeedItem object to remove');
             case 'user':
-                $this->getUserService()->removeUser($daoId);
+                $this->getUserService()->removeUser($mixedObj);
                 return true;
+            case 'review':
+                $this->getReviewService()->removeReview($mixedObj);
+                return;
             default :
                 $this->typeNotRecognized($type);
         }
@@ -305,23 +399,39 @@ class MasterService {
                 return $this->getUserService()->getUser($id);
             case 'userSimple' :
                 return $this->getUserService()->getSimpleUser($id);
-            case 'avatar' :
-                return $this->getUserService()->getAvatar($id);
+            case 'comment' :
+                return $this->getCommentService()->getComment($id);
+            case 'newsfeed':
+                return $this->getNewsfeedService()->getNewsfeedItem($id);
+            case 'review' :
+                return $this->getReviewService()->getReview($id);
             default :
                 $this->typeNotRecognized($type);
         }
     }
 
-    public function getAll($type) {
+    public function getAll($type, $options = NULL) {
         switch ($type) {
-            case 'users' :
+            case 'user' :
                 return $this->getUserService()->getUsers();
-            case 'avatars' :
+            case 'avatar' :
                 return $this->getUserService()->getAvatars();
-            case 'userRoles' :
+            case 'userRole' :
                 return $this->getUserService()->getUserRoles();
-            case 'achievements' :
+            case 'achievement' :
                 return $this->getUserService()->getAllAchievements();
+            case 'subComment' :
+                return $this->getCommentService()->getSubComments($options);
+            case 'userComment' :
+                return $this->getCommentService()->getCommentsForUser($options);
+            case 'newsfeed' :
+                return $this->getNewsfeedService()->getNewsfeed($options);
+            case 'review' :
+                return $this->getReviewService()->getReviews($options);
+            case 'genre' :
+                return $this->getReviewService()->getAllGenres();
+            case 'platform' :
+                return $this->getReviewService()->getAllPlatforms();
             default :
                 $this->typeNotRecognized($type);
         }
@@ -333,14 +443,83 @@ class MasterService {
                 case 'user':
                     return $this->getUserService()->getUserByStringId($identifier);
                 case 'userRole' :
-                    return $this->getUserService()->getUserRole($identifier);
+                    return $this->getUserService()->getUserRole($identifier); //identifier is the access flag here
                 case 'achievement' :
                     return $this->getUserService()->getAchievement($identifier);
+                case 'avatar' :
+                    return $this->_generalDistDB->getAvatarByUrl($identifier);
                 default :
                     $this->typeNotRecognized($type);
             }
         } catch (Exception $ex) {
             throw new ServiceException($ex);
+        }
+    }
+
+    public function handleVote($type, $objId, $voterId, $voterName, $flag) {
+        switch ($type) {
+            case 'comment':
+                $this->getCommentService()->addVoter($objId, $voterId, $voterName, $flag);
+                return;
+            case 'review':
+                $this->getReviewService()->addVoter($objId, $voterId, $voterName, $flag);
+                return;
+        }
+    }
+
+    public function addImgtoReview($type, Review $review, $fileArr) {
+        $altName = str_replace(' ', '_', $review->getGame()->getName());
+        $subFolder = $altName . '/';
+        switch ($type) {
+            case 'header':
+                $headerName = $this->getFileHandler()->addImgFile($fileArr, 'game', $subFolder, $altName);
+                $headerImg = new Image($headerName, 'Header image for ' . $altName . ' review');
+                $review->setHeaderImg($headerImg);
+                return;
+            case 'gallery':
+                $gallery = array();
+                foreach ($fileArr as $key => $file) {
+                    $galleryName = $this->getFileHandler()->addImgFile($file, 'game', $subFolder . '/gallery/', $altName . '_gallery');
+                    $galImg = new Image($galleryName, 'Gallery image for the ' . $altName . ' review');
+                    $gallery[$key] = $galImg;
+                }
+                $review->setGallery($gallery);
+                return;
+            case 'gallerySingle':
+                $galleryName = $this->getFileHandler()->addImgFile($fileArr, 'game', $subFolder . '/gallery/', $altName . '_gallery');
+                return new Image($galleryName, 'Gallery image for the ' . $altName . ' review');
+        }
+    }
+
+    public function addToReview($type, Review $review, $param1, $param2 = NULL) {
+        switch ($type) {
+            case 'gallery':
+                $img = $this->addImgtoReview('gallerySingle', $review, $param1);
+                $this->getReviewService()->addGalleryImageToReview($review->getId(), $img);
+                return;
+            case 'good':
+                $this->getReviewService()->addGood($review->getId(), $param1);
+                return;
+            case 'bad':
+                $this->getReviewService()->addBadd($review->getId(), $param1);
+                return;
+            case 'tag':
+                $this->getReviewService()->addTag($review->getId(), $param1);
+                return;
+            case 'rootComment':
+                $this->getReviewService()->addRootComment($review, $param1);
+                return;
+            case 'userScore':
+                $this->getReviewService()->addUserScore($review->getId(), $param1, $param2);
+                return;
+            case 'gameGenre':
+                $this->getReviewService()->addGenreToGame($review->getGame()->getId(), $param1);
+                return;
+            case 'gamePlatform':
+                $this->getReviewService()->addPlatformToGame($review->getGame()->getId(), $param1);
+                return;
+            default :
+                $this->typeNotRecognized($type);
         }
     }
 
@@ -357,7 +536,8 @@ class MasterService {
         }
     }
 
-    public function updateUser(UserDetailed $user, $type, $param1 = '', $param2 = '') {
+    public function updateUser(UserSimple $user, $type, $param1 = '', $param2 = '') {
+        Globals::cleanDump($type);
         switch ($type) {
             case 'pw':
                 $this->getUserService()->updatePw($user, $param1, $param2);
@@ -366,6 +546,7 @@ class MasterService {
                 $this->getUserService()->updateUserUserRole($user, $param1);
                 return $user;
             case 'avatar':
+                Globals::cleanDump($param1);
                 $this->getUserService()->updateUserAvatar($user, $param1);
                 return $user;
             case 'donated':
@@ -395,8 +576,51 @@ class MasterService {
             case 'notification':
                 $this->getUserService()->updateNotification($user, $param1, $param2);
                 return $user;
+            case 'avatarCustom':
+                $addIt = $this->add($param1, 'avatar', $param2);
+                $avatar = $this->getByIdentifier($addIt->getImage()->getUrl(), 'avatar');
+                $this->updateUser($user, 'avatar', $avatar);
+                return;
             default :
                 $this->typeNotRecognized($type);
+        }
+    }
+
+    public function updateComment(Comment $comment, $type, $param1) {
+        switch ($type) {
+            case 'body':
+                $this->getCommentService()->updateCommentText($comment->getId(), $param1);
+                return;
+            default :
+                $this->typeNotRecognized($type);
+        }
+    }
+
+    public function updateNewsfeed(NewsfeedItem $newsfeedItem, $type, $param1) {
+        switch ($type) {
+            case 'subject' :
+                $this->getNewsfeedService()->updateNewsfeedItemSubject($newsfeedItem->getId(), $param1);
+                return;
+            case 'body' :
+                $this->getNewsfeedService()->updateNewsfeedItemBody($newsfeedItem->getId(), $param1);
+                return;
+            case 'image' :
+                $url = $this->addNewsfeedImg($newsfeedItem, $param1);
+            case 'body' :
+        }
+    }
+
+    public function updateReview(Review $review, $type, $fileArr = NULL) {
+        switch ($type) {
+            case 'core':
+                $this->getReviewService()->updateReview($review);
+                return;
+            case 'header':
+                $this->addImgtoReview($type, $review, $fileArr);
+                return;
+            case 'game':
+                $this->getReviewService()->updateGameCore($review->getGame());
+                return;
         }
     }
 
@@ -405,6 +629,40 @@ class MasterService {
             case 'notification':
                 $this->getUserService()->removeNotification($user, $id);
                 return $user;
+            default :
+                $this->typeNotRecognized($type);
+        }
+    }
+
+    public function removeFromReview(Review $review, $type, $param1) {
+        switch ($type) {
+            case 'gallery' :
+                $this->getReviewService()->removeGalleryImage($review->getId(), $param1, TRUE);
+                $name = $this->getFileHandler()->cleanWhiteSpace($review->getGame()->getName());
+                $url = 'application/view/images/games/' . $name . '/' . $review->getGallery()[$param1]->getUrl();
+                $this->getFileHandler()->removeFile($url);
+                return;
+            case 'good' :
+                $this->getReviewService()->removeGood($review->getId(), $param1);
+                return;
+            case 'bad' :
+                $this->getReviewService()->removeBad($review->getId(), $param1);
+                return;
+            case 'tag':
+                $this->getReviewService()->removeTag($review->getId(), $param1);
+                return;
+            case 'comment':
+                $this->getReviewService()->removeRootcomment($review, $param1);
+                return;
+            case 'userScore':
+                $this->getReviewService()->removeUserScore($review->getId(), $param1);
+                return;
+            case 'genre':
+                $this->getReviewService()->removeGenreFromGame($review->getGame()->getId(), $param1);
+                return;
+            case 'platform' :
+                $this->getReviewService()->removePlatformFromGame($review->getGame()->getId(), $param1);
+                return;
             default :
                 $this->typeNotRecognized($type);
         }
@@ -421,8 +679,31 @@ class MasterService {
         }
     }
 
+    public function getCleanFilesArray($files) {
+        $reArrayed = $this->getFileHandler()->reArrayFiles($files);
+        $cleaned = $this->getFileHandler()->removeEmptyFiles($reArrayed);
+        return $cleaned;
+    }
+
     private function typeNotRecognized($type) {
         throw new ServiceException('Type \'' . $type . '\' not recognized', NULL);
+    }
+
+    private function addAvatarPic($tier, $extra) {
+        $subFolder = '';
+        if (!is_numeric($extra[1])) {
+            $subFolder = 'users/' . $extra[1] . '/';
+        } else {
+            $subFolder = 'tier' . $tier . '/';
+        }
+        $url = $this->getFileHandler()->addImgFile($extra[0], 'avatar', $subFolder, $extra[1]);
+        return $url;
+    }
+
+    private function addNewsfeedImg(NewsfeedItem $newsfeedItem, $extra) {
+        $name = $newsfeedItem->getSubject();
+        $url = $this->getFileHandler()->addImgFile($extra, 'newsfeed', '', $name);
+        return $url;
     }
 
 }

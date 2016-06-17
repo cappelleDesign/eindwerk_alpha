@@ -77,6 +77,16 @@ class CommentService extends VoteService{
         }
     }
 
+    public function getCommentsForUser($options) {
+        try {
+            $userId = $options['userId'];
+            $limit = $options['limit'];
+            return $this->_commentDB->getCommentsForUser($userId, $limit);
+        } catch (Exception $ex) {
+            throw new ServiceException($ex->getMessage(),$ex);
+        }
+    }
+    
     public function getReviewRootComments($reviewId) {
         try {
             return $this->_commentDB->getReviewRootComments($reviewId);
@@ -125,52 +135,4 @@ class CommentService extends VoteService{
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }
-
-//    public function addVoter($commentId, $voterId, $voterName, $voteFlag) {
-//        try {
-//            $flagPrev = $this->_commentDB->hasVoted($commentId, $voterId);
-//            if ($flagPrev === -1) {
-//                $notifId = $this->_notificationHandler->notifyParentWriterVoted('comment', $commentId, $voterId, $voterName, $voteFlag);
-//                $this->_commentDB->addVoter($commentId, $voterId, $notifId, $voteFlag);
-//            } else if ($flagPrev === $voteFlag) {
-//                $this->removeVoter($commentId, $voterId, $voteFlag);
-//            } else {
-//                $this->updateVoter($commentId, $voterId, $voterName, $voteFlag, $flagPrev);
-//            }
-//        } catch (Exception $ex) {
-//            throw new ServiceException($ex->getMessage(), $ex);
-//        }
-//    }
-//
-//    public function updateVoter($commentId, $voterId, $voterName, $voteFlag, $prevFlag) {
-//        try {
-//            $notifPrev = $this->_commentDB->getVotedNotifId($commentId, $prevFlag);
-//            $notifId = $this->_notificationHandler->notifyParentWriterVoted('comment', $commentId, $voterId, $voterName, $voteFlag);
-//            $this->_commentDB->updateVoter($commentId, $voterId, $voteFlag);
-//            $this->_commentDB->updateVoterNotif($commentId, $voterId, $notifId);
-//            $this->_notificationHandler->notifyParentWriterVoted('comment', $commentId, $voterId, -1, $prevFlag, $notifPrev);
-//        } catch (Exception $ex) {
-//            throw new ServiceException($ex->getMessage(), $ex);
-//        }
-//    }
-//
-//    public function removeVoter($commentId, $voterId, $voteFlag) {
-//        try {
-//            $notifPrev = $this->_commentDB->getVotedNotifId($commentId, $voteFlag);
-//            $this->_commentDB->removeVoter($commentId, $voterId);
-//
-//            $this->_notificationHandler->notifyParentWriterVoted('comment', $commentId, $voterId, -1, $voteFlag, $notifPrev);
-//        } catch (Exception $ex) {
-//            throw new ServiceException($ex->getMessage(), $ex);
-//        }
-//    }
-//
-//    public function hasVoted($commentId, $userId) {
-//        try {
-//            return $this->_commentDB->hasVoted($commentId, $userId);
-//        } catch (Exception $ex) {
-//            throw new ServiceException($ex->getMessage(), $ex);
-//        }
-//    }
-
 }

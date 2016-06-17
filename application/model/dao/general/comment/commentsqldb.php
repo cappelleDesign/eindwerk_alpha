@@ -81,9 +81,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $row = $result[0];
-        $poster = $this->_userDB->getSimple($row['users_writer_id']);
-        $voters = $this->getVoters($row['comment_id']);
-        $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+        $comment = $this->createComment($row);
         return $comment;
     }
 
@@ -255,9 +253,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
 
         $subComments = array();
         foreach ($result as $row) {
-            $poster = $this->_userDB->getSimple($row['users_writer_id']);
-            $voters = $this->getVoters($row['comment_id']);
-            $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+            $comment = $this->createComment($row);
             array_push($subComments, $comment);
         }
         return $subComments;
@@ -284,6 +280,36 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         $statement->execute();
         $result = parent::fetch($statement, TRUE);
         return $result[0]['count'];
+    }
+
+    /**
+     * getCommentsForUser
+     * Returns all comments written by this user
+     * @param int $userId
+     * @param int $limit
+     * @return array
+     */
+    public function getCommentsForUser($userId, $limit = 100) {
+        parent::triggerIdNotFound($userId, 'user');
+        $t = $this->_commentT;
+        $query = 'SELECT * FROM ' . $t;
+        $query .= ' WHERE users_writer_id = :uId LIMIT :lim';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':uId' => $userId,
+            ':lim' => $limit
+        );
+        $statement->execute($queryArgs);
+        $result = parent::fetch($statement, TRUE);
+        if ($result) {
+            $comments = array();
+            foreach ($result as $row) {
+                $comment = $this->createComment($row);
+                array_push($comments, $comment);
+            }
+            return $comments;
+        }
+        return -1;
     }
 
     /**
@@ -314,9 +340,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         if (!empty($result)) {
             $comments = array();
             foreach ($result as $row) {
-                $poster = $this->_userDB->getSimple($row['users_writer_id']);
-                $voters = $this->getVoters($row['comment_id']);
-                $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+                $comment = $this->createComment($row);
                 array_push($comments, $comment);
             }
             return $comments;
@@ -326,6 +350,7 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
     }
 
     /**
+     * DEPRECATED
      * getVideoRootComments
      * Returns all root comments for the video with this id   
      * @param int $videoId
@@ -399,6 +424,20 @@ class CommentSqlDB extends SqlSuper implements CommentDao {
         } else {
             return $result[0][$objectIdName];
         }
+    }
+
+    /**
+     * createComment
+     * Helper function to create a comment
+     * Returns a comment object from an sql row
+     * @param array $row
+     * @return Comment
+     */
+    private function createComment($row) {
+        $poster = $this->_userDB->getSimple($row['users_writer_id']);
+        $voters = $this->getVoters($row['comment_id']);
+        $comment = parent::getCreationHelper()->createComment($row, $poster, $voters);
+        return $comment;
     }
 
     /* ----------------------------------Vote---------------------------------- */

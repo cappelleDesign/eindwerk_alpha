@@ -28,7 +28,7 @@ try {
     );
 
     $writer = $userDb->getByString('jensAdmin');
-    $writer2 = $userDb->getByString('jens');
+   
 
     $format = Globals::getDateTimeFormat('be', FALSE);
     $game = new Game('new game', $now, 'www.newGame.be', 'pub1', 'dev1', 2, 16, 4, 2, TRUE, $genres, $platforms, $format);
@@ -37,9 +37,9 @@ try {
     $headerImg2 = new Image('add header test', 'image alt');
     $galleryPic1 = new Image('add gallery pic test', 'img alt');
     $poster = $userDb->get(1);
-    $poster2 = $userDb->get(2);
+    
     $rootComment1 = new Comment(NULL, NULL, $poster, NULL, 'first comment with notification fingers crossed', $nowWithTime, array(), Globals::getDateTimeFormat('be', TRUE));
-    $rootComment2 = new Comment(NULL, NULL, $poster2, NULL, 'second comment with notification fingers crossed', $nowWithTime, array(), Globals::getDateTimeFormat('be', TRUE));
+//    $rootComment2 = new Comment(NULL, NULL, $poster2, NULL, 'second comment with notification fingers crossed', $nowWithTime, array(), Globals::getDateTimeFormat('be', TRUE));
     $subComment1 = new Comment(3, 3, $poster, NULL, 'sub comment for testing', $nowWithTime, array(), Globals::getDateTimeFormat('be', TRUE));
     $userScores = array();
     $rootComments = array();
@@ -65,7 +65,7 @@ try {
     );
     $format = Globals::getDateTimeFormat('be', false);
     $review = new Review($writer, $game, 'Playstation 4', 'New game is amazing', 10, 'bluh bluh bluh', 'yt/qmdlsfkj', $now, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
-    $userReview = new Review($writer2, $game, 'Playstation 4', 'USER VERSION New game is amazing', 10, 'bluh bluh bluh', 'yt/qmdlsfkj', $now, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format, 1);
+//    $userReview = new Review($writer2, $game, 'Playstation 4', 'USER VERSION New game is amazing', 10, 'bluh bluh bluh', 'yt/qmdlsfkj', $now, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format, 1);
 
     $img = $genDistDb->getImage(2);
 //    $service->addGalleryImageToReview(1, $galleryPic1);
@@ -100,6 +100,7 @@ try {
 //    $service->addVoter($review2->getId(), $posterJens5->getId(),$posterJens5->getUsername(), 3);
 //    $service->addVoter($review2->getId(), $posterJens6->getId(),$posterJens6->getUsername(), 1);
     
+    $obj = $service->getReview(1);
 
     Globals::cleanDump($obj);
     echo '<h1 style="color: green">SUCCESS</h1>';

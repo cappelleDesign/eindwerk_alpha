@@ -13,7 +13,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @var GeneralDistDao 
      */
     private $_generalDistDao;
-    
+
     /**
      * An instance of the vote db to help with vote related functions
      * @var VoteDao
@@ -82,7 +82,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
                 ' WHERE  ' . $combiTable . '.user_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $userId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
 
         $achievements = array();
@@ -106,7 +106,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $query = 'SELECT * FROM ' . $achTable . ' WHERE name = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $name);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
 
         if (empty($result)) {
@@ -151,7 +151,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $query = 'SELECT * FROM ' . Globals::getTableName('avatar') . ' WHERE avatar_id = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $avatarId);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             throw new DBException('No avatar found with id: ' . $avatarId, NULL);
@@ -200,15 +200,29 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
      * @return UserRole
      */
     public function getUserRole($id) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE user_role_id = ?';
+        return $this->getUserRoleHelp('user_role_id', $id);
+    }
+
+    /**
+     * getUserRoleByFlag
+     * Returns the user role with this flag
+     * @param int $flag
+     * @return UserRole $userRole
+     */
+    public function getUserRoleByFlag($flag) {
+        return $this->getUserRoleHelp('user_role_access_flag', $flag);
+    }
+
+    private function getUserRoleHelp($idCol, $key) {
+        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE '.$idCol.' = ?';
         $statement = parent::prepareStatement($query);
-        $statement->bindParam(1, $id);
-        $statement->execute();        
-        $result = parent::fetch($statement, TRUE);       
+        $statement->bindParam(1, $key);
+        $statement->execute();
+        $result = parent::fetch($statement, TRUE);
         $row = $result[0];
         $userRole = $this->createUserRole($row);
         return $userRole;
-    }   
+    }
 
     /**
      * getLastComment
@@ -221,7 +235,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $query = 'SELECT * FROM ' . $comT . ' WHERE ' . $comT . '.users_writer_id = ? ORDER BY comment_created DESC LIMIT 1';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $simpleUser->getId());
-        $statement->execute();       
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         if (empty($result)) {
             return Null;
@@ -288,7 +302,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $avatarT = Globals::getTableName('avatar');
         $query = 'SELECT * FROM ' . $avatarT;
         $statement = parent::prepareStatement($query);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $avatars = array();
         foreach ($result as $row) {
@@ -308,7 +322,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $userRolesT = Globals::getTableName('userRole');
         $query = 'SELECT * FROM ' . $userRolesT;
         $statement = parent::prepareStatement($query);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $userRoles = array();
         foreach ($result as $row) {
@@ -327,7 +341,7 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
         $achievementT = Globals::getTableName('achievement');
         $query = 'SELECT * FROM ' . $achievementT;
         $statement = parent::prepareStatement($query);
-        $statement->execute();        
+        $statement->execute();
         $result = parent::fetch($statement, TRUE);
         $achievements = array();
         foreach ($result as $row) {

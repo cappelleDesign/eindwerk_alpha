@@ -10,6 +10,12 @@
 interface UserDao extends Dao {
 
     /**
+     * Returns the user dist database from this user database
+     * @return UserDistDao
+     */
+    public function getDistDB();
+    
+    /**
      * emailAvailable
      * Checks if this email address is available
      * @param string $mail
@@ -169,6 +175,14 @@ interface UserDao extends Dao {
     public function getUserRole($accessFlag);
 
     /**
+     * getUserRoleByFlag
+     * Returns the user role with this flag
+     * @param int $flag
+     * @return UserRole $userRole
+     */
+    public function getUserRoleByFlag($flag);
+
+    /**
      * getAvatar
      * Returns the avatar with this id
      * @param int $avatarId
@@ -196,7 +210,7 @@ interface UserDao extends Dao {
      * @return array $achievements
      */
     public function getAllAchievements();
-    
+
     /**
      * getAchievement
      * Returns the achievement if the name matches

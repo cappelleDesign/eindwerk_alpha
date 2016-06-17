@@ -31,6 +31,10 @@ class UserSqlDB extends SqlSuper implements UserDao {
         $this->_notificationDB = $notificationSqlDB;
     }
 
+    public function getDistDB() {
+        return $this->_userDistDB;
+    }
+    
     /**
      * add
      * Adds a user to the database
@@ -516,6 +520,16 @@ class UserSqlDB extends SqlSuper implements UserDao {
      */
     public function getUserRole($id) {
         return $this->_userDistDB->getUserRole($id);
+    }
+    
+    /**
+     * getUserRoleByFlag
+     * Returns the user role with this flag
+     * @param int $flag
+     * @return UserRole $userRole
+     */
+    public function getUserRoleByFlag($flag){
+        return $this->_userDistDB->getUserRoleByFlag($flag);
     }
 
     /**
