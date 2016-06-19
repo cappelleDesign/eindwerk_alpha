@@ -29,17 +29,6 @@ $viewRoot = Globals::getRoot('view', 'app');
 <!--SLICK NAV-->
 <script src="<?php echo $viewRoot ?>/js/plugins/slicknav/jquery.slicknav.min.js" type="text/javascript"></script>
 
-<!--jQuery file upload-->
-<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/jq-upload/js/jquery.iframe-transport.js"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/jq-upload/js/jquery.fileupload.js"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/jq-upload/js/jquery.fileupload-process.js"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/jq-upload/js/jquery.fileupload-image.js"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/jq-upload/js/jquery.fileupload-validate.js"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/jq-upload/js/jquery.fileupload-ui.js"></script>
 <!--MAIN JS-->
 <script src="<?php echo $viewRoot ?>/js/main.js"></script>
 

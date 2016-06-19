@@ -141,9 +141,16 @@ class Comment extends VoteFuncionalityObject implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $format = Globals::getDateTimeFormat('default', TRUE);
+        $jsonObj = array();
+        $jsonObj['comment_id'] = $this->getId();
+        $jsonObj['comment_parent_id'] = $this->getParentId();
+        $jsonObj['comment_parent_root_id'] = $this->getParentRootId();
+        $jsonObj['comment_poster'] = $this->getPoster();
+        $jsonObj['comment_notifId'] = $this->getNotifId();
+        $jsonObj['comment_body'] = $this->getBody();
+        $jsonObj['comment_created'] = $this->getCreatedStr($format);
+        return $jsonObj;
     }
 
 }

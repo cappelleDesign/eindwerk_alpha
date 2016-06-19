@@ -335,9 +335,9 @@ class MasterService {
                 break;
             case 'review':
                 if ($mixedObj instanceof Review) {
-                    $this->addImgtoReview('header', $mixedObj->getGame()->getGameName(), $extra[0]);
+                    $this->addImgtoReview('header', $mixedObj, $extra[0]);
                     $gallery = array_splice($extra, 1);
-                    $this->addImgtoReview('gallery', $mixedObj->getGame()->getGameName(), $gallery);
+                    $this->addImgtoReview('gallery', $mixedObj, $gallery);
                     $this->getReviewService()->addReview($mixedObj);
                     return $mixedObj;
                 }
@@ -348,7 +348,8 @@ class MasterService {
                     $url = $this->addAvatarPic($mixedObj->getTier(), $extra);
                     $img = new Image($url, $mixedObj->getImage()->getAlt());
                     $mixedObj->setImage($img);
-                    $this->_generalDistDB->addAvatar($mixedObj);
+                    $id = $this->_generalDistDB->addAvatar($mixedObj);
+                    $mixedObj->setId($id);
                     return $mixedObj;
                 }
                 $errName = 'avatar';
@@ -468,7 +469,7 @@ class MasterService {
     }
 
     public function addImgtoReview($type, Review $review, $fileArr) {
-        $altName = str_replace(' ', '_', $review->getGame()->getName());
+        $altName = $this->getFileHandler()->cleanWhiteSpace($review->getGame()->getName());
         $subFolder = $altName . '/';
         switch ($type) {
             case 'header':
@@ -611,12 +612,16 @@ class MasterService {
     }
 
     public function updateReview(Review $review, $type, $fileArr = NULL) {
+        $baseUrl = Globals::getGameHeaderRoot($review->getGame()->getName()) . Globals::cleanStringUnderScore($review->getHeaderImg()->getUrl());
+        $urlPrev = $review->getHeaderImg()->getUrl();
         switch ($type) {
             case 'core':
                 $this->getReviewService()->updateReview($review);
                 return;
             case 'header':
+                $this->getFileHandler()->removeFile($baseUrl);
                 $this->addImgtoReview($type, $review, $fileArr);
+                $this->_generalDistDB->updateImgUrl($urlPrev, $review->getHeaderImg()->getUrl());
                 return;
             case 'game':
                 $this->getReviewService()->updateGameCore($review->getGame());
@@ -696,7 +701,7 @@ class MasterService {
         } else {
             $subFolder = 'tier' . $tier . '/';
         }
-        $url = $this->getFileHandler()->addImgFile($extra[0], 'avatar', $subFolder, $extra[1]);
+        $url = $subFolder . $this->getFileHandler()->addImgFile($extra[0], 'avatar', $subFolder, $extra[1]);
         return $url;
     }
 

@@ -1,8 +1,9 @@
 <?php
 $viewRoot = Globals::getRoot('view', 'app');
 $base = Globals::getBasePath();
+$design = $viewRoot . '/images/design';
 ?>
-<base href="<?php echo $base?>"/>
+<base href="<?php echo $base ?>"/>
 <meta charset="UTF-8">
 <meta name="fragment" content="!">
 <meta name="description" content="website description here">
@@ -22,6 +23,26 @@ $base = Globals::getBasePath();
 <meta name="twitter:title" content="title">
 <meta name="twitter:description" content="max 200 char">
 <meta name="twitter:image" content="image url from base">
+
+<!--FAVICON-->
+<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $design ?>/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="<?php echo $design ?>/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $design ?>/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="<?php echo $design ?>/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $design ?>/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="<?php echo $design ?>/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="<?php echo $design ?>/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $design ?>/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $design ?>/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="<?php echo $design ?>/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo $design ?>/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="<?php echo $design ?>/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="<?php echo $design ?>/favicon-16x16.png">
+<link rel="manifest" href="<?php echo $design ?>/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="<?php echo $design ?>/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -50,12 +71,6 @@ $base = Globals::getBasePath();
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 <link href="<?php echo $viewRoot ?>/fonts/font-awesome-4.5.0/css/font-awesome-animations.css" rel="stylesheet" type="text/css"/>
 
-<!--JQUERY FILE UPLOAD-->
-<link rel="stylesheet" href="<?php echo $viewRoot ?>/js/plugins/jq-upload/css/style.css">
-<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-<link rel="stylesheet" href="<?php echo $viewRoot ?>/js/plugins/jq-upload/css/jquery.fileupload.css">
-<link rel="stylesheet" href="<?php echo $viewRoot ?>/js/plugins/jq-upload/css/jquery.fileupload-ui.css">
-
 <noscript><link rel="stylesheet" href="<?php echo $viewRoot ?>/js/plugins/jq-upload/css/jquery.fileupload-noscript.css"></noscript>
 <noscript><link rel="stylesheet" href="<?php echo $viewRoot ?>/js/plugins/jq-upload/css/jquery.fileupload-ui-noscript.css"></noscript>
 
@@ -65,3 +80,9 @@ $base = Globals::getBasePath();
 <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
+<script>
+    $scriptRoot = '<?php echo Globals::getRoot('view', 'sys') ?>';
+    $viewRoot = '<?php echo Globals::getRoot('view', 'app') ?>';
+    $viewRootServer = '<?php echo Globals::getRoot('view', 'app', true) ?>';
+    $base = '<?php echo Globals::getBasePath(); ?>';
+</script>

@@ -1,6 +1,6 @@
 <?php
 
-abstract class SuperController extends NavigationController{
+abstract class SuperController extends NavigationController {
 
     /**
      * The master service used to execute functions
@@ -93,6 +93,24 @@ abstract class SuperController extends NavigationController{
         }
     }
 
+    public function getJson($obj) {        
+        if (!$obj) {
+            echo 'Error: No data recieved';
+        } else {
+            $data = $obj;
+            if (!$data || !is_array($data)) {
+                echo 'Error: Data could not be created correctly';
+            } else {
+                $jsonStr = json_encode($data);
+                if (!$jsonStr) {
+                    echo 'Error: The transaction from data to json had an error';
+                } else {                    
+                    echo $jsonStr;
+                }
+            }
+        }
+    }       
+
     public function setService(MasterService $service) {
         $this->_service = $service;
     }
@@ -108,4 +126,5 @@ abstract class SuperController extends NavigationController{
     public function setValidator(FormValidationController $validator) {
         $this->_validator = $validator;
     }
+
 }

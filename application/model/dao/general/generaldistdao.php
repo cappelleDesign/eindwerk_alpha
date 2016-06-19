@@ -25,6 +25,14 @@ interface GeneralDistDao {
     public function getImage($imageId);
 
     /**
+     * updateImgUrl
+     * Updates the url for an image
+     * @param string $urlPrev
+     * @param string $urlNew
+     */
+    public function updateImgUrl($urlPrev, $urlNew);
+    
+    /**
      * searchImage
      * Searches for an image and returns it if found,
      * -1 otherwise

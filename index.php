@@ -62,8 +62,3 @@ try {
 }
 
 ?>
-<script>
-    $scriptRoot = '<?php echo Globals::getRoot('view', 'sys') ?>';
-    $viewRoot = '<?php echo Globals::getRoot('view', 'app') ?>';
-    $viewRootServer = '<?php echo Globals::getRoot('view', 'app', true) ?>';
-</script>

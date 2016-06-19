@@ -92,9 +92,13 @@ class Vote {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $jsonObj = array();
+        $jsonObj['vote_voter_id'] = $this->getVoterId();
+        $jsonObj['vote_voted_on_id'] = $this->getVotedOnId();
+        $jsonObj['vote_voted_on_notif_id'] = $this->getVotedOnNotifId(); 
+        $jsonObj['vote_voter_name'] = $this->getVoterName(); 
+        $jsonObj['vote_flag'] = $this->getVoteFlag(); 
+        return $jsonObj;
     }
 
 }

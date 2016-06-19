@@ -643,8 +643,9 @@ class ReviewService extends VoteService {
     public function addGenre($genreName, $genreDesc) {
         try {
             $this->_gameDb->getGameDistDB()->startTransaction();
-            $this->_gameDb->getGameDistDB()->addGenre($genreName, $genreDesc);
+            $genreId = $this->_gameDb->getGameDistDB()->addGenre($genreName, $genreDesc);
             $this->_gameDb->getGameDistDB()->endTransaction();
+            return $genreId;
         } catch (Exception $ex) {
             $this->_gameDb->getGameDistDB()->cancelTransaction();
             throw new ServiceException($ex->getMessage(), $ex);

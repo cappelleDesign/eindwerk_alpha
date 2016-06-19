@@ -52,7 +52,14 @@ class FileHandler {
     }
 
     public function getDirFileCount($path) {
-        return (count(scandir($path))) - 2;
+        $count = 0;
+        $files = scandir($path);
+        foreach ($files as $file) {
+            if (is_file($path . $file)) {
+                $count ++;
+            }
+        }
+        return $count;
     }
 
     private function getNumberName($dir, $imgName) {
@@ -79,7 +86,6 @@ class FileHandler {
     }
 
     public function getDestination($type, $imgName, $subFolder = '') {
-        $imgName = $this->cleanWhiteSpace($imgName);
         switch ($type) {
             case 'achievement':
                 return self::IMG_DESTIN_ROOT . 'achievements/' . $imgName;
@@ -113,7 +119,8 @@ class FileHandler {
     }
 
     public function cleanWhiteSpace($nameOg) {
-        $name = str_replace(' ', '_', $nameOg);
+        $name = preg_replace("/[^A-Za-z0-9 ]/", '', $nameOg);        
+        $name = str_replace(' ', '_', $name);
         return $name;
     }
 

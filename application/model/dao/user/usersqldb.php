@@ -41,7 +41,7 @@ class UserSqlDB extends SqlSuper implements UserDao {
      * @param UserDetailed $user
      * @throws DBException
      */
-    public function add(DaoObject $user) {
+    public function add(DaoObject $user) {        
         if (!$user instanceof UserDetailed) {
             throw new DBException('The object you tried to add was not a user object', NULL);
         }

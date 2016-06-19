@@ -137,9 +137,16 @@ class NewsfeedItem implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $format = Globals::getDateTimeFormat('default', TRUE);
+        $jsonObj = array();
+        $jsonObj['newsfeed_id'] = $this->getId();
+        $jsonObj['newsfeed_writer_id'] = $this->getWriterId();
+        $jsonObj['newsfeed_writer_name'] = $this->getWriterName();
+        $jsonObj['newsfeed_img'] = $this->getImage();
+        $jsonObj['newsfeed_subject'] = $this->getSubject();
+        $jsonObj['newsfeed_body'] = $this->getBody();
+        $jsonObj['newsfeed_created'] = $this->getCreatedStr($format);
+        return $jsonObj;
     }
 
 }

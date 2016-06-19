@@ -4,12 +4,19 @@ class NavigationController {
 
     private $_subFolder;
     
+    private $_base;
+    
     public function __construct($subFolder) {
         $this->init($subFolder);
     }
     
     private function init($subFolder){
         $this->_subFolder = $subFolder;
+        $this->_base = Globals::getBasePath();
+    }
+    
+    public function getBase(){
+        return $this->_base;
     }
     
     public function getPagesRoot() {

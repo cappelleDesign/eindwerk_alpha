@@ -273,9 +273,22 @@ class Game implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $format = Globals::getDateTimeFormat('default', FALSE);
+        $jsonObj = array();
+        $jsonObj['game_id'] = $this->getId();
+        $jsonObj['game_name'] = $this->getName();
+        $jsonObj['game_release'] = $this->getReleaseStr($format);
+        $jsonObj['game_website'] = $this->getOfficialWebsite();
+        $jsonObj['game_publisher'] = $this->getPublisher();
+        $jsonObj['game_developer'] = $this->getDeveloper();
+        $jsonObj['game_min_online'] = $this->getMinPlayersOnline();
+        $jsonObj['game_max_online'] = $this->getMaxPlayersOnline();
+        $jsonObj['game_max_offline'] = $this->getMaxPlayersOffline();
+        $jsonObj['game_max_story'] = $this->getMaxPlayersStory();
+        $jsonObj['game_has_story'] = $this->getHasStoryMode();
+        $jsonObj['game_genres'] = $this->getGenres();
+        $jsonObj['game_platforms'] = $this->getPlatforms();
+        return $jsonObj;
     }
 
 }

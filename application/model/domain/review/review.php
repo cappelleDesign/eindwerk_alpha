@@ -172,7 +172,7 @@ class Review extends VoteFuncionalityObject implements DaoObject {
     }
 
     public function setCreated($created, $format) {
-        $date = DateTime::createFromFormat($format, $created);       
+        $date = DateTime::createFromFormat($format, $created);
         $this->_created = $date;
     }
 
@@ -309,7 +309,7 @@ class Review extends VoteFuncionalityObject implements DaoObject {
      * @param string $format
      * @return string
      */
-    public function getCreatedStr($format) {        
+    public function getCreatedStr($format) {
         return $this->_created->format($format);
     }
 
@@ -458,9 +458,26 @@ class Review extends VoteFuncionalityObject implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $format = Globals::getDateTimeFormat('default', TRUE);
+        $jsonObj = array();
+        $jsonObj['review_id'] = $this->getId();
+        $jsonObj['review_writer'] = $this->getWriter();
+        $jsonObj['review_game'] = $this->getGame();
+        $jsonObj['review_reviewed_on'] = $this->getReviewedOn();
+        $jsonObj['review_title'] = $this->getTitle();
+        $jsonObj['review_score'] = $this->getScore();
+        $jsonObj['review_text'] = $this->getText();
+        $jsonObj['review_video_url'] = $this->getVideoUrl();
+        $jsonObj['review_created'] = $this->getCreatedStr($format);
+        $jsonObj['review_header_img'] = $this->getHeaderImg();
+        $jsonObj['review_user_scores'] = $this->getUserScores();
+        $jsonObj['review_root_comments'] = $this->getRootComments();
+        $jsonObj['review_goods'] = $this->getGoods();
+        $jsonObj['review_bads'] = $this->getBads();
+        $jsonObj['review_tags'] = $this->getTags();
+        $jsonObj['review_gallery'] = $this->getGallery();
+        $jsonObj['review_is_user_review'] = $this->getIsUserReview();
+        return $jsonObj;
     }
 
 }

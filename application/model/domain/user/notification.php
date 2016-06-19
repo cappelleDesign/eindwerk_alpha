@@ -121,9 +121,15 @@ class Notification implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $format = Globals::getDateTimeFormat('default', TRUE);
+        $jsonObj = array();
+        $jsonObj['notification_id'] = $this->getId();
+        $jsonObj['notification_user_id'] = $this->getUserId();
+        $jsonObj['notification_text'] = $this->getText();
+        $jsonObj['notification_link'] = $this->getLink();
+        $jsonObj['notification_created'] = $this->getCreatedStr($format);
+        $jsonObj['notification_is_read'] = $this->getIsRead();
+        return $jsonObj;
     }
 
 }

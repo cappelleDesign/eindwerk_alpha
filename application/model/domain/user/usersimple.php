@@ -101,9 +101,13 @@ class UserSimple implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $jsonObj = array();
+        $jsonObj['user_id'] = $this->getId();
+        $jsonObj['user_role'] = $this->getUserRole();
+        $jsonObj['user_avatar'] = $this->getAvatar();
+        $jsonObj['user_name'] = $this->getUsername();
+        $jsonObj['user_donated'] = $this->getDonated();
+        return $jsonObj;
     }
 
 }

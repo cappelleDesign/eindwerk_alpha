@@ -387,9 +387,22 @@ class UserDetailed extends UserSimple {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $format = Globals::getDateTimeFormat('default', TRUE);
+        $jsonObj = parent::jsonSerialize();
+        $jsonObj['user_pw'] = $this->getPwEncrypted(); 
+        $jsonObj['user_email'] = $this->getEmail(); 
+        $jsonObj['user_karma'] = $this->getKarma(); 
+        $jsonObj['user_reg_key'] = $this->getRegKey(); 
+        $jsonObj['user_warnings'] = $this->getWarnings(); 
+        $jsonObj['user_diamonds'] = $this->getDiamonds();
+        $jsonObj['user_date_time_pref'] = $this->getDateTimePref(); 
+        $jsonObj['user_created'] = $this->getCreatedStr($format);
+        $jsonObj['user_last_login'] = $this->getLastLoginStr($format);
+        $jsonObj['user_active_time'] = $this->getActiveTime(); 
+        $jsonObj['user_last_comment'] = $this->getLastComment(); 
+        $jsonObj['user_recent_notifications'] = $this->getRecentNotifications(); 
+        $jsonObj['user_achievements'] = $this->getAchievements(); 
+        return $jsonObj;
     }
 
 }

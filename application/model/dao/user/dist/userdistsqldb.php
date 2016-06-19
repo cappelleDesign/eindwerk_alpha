@@ -214,14 +214,17 @@ class UserDistSqlDB extends SqlSuper implements UserDistDao {
     }
 
     private function getUserRoleHelp($idCol, $key) {
-        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE '.$idCol.' = ?';
+        $query = 'SELECT * FROM ' . Globals::getTableName('userRole') . ' WHERE ' . $idCol . ' = ?';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $key);
         $statement->execute();
         $result = parent::fetch($statement, TRUE);
-        $row = $result[0];
-        $userRole = $this->createUserRole($row);
-        return $userRole;
+        if ($result) {
+            $row = $result[0];
+            $userRole = $this->createUserRole($row);
+            return $userRole;
+        }
+        return -1;
     }
 
     /**

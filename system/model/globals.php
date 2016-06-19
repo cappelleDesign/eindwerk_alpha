@@ -23,6 +23,7 @@ class Globals {
             case 'mysql' :
                 $date = 'Y-m-d';
                 break;
+            case 'default':
             case 'us' :
                 $date = 'm/d/Y';
                 break;
@@ -205,9 +206,15 @@ class Globals {
         }
     }
 
+    static function cleanStringUnderScore($string) {
+        $newS = str_replace(' ', '_', $string);
+        return $newS;
+    }
+
     static function getGameHeaderRoot($gameName, $server = false) {
         $root = Globals::getRoot('img', 'app', $server);
-        $root .= '/games/' . $gameName . '/';
+        $altName = Globals::cleanStringUnderScore($gameName);
+        $root .= 'games/' . $altName . '/';
         return $root;
     }
 

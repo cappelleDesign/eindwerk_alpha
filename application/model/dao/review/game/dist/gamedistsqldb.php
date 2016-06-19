@@ -29,9 +29,11 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
      * @param string $genreDesc
      */
     public function addGenre($genreName, $genreDesc) {
-        if ($this->search('genre', $genreName)) {
+        $genreId = $this->search('genre', $genreName);
+        if ($genreId) {            
             if ($this->getGenreDesc($genreName) !== $genreDesc) {
                 $this->updateGenre($genreName, $genreName, $genreDesc);
+                return $genreId;
             }
         } else {
             $query = 'INSERT INTO ' . $this->_genreT . ' (genre_name, genre_description)';
@@ -42,6 +44,7 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
                 ':desc' => $genreDesc
             );
             $statement->execute($queryArgs);
+            return parent::getLastId();
         }
     }
 
@@ -51,7 +54,8 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
      * @param string $platformName
      */
     public function addPlatform($platformName) {
-        if (!$this->search('platform', $platformName)) {
+        $platformId = $this->search('platform', $platformName);
+        if (!$platformId) {
             $query = 'INSERT INTO ' . $this->_platT . ' (platform_name)';
             $query .= ' VALUES (:name)';
             $statement = parent::prepareStatement($query);
@@ -59,7 +63,9 @@ class GameDistSqlDB extends SqlSuper implements GameDistDao {
                 ':name' => $platformName
             );
             $statement->execute($queryArgs);
+            $platformId = parent::getLastId();
         }
+        return $platformId;
     }
 
     /**

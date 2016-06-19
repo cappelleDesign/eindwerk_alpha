@@ -73,4 +73,20 @@ class TestController extends SuperController {
         require 'testing/service/master_service_test.php';
     }
 
+    public function init() {
+        require 'testing/init/major_init.php';
+    }
+
+    public function initHandler() {
+        require 'testing/init/init_handler.php';
+    }
+
+    public function autoInitImg() {
+        require 'testing/init/auto_init_img.php';
+    }
+
+    public function autoInit() {
+        require 'testing/init/auto_init.php';
+    }
+
 }

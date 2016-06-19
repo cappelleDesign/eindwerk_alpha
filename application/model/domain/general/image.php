@@ -61,9 +61,11 @@ class Image implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $jsonObj = array();
+        $jsonObj['img_id'] = $this->getId();
+        $jsonObj['img_url'] = $this->getUrl();
+        $jsonObj['img_alt'] = $this->getAlt();
+        return $jsonObj;
     }
 
 }

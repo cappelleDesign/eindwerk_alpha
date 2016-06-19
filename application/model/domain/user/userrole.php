@@ -95,9 +95,13 @@ class UserRole implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $jsonObj = array();
+        $jsonObj['user_role_id'] = $this->getId();
+        $jsonObj['user_role_name'] = $this->getName(); 
+        $jsonObj['user_role_access_flag'] = $this->getAccessFlag();
+        $jsonObj['user_role_karma_min'] = $this->getKarama_min(); 
+        $jsonObj['user_role_diamond_min'] = $this->getDiamond_min(); 
+        return $jsonObj;
     }
 
 }

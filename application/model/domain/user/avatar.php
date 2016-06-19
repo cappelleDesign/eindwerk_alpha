@@ -62,9 +62,11 @@ class Avatar implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $jsonObj = array();
+        $jsonObj['avatar_id'] = $this->getId(); 
+        $jsonObj['avatar_img'] = $this->getImage(); 
+        $jsonObj['avatar_tier'] = $this->getTier(); 
+        return $jsonObj;
     }
 
 }

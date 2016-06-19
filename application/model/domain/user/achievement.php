@@ -110,9 +110,13 @@ class Achievement implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        $arr = array();
-        //TODO implement
-        return $arr;
+        $jsonObj = array();
+        $jsonObj['achievement_id'] = $this->getId();
+        $jsonObj['achievement_img'] = $this->getImage();
+        $jsonObj['achievement_desc'] = $this->getDesc();
+        $jsonObj['achievement_karma_reward'] = $this->getKarmaReward();
+        $jsonObj['achievement_diamond_reward'] = $this->getDiamondReward();
+        return $jsonObj;
     }
 
 }

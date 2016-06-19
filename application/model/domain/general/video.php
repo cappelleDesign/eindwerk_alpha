@@ -2,6 +2,7 @@
 
 /**
  * Video
+ * DEPRECATED
  * @package model
  * @subpackage domain.general
  * @author Jens Cappelle <cappelle.design@gmail.com>
@@ -209,7 +210,12 @@ class Video implements DaoObject {
      * @return array
      */
     public function jsonSerialize() {
-        //TODO IMPLEMENT
+        $jsonObj = array();
+        $jsonObj['video_id'] = $this->getId();
+        $jsonObj['video_title'] = $this->getTitle();
+        $jsonObj['video_desc'] = $this->getDesc();
+        
+        return $jsonObj;
     }
 
 }

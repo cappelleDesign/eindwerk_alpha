@@ -1,16 +1,10 @@
 $(homeInit);
 function homeInit() {
-    $('.score').knob({
-        'min': 0,
-        'max': 10,
-        'width': 50,
-        'height': 50,
-        'font': 'Sans-serif'
-    });
-    setHomeListeners();
-    homePageRepaint();
+    getReviews(getNewsfeedItems);
+    
 }
-function setHomeListeners() {
+
+function setHomeListeners() {    
     $(window).resize(function () {
         homePageRepaint();
     });
@@ -27,9 +21,10 @@ function setHomeListeners() {
         $('#newsfeed-nav li').removeClass('active');
         $(this).parent().addClass('active');
     });
+    homePageRepaint();
 
 }
-function homePageRepaint() {
+function homePageRepaint() {    
     setCorrectSliderPics();
     setCorrectNewsfeedPics();
 }
@@ -70,3 +65,19 @@ function fireSlider() {
         setPrevAndNext();
     }
 }
+
+function getReviews(getNewsfeedItems) {
+    $.getScript($viewRoot + '/js/handlers/review-json-handler.js', function () {
+        getHomeReviews();
+        getNewsfeedItems(setHomeListeners);
+    });
+}
+
+function getNewsfeedItems(setHomeListeners) {
+    $.getScript($viewRoot + '/js/handlers/newsfeed-json-handler.js', function () {
+    });
+}
+
+//getNewsfeedItems();
+//    setHomeListeners();
+//    homePageRepaint();

@@ -1,3 +1,6 @@
+<?php 
+$current = $this->getCurrentUser(FALSE);
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,7 +17,7 @@
             ?>            
             <main>
                 <?php
-                if (!$this->getCurrentUser(FALSE)) {
+                if (!$current) {
                     ?>
                     <div class="container-fluid login-container">
                         <div class="row">
@@ -31,9 +34,11 @@
                         </div>
                     </div>
                 <?php
-                } else {                                                            
-                    Globals::cleanDump($this->getCurrentUser(FALSE)->getRecentNotifications());
+                } else if($current instanceof UserDetailed){                                                                                
                     ?>
+                <img width="100" src="<?php echo Globals::getRoot('img', 'app') .'avatars/'. $current->getAvatar()->getImage()->getUrl();?>" alt="">
+                <p style="color: #fff;">Name: <?php echo $current->getUsername()?></p>
+                <p style="color: #fff;">Role: <?php echo $current->getUserRole()->getName() ?></p>
 
                 <?php }
                 ?>

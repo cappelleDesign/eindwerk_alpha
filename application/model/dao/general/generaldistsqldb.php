@@ -59,6 +59,19 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
         return -1;
     }
 
+    public function updateImgUrl($urlPrev, $urlNew) {
+        $img = $this->searchImage($urlPrev);
+        $t = Globals::getTableName('image');
+        $query = 'UPDATE ' . $t;
+        $query .= ' SET img_uri = :new WHERE img_uri = :prev';
+        $statement = parent::prepareStatement($query);
+        $queryArgs = array(
+            ':new' =>$urlNew,
+            ':prev' =>$urlPrev
+        );
+        $statement->execute($queryArgs);
+    }
+    
     /**
      * searchImage
      * Searches for an image and returns it if found,
@@ -124,8 +137,8 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
         $imgId = $this->addImage($avatar->getImage());
         $found = $this->getAvatarByUrl($avatar->getImage()->getUrl());
         if ($found) {
-            $this->updateAvatar($found->getId(), $imgId);
-            return;
+            $this->updateAvatar($found->getId(), $imgId);            
+            return $found->getId();
         }
         $t = Globals::getTableName('avatar');
         $query = 'INSERT INTO ' . $t;
@@ -136,7 +149,7 @@ class GeneralDistSqlDB extends SqlSuper implements GeneralDistDao {
             ':imgId' => $imgId,
             ':tier' => $avatar->getTier()
         );
-        $statement->execute($queryArgs);
+        $statement->execute($queryArgs);                
         return parent::getLastId();
     }
 

@@ -284,3 +284,8 @@ function triggerMobileSearch() {
     $html = $search;
     $('#mobile-addon-content').html($html);
 }
+
+function cleanPath($string) {
+    $string = $string.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '_');
+    return $string;
+}
