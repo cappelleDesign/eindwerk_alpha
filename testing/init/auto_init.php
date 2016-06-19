@@ -17,10 +17,9 @@ try {
     $configs = getConfigs();
     $service = new MasterService($configs);
     $files = $service->getCleanFilesArray($_FILES['uploadImg']);
-    Globals::cleanDump('files');
-    Globals::cleanDump($files);
+//    Globals::cleanDump(array_slice($files, 5));
 //    FOR USER    
-    $username = jens_admin;
+    $username = 'jens_admin';
     $pwEncrypted = password_hash('Admin001', PASSWORD_BCRYPT);
     $donated = 0;
     $email = 'dev@neoludus.com';
@@ -36,14 +35,19 @@ try {
         0 => $files[0],
         1 => $username
     );
+    if (isset($_POST['avatarField'])) {
+        echo 'avatar ';
     $userRole = $service->getByIdentifier(101, 'userRole');
-    $img = new Image('dummy', 'Avatar pic for jens admin');
-    $av = new Avatar($img, 4);
-    $avatar = $service->add($av, 'avatar', $extra);
-    $user = new UserDetailed($userRole, $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime);
-    $service->add($user, 'user');
+        $img = new Image('dummy', 'Avatar pic for jens admin');
+        $av = new Avatar($img, 4);
+        $avatar = $service->add($av, 'avatar', $extra);
+        $user = new UserDetailed($userRole, $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime);
+        $service->add($user, 'user');
+    }
 
     //HITMAN REVIEW
+
+
     $writer = $service->getByIdentifier('jens_admin', 'user');
     $name = 'Hitman';
     $release = '11/03/2016';
@@ -57,7 +61,6 @@ try {
     $hasStoryMode = $maxPlayersStory ? '1' : '0';
     $genres = array('Action-adventure', 'stealth');
     $platforms = array('Windows 10', 'Xbox One', 'Playstation 4');
-
     $reviewedOn = 'Playstation 4';
     $title = 'Hitman does not let down';
     $score = '8';
@@ -71,18 +74,21 @@ try {
     $bads = array('Too much stealth', 'No big guns', 'Not enough freedom');
     $tags = array('Bald', 'Agent 47', 'hitman', 'action', 'stealth');
     $gallery = array();
-    $extra = array_splice($files, 1);
-    $service->add($reviewedOn, 'platform');
-    foreach ($genres as $genre) {
-        $service->add($genre, 'genre', 'descriptions');
-    }
-    foreach ($platforms as $platform) {
-        $service->add($platform, 'platform');
-    }
+    if (isset($_POST['hitmanField'])) {
+        echo 'hitman';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
 
-    $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
-    $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
-    $service->add($review, 'review', $extra);
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
 
 //    FALLOUT REVIEW
     $name = 'Fallout 4';
@@ -96,38 +102,45 @@ try {
     $goods = array('Awesome story', 'A lot of freedom', 'Hours of fun');
     $bads = array('Graphics are not good enough', 'Loading screens', 'Bugs');
     $tags = array('FO4', 'survive', 'commonwealth', 'build', 'action');
-    $extra = array_slice($files, 5);
-    $service->add($reviewedOn, 'platform');
-    foreach ($genres as $genre) {
-        $service->add($genre, 'genre', 'descriptions');
-    }
-    foreach ($platforms as $platform) {
-        $service->add($platform, 'platform');
+    if (isset($_POST['foField'])) {
+        echo 'fallout';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
     }
 
-    $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
-    $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
-    $service->add($review, 'review', $extra);
 
-    //    FALLOUT REVIEW
+    //   SKYRIM REVIEW
     $name = 'Skyrim';
     $release = '11/11/2011';
     $officialWebsite = 'http://www.elderscrolls.com/skyrim';
     $title = 'Skyrim is epic AF';
     $score = '10';
     $tags = array('TES', 'The elder scrolls', 'dragons', 'fantasy', 'action');
-    $extra = array_slice($files, 9);
-    $service->add($reviewedOn, 'platform');
-    foreach ($genres as $genre) {
-        $service->add($genre, 'genre', 'descriptions');
-    }
-    foreach ($platforms as $platform) {
-        $service->add($platform, 'platform');
-    }
+    if (isset($_POST['skyField'])) {
+        echo 'skyrim';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
 
-    $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
-    $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
-    $service->add($review, 'review', $extra);
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
 } catch (Exception $ex) {
     echo '<h1 style="color:red">ERROR</h1>';
     Globals::cleanDump($ex);
