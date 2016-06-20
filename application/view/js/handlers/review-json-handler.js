@@ -1,13 +1,16 @@
 function getHomeReviews() {
-    $url = $base + 'index.php/reviews/get/all/3/created/desc';
+    $url = $base + 'index.php/reviews/get/all/3/created/desc/0';
     $.get($url, function ($recieve) {
         $data = 'recieve';
-        if ($recieve.toLowerCase().indexOf('error') < 0 && $recieve.toLowerCase().indexOf('notice') < 0) {
+        if ($recieve.toLowerCase().indexOf('internal-error') < 0 && $recieve.toLowerCase().indexOf('notice') < 0) {
+            if ($recieve.toLowerCase().indexOf('found') > 0){
+                console.log($recieve);
+                return;
+            }
             try {
                 $data = $.parseJSON($recieve);
                 $html = '';
                 $.each($data, function ($id, $review) {
-                    console.log($review);
                     $html += createSliderItem($id, $review);
                 });
                 $('#inf-slider').append($html);
@@ -18,7 +21,7 @@ function getHomeReviews() {
                     'height': 50,
                     'font': 'Sans-serif'
                 });
-                setHomeListeners();                
+                setHomeListeners();
             } catch (e) {
                 //handle error
                 console.log('error: ' + e);

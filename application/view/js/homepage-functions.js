@@ -66,18 +66,15 @@ function fireSlider() {
     }
 }
 
-function getReviews(getNewsfeedItems) {
+function getReviews() {
     $.getScript($viewRoot + '/js/handlers/review-json-handler.js', function () {
         getHomeReviews();
-        getNewsfeedItems(setHomeListeners);
+        getNewsfeedItems();
     });
 }
 
-function getNewsfeedItems(setHomeListeners) {
+function getNewsfeedItems() {
     $.getScript($viewRoot + '/js/handlers/newsfeed-json-handler.js', function () {
+        getHomeNewsfeed();        
     });
 }
-
-//getNewsfeedItems();
-//    setHomeListeners();
-//    homePageRepaint();

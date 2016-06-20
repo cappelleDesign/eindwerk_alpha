@@ -47,6 +47,18 @@
             <input id="gallery9" name="uploadImg[]" type="file"><br><br>    
             <input type="submit" value="MAGIC">
         </form>
+        <hr>
+        <form action ="autoInit" method ="POST" enctype="multipart/form-data">
+            <input type="hidden" id="newsfeedField" name="newsfeedField" value="newsfeedField">
+            <label for="newsfeed1">Newsfeed images</label><br>
+            <input id="newsfeed1" name="uploadImg[]" type="file"><br>
+            <input id="newsfeed2" name="uploadImg[]" type="file"><br>
+            <input id="newsfeed3" name="uploadImg[]" type="file"><br>        
+            <input id="newsfeed4" name="uploadImg[]" type="file"><br>        
+            <input id="newsfeed5" name="uploadImg[]" type="file"><br>        
+            <input id="newsfeed6" name="uploadImg[]" type="file"><br><br>    
+            <input type="submit" value="MAGIC">
+        </form>
     </body>
 </html>
 <?php

@@ -136,6 +136,7 @@ class NewsfeedSqlDB extends SqlSuper implements NewsfeedDao {
         $query = 'SELECT * FROM ' . $t;
         $query .= $this->buildWhereQuery($options, $queryArgs);
         $query .= ' GROUP BY newsfeed_id';
+        $query .= ' ORDER BY newsfeed_created DESC';
         $query .= $this->buildLimitQuery($options, $queryArgs);
         $statement = parent::prepareStatement($query);
         $statement->execute($queryArgs);

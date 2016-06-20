@@ -319,8 +319,6 @@ class MasterService {
             case 'newsfeed' :
                 if ($mixedObj instanceof NewsfeedItem) {
                     $url = $this->addNewsfeedImg($mixedObj, $extra);
-                    $img = new Image($url, 'Newsfeed image for ' . $mixedObj->getSubject());
-                    $mixedObj->setImage($img);
                     $this->getNewsfeedService()->addNewsfeedItem($mixedObj);
                     return $mixedObj;
                 }
@@ -606,7 +604,9 @@ class MasterService {
                 $this->getNewsfeedService()->updateNewsfeedItemBody($newsfeedItem->getId(), $param1);
                 return;
             case 'image' :
-                $url = $this->addNewsfeedImg($newsfeedItem, $param1);
+                $this->getFileHandler()->removeFile(Globals::getRoot('view', 'app') . 'images/newsfeeds/' . $newsfeedItem->getImage()->getUrl());
+                $this->addNewsfeedImg($newsfeedItem, $param1);
+                $this->_generalDistDB->updateImgUrl($newsfeedItem->getImage()->getUrl(), $newsfeedItem->getImage()->getUrl());
             case 'body' :
         }
     }
@@ -706,8 +706,10 @@ class MasterService {
     }
 
     private function addNewsfeedImg(NewsfeedItem $newsfeedItem, $extra) {
-        $name = $newsfeedItem->getSubject();
+        $name = $this->getFileHandler()->cleanWhiteSpace($newsfeedItem->getSubject());
         $url = $this->getFileHandler()->addImgFile($extra, 'newsfeed', '', $name);
+        $img = new Image($url, 'Newsfeed image for ' . $newsfeedItem->getSubject());
+        $newsfeedItem->setImage($img);
         return $url;
     }
 
