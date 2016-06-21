@@ -1,7 +1,5 @@
 <?php
 
-require_once 'system/view/phpscripts/PHPMailer-master/PHPMailerAutoload.php';
-
 class ErrorLogger {
 
     public static function getLogLocation() {

@@ -26,6 +26,12 @@ abstract class SuperController extends NavigationController {
      */
     private $_validator;
 
+    /**
+     * Mail controller for mail functions
+     * @var MailController
+     */
+    private $_mailController;
+
     public function __construct($subFolder = '') {
         parent::__construct($subFolder);
         $this->superInit();
@@ -37,6 +43,7 @@ abstract class SuperController extends NavigationController {
         $this->_sessionController = new SessionController();
         $this->_validator = new formvalidationController();
         $this->_errorController = new ErrorController();
+        $this->_mailController = new MailController();
         $this->getSessionController()->startSession();
         $this->getSessionController()->checkUserActivity();
     }
@@ -81,7 +88,11 @@ abstract class SuperController extends NavigationController {
         return $this->_validator;
     }
 
-    public function getCurrentUser($isJson) {
+    public function getMailController() {
+        return $this->_mailController;
+    }
+
+    public function getCurrentUser($isJson = FALSE) {
         $user = false;
         if ($this->getSessionController()->isLoggedOn()) {
             $user = $this->getSessionController()->getSessionAttr('current_user');
@@ -93,23 +104,23 @@ abstract class SuperController extends NavigationController {
         }
     }
 
-    public function getJson($obj) {        
+    public function getJson($obj) {
         if (!$obj) {
-            echo 'Error: No data recieved';
+            echo 'Internal-error: No data recieved';
         } else {
             $data = $obj;
             if (!$data || !is_array($data)) {
-                echo 'Error: Data could not be created correctly';
+                echo 'Internal-error: Data could not be created correctly';
             } else {
                 $jsonStr = json_encode($data);
                 if (!$jsonStr) {
-                    echo 'Error: The transaction from data to json had an error';
-                } else {                    
+                    echo 'Internal-error: The transaction from data to json had an error';
+                } else {
                     echo $jsonStr;
                 }
             }
         }
-    }       
+    }
 
     public function setService(MasterService $service) {
         $this->_service = $service;

@@ -6,8 +6,16 @@
 
 class FormValidationController {
 
+    /**
+     * The user validator
+     * @var UserValidationController
+     */
     private $_userValidator;
-
+    /**
+     * The contact validator
+     * @var ContactValidationController
+     */
+    private $_contactValidator;
 
     public function __construct() {
         $this->init();
@@ -15,6 +23,7 @@ class FormValidationController {
 
     private function init() {
         $this->_userValidator = new UserValidationController();
+        $this->_contactValidator = new ContactValidationController();
     }
 
     public function sanitizeInput($input) {
@@ -37,4 +46,10 @@ class FormValidationController {
     public function validatePwChangeForm($pwArr, &$sysAdmin) {
         return $this->_userValidator->validatePwChangeForm($pwArr, $sysAdmin);
     }    
+    
+    public function validateContactForm($contactArr) {
+        return $this->_contactValidator->validateContactForm($contactArr);
+    }
+    
+    
 }

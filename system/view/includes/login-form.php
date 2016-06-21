@@ -8,7 +8,7 @@ if ($isReturn) {
 }
 ?>
 
-<form id="loginForm" method="POST" action="index.php/account/login" autocomplete="off" class="">
+<form class="neo-form" id="loginForm" method="POST" action="account/login" autocomplete="off">
     <fieldset>
         <?php
         if (isset($loginFormData) && !empty($loginFormData)) {
@@ -76,14 +76,12 @@ if ($isReturn) {
         </div>
         <div class="pull-left login-links">
             <!--//TODO ajax-->
-            <a href="index.php/account/registerForm">Register</a>
+            <a href="account/registerForm">Register</a>
             <i>/</i>                                                        
-            <a href="index.php/account/forgotPassForm">Forgot password</a>
+            <a href="account/forgotPassForm">Forgot password</a>
         </div>
-        <div class="pull-right login-buttons">              
-
-            <a href="index.php/home" class="btn btn-outline btn-danger">Cancel</a>
-            <button type="submit" class="btn btn-outline btn-success" id="submitButton">Login</button>
+        <div class="pull-right login-buttons">
+            <button type="submit" class="btn neo-btn" id="submitButton">Login</button>
         </div>
     </fieldset>
 </form>

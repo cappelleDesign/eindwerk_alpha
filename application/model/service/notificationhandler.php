@@ -223,7 +223,7 @@ class notificationHandler {
      * @return Notification
      */
     private function createNotif($commentId, $userId, $body) {
-        $linkBase = 'index.php/comments/show-comment/';
+        $linkBase = 'comments/show-comment/';
         $format = Globals::getDateTimeFormat('mysql', true);
         $date = DateFormatter::getNow()->format($format);
         $notif = new Notification($userId, $body, $linkBase . $commentId, $date, FALSE, $format);

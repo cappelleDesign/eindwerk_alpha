@@ -8,11 +8,16 @@
  */
 class FileHandler {
 
-    const ALLOWED_TYPES = array(1, 2, 3);
+//    const ALLOWED_TYPES = 
+    private $_allowed_types;
     const MAX_IMG_SIZE = 20977520; //20MB
 //    const TMP_IMG_ROOT = 'application/view/images/uploads/';
     const IMG_DESTIN_ROOT = 'application/view/images/';
 
+    public function __construct() {
+        $this->_allowed_types = array(1, 2, 3);
+    }
+    
     public function addFolder($root, $folderName) {
         if (!is_dir($root)) {
             throw new ServiceException($root . ' is not a path to a folder');
@@ -143,7 +148,7 @@ class FileHandler {
     }
 
     private function checkAllowedImgType($imgType) {
-        return in_array($imgType, self::ALLOWED_TYPES);
+        return in_array($imgType, $this->_allowed_types);
     }
 
     private function checkSizeAllowed($imgSize) {

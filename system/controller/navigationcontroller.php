@@ -3,22 +3,21 @@
 class NavigationController {
 
     private $_subFolder;
-    
     private $_base;
-    
+
     public function __construct($subFolder) {
         $this->init($subFolder);
     }
-    
-    private function init($subFolder){
+
+    private function init($subFolder) {
         $this->_subFolder = $subFolder;
         $this->_base = Globals::getBasePath();
     }
-    
-    public function getBase(){
+
+    public function getBase() {
         return $this->_base;
     }
-    
+
     public function getPagesRoot() {
         return Globals::getRoot('view', 'app') . '/pages/';
     }
@@ -52,7 +51,17 @@ class NavigationController {
     public function includeLoginForm() {
         $this->includeIncluder('login-form.php');
     }
-    
+
+    public function includeFormFeedback($extra = false) {
+        $page = '';
+        if ($extra) {
+            $page = 'form-extra-msg.php';
+        } else {
+            $page = 'form-feedback.php';
+        }
+        $this->includeIncluder($page);
+    }
+
     public function includeFileUpload() {
         $this->includeIncluder('file-upload-multi.php');
     }
@@ -60,7 +69,7 @@ class NavigationController {
     public function redirect($action) {
         $base = Globals::getBasePath();
         session_write_close();
-        header('Location: ' . $base . 'index.php/' . $action);
+        header('Location: ' . $base . '/' . $action);
         $this->getSessionController()->startSession();
     }
 

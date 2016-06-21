@@ -231,8 +231,7 @@ function mobileMenuAddonStyleTrigger($id) {
 }
 function mobileMenuAddonHideAll($forced) {
     mobileMenuAddonStyleTrigger('none');
-    if ($forced) {
-        console.log('forced');
+    if ($forced) {        
         $('#mobile-menu-addon-extended').hide('slide', {'direction': 'left'}, 'fast', function () {
             $('#mobile-menu-addon-extended').css({
                 position: 'fixed'
@@ -257,9 +256,9 @@ function triggerMobileProfile() {
     $('#mobile-addon-content').removeClass();
     $('#mobile-addon-content').addClass('profile');
     $loggedOn = $('#account-panel').data('logged-on');
-    $logout = '<a class="solo" href="index.php/account/logout/true"><i class="fa fa-sign-out fa-fw"></i><p>Sign out</p></a>';
-    $login = '<a href="index.php/account/loginPage/true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
-    $register = '<a href="index.php/account/register/true"><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
+    $logout = '<a class="solo" href="account/logout/true"><i class="fa fa-sign-out fa-fw"></i><p>Sign out</p></a>';
+    $login = '<a href="account/loginPage/true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
+    $register = '<a href="account/register/true"><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
     if ($loggedOn === false) {
         $html = $login + $register;
     } else {

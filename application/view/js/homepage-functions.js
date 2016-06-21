@@ -1,10 +1,9 @@
 $(homeInit);
 function homeInit() {
-    getReviews(getNewsfeedItems);
-    
+    getHomePageObjects(getHomeNewsfeedsIni, setHomeListeners, dispNotif);
 }
 
-function setHomeListeners() {    
+function setHomeListeners() {
     $(window).resize(function () {
         homePageRepaint();
     });
@@ -22,9 +21,8 @@ function setHomeListeners() {
         $(this).parent().addClass('active');
     });
     homePageRepaint();
-
 }
-function homePageRepaint() {    
+function homePageRepaint() {
     setCorrectSliderPics();
     setCorrectNewsfeedPics();
 }
@@ -65,16 +63,9 @@ function fireSlider() {
         setPrevAndNext();
     }
 }
-
-function getReviews() {
-    $.getScript($viewRoot + '/js/handlers/review-json-handler.js', function () {
-        getHomeReviews();
-        getNewsfeedItems();
-    });
+function getHomeNewsfeedsIni(setHomeListeners, dispNotif) {
+    getHomeNewsfeed(setHomeListeners, dispNotif);
 }
-
-function getNewsfeedItems() {
-    $.getScript($viewRoot + '/js/handlers/newsfeed-json-handler.js', function () {
-        getHomeNewsfeed();        
-    });
+function getHomePageObjects(getHomeNewsfeedsIni, setHomeListeners, dispNotif) {
+    getHomeReviews(getHomeNewsfeedsIni, setHomeListeners, dispNotif);
 }

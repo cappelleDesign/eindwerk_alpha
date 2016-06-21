@@ -11,6 +11,8 @@ fonts
 */
 /*@import url(https://fonts.googleapis.com/css?family=Oswald);*/
 @import "../fonts/play/styles.css";
+@import "contact-styles.css";
+@import "form-styles.css";
 *{
     margin: 0;
 }
@@ -108,7 +110,7 @@ header > form {
     height: 100%;
 }
 #search-form > .form-group {
-    margin-left: 180px;
+    margin-left: 145px;
     width: 750px;
     height: 100%;    
     top: 20%;
@@ -684,13 +686,14 @@ footer {
 }
 .login-panel .panel-heading {
     background-color: #333333;
-    color: #fff;
+    color: #ef4123;
     border-color: #231f20;
 }
 .login-panel .panel-body {
-    background-color: #fff;
+    background-color: #333333;
 }
-.login-panel .login-links {
+.login-panel .login-links, .login-panel .login-links a {
+    color: #fff;
     margin-top: 24px;
 }
 
@@ -829,8 +832,8 @@ footer {
         width: 800px;
     }
     #account-panel {
-        margin-left: 21%;
-        width: 53.5%;
+        margin-left: 14%;
+        width: 60.5%;
         margin-top: 5px;
         height: 27px;
     }    

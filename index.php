@@ -1,4 +1,6 @@
 <?php
+
+require_once 'system/view/phpscripts/PHPMailer-master/PHPMailerAutoload.php';
 define('APPLICATION_PATH', 'application/');
 define('SYSTEM_PATH', 'system/');
 ini_set('display_errors', E_ALL);
@@ -60,5 +62,4 @@ try {
 } catch (Exception $ex) {
     Globals::cleanDump($ex);
 }
-
 ?>

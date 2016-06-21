@@ -5,19 +5,19 @@ $userN = 'No profile';
 if($user){
     $userN = $user->getUsername();
 }
-$iconsNotLoggedIn = '<a href="index.php/account/loginpage" class="">' .
+$iconsNotLoggedIn = '<a href="account/loginpage" class="">' .
         '<i class="fa fa-sign-in fa-fw"></i>' .
         'Log In' .
         '</a>' .
-        '<a href="index.php/account/registerpage" class="">' .
+        '<a href="account/registerpage" class="">' .
         '<i class="fa fa-pencil-square-o fa-fw"></i>' .
         'Register' .
         '</a>';
-$iconsLoggedIn = '<a href="index.php/account/logout" class="">' .
+$iconsLoggedIn = '<a href="account/logout" class="">' .
         '<i class="fa fa-sign-out fa-fw"></i>' .
         'Sign out' .
         '</a>' .
-        '<a href="index.php/account/getNotifications" class="">' .
+        '<a href="account/getNotifications" class="">' .
         '<i class="fa fa-bell fa-fw"><span class="notif-count">1 new</span></i>' . 
         'Notifications' . 
         '</a>';
@@ -38,16 +38,16 @@ $accountHtml = '<a href="#" class="">' .
         <a id="mobile-social-trigger" href="#"><i class="fa fa-heart"></i></a>
         <a id="mobile-profile-trigger" href="#"><i class="fa fa-user"></i></a>
         <a id="mobile-search-trigger" href="#"><i class="fa fa-search"></i></a>
-        <a id="mobile-notification-trigger" href="#"><i class="fa fa-bell"></i></a>
+        <!--<a id="mobile-notification-trigger" href="#"><i class="fa fa-bell"></i></a>-->
     </div>
     <div id="mobile-menu-addon-extended">
         <div id="mobile-addon-content">           
         </div>
         <i class="fa fa-times"></i>
     </div>
-    <div class="logo">
-        <img id="main-logo" src="<?php echo $viewRoot?>/images/design/logoNoBackTest.png" alt="neoludus logo">
-    </div>
+    <a href="index.php" class="logo">
+        <img id="main-logo" src="<?php echo $viewRoot?>/images/design/official.png" alt="neoludus logo">
+    </a>
     <form id="search-form" class="search-form-main" method="POST" action="#">
         <div class="form-group">
             <input type="text" placeholder="search games.." tabindex="1">
@@ -134,7 +134,7 @@ function getLinkHtml($menuItem, $page, $subMenuCount) {
     $subMenu = $menuItem->getSubMenu();
     $subMenuClass = $subMenu ? $subMenuCount : '0';
     $html = '<li class="' . $active . ' submenu-trigger" data-submenu-trigger="' . $subMenuClass . '">';
-    $html .= '<a href="index.php/' . $menuItem->getAction() . '">' . $menuItem->getDescription() . '</a>';
+    $html .= '<a href="' . $menuItem->getAction() . '">' . $menuItem->getDescription() . '</a>';
     if ($subMenu) {
         $html.= '<ul class="menu submenu submenu-' . $subMenuCount . '">';
         $subMenuCount++;

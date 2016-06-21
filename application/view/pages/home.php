@@ -7,6 +7,11 @@
         <title>home</title>
     </head>
     <body> 
+        <div id="home-loader" class="page-loader">
+            <div class="page-loader-content ">
+                <p><i class="fa fa-gear faa-spin animated "></i> NEOLUDUS IS LOADING<span class="faa-burst faa-fast animated"> ...</span><p>
+            </div>
+        </div>
         <div id="wrapper" class="no-js-push">
             <?php
             $page = basename(__FILE__);
@@ -28,7 +33,7 @@
                 <div id="newsfeed-holder">
                     <nav id="newsfeed-nav">
                         <ul class="menu">
-                                    
+
                         </ul>
                     </nav>
                     <div id="newsfeeds">
@@ -44,6 +49,6 @@
         <?php
         $this->includeScripts();
         ?> 
-        <script src="<?php echo Globals::getRoot('view', 'app') ?>/js/homepage-functions.js" type="text/javascript"></script>                
+        <script src="<?php echo Globals::getRoot('view', 'app') ?>/js/homepage-functions.js" type="text/javascript"></script>                   
     </body>
 </html>

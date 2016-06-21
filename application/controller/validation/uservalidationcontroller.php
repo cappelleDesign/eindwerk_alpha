@@ -7,11 +7,10 @@
  * @subpackage validation
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class UserValidationController {
-
-    private $_req = 'is required field.';
+class UserValidationController extends SuperValidator {  
 
     public function __construct() {
+        
     }
 
     /**
@@ -53,30 +52,12 @@ class UserValidationController {
      */
     private function getValidationArrayPw() {
         $validationArray = array(
-            'pwOldState' => array(
-                'errorClass' => '',
-                'errorMessage' => '',
-                'prevVal' => ''
-            ), 'pwNewState' => array(
-                'errorClass' => '',
-                'errorMessage' => '',
-                'prevVal' => ''
-            ), 'pwNewRepeatState' => array(
-                'errorClass' => '',
-                'errorMessage' => '',
-                'prevVal' => ''
-            )
+            'pwOldState' => $this->getBasicArr(),
+            'pwNewState' => $this->getBasicArr(),
+            'pwNewRepeatState' => $this->getBasicArr()
         );
         return $validationArray;
-    }
-
-    private function isHuman($inputFilter, &$result) {
-        if (!empty(trim($inputFilter))) {
-            $result['extraMessage'] = 'It seems like you filled in the are you a robot field..';
-            return false;
-        }
-        return true;
-    }
+    } 
 
     /**
      * validatePwOld
@@ -91,7 +72,7 @@ class UserValidationController {
         $result['pwOldState']['errorMessage'] = '';
         if (!(trim($pwOld))) {
             $result['pwOldState']['errorClass'] = 'has-error';
-            $result['pwOldState']['errorMessage'] = 'Old password ' . $this->_req;
+            $result['pwOldState']['errorMessage'] = 'Old password ' . $this->getRequiredFieldError();
         }
         try {
             $user = $sysAdmin->getByIdentifier($loginName, 'user');
@@ -132,7 +113,7 @@ class UserValidationController {
         $result['pwNewState']['prevVal'] = $pwNew;
         if (!(trim($pwNew))) {
             $result['pwNewState']['errorClass'] = 'has-error';
-            $result['pwNewState']['errorMessage'] = 'Password ' . $this->_req;
+            $result['pwNewState']['errorMessage'] = 'Password ' . $this->getRequiredFieldError();
         } else {
             $uppercase = preg_match('@[A-Z]@', $pwNew);
             $lowercase = preg_match('@[a-z]@', $pwNew);
@@ -161,15 +142,8 @@ class UserValidationController {
      */
     private function getValidationArrayLogin() {
         $validationArray = array(
-            'loginNameState' => array(
-                'errorClass' => '',
-                'errorMessage' => '',
-                'prevVal' => ''
-            ), 'loginPwState' => array(
-                'errorClass' => '',
-                'errorMessage' => '',
-                'prevVal' => ''
-            )
+            'loginNameState' => $this->getBasicArr()
+            , 'loginPwState' => $this->getBasicArr()
         );
         return $validationArray;
     }
@@ -186,7 +160,7 @@ class UserValidationController {
         $result['loginNameState']['prevVal'] = $loginName;
         if (!(trim($loginName))) {
             $result['loginNameState']['errorClass'] = 'has-error';
-            $result['loginNameState']['errorMessage'] = 'Username ' . $this->_req;
+            $result['loginNameState']['errorMessage'] = 'Username ' . $this->getRequiredFieldError();
         }
     }
 
@@ -202,7 +176,7 @@ class UserValidationController {
         $result['loginPwState']['prevVal'] = $loginPw;
         if (!(trim($loginPw))) {
             $result['loginPwState']['errorClass'] = 'has-error';
-            $result['loginPwState']['errorMessage'] = 'Password ' . $this->_req;
+            $result['loginPwState']['errorMessage'] = 'Password ' . $this->getRequiredFieldError();
         }
     }
 
@@ -218,7 +192,7 @@ class UserValidationController {
         try {
             $valid = true;
             $user = $sysAdmin->getByIdentifier($loginName, 'user');
-            if ($user->authenticate($loginPw) === -1) {                
+            if ($user->authenticate($loginPw) === -1) {
                 $valid = false;
             }
         } catch (ServiceException $ex) {

@@ -1,0 +1,104 @@
+.input-clear {
+    position: absolute;
+    right: 5px;
+    top: 31.5px;
+    height: 20px;
+    margin: auto;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ef4123;
+}
+.neo-form {
+    background-color: #333333;
+    color: #ef4123;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.neo-form fieldset legend {
+    color: #ef4123;
+    border-color: #ef4123;
+}
+.neo-form input, .neo-form select, .neo-form option, .neo-form textarea {
+    color: rgba(255,255,255,.8);
+    background-color: #231f20;    
+}
+.neo-form  input:focus,.neo-form select:focus, .neo-form select:focus option,.neo-form textarea:focus  {
+    outline: none;
+    color: rgba(255,255,255,.8);
+    border-color: #ef4123;
+}
+/*place holder styles for header input*/
+.neo-form input::-webkit-input-placeholder,.neo-form textarea::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: rgba(255,255,255,.2);
+    font-variant: small-caps;
+    font-family: 'Play' ,sans-serif;
+    font-size: 18px;
+    line-height: 16px;
+}
+.neo-form input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: rgba(255,255,255,.2);
+    font-variant: small-caps;
+    font-family: 'Play',sans-serif;
+    font-size: 18px;
+    line-height: 26px;
+    opacity: 1;
+}
+.neo-form input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: rgba(255,255,255,.2);
+    font-variant: small-caps;
+    font-family: 'Play',sans-serif;
+    font-size: 18px;
+    line-height: 26px;
+    opacity: 1;
+}
+.neo-form input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba(255,255,255,.2);
+    font-variant: small-caps;
+    font-family: 'Play',sans-serif;
+    font-size: 18px;
+    line-height: 13px;
+}
+.neo-form input:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+    color: rgba(255,255,255,.2);
+    font-variant: small-caps;
+    font-family: 'Play',sans-serif;
+    line-height: 13px;
+}
+.neo-form input, .neo-form textarea, .neo-form select, .neo-form option {
+    outline: none;
+    border: 1px #231f20 solid;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.neo-form .input-group-addon {
+    background-color: #231f20;
+    border-color: #231f20;
+    border-right: 1px solid #333333;    
+}
+.neo-btn, .neo-btn:focus {
+    outline: 0 !important;
+    color: #231f20;
+    background-color: #ef4123;
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+    border-width: 2px;
+}
+.neo-btn:hover {
+    color: #ef4123;
+    background-color: #231f20;
+}
+.neo-btn.submit-disabled {
+    background-color: #333333;
+    color: #231f20;
+    border-color: #231f20;
+}
+@media all and (max-width:1500px) {
+    .input-clear {        
+        font-size: 15px;
+    }
+}

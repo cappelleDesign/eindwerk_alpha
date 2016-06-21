@@ -1,6 +1,7 @@
-function getHomeReviews() {
-    $url = $base + 'index.php/reviews/get/all/3/created/desc/0';
+function getHomeReviews(getHomeNewsfeedsIni, setHomeListeners, dispNotif) {
+    $url = $base + '/reviews/get/all/3/created/desc/0';
     $.get($url, function ($recieve) {
+//        $('#home-loader').addClass('page-loader');
         $data = 'recieve';
         if ($recieve.toLowerCase().indexOf('internal-error') < 0 && $recieve.toLowerCase().indexOf('notice') < 0) {
             if ($recieve.toLowerCase().indexOf('found') > 0){
@@ -13,15 +14,15 @@ function getHomeReviews() {
                 $.each($data, function ($id, $review) {
                     $html += createSliderItem($id, $review);
                 });
-                $('#inf-slider').append($html);
+                $('#inf-slider').html($html);
                 $('.score').knob({
                     'min': 0,
                     'max': 10,
                     'width': 50,
                     'height': 50,
                     'font': 'Sans-serif'
-                });
-                setHomeListeners();
+                });  
+                getHomeNewsfeedsIni(setHomeListeners,dispNotif);
             } catch (e) {
                 //handle error
                 console.log('error: ' + e);
@@ -35,7 +36,7 @@ function createSliderItem($id, $review) {
     $destin = $base + 'reviews/review-specific/' + $review['review_id'];
     $class = $id === 0 ? 'primary-slide' : 'secondary-slide';
     $path = createImgPath($review);
-    $img = $review['review_header_img']['img_url'];
+    $img = $review['review_header_img']['img_url'];    
     $sliderItem = '<div class="slider-item ' + $class + '"'
             + ' data-img-path="games/' + $path + '"'
             + ' data-img-url="' + $img + '">'
@@ -53,21 +54,6 @@ function createSliderItem($id, $review) {
             + ' </div></div>';
     return $sliderItem;
 }
-//<div class="slider-item primary-slide" data - destin = "the destionation page url" data - img - path = "tmpimages" data - img - url = "hitman.jpg" >
-//        < div class = "slider-desc" >
-//        < div class = "mobile-center" >
-//        < p > Hitman review < /p>
-//        < div class = "stars" >
-//        < input type = "text" class = "score" data - readOnly = "true" value = "8" data - fgColor = "#ef4123" data - bgColor = "#231f20" >
-//        < /div>
-//        < /div> 
-//        < /div>
-//        < img class = "jsImg" src = "" alt = "picture of hitman" >
-//        < div class = "slider-more" >
-//        < a href = "#" class = "btn btn-default" > Read more < /a>
-//        < /div>                                
-//        < /div>
-
 function createImgPath($review) {
     $name = cleanPath($review['review_game']['game_name']);
     return $name;

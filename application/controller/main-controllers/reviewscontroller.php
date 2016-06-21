@@ -21,7 +21,7 @@ class ReviewsController extends SuperController {
         $this->internalDirect('review_specific.php');
     }
 
-    public function get($id, $limit = NULL, $orderCol = NULL, $order = NULL, $userRev = NULL, $platform = NULL, $genre = NULL, $minScore = NULL, $maxScore = NULL, $name = NULL) {
+    public function get($id, $limit = NULL, $orderCol = NULL, $order = NULL, $userRev = NULL, $platform = NULL, $genre = NULL, $minScore = NULL, $maxScore = NULL, $name = NULL) {        
         $message = 'No reviews found!';
         $reviews = -1;
         if ($id == 'all') {
