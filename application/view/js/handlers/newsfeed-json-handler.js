@@ -18,7 +18,9 @@ function getHomeNewsfeed(setHomeListeners, dispNotif) {
                 $('#newsfeed-items').append($html);
                 setHomeListeners();
                 setTimeout(function () {
+                    $('body').removeClass('loading');
                     $('#home-loader').removeClass('page-loader');
+                    repaint();
                     dispNotif();
                 }, 500);
             } catch (e) {

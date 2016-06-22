@@ -15,6 +15,21 @@
             <input type="submit" value="MAGIC">
         </form>
         <hr>
+         <form action ="autoInit" method ="POST" enctype="multipart/form-data">
+             <input type="number" id="lorem" name="lorem" value=""><br><br>
+            <label for="headerPicLorem">lorem Header pic:</label><br>
+            <input id="headerPicLorem" name="uploadImg[]" type="file"><br><br>            
+            <label for="gallery1Lorem">Lorem Gallery:</label><br>
+            <input id="gallery1Lorem" name="uploadImg[]" type="file"><br>
+            <input id="gallery2Lorem" name="uploadImg[]" type="file"><br>        
+            <input id="gallery4Lorem" name="uploadImg[]" type="file"><br>
+            <input id="gallery5Lorem" name="uploadImg[]" type="file"><br>
+            <input id="gallery6Lorem" name="uploadImg[]" type="file"><br>
+            <input id="gallery7Lorem" name="uploadImg[]" type="file"><br>
+            <input id="gallery8Lorem" name="uploadImg[]" type="file"><br><br>        
+            <input type="submit" value="MAGIC">
+         </form>
+        <hr>
         <form action ="autoInit" method ="POST" enctype="multipart/form-data">
             <input type="hidden" id="hitmanField" name="hitmanField" value="hitmanField">
             <label for="headerPic">Hitman Header pic:</label><br>

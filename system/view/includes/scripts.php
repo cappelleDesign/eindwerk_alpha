@@ -30,7 +30,12 @@ $viewRoot = Globals::getRoot('view', 'app');
 <script src="<?php echo $viewRoot ?>/js/plugins/slicknav/jquery.slicknav.min.js" type="text/javascript"></script>
 <!--NOTIF-->
 <script src="<?php echo $viewRoot ?>/js/plugins/notif/notify.min.js" type="text/javascript"></script>
+
+<!--UNITE-GALLERY-->
+<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/unitegallery.min.js" type="text/javascript"></script>
+<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/ug-theme-tiles.js" type="text/javascript"></script>
 <!--MAIN JS-->
+<script src="<?php echo $viewRoot ?>/js/handlers/img-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/notif-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/newsfeed-json-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/review-json-handler.js"></script>

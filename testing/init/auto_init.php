@@ -18,9 +18,9 @@ try {
     $service = new MasterService($configs);
     $files = $service->getCleanFilesArray($_FILES['uploadImg']);
 
-
 //    newsfeeds
     if (isset($_POST['newsfeedField'])) {
+        echo 'newsfeed';
         $writer = $service->getByIdentifier('jens_admin', 'user');
         $writerId = $writer->getId();
         $writerName = $writer->getUsername();
@@ -176,6 +176,156 @@ try {
     $tags = array('TES', 'The elder scrolls', 'dragons', 'fantasy', 'action');
     if (isset($_POST['skyField'])) {
         echo 'skyrim';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+
+    $name = 'Lorem 1';
+    $release = '01/01/2016';
+    $officialWebsite = 'https://lorem.com/';
+    $publisher = 'Lorem ipsum';
+    $developer = 'Ipsum';
+    $minPlayersOnline = '2';
+    $maxPlayersOnline = '8';
+    $maxPlayersOffline = '1';
+    $maxPlayersStory = '1';
+    $hasStoryMode = $maxPlayersStory ? '1' : '0';
+    $genres = array('Action-adventure', 'platform');
+    $reviewedOn = 'Playstation 4';
+    $title = 'Lorem ipsum 1';
+    $score = '4';
+    $text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia dui ac nulla rutrum, vel vestibulum ligula tempor. Nulla tempus pretium feugiat. Morbi finibus auctor libero, eget lobortis risus maximus maximus. Duis libero risus, imperdiet at nibh eu, facilisis condimentum tellus. Fusce rutrum sem neque, a tempus enim dictum eget. Proin eget magna vel velit bibendum commodo non nec nisl. Mauris sodales ipsum ut tincidunt elementum. Aliquam fringilla dictum est, non sodales tortor posuere in. Cras finibus tincidunt lobortis. Cras posuere eros at neque dignissim lacinia.';
+    $videoUrl = 'https://www.youtube.com/watch?v=U9bOQNSpjSY';
+    $goods = array('good 1', 'good 2', 'good 3');
+    $bads = array('bad 1', 'bad 2');
+    $tags = array('lorem', 'ipsum', 'dolor', 'sit', 'amet');
+    if (isset($_POST['lorem']) && $_POST['lorem'] == 1) {
+        echo 'lorem 1';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+    $name = 'Lorem 2';
+    $release = '01/02/2016';
+    $title = 'Lorem ipsum 2';
+    $score = '5';
+    if (isset($_POST['lorem']) && $_POST['lorem'] == 2) {
+        echo 'lorem 2';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+    $name = 'Lorem 3';
+    $release = '03/01/2016';
+    $title = 'Lorem ipsum 3';
+    $score = '6';
+    if (isset($_POST['lorem']) && $_POST['lorem'] == 3) {
+        echo 'lorem 3';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+    $name = 'Lorem 4';
+    $release = '01/04/2016';
+    $title = 'Lorem ipsum 4';
+    $score = '7';
+    if (isset($_POST['lorem']) && $_POST['lorem'] == 4) {
+        echo 'lorem 4';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+    $name = 'Lorem 5';
+    $release = '05/01/2016';
+    $title = 'Lorem ipsum 5';
+    $score = '8';
+    if (isset($_POST['lorem']) && $_POST['lorem'] == 5) {
+        echo 'lorem 5';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+    $name = 'Lorem 6';
+    $release = '01/06/2016';
+    $title = 'Lorem ipsum 6';
+    $score = '9';
+    if (isset($_POST['lorem']) && $_POST['lorem'] == 6) {
+        echo 'lorem 6';
+        $extra = $files;
+        $service->add($reviewedOn, 'platform');
+        foreach ($genres as $genre) {
+            $service->add($genre, 'genre', 'descriptions');
+        }
+        foreach ($platforms as $platform) {
+            $service->add($platform, 'platform');
+        }
+
+        $game = new Game($name, $release, $officialWebsite, $publisher, $developer, $minPlayersOnline, $maxPlayersOnline, $maxPlayersOffline, $maxPlayersStory, $hasStoryMode, $genres, $platforms, $formatNoTime);
+        $review = new Review($writer, $game, $reviewedOn, $title, $score, $text, $videoUrl, $nowWithTime, $headerImg, $userScores, $rootComments, $voters, $goods, $bads, $tags, $gallery, $format);
+        $service->add($review, 'review', $extra);
+    }
+    if (isset($_POST['lorem']) && $_POST['lorem'] > 6) {
+        $num = $_POST['lorem'];
+        echo 'lorem ' . $num;
+        $name = 'Lorem ' . $num;
+        $release = '21/10/2015';
+        $title = 'Rev Lorem ' . $num;
+        $score = rand(0, 10);
         $extra = $files;
         $service->add($reviewedOn, 'platform');
         foreach ($genres as $genre) {

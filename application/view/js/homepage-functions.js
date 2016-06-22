@@ -1,5 +1,6 @@
 $(homeInit);
 function homeInit() {
+    $(document.body).mCustomScrollbar("destroy");
     getHomePageObjects(getHomeNewsfeedsIni, setHomeListeners, dispNotif);
 }
 
@@ -38,15 +39,11 @@ function setPrevAndNext() {
     $('.slider-left, .slider-right').stop().fadeIn('fast');
 }
 function setCorrectSliderPics() {
-    $.getScript($viewRoot + '/js/handlers/img-handler.js', function () {
-        setSliderPics();
-        fireSlider();
-    });
+    setSliderPics();
+    fireSlider();
 }
 function setCorrectNewsfeedPics() {
-    $.getScript($viewRoot + '/js/handlers/img-handler.js', function () {
-        setNewsfeedPics();
-    });
+    setNewsfeedPics();
 }
 function fireSlider() {
     if (!$('.slick-slider').length) {

@@ -14,12 +14,12 @@ function setFormListeners() {
 //                $('#formSubmit').click();
             }
         }
-    });    
-    $('.neo-form #formSubmit').on('click', function(e) {
-       $destin = $(this).parent().attr('action');
-       $postVals =  $(this).parent().serialize();       
+    });
+    $('.neo-form #formSubmit').on('click', function (e) {        
+        $destin = $(this).parent().parent().attr('action');
+        $postVals = $(this).parent().parent().serialize();
         sendForm($destin, $postVals);
-       
+
     });
     $('.validation').on('keyup input', function () {
         $hasAddon = $type = $(this).data('addon');
@@ -44,21 +44,21 @@ function triggerFormSubmit($formId) {
     $isValid = true;
     $validated = $('#' + $formId).children().children().children('.validation');
     $validated.each(function ($i, $el) {
-        $validationResult = validateField($($el).attr('id'), $($el).data('validation'));        
+        $validationResult = validateField($($el).attr('id'), $($el).data('validation'));
         if ($validationResult !== true) {
             $isValid = $validationResult;
         }
     });
     $formBtn = $('#' + $formId + ' #formSubmit');
     if ($isValid === true) {
-        $formBtn.prop('disabled', false);    
-        $('.submit-disabled').prop('title','');
+        $formBtn.prop('disabled', false);
+        $('.submit-disabled').prop('title', '');
         $formBtn.removeClass('submit-disabled');
-        
+
     } else {
         $formBtn.prop('disabled', true);
         $formBtn.addClass('submit-disabled');
-        $('.submit-disabled').prop('title','Fill in the form first');
+        $('.submit-disabled').prop('title', 'Fill in the form first');
     }
 }
 

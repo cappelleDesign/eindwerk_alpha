@@ -71,6 +71,10 @@ $design = $viewRoot . '/images/design';
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 <link href="<?php echo $viewRoot ?>/fonts/font-awesome-4.5.0/css/font-awesome-animations.css" rel="stylesheet" type="text/css"/>
 
+<!--UNITE-GALLERY-->
+<link href="<?php echo $viewRoot ?>/js/plugins/unite-gallery/unite-gallery.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $viewRoot ?>/js/plugins/unite-gallery/ug-theme-default.css" rel="stylesheet" type="text/css"/>
+
 <!--MAIN MARKUP-->
 <link href="<?php echo $viewRoot ?>/css/loader-styles.css" rel="stylesheet">
 <link href="<?php echo $viewRoot ?>/css/mainstyles.css" rel="stylesheet">

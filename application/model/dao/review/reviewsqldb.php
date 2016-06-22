@@ -127,7 +127,7 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
             ':score' => $review->getScore(),
             ':txt' => $review->getText(),
             ':vidUrl' => $review->getVideoUrl(),
-            ':created' => $review->getCreatedStr(Globals::getDateTimeFormat('mysql', FALSE)),
+            ':created' => $review->getCreatedStr(Globals::getDateTimeFormat('mysql', true)),
             ':isUser' => $review->getIsUserReview()
         );
         $statement->execute($queryArgs);
@@ -476,14 +476,18 @@ class ReviewSqlDB extends SqlSuper implements ReviewDao {
      * @return string
      */
     private function buildLimitQuery($limitOptions, &$queryArgs) {
+        $limit = '';
         if ($limitOptions && !empty($limitOptions)) {
             if ($limitOptions['limit']) {
                 $queryArgs[':limit'] = $limitOptions['limit'];
                 $limit = ' LIMIT :limit';
             }
-            return $limit;
+            if (isset($limitOptions['offset']) && $limitOptions['offset']) {
+                $queryArgs[':offset'] = $limitOptions['offset'];
+                $limit .= ' OFFSET :offset';
+            }
         }
-        return '';
+        return $limit;
     }
 
     /**

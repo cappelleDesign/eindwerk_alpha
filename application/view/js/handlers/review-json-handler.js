@@ -1,7 +1,6 @@
 function getHomeReviews(getHomeNewsfeedsIni, setHomeListeners, dispNotif) {
     $url = $base + '/reviews/get/all/3/created/desc/0';
-    $.get($url, function ($recieve) {
-//        $('#home-loader').addClass('page-loader');
+    $.get($url, function ($recieve) {        
         $data = 'recieve';
         if ($recieve.toLowerCase().indexOf('internal-error') < 0 && $recieve.toLowerCase().indexOf('notice') < 0) {
             if ($recieve.toLowerCase().indexOf('found') > 0){
@@ -33,7 +32,7 @@ function getHomeReviews(getHomeNewsfeedsIni, setHomeListeners, dispNotif) {
     });
 }
 function createSliderItem($id, $review) {
-    $destin = $base + 'reviews/review-specific/' + $review['review_id'];
+    $destin = $base + 'reviews/detailed/' + $review['review_id'];
     $class = $id === 0 ? 'primary-slide' : 'secondary-slide';
     $path = createImgPath($review);
     $img = $review['review_header_img']['img_url'];    

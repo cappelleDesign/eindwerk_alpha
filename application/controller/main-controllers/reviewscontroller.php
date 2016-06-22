@@ -12,7 +12,7 @@ class ReviewsController extends SuperController {
         $this->internalDirect('reviews.php');
     }
 
-    public function reviewSpecific($reviewId) {
+    public function detailed($reviewId) {
         if (is_numeric($reviewId)) {
             $_POST['rev_id'] = file_get_contents($this->getBase() . 'reviews/get/' . $reviewId);
         } else {
@@ -21,15 +21,15 @@ class ReviewsController extends SuperController {
         $this->internalDirect('review_specific.php');
     }
 
-    public function get($id, $limit = NULL, $orderCol = NULL, $order = NULL, $userRev = NULL, $platform = NULL, $genre = NULL, $minScore = NULL, $maxScore = NULL, $name = NULL) {        
+    public function get($id, $limit = NULL, $orderCol = NULL, $order = NULL, $userRev = NULL, $offset = NULL, $platform = NULL, $genre = NULL, $minScore = NULL, $maxScore = NULL, $name = NULL) {
         $message = 'No reviews found!';
         $reviews = -1;
         if ($id == 'all') {
-            $options = $this->buildOptionsArr($limit, $orderCol, $order, $userRev, $platform, $genre, $minScore, $maxScore, $name);
+            $options = $this->buildOptionsArr($limit, $orderCol, $order, $userRev, $offset, $platform, $genre, $minScore, $maxScore, $name);
             $reviews = $this->getService()->getAll('review', $options);
         } else if (is_numeric($id)) {
             $reviews = array($this->getService()->get($id, 'review'));
-        }        
+        }
         if ($reviews !== -1) {
             echo $this->getJson($reviews);
         } else {
@@ -37,7 +37,7 @@ class ReviewsController extends SuperController {
         }
     }
 
-    private function buildOptionsArr($limit = NULL, $orderCol = NULL, $order = NULL, $userRev = NULL, $platform = NULL, $genre = NULL, $minScore = NULL, $maxScore = NULL, $name = NULL) {
+    private function buildOptionsArr($limit = NULL, $orderCol = NULL, $order = NULL, $userRev = NULL, $offset = NULL, $platform = NULL, $genre = NULL, $minScore = NULL, $maxScore = NULL, $name = NULL) {
         $orderCols = array(
             'title',
             'score',
@@ -80,6 +80,9 @@ class ReviewsController extends SuperController {
         }
         if ($limit) {
             $options['limitOptions']['limit'] = $limit;
+        }
+        if ($offset) {
+            $options['limitOptions']['offset'] = $offset;
         }
         return $options;
     }

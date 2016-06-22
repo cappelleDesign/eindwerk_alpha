@@ -6,7 +6,7 @@
         ?>
         <title>home</title>
     </head>
-    <body> 
+    <body class="loading"> 
         <div id="home-loader" class="page-loader">
             <div class="page-loader-content ">
                 <p><i class="fa fa-gear faa-spin animated "></i> NEOLUDUS IS LOADING<span class="faa-burst faa-fast animated"> ...</span><p>
