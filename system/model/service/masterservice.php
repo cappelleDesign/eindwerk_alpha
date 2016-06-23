@@ -535,8 +535,7 @@ class MasterService {
         }
     }
 
-    public function updateUser(UserSimple $user, $type, $param1 = '', $param2 = '') {
-        Globals::cleanDump($type);
+    public function updateUser(UserSimple $user, $type, $param1 = '', $param2 = '') {        
         switch ($type) {
             case 'pw':
                 $this->getUserService()->updatePw($user, $param1, $param2);
@@ -544,8 +543,7 @@ class MasterService {
             case 'userRole':
                 $this->getUserService()->updateUserUserRole($user, $param1);
                 return $user;
-            case 'avatar':
-                Globals::cleanDump($param1);
+            case 'avatar':                
                 $this->getUserService()->updateUserAvatar($user, $param1);
                 return $user;
             case 'donated':

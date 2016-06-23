@@ -26,34 +26,34 @@ try {
         $writerName = $writer->getUsername();
         $image = NULL;
         $subject = 'Launch';
-        $body = '&lt;li&gt;&lt;p&gt;The Neoludus website will be launching soon!&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;The first reviews are being made&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;Podcasts will follow soon&lt;&sol;p&gt;&lt;&sol;li&gt;';
+        $body = '&lt;li&gt;&lt;p&gt;The Neoludus website will be launching soon!&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;The first reviews are being made&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Podcasts will follow soon&lt;/p&gt;&lt;/li&gt;';
         $created = $nowWithTime;
         $dateFormat = $format;
         $newsfeed = new NewsfeedItem($writerId, $writerName, $image, $subject, $body, $created, $dateFormat);
         $service->add($newsfeed, 'newsfeed', $files[0]);
 
         $subject = 'First review';
-        $body = '&lt;li&gt;&lt;p&gt;The first review will be about Darksouls&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;The Darksouls 3 review is almost ready&lt;&sol;p&gt;&lt;&sol;li&gt;';
+        $body = '&lt;li&gt;&lt;p&gt;The first review will be about Darksouls&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;The Darksouls 3 review is almost ready&lt;/p&gt;&lt;/li&gt;';
         $created = $nowWithTime;
         $newsfeed = new NewsfeedItem($writerId, $writerName, $image, $subject, $body, $created, $dateFormat);
         $service->add($newsfeed, 'newsfeed', $files[1]);
 //        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est, eos, fugit enim rerum ipsa quae ut a odit unde error corrupti dolorem eius ipsum amet aut saepe perferendis necessitatibus provident .
         $subject = 'Newsfeed long';
-        $body = '&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit.&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;Est, eos, fugit enim rerum ipsa quae ut a odit unde error corrupti dolorem eius ipsum amet aut saepe perferendis necessitatibus provident .&lt;&sol;p&gt;&lt;&sol;li&gt;';
+        $body = '&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Est, eos, fugit enim rerum ipsa quae ut a odit unde error corrupti dolorem eius ipsum amet aut saepe perferendis necessitatibus provident .&lt;/p&gt;&lt;/li&gt;';
         $created = $nowWithTime;
         $dateFormat = $format;
         $newsfeed = new NewsfeedItem($writerId, $writerName, $image, $subject, $body, $created, $dateFormat);
         $service->add($newsfeed, 'newsfeed', $files[2]);
 
         $subject = 'Newsfeed short';
-        $body = '&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;&sol;p&gt;&lt;&sol;li&gt;';
+        $body = '&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/li&gt;';
         $created = $nowWithTime;
         $dateFormat = $format;
         $newsfeed = new NewsfeedItem($writerId, $writerName, $image, $subject, $body, $created, $dateFormat);
         $service->add($newsfeed, 'newsfeed', $files[3]);
 
         $subject = 'Newsfeed Medium';
-        $body = '&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;&sol;p&gt;&lt;&sol;li&gt;&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;&sol;p&gt;&lt;&sol;li&gt;';
+        $body = '&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/li&gt;';
         $created = $nowWithTime;
         $dateFormat = $format;
         $newsfeed = new NewsfeedItem($writerId, $writerName, $image, $subject, $body, $created, $dateFormat);

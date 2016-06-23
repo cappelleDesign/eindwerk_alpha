@@ -33,14 +33,15 @@ $viewRoot = Globals::getRoot('view', 'app');
 
 <!--UNITE-GALLERY-->
 <script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/unitegallery.min.js" type="text/javascript"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/ug-theme-tiles.js" type="text/javascript"></script>
+<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/ug-theme-tilesgrid.js" type="text/javascript"></script>
 <!--MAIN JS-->
 <script src="<?php echo $viewRoot ?>/js/handlers/img-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/notif-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/newsfeed-json-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/review-json-handler.js"></script>
-<script src="<?php echo $viewRoot ?>/js/handlers/form-json-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/main.js"></script>
+<script src="<?php echo $viewRoot ?>/js/homepage-functions.js" type="text/javascript"></script>   
+<script src="<?php echo $viewRoot ?>/js/review-functions.js" type="text/javascript"></script>   
 <script src="<?php echo $viewRoot ?>/js/form-functions.js"></script>
 
 

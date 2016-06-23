@@ -31,3 +31,9 @@
 .loading {
     overflow: hidden;
 }
+
+#review-more-load{
+    font-size: 20px;
+    text-align: center;
+    color: #ef4123;    
+}

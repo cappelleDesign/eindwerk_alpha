@@ -16,6 +16,11 @@ function setListeners() {
     $(window).resize(function () {
         repaint();
     });
+    (function ($) {
+        $.fn.hasScrollBar = function () {
+            return this.get(0).scrollHeight > this.height();
+        };
+    })(jQuery);
     $('header > form > .form-group > input').on({
         keyup: function (e) {
             if (e.which === 13) {
@@ -231,7 +236,7 @@ function mobileMenuAddonStyleTrigger($id) {
 }
 function mobileMenuAddonHideAll($forced) {
     mobileMenuAddonStyleTrigger('none');
-    if ($forced) {        
+    if ($forced) {
         $('#mobile-menu-addon-extended').hide('slide', {'direction': 'left'}, 'fast', function () {
             $('#mobile-menu-addon-extended').css({
                 position: 'fixed'

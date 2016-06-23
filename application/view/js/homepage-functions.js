@@ -1,7 +1,13 @@
-$(homeInit);
-function homeInit() {
-    $(document.body).mCustomScrollbar("destroy");
-    getHomePageObjects(getHomeNewsfeedsIni, setHomeListeners, dispNotif);
+function homeInit() {    
+    setHomeListeners();
+    $('.score').knob({
+        'min': 0,
+        'max': 10,
+        'width': 50,
+        'height': 50,
+        'font': 'Sans-serif'
+    });
+    dispNotif();
 }
 
 function setHomeListeners() {
@@ -59,10 +65,4 @@ function fireSlider() {
         });
         setPrevAndNext();
     }
-}
-function getHomeNewsfeedsIni(setHomeListeners, dispNotif) {
-    getHomeNewsfeed(setHomeListeners, dispNotif);
-}
-function getHomePageObjects(getHomeNewsfeedsIni, setHomeListeners, dispNotif) {
-    getHomeReviews(getHomeNewsfeedsIni, setHomeListeners, dispNotif);
 }

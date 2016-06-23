@@ -432,6 +432,8 @@ main {
     text-align: right;
     color: white;    
     font-family: 'Play', sans-serif;
+    border-bottom-left-radius: 5px;        
+    
 }
 #inf-slider  div .slider-desc p {   
     padding-top: 10px;
@@ -479,7 +481,7 @@ main {
     margin-left: 5px;
 }
 .stars input {
-    font-size: 18px !important;
+    font-size: 14px !important;
     line-height: 19px !important;
     width: 28px !important;
 }

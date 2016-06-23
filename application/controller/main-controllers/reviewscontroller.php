@@ -9,6 +9,8 @@ class ReviewsController extends SuperController {
     }
 
     public function index() {
+        $reviewsJson = file_get_contents($this->getBase() . '/reviews/get/all/9/created/desc/0');        
+        $_POST['reviews'] = $reviewsJson;
         $this->internalDirect('reviews.php');
     }
 

@@ -87,4 +87,5 @@ $design = $viewRoot . '/images/design';
     $viewRoot = '<?php echo Globals::getRoot('view', 'app') ?>';
     $viewRootServer = '<?php echo Globals::getRoot('view', 'app', true) ?>';
     $base = '<?php echo Globals::getBasePath(); ?>';
+    $imgRoot = '<?php echo Globals::getRoot('img','app');?>';
 </script>

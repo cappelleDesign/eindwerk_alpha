@@ -7,8 +7,10 @@ class HomeController extends SuperController {
     }
 
     public function index() {        
-        $jsonS = file_get_contents($this->getBase() . '/reviews/get');        
-        $_POST['reviews'] = $jsonS;
+        $reviewsJson = file_get_contents($this->getBase() . '/reviews/get/all/3/created/desc/0');        
+        $_POST['reviews'] = $reviewsJson;
+        $newsfeedJson = file_get_contents($this->getBase() . '/newsfeeds/get/all/6');
+        $_POST['newsfeed'] = $newsfeedJson;
         $this->direct('home.php');
     }
 
