@@ -9,16 +9,14 @@ class ReviewsController extends SuperController {
     }
 
     public function index() {
-        $reviewsJson = file_get_contents($this->getBase() . '/reviews/get/all/9/created/desc/0');        
-        $_POST['reviews'] = $reviewsJson;
         $this->internalDirect('reviews.php');
     }
 
     public function detailed($reviewId) {
         if (is_numeric($reviewId)) {
-            $_POST['rev_id'] = file_get_contents($this->getBase() . 'reviews/get/' . $reviewId);
+            $_POST['review'] = file_get_contents($this->getBase() . 'reviews/get/' . $reviewId);
         } else {
-            $_POST['rev_id'] = 'NAN';
+            $_POST['review'] = 'NAN';
         }
         $this->internalDirect('review_specific.php');
     }
@@ -36,6 +34,24 @@ class ReviewsController extends SuperController {
             echo $this->getJson($reviews);
         } else {
             echo $message;
+        }
+    }
+
+    public function handleUserScore() {
+        if (isset($_POST['revId']) && isset($_POST['userId']) && isset($_POST['userScore'])) {
+            $revId = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'revId'));
+            $userId = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'userId'));
+            $score = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'userScore'));
+            $avg = '';
+            try {
+                $avg = $this->getService()->addToReview('userScore', $revId, $userId, $score);
+            } catch (Exception $ex) {
+                $avg = 'internal-error';
+                ErrorLogger::logError($ex);
+            }
+            echo $avg;
+        } else {
+            echo 'internal-error';
         }
     }
 

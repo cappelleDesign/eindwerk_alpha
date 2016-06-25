@@ -342,8 +342,12 @@ class Review extends VoteFuncionalityObject implements DaoObject {
      */
     public function getAverageUserScore() {
         $sum = array_sum(array_values($this->getUserScores()));
+        if($sum){
         $length = count($this->getUserScores());
         $avg = $sum / $length;
+        }else {
+            $avg = -1;
+        }
         return $avg;
     }
 
@@ -477,6 +481,7 @@ class Review extends VoteFuncionalityObject implements DaoObject {
         $jsonObj['review_tags'] = $this->getTags();
         $jsonObj['review_gallery'] = $this->getGallery();
         $jsonObj['review_is_user_review'] = $this->getIsUserReview();
+        $jsonObj['review_avg'] = $this->getAverageUserScore();
         return $jsonObj;
     }
 

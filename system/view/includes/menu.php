@@ -5,7 +5,7 @@ $userN = 'No profile';
 if($user){
     $userN = $user->getUsername();
 }
-$iconsNotLoggedIn = '<a href="account/loginpage" class="">' .
+$iconsNotLoggedIn = '<a id="login-main" href="account/loginpage" class="">' .
         '<i class="fa fa-sign-in fa-fw"></i>' .
         'Log In' .
         '</a>' .
@@ -132,8 +132,9 @@ $accountHtml = '<a href="#" class="">' .
 function getLinkHtml($menuItem, $page, $subMenuCount) {
     $active = $page === $menuItem->getPageName() ? 'active' : '';
     $subMenu = $menuItem->getSubMenu();
-    $subMenuClass = $subMenu ? $subMenuCount : '0';
-    $html = '<li class="' . $active . ' submenu-trigger" data-submenu-trigger="' . $subMenuClass . '">';
+    $subMenuClass = $subMenu ? 'submenu-trigger' : '';
+    $triggerData = $subMenu ? $subMenuCount : '0';
+    $html = '<li class="' . $active . ' '.$subMenuClass.'" data-submenu-trigger="' .$triggerData. '">';
     $html .= '<a href="' . $menuItem->getAction() . '">' . $menuItem->getDescription() . '</a>';
     if ($subMenu) {
         $html.= '<ul class="menu submenu submenu-' . $subMenuCount . '">';

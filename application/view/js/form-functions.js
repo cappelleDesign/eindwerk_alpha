@@ -15,12 +15,6 @@ function setFormListeners() {
             }
         }
     });
-    $('.neo-form #formSubmit').on('click', function (e) {        
-        $destin = $(this).parent().parent().attr('action');
-        $postVals = $(this).parent().parent().serialize();
-        sendForm($destin, $postVals);
-
-    });
     $('.validation').on('keyup input', function () {
         $hasAddon = $type = $(this).data('addon');
         $addIcon = true;

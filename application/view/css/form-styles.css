@@ -79,7 +79,8 @@
     border-color: #231f20;
     border-right: 1px solid #333333;    
 }
-.neo-btn, .neo-btn:focus {
+.neo-btn, .neo-btn.neo-btn-inversed:hover{
+    display: block;
     outline: 0 !important;
     color: #231f20;
     background-color: #ef4123;
@@ -88,11 +89,11 @@
     text-transform: uppercase;
     border-width: 2px;
 }
-.neo-btn:hover {
+.neo-btn:hover, .neo-btn-inversed {
     color: #ef4123;
     background-color: #231f20;
 }
-.neo-btn.submit-disabled {
+.neo-btn.submit-disabled, .neo-btn.disabled {
     background-color: #333333;
     color: #231f20;
     border-color: #231f20;

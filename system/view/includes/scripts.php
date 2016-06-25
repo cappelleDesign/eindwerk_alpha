@@ -32,8 +32,12 @@ $viewRoot = Globals::getRoot('view', 'app');
 <script src="<?php echo $viewRoot ?>/js/plugins/notif/notify.min.js" type="text/javascript"></script>
 
 <!--UNITE-GALLERY-->
-<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/unitegallery.min.js" type="text/javascript"></script>
-<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/ug-theme-tilesgrid.js" type="text/javascript"></script>
+<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/js/unitegallery.min.js" type="text/javascript"></script>
+<script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/themes/tilesgrid/ug-theme-tilesgrid.js" type="text/javascript"></script>
+
+<!--LIGHTBOX2-->
+<script src="<?php echo $viewRoot ?>/js/plugins/lightbox2/js/lightbox.min.js" type="text/javascript"></script>
+
 <!--MAIN JS-->
 <script src="<?php echo $viewRoot ?>/js/handlers/img-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/notif-handler.js"></script>
@@ -42,6 +46,7 @@ $viewRoot = Globals::getRoot('view', 'app');
 <script src="<?php echo $viewRoot ?>/js/main.js"></script>
 <script src="<?php echo $viewRoot ?>/js/homepage-functions.js" type="text/javascript"></script>   
 <script src="<?php echo $viewRoot ?>/js/review-functions.js" type="text/javascript"></script>   
+<script src="<?php echo $viewRoot ?>/js/video-functions.js" type="text/javascript"></script>   
 <script src="<?php echo $viewRoot ?>/js/form-functions.js"></script>
 
 

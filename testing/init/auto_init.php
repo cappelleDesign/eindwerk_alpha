@@ -16,8 +16,7 @@ try {
     $obj = '';
     $configs = getConfigs();
     $service = new MasterService($configs);
-    $files = $service->getCleanFilesArray($_FILES['uploadImg']);
-
+    $files = $service->getCleanFilesArray($_FILES['uploadImg']);    
 //    newsfeeds
     if (isset($_POST['newsfeedField'])) {
         echo 'newsfeed';

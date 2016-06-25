@@ -87,7 +87,7 @@ if ($formData) {
                             </div>
                         </fieldset>  
                         <span class="row" style="margin: 0;">                            
-                            <button disabled type="button" id="formSubmit" 
+                            <button disabled type="submit" id="formSubmit" 
                                     class="btn neo-btn submit-disabled col-xs-4 col-xs-offset-8"
                                     data-toggle="contact-submit-tooltip" data-placement="bottom" title="Fill in the form first!">
                                 Send

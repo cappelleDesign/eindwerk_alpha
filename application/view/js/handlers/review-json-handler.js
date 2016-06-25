@@ -49,12 +49,19 @@ function createRevOverview($recieve, $offset) {
     return $html;
 }
 
-//< div id = "reviews-gallery-pt1" class = "rev-overview" style = "display: none;" data - offset = "1" >
-//        < a href = "reviews/detailed/1" data - score = "8" >
-//        < img
-//        src = "<?php echo $imgRoot ?>Fallout_4/Fallout_4.png"
-//        alt = "Fallout 4"
-//data - image = "<?php echo $imgRoot ?>Fallout_4/Fallout_4.png"
-//        data - description = "Fallout 4 <span class='scores'> [ 8/10 ] </span>" >
-//        < /a>
-
+function sendUserScore() {
+    $input = $('#user-score-set');
+    $revId = $input.data('review-id');
+    $userId = $input.data('user-id');
+    $score = $input.val();
+    $url = $base + 'reviews/handle-user-score';
+    $.post($url, {revId: $revId, userId: $userId, userScore: $score}, function ($recieve) {        
+        if ($recieve.toLowerCase().indexOf('internal-error') < 0 && $recieve.toLowerCase().indexOf('notice') < 0) {
+            $('#avg-score .user-avg').html($recieve);
+            notifShowNow('Your score was successfully send!', 'success');
+            
+        } else {
+            notifShowNow('Something went wrong, your user score was not submited', 'error');
+        }
+    });
+}

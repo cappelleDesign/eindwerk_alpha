@@ -3,19 +3,19 @@
 class AccountController extends SuperController {
 
     private $_subFolder;
-    
+
     public function __construct() {
         parent::__construct('account/');
-     
     }
-    
+
     public function index() {
         $this->internalDirect('account.php');
     }
 
     public function loginPage($isJson) {
         if ($isJson && $isJson === 'true') {
-            Globals::cleanDump('json enabled');
+//            Globals::cleanDump('json enabled');
+            $this->internalDirect('account.php');
         } else {
             $this->internalDirect('account.php');
         }
@@ -58,7 +58,12 @@ class AccountController extends SuperController {
             }
             $this->getSessionController()->setSessionAttr('current_user', $user);
             $this->getSessionController()->updateUserActivity();
-            $this->redirect('account');
+            if (isset($_COOKIE['last_page']) && $_COOKIE['last_page']) {
+                $cookie = filter_input(INPUT_COOKIE, 'last_page');                
+                header('Location:' . $cookie);
+            } else {
+                $this->redirect('account');
+            }
         }
     }
 

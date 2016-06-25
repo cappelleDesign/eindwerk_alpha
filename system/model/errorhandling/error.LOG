@@ -1,0 +1,8 @@
+[24-06-2016 18:25:43]
+'INSERT INTO soufitq169_neoludus.review_user_scores (review_id, user_id, score) VALUES (:revId, :userId, :score)'
+[24-06-2016 18:25:43]
+'rev: 10,us: ,sc: 5'
+[24-06-2016 18:29:50]
+'INSERT INTO soufitq169_neoludus.review_user_scores (review_id, user_id, score) VALUES (:revId, :userId, :score)'
+[24-06-2016 18:29:50]
+'rev: 10,us: ,sc: 5'

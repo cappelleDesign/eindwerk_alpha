@@ -490,7 +490,8 @@ class MasterService {
         }
     }
 
-    public function addToReview($type, Review $review, $param1, $param2 = NULL) {
+    public function addToReview($type, $reviewId, $param1, $param2 = NULL) {
+        $review = $this->get($reviewId, 'review');
         switch ($type) {
             case 'gallery':
                 $img = $this->addImgtoReview('gallerySingle', $review, $param1);
@@ -505,12 +506,13 @@ class MasterService {
             case 'tag':
                 $this->getReviewService()->addTag($review->getId(), $param1);
                 return;
-            case 'rootComment':
+            case 'rootComment':                
                 $this->getReviewService()->addRootComment($review, $param1);
                 return;
             case 'userScore':
-                $this->getReviewService()->addUserScore($review->getId(), $param1, $param2);
-                return;
+                $this->getReviewService()->addUserScore($review->getId(), $param1, $param2);                
+                $review->addUserScore($param1, $param2);
+                return $review->getAverageUserScore();
             case 'gameGenre':
                 $this->getReviewService()->addGenreToGame($review->getGame()->getId(), $param1);
                 return;

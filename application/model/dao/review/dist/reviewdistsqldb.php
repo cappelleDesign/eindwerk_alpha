@@ -67,6 +67,8 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
             $query = 'INSERT INTO ' . $t;
             $query .= ' (review_id, user_id, score)';
             $query .= ' VALUES (:revId, :userId, :score)';
+            ErrorLogger::logError($query);
+            ErrorLogger::logError('rev: ' . $reviewId . ',us: ' . ',sc: ' . $userScore);
             $statement = parent::prepareStatement($query);
             $queryArgs = array(
                 ':revId' => $reviewId,
@@ -355,7 +357,7 @@ class ReviewDistSqlDB extends SqlSuper implements ReviewDistDao {
     public function getGalleryIds($reviewId) {
         $t = $this->_imgT;
         $query = 'SELECT images_image_id FROM ' . $t;
-        $query .= ' WHERE reviews_review_id = ?';
+        $query .= ' WHERE reviews_review_id = ? AND headerpic = 0';
         $statement = parent::prepareStatement($query);
         $statement->bindParam(1, $reviewId);
         $statement->execute();

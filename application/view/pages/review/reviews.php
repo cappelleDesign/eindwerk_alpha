@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php
-        $reviews = $_POST['reviews'];
-        $reviews = json_decode($reviews);
+        <?php      
         $this->includeHeader();
         $imgRoot = Globals::getRoot('img', 'app') . 'games/';
         ?>                 

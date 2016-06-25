@@ -243,4 +243,16 @@ class Globals {
         return true;
     }
 
+    static function getImagePhpUrl($h, $w, $path, $img) {
+        $imgRoot = Globals::getRoot('img', 'app') . '/';
+        $scriptRoot = Globals::getRoot('view', 'sys') . '/phpscripts/image.php/';
+        $fullPath = $path . $img;
+        $crop = $w . ':' . $h;
+        $og = array('parImg', 'parW', 'parH', 'parCrop', 'par-img-path');
+        $repl = array($img, $w, $h, $crop, $fullPath);
+        $srcOg = $scriptRoot . 'parImg?width=parW&AMP;height=parH&AMP;cropratio=parCrop&AMP;image=/' . 'par-img-path';
+        $src = str_replace($og, $repl, $srcOg);
+        return $src;
+    }
+
 }

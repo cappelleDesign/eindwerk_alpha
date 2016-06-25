@@ -13,7 +13,7 @@
         ?>
         <title>home</title>
     </head>
-    <body class="loading">        
+    <body>        
         <div id="wrapper" class="no-js-push">
             <?php
             $page = basename(__FILE__);

@@ -13,6 +13,11 @@ function init() {
     repaint();
 }
 function setListeners() {
+    $('#login-main').on('click', function () {
+        $url = window.location.href;
+        Cookies.set('last_page', $url);
+    });
+    $('[data-toggle="tooltip"]').tooltip();
     $(window).resize(function () {
         repaint();
     });
@@ -84,6 +89,9 @@ function setListeners() {
                 triggerSubMenu($(this).parent(), true);
             }
         },
+//        click: function(e) {
+//            e.preventDefault();
+//        },
         focusout: function () {
             triggerSubMenu($(this).parent(), false);
         }
@@ -262,7 +270,7 @@ function triggerMobileProfile() {
     $('#mobile-addon-content').addClass('profile');
     $loggedOn = $('#account-panel').data('logged-on');
     $logout = '<a class="solo" href="account/logout/true"><i class="fa fa-sign-out fa-fw"></i><p>Sign out</p></a>';
-    $login = '<a href="account/loginPage/true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
+    $login = '<a id="login-main" href="account/loginPage/true"><i class="fa fa-sign-in fa-fw"></i><p>Login</p></a>';
     $register = '<a href="account/register/true"><i class="fa fa-pencil-square-o fa-fw"></i><p>Register</p></a>';
     if ($loggedOn === false) {
         $html = $login + $register;

@@ -28,13 +28,18 @@ class ContactController extends SuperController {
             if (!$send) {
                 $validation['extraMessage'] = 'Could not send the email.';
                 $feedback = $validation;
+                
             }
-        }            
-        if ($feedback) {
-            echo $this->getJson($feedback);
+        }             
+        if ($feedback) {        
+            $_POST['contact-feedback'] = $feedback;
+            $this->internalDirect('contact.php');
             return;
         }
-        echo 'success';
+        setcookie('notifSucc','Mail successfully send!' , 0, '/');
+        $this->redirect('home');
+        
+        
         
 //        $_POST['contact-feedback'] = $feedback;
 //        $this->internalDirect('contact.php');

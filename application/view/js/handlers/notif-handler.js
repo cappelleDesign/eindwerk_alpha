@@ -2,11 +2,16 @@ function dispNotif() {
     $suc = Cookies.get('notifSucc');
     $err = Cookies.get('notifErr');
     if ($suc) {
-        $.notify($suc, {position: 'right bottom', className: 'success'});
+        $suc = $suc.replace(/[+]/g, ' ');
+        notifShowNow($suc, 'success');
         Cookies.remove('notifSucc');
     }
     if ($err) {
-        $.notify($err, {position: 'right bottom', className: 'error'});
+        notifShowNow($err, 'error');
         Cookies.remove('notifErr');
     }
+}
+
+function notifShowNow($txt, $type) {
+    $.notify($txt, {position: 'right bottom', className: $type});
 }
