@@ -1,4 +1,6 @@
+var noMcS = true;
 var twitchPlayer;
+var playListId;
 function liveInit() {
     getStream();
     $(window).resize(function () {
@@ -7,11 +9,61 @@ function liveInit() {
 }
 
 function letsPlayInit() {
+    playListId = 'PLy3mMHt2i7RKd4pf3eUDSOuJYuTA--YIL';
+//    playListId = 'PLy3mMHt2i7RKpHRvK8bKuKWHh2kn33brm';
+    $(window).resize(function () {
+        letsPlayRepaint();
+    });
+    $(window).scroll(function () {
+        scrolled(false);
+    });
     loadVids();
+    letsPlayRepaint();
+    setTimeout(function () {
+        if (!$('body').hasScrollBar() && noMcS) {
+            loadVids();
+        }
+    }, 2000);
 }
-
+function letsPlayRepaint() {
+    $w = $(document).width();
+    $(document.body).mCustomScrollbar('destroy');
+    if ($w > 1100) {
+        $(document.body).mCustomScrollbar({
+            theme: 'scrollBarStyles',
+            scrollButtons: {enable: true},
+            callbacks: {
+                onOverflowYNone: function () {
+                    noMcS = true;
+                },
+                onOverflowY: function () {
+                    noMcS = false;
+                },
+                whileScrolling: function () {
+                    scrolled(this);
+                }
+            }
+        });
+    }
+}
+function scrolled($scroll) {
+    if (!Cookies.get('isLoading')) {
+        $h = $(window).height();
+        if (typeof $scroll !== undefined && $scroll) {
+            if ($scroll.mcs.topPct >= 80) {
+                loadVids();
+            }
+        } else if (($(document).height() - $h - $(window).scrollTop()) <= 100) {
+            loadVids();
+        }
+    }
+}
 function podcastInit() {
-    console.log('podcast init');
+    $('.twitch-offline').css({
+        display: 'block',
+        width: $('.twitch-container').width() + 'px',
+        height: $('.twitch-container').width() / 2 + 'px'
+    });
 }
 
 function getStream() {
@@ -48,31 +100,29 @@ function showPlayer() {
 function loadVids() {
     Cookies.set('isLoading', '1');
     $offset = $('.video-overview').last();
-    console.log($offset);
-    $offset = $offset ? $offset.data('offset') : 0;
-    getYtVideos($offset, 'PLy3mMHt2i7RKd4pf3eUDSOuJYuTA--YIL');
+    $offset = $offset.length ? $offset.data('offset') : 0;
+    getYtVideos($offset, playListId);
 }
 
 function showYTGrid($offset) {
-    $w = getOptimalVideoTileW();   
-    $('#video-overview-pt' + $offset).unitegallery({
-        tile_enable_icons: false,
-        tile_as_link: true,
-        tile_link_newpage: false,
-        tile_enable_textpanel: true,
-        tile_textpanel_source: 'desc_title',
-        tile_textpanel_title_text_align: 'center',
-        tile_textpanel_always_on: true,
-        tile_textpanel_bg_opacity: 0.8,
-        tile_textpanel_title_font_size: 15,
-        tile_border_color: '#333333',
-        tile_width: $w,
-        tile_height: $w - 200,
-        tile_enable_shadow: false,
-        grid_padding: 0,
-        grid_space_between_cols: 20,
-        grid_num_rows: 9
-    });
+    if (!$offset !== 'CAoQAA') {
+        $w = getOptimalVideoTileW();
+        $('#video-overview-pt' + $offset).unitegallery({
+            tile_enable_textpanel: true,
+            tile_textpanel_source: 'desc_title',
+            tile_textpanel_title_text_align: 'center',
+            tile_textpanel_always_on: true,
+            tile_textpanel_bg_opacity: 0.8,
+            tile_textpanel_title_font_size: 15,
+            tile_border_color: '#333333',
+            tile_width: $w,
+            tile_height: $w - 200,
+            tile_enable_shadow: false,
+            grid_padding: 0,
+            grid_space_between_cols: 20,
+            grid_num_rows: 9
+        });
+    }
     $('.load-more').hide();
     Cookies.remove('isLoading');
 }

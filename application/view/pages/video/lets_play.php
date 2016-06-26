@@ -12,11 +12,19 @@
             $page = 'video.php';
             $this->includeMenu($page);
             ?>            
-           
+
             <main role="main" class="content">
                 <div class="video-container">
-                    <!--video overview-->
-                    <a href="" id="addVideos">add video's</a>
+
+                </div>
+                <div class="load-more" id="review-more-load">
+                    <p class="animated faa-flash faa-slow">loading videos..</p>             
+                </div>
+                <div id="no-mass" class="hidden alert alert-danger text-center">
+                    No more video's left you greedy pig..
+                    <!--                    <a id="reviews-toTop" href="#">
+                                            <i class="fa fa-arrow-up"></i>
+                                        </a>-->
                 </div>
             </main>
         </div>

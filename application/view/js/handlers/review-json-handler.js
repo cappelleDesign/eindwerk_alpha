@@ -37,12 +37,12 @@ function createRevOverview($recieve, $offset) {
     $data = $.parseJSON($recieve);
     $.each($data, function ($id, $review) {
         $imgUrl = $imgRoot + 'games/' + createImgPath($review) + '/' + $review['review_header_img']['img_url']
-        $html += '<a href="reviews/detailed/' + $review['review_id'] + '" data-score="' + $review['review_score'] + '">';
+        $html += '<a href="reviews/detailed/' + $review['review_id'] + '" data-score="' + Math.round($review['review_score'])+ '">';
         $html += '<img ';
         $html += ' src="' + $imgUrl + '"';
         $html += ' alt="' + $review['review_header_img']['img_alt'] + '"';
         $html += ' data-image="' + $imgUrl + '"';
-        $html += ' data-description ="' + $review['review_title'] + ' <span> [' + $review['review_score'] + '/10 ] </span>" >';
+        $html += ' data-description ="' + $review['review_title'] + ' <span> [' + Math.round($review['review_score']) + '/10 ] </span>" >';
         $html += '</a>';
     });
     $html += '</div>';
