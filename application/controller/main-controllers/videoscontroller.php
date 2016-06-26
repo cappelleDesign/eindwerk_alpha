@@ -33,28 +33,30 @@ class VideosController extends SuperController {
     }
 
     public function letsPlays() {
-        $videos = $this->getChannel();
-        $_POST['videos'] = $videos;
+//        $videos = $this->getVideos();
+//        $_POST['videos'] = $videos;
         $this->internalDirect('lets_play.php');
     }
 
     public function podcasts() {
-        $videos = $this->getChannel();
-        $_POST['videos'] = $videos;
+//        $videos = $this->getVideos();
+//        $_POST['videos'] = $videos;
         $this->internalDirect('podcast.php');
     }
 
-    private function getChannel() {
-        $client = new Google_Client();
-        $client->setApplicationName('neoludusVideo');
-        $client->setDeveloperKey($this->_yt_api_key);
-
-        $youtube = new Google_Service_YouTube($client);
-        $videos = $youtube->playlistItems->listPlaylistItems('snippet', array(
-            'playlistId' => $this->_playlist_id,
-            'maxResults' => 10
-        ));
-        return $videos;
+    private function getVideos() {
+//        $videos = GET https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=PLy3mMHt2i7RKpHRvK8bKuKWHh2kn33brm&key=;
+////        $client = new Google_Client();
+////        $client->setApplicationName('neoludusVideo');
+////        $client->setDeveloperKey($this->_yt_api_key);
+////
+////        $youtube = new Google_Service_YouTube($client);
+////        $videos = $youtube->playlistItems->listPlaylistItems('snippet', array(
+////            'playlistId' => $this->_playlist_id,
+////            'maxResults' => 20,
+////            'pageToken' => NULL
+////        ));
+//        return $videos;
     }
 
 }

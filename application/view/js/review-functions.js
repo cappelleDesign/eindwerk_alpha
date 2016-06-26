@@ -242,6 +242,6 @@ function pictureMode($offset, $w) {
         grid_space_between_cols: 20,
         grid_num_rows: 9
     });
-    $('#review-more-load').hide();
+    $('.load-more').hide();
     Cookies.remove('isLoading');
 }

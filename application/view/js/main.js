@@ -11,6 +11,7 @@ function init() {
     });
     setSubMenuWidths();
     repaint();
+    dispNotif();
 }
 function setListeners() {
     $('#login-main').on('click', function () {

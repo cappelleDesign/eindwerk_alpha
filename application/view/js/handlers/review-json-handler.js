@@ -18,7 +18,7 @@ function getReviewsMore($offset) {
         if ($recieve.toLowerCase().indexOf('internal-error') < 0 && $recieve.toLowerCase().indexOf('notice') < 0) {
             if ($recieve.toLowerCase().indexOf('found') > 0) {
                 $('#no-mass').removeClass('hidden');
-                $('#review-more-load').hide();
+                $('.load-more').hide();
                 return;
             } else {
                 $html = createRevOverview($recieve, $offset);
@@ -31,7 +31,7 @@ function getReviewsMore($offset) {
 }
 
 function createRevOverview($recieve, $offset) {
-    $('#review-more-load').show();
+    $('.load-more').show();
     $html = '<div id="reviews-overview-pt' + $offset + '"';
     $html += ' class="rev-overview" style="display:none;" data-offset="' + $offset + '">';
     $data = $.parseJSON($recieve);

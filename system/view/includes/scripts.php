@@ -43,6 +43,7 @@ $viewRoot = Globals::getRoot('view', 'app');
 <script src="<?php echo $viewRoot ?>/js/handlers/notif-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/newsfeed-json-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/handlers/review-json-handler.js"></script>
+<script src="<?php echo $viewRoot ?>/js/handlers/yt-json-handler.js"></script>
 <script src="<?php echo $viewRoot ?>/js/main.js"></script>
 <script src="<?php echo $viewRoot ?>/js/homepage-functions.js" type="text/javascript"></script>   
 <script src="<?php echo $viewRoot ?>/js/review-functions.js" type="text/javascript"></script>   

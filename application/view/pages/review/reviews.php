@@ -18,7 +18,7 @@
 
                 </div> 
 
-                <div id="review-more-load">
+                <div class="load-more" id="review-more-load">
                     <p class="animated faa-flash faa-slow">loading reviews..</p>             
                 </div>
                 <div id="no-mass" class="hidden alert alert-danger text-center">

@@ -58,6 +58,7 @@ class AccountController extends SuperController {
             }
             $this->getSessionController()->setSessionAttr('current_user', $user);
             $this->getSessionController()->updateUserActivity();
+            setcookie('notifSucc','Welcome back!' , 0, '/');
             if (isset($_COOKIE['last_page']) && $_COOKIE['last_page']) {
                 $cookie = filter_input(INPUT_COOKIE, 'last_page');                
                 header('Location:' . $cookie);
@@ -69,6 +70,7 @@ class AccountController extends SuperController {
 
     public function logout($isJson) {
         $this->getSessionController()->deleteSessionAttr('current_user');
+        setcookie('notifNfo','See you later!' , 0, '/');
         $this->redirect('home');
     }
 

@@ -25,7 +25,12 @@ html, body {
 }
 .inline-link, .inline-link:link, .inline-link:visited{
     color: #ef4123;
-    border-bottom: 1px #ef4123 solid;
+    text-decoration: underline;
+    /*border-bottom: 1px #ef4123 solid;*/
+}
+.inline-link:hover{
+    color: #006699;
+    
 }
 /*---------- header styles ----------*/
 .noScript-heading {

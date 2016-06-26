@@ -6,8 +6,7 @@ function homeInit() {
         'width': 50,
         'height': 50,
         'font': 'Sans-serif'
-    });
-    dispNotif();
+    });   
 }
 
 function setHomeListeners() {
