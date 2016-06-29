@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * NotificationHandler
+ * This is a class that handles notification service functions
+ * @package service
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class notificationHandler {
 
     /**

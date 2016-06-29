@@ -35,7 +35,7 @@ if ($isReturn) {
                 <input type="text" class="form-control"
                        id="loginName"
                        name="loginName" value="<?php echo empty($loginFormData) ? '' : $loginFormData['loginNameState']['prevVal']; ?>"
-                       placeholder="Username of Email here"  autofocus required>                                                  
+                       placeholder="Username or Email here"  autofocus required>                                                  
             </div>
             <?php
             if (!empty($loginFormData)) {
@@ -76,7 +76,7 @@ if ($isReturn) {
         </div>
         <div class="pull-left login-links">
             <!--//TODO ajax-->
-            <a href="account/registerForm">Register</a>
+            <a href="account/registerPage">Register</a>
             <i>/</i>                                                        
             <a href="account/forgotPassForm">Forgot password</a>
         </div>

@@ -1,13 +1,14 @@
 <?php
 
-class ErrorController {
-
-    public function __construct() {        
+class ErrorController extends NavigationController{
+    private $_subFolder;
+    public function __construct() {
+        parent::__construct('error/');
     }
 
     public function handleError($ex) {
         $nextPage = $this->getErrorPage($ex);
-        $this->direct($nextPage);
+        $this->internalDirect($nextPage);
     }
 
     public function getErrorPage($ex) {
@@ -34,9 +35,9 @@ class ErrorController {
         ErrorLogger::logError($error);
         //FIXME ADD MAIL TO ADMIN
     }
-    
-    public function direc($page) {
-        
+
+    public function restricted() {
+        $this->internalDirect('restricted.php');
     }
 
 }

@@ -22,8 +22,8 @@
         <title>Review specific</title>
         <!--FIXME TITLE SHOULD BE CHANGED TO THE NAME OF THE REVIEW-->
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'reviews.php';
             $this->includeMenu($page);

@@ -6,7 +6,7 @@ function reviewPageInit() {
         reviewRepaint();
     });
     $(window).scroll(function () {
-        scrolled(false);
+        reviewsScrolled(false);
     });
     loadReviews(pictureMode, 1);
     reviewRepaint();
@@ -131,9 +131,9 @@ function reviewSpecificRepaint() {
 
 function reviewRepaint() {
     $w = $(document).width();
-    $(document.body).mCustomScrollbar('destroy');
+    $('.customScroll').mCustomScrollbar('destroy');
     if ($w > 1100) {
-        $(document.body).mCustomScrollbar({
+        $('.customScroll').mCustomScrollbar({
             theme: 'scrollBarStyles',
             scrollButtons: {enable: true},
             callbacks: {
@@ -144,14 +144,14 @@ function reviewRepaint() {
                     noMcS = false;
                 },
                 whileScrolling: function () {
-                    scrolled(this);
+                    reviewsScrolled(this);
                 }
             }
         });
     }
 }
 
-function scrolled($scroll) {
+function reviewsScrolled($scroll) {
     if (!Cookies.get('isLoading')) {
         $h = $(window).height();
         if (typeof $scroll !== undefined && $scroll) {
@@ -171,7 +171,7 @@ function loadReviews() {
 }
 
 function getOptimalWidth() {
-    $w = $('#wrapper').width();
+    $w = $('#neo-wrapper').width();
     $wind = $(window).width();
     if ($wind > 1000) {
         $w = $w / 3;

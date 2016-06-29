@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * CommentService
+ * This is a class that handles comment service functions
+ * @package service
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class CommentService extends VoteService{
 
     /**

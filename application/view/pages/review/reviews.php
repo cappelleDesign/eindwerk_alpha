@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php      
+        <?php
         $this->includeHeader();
         $imgRoot = Globals::getRoot('img', 'app') . 'games/';
         ?>                 
         <title>Reviews</title>
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'reviews.php';
             $this->includeMenu($page);

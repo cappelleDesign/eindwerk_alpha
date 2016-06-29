@@ -1,0 +1,23 @@
+.avatar-container {
+    height: 200px;
+    width: 200px;
+    position: relative;
+    cursor: pointer;
+}
+.avatar-container img {
+    position: absolute;
+}
+.avatar-container i {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,.8);
+    color: #fff;
+    font-size: 20px;
+}
+#user-info{
+}

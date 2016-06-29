@@ -35,9 +35,18 @@ class NavigationController {
         $this->includeIncluder('header.php');
     }
 
+    public function includeAdminHeader() {
+        $this->includeIncluder('admin/admin-header.php');
+    }
+
     public function includeMenu($page) {
         $_GET['page'] = $page;
         $this->includeIncluder('menu.php');
+    }
+    
+    public function includeAdminMenu($page){
+        $_GET['page'] = $page;
+        $this->includeIncluder('admin/admin-menu.php');
     }
 
     public function includeFooter() {
@@ -48,8 +57,16 @@ class NavigationController {
         $this->includeIncluder('scripts.php');
     }
 
+    public function includeAdminscripts() {
+        $this->includeIncluder('admin/admin-scripts.php');
+    }
+
     public function includeLoginForm() {
         $this->includeIncluder('login-form.php');
+    }
+
+    public function includeRegisterForm() {
+        $this->includeIncluder('register-form.php');
     }
 
     public function includeFormFeedback($extra = false) {
@@ -69,7 +86,7 @@ class NavigationController {
     public function redirect($action) {
         $base = Globals::getBasePath();
         session_write_close();
-        header('Location: ' . $base . '/' . $action);
+        header('Location: ' . $base  . $action);
         $this->getSessionController()->startSession();
     }
 

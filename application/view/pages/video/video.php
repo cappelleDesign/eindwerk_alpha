@@ -6,8 +6,8 @@
         ?>        
         <title>Video's</title>
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'video.php';
             $this->includeMenu($page);
@@ -30,7 +30,8 @@
                         <div class="front">Podcasts</div>
                         <div class="back">Check out our podcasts</div>
                     </div>
-                </a>                
+                </a>       
+                <div class="fix"></div>
             </main>
         </div>
         <footer>
@@ -40,8 +41,6 @@
 
         <?php
         $this->includeScripts();
-        ?> 
-        <script src="<?php echo Globals::getRoot('view', 'app') ?>/js/plugins/jq-upload/js/main.js" type="text/javascript"></script>
-
+        ?>         
     </body>
 </html>

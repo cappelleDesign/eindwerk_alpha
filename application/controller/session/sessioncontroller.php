@@ -28,13 +28,18 @@ class SessionController {
                 // request 30 minates ago
                 $this->deleteSessionAttr('current_user');
             } else {
-                $this->updateUserActivity();
+                $active = $this->updateUserActivity();
+                return $active;
             }
+        } else {
+            return -1;
         }
     }
 
     public function updateUserActivity() {
+        $prevActive = time() - $_SESSION['LAST_ACTIVITY'];
         $_SESSION['LAST_ACTIVITY'] = time();
+        return $prevActive;
     }
 
     public function isLoggedOn() {

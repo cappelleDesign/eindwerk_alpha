@@ -1,5 +1,11 @@
-<?php 
+<?php
 $current = $this->getCurrentUser(FALSE);
+$login = $_POST['is_login'];
+if ($current) {
+    $imgSrc = $current->getAvatar()->getImage()->getUrl();
+    $avatarPath = 'avatars/' . substr($imgSrc, 0, strrpos($imgSrc, '/'));
+    $avatarSrc = $this->getImgHelper()->getImgSrc('l', $avatarPath, substr($imgSrc, strrpos($imgSrc, '/') + 1), 'avatar');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +15,8 @@ $current = $this->getCurrentUser(FALSE);
         ?>        
         <title>Account</title>
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'account.php';
             $this->includeMenu($page);
@@ -19,7 +25,7 @@ $current = $this->getCurrentUser(FALSE);
                 <?php
                 if (!$current) {
                     ?>
-                    <div class="container-fluid login-container">
+                    <div class="container-fluid login-container <?php echo $login ? '' : 'hidden' ?>">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-6 col-xs-12">
                                 <div class="panel login-panel panel-default">
@@ -33,12 +39,38 @@ $current = $this->getCurrentUser(FALSE);
                             </div>
                         </div>
                     </div>
-                <?php
-                } else if($current instanceof UserDetailed){                                                                                
+                    <div class="container-fluid login-container <?php echo $login ? 'hidden' : '' ?>">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-6 col-xs-12">
+                                <div class="panel login-panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Register</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <?php $this->includeRegisterForm(); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                } else if ($current instanceof UserDetailed) {
                     ?>
-                <img width="100" src="<?php echo Globals::getRoot('img', 'app') .'avatars/'. $current->getAvatar()->getImage()->getUrl();?>" alt="">
-                <p style="color: #fff;">Name: <?php echo $current->getUsername()?></p>
-                <p style="color: #fff;">Role: <?php echo $current->getUserRole()->getName() ?></p>
+                    <div class="row" style="color: #fff">
+                        <div id="user-info" class="col-sm-2">
+                            <div class="avatar-container">
+                                <img src="<?php echo $avatarSrc ?>" alt="">
+                                <i class="fa fa-external-link fa-flip-horizontal"></i>                                
+                            </div>
+                            <p>Username: <?php echo $current->getUsername(); ?></p>
+                            <p>Email: <?php echo $current->getEmail(); ?></p>
+                            <p>Member since: <?php echo $current->getCreatedStr(Globals::getDateTimeFormat('be', False)); ?></p>
+                            <p>Active time: <?php echo DateFormatter::secondsToTime($current->getActiveTime()); ?></p>
+                        </div>        
+                        <div id="pwChange">
+
+                        </div>
+                    </div>
 
                 <?php }
                 ?>

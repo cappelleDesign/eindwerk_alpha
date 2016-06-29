@@ -32,6 +32,12 @@ abstract class SuperController extends NavigationController {
      */
     private $_mailController;
 
+    /**
+     * The image helper for image functions
+     * @var imageHelper
+     */
+    private $_imgHelper;
+
     public function __construct($subFolder = '') {
         parent::__construct($subFolder);
         $this->superInit();
@@ -45,7 +51,17 @@ abstract class SuperController extends NavigationController {
         $this->_errorController = new ErrorController();
         $this->_mailController = new MailController();
         $this->getSessionController()->startSession();
-        $this->getSessionController()->checkUserActivity();
+        $this->activityUpdate();        
+        $this->_imgHelper = new imageHelper();
+    }
+    
+    private function activityUpdate() {
+        $active = $this->getSessionController()->checkUserActivity();
+        if($active > 0){
+            $user = $this->getCurrentUser();
+            $this->getService()->updateUser($user, 'activeTime',$active);
+        }
+        
     }
 
     /**
@@ -92,6 +108,16 @@ abstract class SuperController extends NavigationController {
         return $this->_mailController;
     }
 
+    public function getImgHelper() {
+        return $this->_imgHelper;
+    }
+
+    /**
+     * getCurrentUser
+     * Returns the user from session if loged in
+     * @param bool $isJson
+     * @return UserDetailed
+     */
     public function getCurrentUser($isJson = FALSE) {
         $user = false;
         if ($this->getSessionController()->isLoggedOn()) {
@@ -100,7 +126,7 @@ abstract class SuperController extends NavigationController {
         if (!$isJson) {
             return $user;
         } else {
-            
+
         }
     }
 
@@ -120,6 +146,22 @@ abstract class SuperController extends NavigationController {
                 }
             }
         }
+    }
+    
+    protected function prepUser($userRole, $avatar, $username, $pwEncrypted, $email){
+        $format = Globals::getDateTimeFormat('be', TRUE);
+        $nowWithTime = DateFormatter::getNow()->format($format);
+        $donated = 0;
+        $karma = 0;
+        $regKey = Globals::randomString(64);
+        $warnings = 0;
+        $diamonds = 0;
+        $dateTimePref = 'd/m/Y H:i:s';
+        $created = $nowWithTime;
+        $lastLogin = $nowWithTime;
+        $activeTime = 0;
+        $user = new UserDetailed($userRole, $avatar, $username, $donated, $pwEncrypted, $email, $karma, $regKey, $warnings, $diamonds, $dateTimePref, $created, $lastLogin, $activeTime);
+        return $user;
     }
 
     public function setService(MasterService $service) {

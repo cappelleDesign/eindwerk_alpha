@@ -98,6 +98,25 @@
     color: #231f20;
     border-color: #231f20;
 }
+#avatar-choice-menu {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    top: 5%;
+    background-color: #fff;
+    z-index: 999999999;
+    border-radius: 5px;
+    border: #000 solid 2px;
+    padding: 20px;
+    overflow-x: auto;
+}
+.avatar-chosen {
+    cursor: pointer;
+}
+fieldset {
+    margin-bottom: 5px;
+}
 @media all and (max-width:1500px) {
     .input-clear {        
         font-size: 15px;

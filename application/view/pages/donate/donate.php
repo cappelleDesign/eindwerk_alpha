@@ -6,8 +6,8 @@
         ?>        
         <title>Donations</title>
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'donate.php';
             $this->includeMenu($page);

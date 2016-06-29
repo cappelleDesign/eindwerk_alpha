@@ -15,7 +15,8 @@ class ContactController extends SuperController {
     public function sendMail() {
         $contactArr = $this->getContactArr();
         if (!is_array($contactArr)) {
-            echo $contactArr;
+            ErrorLogger::logError($contactArr);
+//            FIXME show error page
             return;
         }
         $validation = $this->getValidator()->validateContactForm($contactArr);
@@ -56,7 +57,7 @@ class ContactController extends SuperController {
             $msg = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'contact-body'));
             $isHuman = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'input-filter'));
         } else {
-            return 'Error getting post values';
+            return 'Error getting post values for contact';
         }
         $contactArr = array(
             'subj' => $subj,

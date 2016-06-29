@@ -20,8 +20,7 @@ function getYtVideos($offset, $playlistId) {
         $offset = $recieve.nextPageToken;
         if (typeof $offset == 'undefined') {            
             $offset = 'None';
-        }
-        console.log($offset);
+        }        
         $html = createYtGridItems($recieve.items, $offset);
         $('.video-container').append($html);
         showYTGrid($offset);

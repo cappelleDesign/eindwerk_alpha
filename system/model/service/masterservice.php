@@ -404,6 +404,8 @@ class MasterService {
                 return $this->getNewsfeedService()->getNewsfeedItem($id);
             case 'review' :
                 return $this->getReviewService()->getReview($id);
+            case 'avatar' :
+                return $this->_userService->getAvatar($id);
             default :
                 $this->typeNotRecognized($type);
         }
@@ -506,11 +508,11 @@ class MasterService {
             case 'tag':
                 $this->getReviewService()->addTag($review->getId(), $param1);
                 return;
-            case 'rootComment':                
+            case 'rootComment':
                 $this->getReviewService()->addRootComment($review, $param1);
                 return;
             case 'userScore':
-                $this->getReviewService()->addUserScore($review->getId(), $param1, $param2);                
+                $this->getReviewService()->addUserScore($review->getId(), $param1, $param2);
                 $review->addUserScore($param1, $param2);
                 return $review->getAverageUserScore();
             case 'gameGenre':
@@ -537,7 +539,7 @@ class MasterService {
         }
     }
 
-    public function updateUser(UserSimple $user, $type, $param1 = '', $param2 = '') {        
+    public function updateUser(UserSimple $user, $type, $param1 = '', $param2 = '') {
         switch ($type) {
             case 'pw':
                 $this->getUserService()->updatePw($user, $param1, $param2);
@@ -545,7 +547,7 @@ class MasterService {
             case 'userRole':
                 $this->getUserService()->updateUserUserRole($user, $param1);
                 return $user;
-            case 'avatar':                
+            case 'avatar':
                 $this->getUserService()->updateUserAvatar($user, $param1);
                 return $user;
             case 'donated':

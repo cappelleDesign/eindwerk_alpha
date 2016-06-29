@@ -50,8 +50,8 @@ $accountHtml = '<a href="#" class="">' .
     </a>
     <form id="search-form" class="search-form-main" method="POST" action="#">
         <div class="form-group">
-            <input type="text" placeholder="search games.." tabindex="1">
-                <a class="script-only" id="main-search" href="#" tabindex="2">
+            <input type="text" placeholder="search games.." tabindex="1" disabled>
+                <a class="script-only " id="main-search" tabindex="2">
                 <i class="fa fa-search"></i>
             </a>
             <button class="noScript" type="submit">

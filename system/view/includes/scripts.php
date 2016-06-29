@@ -35,8 +35,8 @@ $viewRoot = Globals::getRoot('view', 'app');
 <script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/js/unitegallery.min.js" type="text/javascript"></script>
 <script src="<?php echo $viewRoot ?>/js/plugins/unite-gallery/themes/tilesgrid/ug-theme-tilesgrid.js" type="text/javascript"></script>
 
-<!--LIGHTBOX2-->
-<script src="<?php echo $viewRoot ?>/js/plugins/lightbox2/js/lightbox.min.js" type="text/javascript"></script>
+<!--SWAL-->
+<script src="<?php echo $viewRoot ?>/js/plugins/swal/sweetalert.min.js" type="text/javascript"></script>
 
 <!--MAIN JS-->
 <script src="<?php echo $viewRoot ?>/js/handlers/img-handler.js"></script>

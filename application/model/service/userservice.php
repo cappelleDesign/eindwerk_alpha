@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * UserService
+ * This is a class that handles user service functions
+ * @package service
+ * @author Jens Cappelle <cappelle.design@gmail.com>
+ */
 class UserService {
 
     /**
@@ -38,6 +44,7 @@ class UserService {
         try {
             $this->_userDB->add($user);
         } catch (Exception $ex) {
+            ErrorLogger::logError($ex);
             throw new ServiceException($ex->getMessage(), $ex);
         }
     }

@@ -6,8 +6,8 @@
         ?>        
         <title>Podcasts</title>
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'video.php';
             $this->includeMenu($page);

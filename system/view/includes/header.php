@@ -8,7 +8,7 @@ $design = $viewRoot . '/images/design';
 <meta name="fragment" content="!">
 <meta name="description" content="website description here">
 <meta name="keywords" content="keyword, more keywords">
-
+<meta name="author" content="">
 
 <!--FACEBOOK OPENGRAPH-->
 <meta property="og:title" content="ttitle here">
@@ -74,9 +74,8 @@ $design = $viewRoot . '/images/design';
 <!--sUNITE-GALLERY-->
 <link href="<?php echo $viewRoot ?>/js/plugins/unite-gallery/css/unite-gallery.css" rel="stylesheet" type="text/css"/>
 
-<!--LIGHTBOX2-->
-<link href="<?php echo $viewRoot ?>/js/plugins/lightbox2/css/lightbox.min.css" rel="stylesheet" type="text/css"/>
-
+<!--SWAL-->
+<link href="<?php echo $viewRoot ?>/js/plugins/swal/sweetalert.css" rel="stylesheet" type="text/css"/>
 <!--MAIN MARKUP-->
 <link href="<?php echo $viewRoot ?>/css/loader-styles.css" rel="stylesheet">
 <link href="<?php echo $viewRoot ?>/css/mainstyles.css" rel="stylesheet">

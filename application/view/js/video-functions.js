@@ -27,9 +27,9 @@ function letsPlayInit() {
 }
 function letsPlayRepaint() {
     $w = $(document).width();
-    $(document.body).mCustomScrollbar('destroy');
+    $('.customScroll').mCustomScrollbar('destroy');
     if ($w > 1100) {
-        $(document.body).mCustomScrollbar({
+        $('.customScroll').mCustomScrollbar({
             theme: 'scrollBarStyles',
             scrollButtons: {enable: true},
             callbacks: {
@@ -70,8 +70,7 @@ function getStream() {
     $.getJSON('https://api.twitch.tv/kraken/streams/neoludus', function (channel) {
 
         if (channel["stream"] == null) {
-//            showOffline();
-            showPlayer();
+            showOffline();            
         } else {
             showPlayer();
         }
@@ -99,6 +98,7 @@ function showPlayer() {
 
 function loadVids() {
     Cookies.set('isLoading', '1');
+    $('.load-more').show();
     $offset = $('.video-overview').last();
     $offset = $offset.length ? $offset.data('offset') : 0;
     getYtVideos($offset, playListId);
@@ -127,7 +127,7 @@ function showYTGrid($offset) {
     Cookies.remove('isLoading');
 }
 function getOptimalVideoTileW() {
-    $w = $('#wrapper').width();
+    $w = $('#neo-wrapper').width();
     $wind = $(window).width();
     if ($wind > 1000) {
         $w = $w / 3;

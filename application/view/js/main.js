@@ -14,8 +14,12 @@ function init() {
     dispNotif();
 }
 function setListeners() {
-    $('#login-main').on('click', function () {
-        $url = window.location.href;
+    $('#login-main').on('click', function () { 
+        $url = window.location.href;        
+        Cookies.set('last_page', $url);
+    });
+    $('#main-menu li a').on('click', function () {        
+        $url = $(this).attr('href');
         Cookies.set('last_page', $url);
     });
     $('[data-toggle="tooltip"]').tooltip();
@@ -132,15 +136,15 @@ function setListeners() {
 function repaint() {
     $w = $(document).width();
     if ($w > 1100) {
-        $(document.body).mCustomScrollbar({
+        $('.customScroll').mCustomScrollbar({
             theme: 'scrollBarStyles',
             scrollButtons: {enable: true}
         });
     } else {
-        $(document.body).mCustomScrollbar("destroy");
+        $('.customScroll').mCustomScrollbar("destroy");
     }
     $h = $(window).height();
-    $('#wrapper').css('minHeight', $h + 'px');
+    $('#neo-wrapper').css('minHeight', $h + 'px');
     if ($w <= 810) {
         toggleSubmenuStyles(false);
     } else {

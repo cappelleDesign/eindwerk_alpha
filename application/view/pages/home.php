@@ -13,8 +13,8 @@
         ?>
         <title>home</title>
     </head>
-    <body>        
-        <div id="wrapper" class="no-js-push">
+    <body class="customScroll">
+        <div id="neo-wrapper" class="no-js-push">
             <?php
             $page = basename(__FILE__);
             $this->includeMenu($page);
@@ -79,7 +79,7 @@
                                     <div class="newsfeed-desc">
                                         <h2><?php echo $newsfeedItem->newsfeed_subject ?></h2>
                                         <ul>     
-                                            <?php echo html_entity_decode($newsfeedItem->newsfeed_body);?>
+                                            <?php echo html_entity_decode($newsfeedItem->newsfeed_body); ?>
                                         </ul>
                                     </div>
                                 </div>

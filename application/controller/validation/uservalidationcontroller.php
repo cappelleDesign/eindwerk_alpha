@@ -7,7 +7,7 @@
  * @subpackage validation
  * @author Jens Cappelle <cappelle.design@gmail.com>
  */
-class UserValidationController extends SuperValidator {  
+class UserValidationController extends SuperValidator {
 
     public function __construct() {
         
@@ -57,7 +57,7 @@ class UserValidationController extends SuperValidator {
             'pwNewRepeatState' => $this->getBasicArr()
         );
         return $validationArray;
-    } 
+    }
 
     /**
      * validatePwOld
@@ -193,15 +193,25 @@ class UserValidationController extends SuperValidator {
             $valid = true;
             $user = $sysAdmin->getByIdentifier($loginName, 'user');
             if ($user->authenticate($loginPw) === -1) {
-                $valid = false;
+                $valid = 'No user with this username/email and password found';
+            }
+            $flag = $user->getUserRole()->getAccessFlag();
+            if ($flag === -999) {
+                $valid = 'This account was not validated';
+            }
+            if($flag === -998){
+                $valid = 'This account has been banned for life..';
+            }
+            if($flag === -997) {
+                $valid = 'This account is temporary banned..';
             }
         } catch (ServiceException $ex) {
             //FIXME if exception is severe handle differently
 //            ErrorLogger::logError($ex);
             $valid = false;
         } finally {
-            if (!$valid) {
-                $result['extraMessage'] = 'No user with this username/email and password found';
+            if ($valid !== true) {
+                $result['extraMessage'] = $valid;
                 $result['loginNameState']['errorClass'] = 'has-error';
                 $result['loginPwState']['errorClass'] = 'has-error';
             }

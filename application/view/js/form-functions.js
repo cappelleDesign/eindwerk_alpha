@@ -1,10 +1,22 @@
 $(init);
-
-function init() {
+function init() {    
     setFormListeners();
 }
 
 function setFormListeners() {
+    $('#avatar-choice-trigger').on('click', function (e) {
+        e.preventDefault();
+        $('#avatar-choice-menu').fadeIn();
+    });
+    $('.avatar-chosen').on('click', function (e) {
+        e.preventDefault();
+        $('#avatar').val($(this).data('avatar-id'));
+        $('#avatar-choice-menu').fadeOut();         
+        $('#avatar').parent().addClass('has-success');
+        $formId = $("#avatar").parent().parent().parent().attr('id');   
+        console.log($formId);
+        triggerFormSubmit($formId);
+    });
     $('input.form-control').on({
         keyup: function (e) {
             if (e.which === 27) {
@@ -15,7 +27,7 @@ function setFormListeners() {
             }
         }
     });
-    $('.validation').on('keyup input', function () {
+    $('.validation').on('keyup input change', function () {
         $hasAddon = $type = $(this).data('addon');
         $addIcon = true;
         $formId = $(this).parent().parent().parent().attr('id');
@@ -32,23 +44,31 @@ function setFormListeners() {
             addValidationError($id, $hasAddon, $valid, $addIcon);
         }
     });
+    $('.user-mail-validation').on('keyup change', function () {
+        validateUserMail($(this).attr('id'));
+    });
+    $('.user-name-validation').on('keyup change', function () {
+        validateUsername($(this).attr('id'));
+    });
 }
 
 function triggerFormSubmit($formId) {
     $isValid = true;
-    $validated = $('#' + $formId).children().children().children('.validation');
-    $validated.each(function ($i, $el) {
-        $validationResult = validateField($($el).attr('id'), $($el).data('validation'));
-        if ($validationResult !== true) {
-            $isValid = $validationResult;
+    $validated = $('#' + $formId).children().children('.has-feedback');
+    
+    $validated.each(function ($i, $el) {        
+        if ($($el).hasClass('has-success') === false) {            
+            $isValid = false;            
         }
     });
-    $formBtn = $('#' + $formId + ' #formSubmit');
+    if ($('.user-mail-validation').length) {
+        $isValid = ($isValid === true && $('.user-mail-validation').parent().hasClass('has-success'));
+    }
+    $formBtn = $('#' + $formId + ' #formSubmit');    
     if ($isValid === true) {
         $formBtn.prop('disabled', false);
         $('.submit-disabled').prop('title', '');
         $formBtn.removeClass('submit-disabled');
-
     } else {
         $formBtn.prop('disabled', true);
         $formBtn.addClass('submit-disabled');
@@ -62,8 +82,10 @@ function validateField($fieldId, $type) {
             return validateEmpty($fieldId);
         case 'mail' :
             return validateEmail($fieldId);
-        case 'select' :
-            return validateSelect($fieldId);
+        case 'pwd' :
+            return validatePWD($fieldId);
+        case 'pwd-repeat':
+            return validatePWDRepeat($fieldId);
         default :
             console.log('could not switch ' + $type);
     }
@@ -75,6 +97,35 @@ function validateEmpty($fieldId) {
         return true;
     }
     return 'This is a required field and can not be empty';
+}
+function validatePWDRepeat($fieldId) {
+    $pw = $('#user-pwd').val();
+    $pwRep = $('#' + $fieldId).val();
+    if (!$pwRep.trim()) {
+        return 'Password repeat is a required field';
+    }
+    if ($pw === $pwRep) {
+        return true;
+    }
+    return 'Password and password repeat do not match';
+}
+function validatePWD($fieldId) {
+    $pw = $('#' + $fieldId).val();
+    if (!$pw.trim()) {
+        return 'Password is a required field';
+    }
+    $validationResult = '';
+    $regDig = $pw.search(/\d/);
+    $regLow = $pw.search(/[a-z]/);
+    $regCap = $pw.search(/[A-Z]/);
+    $white = $pw.search(/\s/g);
+    $length = $pw.length;
+    $validationResult += ($regDig === -1 ? 'Your password needs at least 1 digit<br>' : '');
+    $validationResult += $regLow === -1 ? 'Your password needs at least 1 lower case character<br>' : '';
+    $validationResult += $regCap === -1 ? 'Your password needs at least 1 updar case character<br>' : '';
+    $validationResult += $length < 5 ? 'Your password needs a minimum of 5 characters<br>' : '';
+    $validationResult += $white === -1 ? '' : 'Password can not contain white space';
+    return $validationResult ? $validationResult : true;
 }
 
 function addValidationError($fieldId, $isAddon, $msg, $addIcon) {
@@ -95,6 +146,8 @@ function addValidationError($fieldId, $isAddon, $msg, $addIcon) {
         $html += '<span id="' + $fieldId + 'Error" class="sr-only">(error)</span>';
         $html += '<span class="text-danger">' + $msg + '</span>';
         $par.append($html);
+    } else {
+        $('#' + $fieldId + 'Error').next().html($msg);
     }
 }
 
@@ -106,7 +159,6 @@ function addValidationSuccess($fieldId, $isAddon, $addIcon) {
     if ($par.hasClass('has-error')) {
         $par.removeClass('has-error');
         $par.children('span').remove();
-
     }
     $par.addClass('has-success');
     $html = '';
@@ -138,3 +190,49 @@ function validateEmail($fieldId) {
     $test = filter.test($mail);
     return $test ? $test : 'This is NOT a valid email address';
 }
+
+function validateUserMail($fieldId) {
+    $mail = $('#' + $fieldId).val();
+    if (validateEmail($fieldId) !== true) {
+        addValidationError($fieldId, false, 'This is NOT a valid email address', true);
+        triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+    } else {
+        $.get('user/checkEmail/' + $mail, function ($data) {
+            if ($data === 'valid') {
+                addValidationSuccess($fieldId, false, true);
+                triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+            } else {
+                addValidationError($fieldId, false, 'This email address is already in use', true);
+                triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+            }
+        });
+    }
+}
+
+function validateUsername($fieldId) {
+    $username = $('#' + $fieldId).val();
+    if (validateEmpty($fieldId) !== true) {
+        addValidationError($fieldId, false, 'This is a required field!', true);
+        triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+    } else if ($username.indexOf(' ') >= 0) {
+        addValidationError($fieldId, false, 'Username can not contain white space', true);        
+        triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+    } else {
+        $.get('user/checkUsername/' + $username, function ($data) {            
+            if ($data === 'valid') {
+                addValidationSuccess($fieldId, false, true);
+                triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+            } else {
+                addValidationError($fieldId, false, 'This username is already in use', true);
+                triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
+            }
+        });
+    }
+}
+
+//$valid = validateField($id, $type);
+//        if ($valid === true) {
+//            addValidationSuccess($id, $hasAddon, $addIcon);
+//        } else {
+//            addValidationError($id, $hasAddon, $valid, $addIcon);
+//        }

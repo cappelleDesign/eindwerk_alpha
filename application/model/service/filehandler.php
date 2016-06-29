@@ -57,7 +57,7 @@ class FileHandler {
     }
 
     public function getDirFileCount($path) {
-        $count = 0;
+        $count = 0;        
         $files = scandir($path);
         foreach ($files as $file) {
             if (is_file($path . $file)) {
@@ -99,7 +99,7 @@ class FileHandler {
                 $num = explode('.', $imgName)[0];
                 if (is_numeric($num)) {
                     $extention = substr($imgName, strrpos($imgName, '.'));
-                    $imgName = 'avatar' . $this->getNumberName($dir . 'tier' . $num, $extention);
+                    $imgName = 'avatar' . $this->getNumberName($dir . 'tier' . $num . '/', $extention);
                 } else {
                     $imgName = 'user_' . $imgName;
                 }

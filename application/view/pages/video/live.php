@@ -6,8 +6,8 @@
         ?>        
         <title>Live streams</title>
     </head>
-    <body>
-        <div id="wrapper">
+    <body class="customScroll">
+        <div id="neo-wrapper">
             <?php
             $page = 'video.php';
             $this->includeMenu($page);
@@ -16,8 +16,8 @@
                 <div class="twitch-container">
                     <div class="twitch-offline" style="display: none;">
                         <div class="multi-text-center">                            
-                        <p>We are currently not streaming :(</p>
-                        <p>checkout our <a class="inline-link" href="videos/lets-plays">recorded videos</a></p>
+                            <p>We are currently not streaming :(</p>
+                            <p>checkout our <a class="inline-link" href="videos/lets-plays">recorded videos</a></p>
                         </div>
                     </div>
                     <div id="neoludus-twitch">

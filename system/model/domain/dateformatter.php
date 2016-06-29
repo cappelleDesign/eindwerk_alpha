@@ -11,6 +11,7 @@
 //https://bitbucket.org/pellepim/jstimezonedetect
 
 class DateFormatter {
+
     /**
      * getDateTimeZone
      * Creates a DateTime object for this particular time zone
@@ -19,33 +20,41 @@ class DateFormatter {
      * @param string $zone
      * @return DateTime
      */
-    public static function getDateTimeInZone($format, $originalDate,$zone) {
+    public static function getDateTimeInZone($format, $originalDate, $zone) {
         $date = DateTime::createFromFormat($format, $originalDate, new DateTimeZone('utc'));
         $date->setTimeZone(new DateTimeZone($zone));
         return $date;
-   }
-    
-   /**
-    * convertToServerTimeZone
-    * Converts the given DateTime to a DateTime object with the servers default timezone
-    * @param string $format
-    * @param string $originalDate
-    * @return DateTime
-    */
-   public static function convertToServerTimeZone($originalDate) {
-       $timezone = date_default_timezone_get();
-       $date = DateTime::createFromFormat('d/m/Y H:i:s', $originalDate->format('d/m/Y H:i:s'),$originalDate->getTimezone());
-       $date->setTimeZone(new DateTimezone($timezone));
-       return $date;
-   }
-  
-   /**
-    * getNow
-    * Returns now as a DateTime object
-    * @return DateTime
-    */
-   public static function getNow() {
-       $date = new DateTime('now', new DateTimeZone('utc'));
-       return $date;
-   }
+    }
+
+    /**
+     * convertToServerTimeZone
+     * Converts the given DateTime to a DateTime object with the servers default timezone
+     * @param string $format
+     * @param string $originalDate
+     * @return DateTime
+     */
+    public static function convertToServerTimeZone($originalDate) {
+        $timezone = date_default_timezone_get();
+        $date = DateTime::createFromFormat('d/m/Y H:i:s', $originalDate->format('d/m/Y H:i:s'), $originalDate->getTimezone());
+        $date->setTimeZone(new DateTimezone($timezone));
+        return $date;
+    }
+
+    /**
+     * getNow
+     * Returns now as a DateTime object
+     * @return DateTime
+     */
+    public static function getNow() {
+        $date = new DateTime('now', new DateTimeZone('utc'));
+        return $date;
+    }
+
+    public static function secondsToTime($seconds) {
+        $dtF = new DateTime("@0");
+        $dtT = new DateTime("@$seconds");
+        return $dtF->diff($dtT)->format('%a days, %h hours, %i minutes and %s seconds');
+    }
+
 }
+
