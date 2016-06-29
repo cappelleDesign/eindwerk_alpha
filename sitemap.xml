@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://test.neoludus.com/</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/index.php</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/account/loginpage</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/account/registerpage</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/home</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/reviews</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/videos</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/videos/live-streams</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/videos/lets-plays</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/videos/podcasts</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/donate</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/account</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/contact</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/10</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/9</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/8</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/account/registerPage</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/account/forgotPassForm</loc>
+</url>
+<url>
+  <loc>http://test.neoludus.com/account/loginPage</loc>
+</url>
+</urlset>

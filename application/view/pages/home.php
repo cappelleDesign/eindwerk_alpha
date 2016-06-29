@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <?php
-        $this->includeHeader();
         $reviews = $_POST['reviews'];
         $reviews = json_decode($reviews);
         $newsfeed = $_POST['newsfeed'];
@@ -10,6 +9,7 @@
         $class = 'primary-slide';
         $active = 'active';
         $base = Globals::getBasePath();
+        $this->includeHeader();
         ?>
         <title>home</title>
     </head>

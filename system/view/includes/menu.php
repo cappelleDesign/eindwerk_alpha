@@ -66,35 +66,35 @@ $accountHtml = '<a href="#" class="">' .
         <div class="social-menu">
             <ul>
                 <li>
-                    <a class="fa-icon" href="#">
+                    <a class="fa-icon" href="mailto::info@neoludus.com">
                         <span class=" faa-parent animated-hover fa-stack ">                           
                             <i class="fa fa-envelope faa-wrench faa-slow" title="Mail us" aria-hidden="true"></i>                            
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a class="fa-icon" href="https://www.facebook.com/Neoludus">
+                    <a class="fa-icon" href="https://www.facebook.com/Neoludus" target="_blank">
                         <span class="faa-parent animated-hover fa-stack fa-stack">                            
                             <i class="fa fa-facebook faa-wrench faa-slow" title="Visit our Facebook page" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a class="fa-icon" href="#">
+                    <a class="fa-icon" href="https://www.youtube.com/channel/UCmt2BsAl7VdWx8rsLwBpHNA" target="_blank">
                         <span class="fa-stack faa-parent animated-hover fa-stack">
                             <i class="fa fa-youtube faa-wrench faa-slow" title="Visit our Youtube channel" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a class="fa-icon" href="#">
+                    <a class="fa-icon" href="https://www.twitch.tv/neoludus" target="_blank">
                         <span class="fa-stack faa-parent animated-hover fa-stack">
                             <i class="fa fa-twitch faa-wrench faa-slow" title="Visit our Twitch channel" aria-hidden="true"></i>
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a class="fa-icon" href="https://twitter.com/Neoludus">
+                    <a class="fa-icon" href="https://twitter.com/Neoludus" target="_blank">
                         <span class="fa-stack faa-parent animated-hover fa-stack">
                             <i class="fa fa-twitter faa-wrench faa-slow" title="Visit our Twitter page" aria-hidden="true"></i>
                         </span>

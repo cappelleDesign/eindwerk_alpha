@@ -17,16 +17,17 @@ class MailController {
     }
 
     public function mailRegistration($userMail, $regkey) {
-        $registerLink = $_SERVER['server_name'] . '/account/register-confirm/' . $userMail . '/' . $regkey;
+        $registerLink = Globals::getBasePath() . '/account/register-confirm/' . $userMail . '/' . $regkey;
         $mail = new PHPMailer;
         $mail->setFrom('info@neoludus.com');
         $mail->addReplyTo('no-reply@neoludus.com');
         $mail->addAddress($userMail);
         $mail->Subject = 'Neoludus registration';
-        $message = $this->getBody('registration-template.html');
+        $message = $this->getBody('register-template.html');       
         $message = str_replace('%register%', $registerLink, $message);
         $mail->msgHTML($message);
         $send = $mail->send();
+        ErrorLogger::logError($mail->ErrorInfo);
         return $send;
     }
 

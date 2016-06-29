@@ -106,7 +106,7 @@ class AccountController extends SuperController {
         $username = $_POST['user-name'];
         $pwd = $_POST['user-pwd'];
         $avatar = $_POST['avatar'];
-        $regkey = Globals::randomString(64);
+        $regkey = Globals::randomString(60);
         //FIXME ADD SERVER VALIDATION!!!!!!!!!!!!!
         $url = $this->getBase() . 'user/add/' . $username . '/' . $mail . '/' . $pwd . '/' . $avatar . '/' . $rollFlag . '/' . $regkey;
         $add = file_get_contents($url);
@@ -122,7 +122,8 @@ class AccountController extends SuperController {
     }
 
     public function sendRegistrationMail($mail, $regkey) {
-        if ($this->getMailController()->mailRegistration($mail, $regkey)) {
+        $mailed = $this->getMailController()->mailRegistration($mail, $regkey);        
+        if ($mailed) {
             setcookie('notifNfo', 'A mail has been send to ' . $mail . '. Follow the instruction to complete your registration', 0, '/');
             return true;
         } else {
@@ -138,7 +139,7 @@ class AccountController extends SuperController {
         if (!$user) {
             setcookie('notifErr', 'No user found for this email address :(', 0, '/');
             $error = true;
-        } else if ($user->getUserRole() !== -999) {
+        } else if ($user->getUserRole()->getAccessFlag() !== -999) {
             setcookie('notifErr', 'This user is already fully registered', 0, '/');
             $error = true;
         } else if ($user->getRegKey() !== $regkey) {
@@ -147,7 +148,7 @@ class AccountController extends SuperController {
             $error = true;
         } else {
             $userRole = $this->getService()->getByIdentifier('1', 'userRole');
-            $regkey = Globals::randomString(64);
+            $regkey = Globals::randomString(60);
             $this->getService()->updateUser($user, 'userRole', $userRole);
             $this->getService()->updateUser($user, 'regKey', $regkey);
         }

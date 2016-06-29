@@ -39,7 +39,7 @@ class UserController extends SuperController {
         $activeTime = 0;
         $pwEnc = password_hash($pwd, PASSWORD_BCRYPT);
         if ($regKey === -1) {
-            $regKey = Globals::randomString(64);
+            $regKey = Globals::randomString(60);
         }
         try {
             $avatar = $this->getService()->get($avatarId, 'avatar');

@@ -1,0 +1,8 @@
+# robots.txt generated at http://www.mcanerin.com
+User-agent: *
+Disallow: 
+Disallow: /cgi-bin/
+Disallow: /application/view/pages/admin/
+Disallow: /system/
+Disallow: /testing/
+Sitemap: http://www.test.neoludus.com/sitemap.xml

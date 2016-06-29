@@ -32,6 +32,12 @@ class NavigationController {
     }
 
     public function includeHeader() {
+//        $title, $desc, $tags, $img, $url
+//        $_POST['seo-tit'] = $title;
+//        $_POST['seo-desc'] = $desc;
+//        $_POST['seo-tags'] = $tags;
+//        $_POST['seo-img'] = $img;
+//        $_POST['seo-url'] = $url;
         $this->includeIncluder('header.php');
     }
 

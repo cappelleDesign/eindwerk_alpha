@@ -19,7 +19,7 @@
             }
         }
         ?>        
-        <title>Review specific</title>
+        <title>Reviews | <?php echo $review->review_title?></title>
         <!--FIXME TITLE SHOULD BE CHANGED TO THE NAME OF THE REVIEW-->
     </head>
     <body class="customScroll">

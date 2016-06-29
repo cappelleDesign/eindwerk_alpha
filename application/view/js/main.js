@@ -260,11 +260,11 @@ function mobileMenuAddonHideAll($forced) {
 function triggerMobileSocial() {
     $('#mobile-addon-content').removeClass();
     $('#mobile-addon-content').addClass('social');
-    $mail = '<i class="fa fa-envelope" title="Mail us" aria-hidden="true"></i>';
-    $fb = '<i class="fa fa-facebook" title="Visit our Facebook page" aria-hidden="true"></i>';
-    $yt = '<i class="fa fa-youtube" title="Visit our Youtube channel" aria-hidden="true"></i>';
-    $twitch = '<i class="fa fa-twitch" title="Visit our Twitch channel" aria-hidden="true"></i>';
-    $twitt = '<i class="fa fa-twitter" title="Visit our Twitter page" aria-hidden="true"></i>';
+    $mail = '<a href="mailto::info@neoludus.com"><i class="fa fa-envelope" title="Mail us" aria-hidden="true"></i></a>';
+    $fb = '<a href="https://www.facebook.com/Neoludus" target="_blank"><i class="fa fa-facebook" title="Visit our Facebook page" aria-hidden="true"></i></a>';
+    $yt = '<a href="https://www.youtube.com/channel/UCmt2BsAl7VdWx8rsLwBpHNA" target="_blank"><i class="fa fa-youtube" title="Visit our Youtube channel" aria-hidden="true"></i></a>';
+    $twitch = '<a href="https://www.twitch.tv/neoludus" target="_blank"><i class="fa fa-twitch" title="Visit our Twitch channel" aria-hidden="true"></i></a>';
+    $twitt = '<a href="https://twitter.com/Neoludus" target="_blank"><i class="fa fa-twitter" title="Visit our Twitter page" aria-hidden="true"></i></a>';
     $payp = '<i class="fa fa-paypal" title="Make a donation" aria-hidden="true"></i>';
     $html = $mail + $fb + $yt + $twitch + $twitt + $payp;
     $('#mobile-addon-content').html($html);

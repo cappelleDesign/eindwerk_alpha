@@ -153,7 +153,7 @@ abstract class SuperController extends NavigationController {
         $nowWithTime = DateFormatter::getNow()->format($format);
         $donated = 0;
         $karma = 0;
-        $regKey = Globals::randomString(64);
+        $regKey = Globals::randomString(60);
         $warnings = 0;
         $diamonds = 0;
         $dateTimePref = 'd/m/Y H:i:s';

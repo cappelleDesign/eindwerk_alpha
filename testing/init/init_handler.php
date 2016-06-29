@@ -25,7 +25,7 @@ try {
         $donated = 0;
         $email = $_POST['email'];
         $karma = 0;
-        $regKey = Globals::randomString(64);
+        $regKey = Globals::randomString(60);
         $warnings = 0;
         $diamonds = 0;
         $dateTimePref = 'd/m/Y H:i:s';
