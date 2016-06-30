@@ -6,6 +6,7 @@ class AccountController extends SuperController {
 
     public function __construct() {
         parent::__construct('account/');
+        $_POST['avatars'] = file_get_contents($this->getBase() . 'user/avatar/all');
     }
 
     public function index() {
