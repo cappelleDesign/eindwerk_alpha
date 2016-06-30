@@ -1,62 +1,7 @@
 <?php
 $isReturn = isset($_POST['registerReturn']);
 $formData = isset($_POST['register-feedback']) ? $_POST['register-feedback'] : NULL;
-$avatars = json_decode($_POST['avatars']);
-$tier1 = array();
-$tier2 = array();
-$tier3 = array();
-foreach ($avatars as $tier) {
-    if ($tier->avatar_tier === 1) {
-        array_push($tier1, $tier);
-    } else if ($tier->avatar_tier === 2) {
-        array_push($tier2, $tier);
-    } else if ($tier->avatar_tier === 3) {
-        array_push($tier3, $tier);
-    }
-}
 ?>
-<div id="avatar-choice-menu" hidden>
-    <h3>Choose your avatar</h3>
-    <div class="tier">
-        <h4>Tier 1</h4>
-        <?php
-        foreach ($tier1 as $avatar) {
-            $imgSrc = $avatar->avatar_img->img_url;
-            $avatarPath = 'avatars/' . substr($imgSrc, 0, strrpos($imgSrc, '/'));
-            $avatarSrc = $this->getImgHelper()->getImgSrc('m', $avatarPath, substr($imgSrc, strrpos($imgSrc, '/') + 1), 'avatar');
-            ?>            
-            <img src="<?php echo $avatarSrc ?>"
-                 alt="<?php echo $avatar->avatar_img->img_alt ?>"
-                 class="avatar-chosen"
-                 data-avatar-id="<?php echo $avatar->avatar_id ?>">
-             <?php } ?>
-        <h4>Tier 2</h4>
-        <?php
-        foreach ($tier2 as $avatar) {
-            $imgSrc = $avatar->avatar_img->img_url;
-            $avatarPath = 'avatars/' . substr($imgSrc, 0, strrpos($imgSrc, '/'));
-            $avatarSrc = $this->getImgHelper()->getImgSrc('m', $avatarPath, substr($imgSrc, strrpos($imgSrc, '/') + 1), 'avatar');
-            ?>            
-            <img src="<?php echo $avatarSrc ?>" 
-                 alt="<?php echo $avatar->avatar_img->img_alt ?>"
-                 class="avatar-chosen"
-                 data-avatar-id="<?php echo $avatar->avatar_id ?>">            
-             <?php } ?>
-        <h4>Tier 3</h4>
-        <?php
-        foreach ($tier3 as $avatar) {
-            $imgSrc = $avatar->avatar_img->img_url;
-            $avatarPath = 'avatars/' . substr($imgSrc, 0, strrpos($imgSrc, '/'));
-            $avatarSrc = $this->getImgHelper()->getImgSrc('m', $avatarPath, substr($imgSrc, strrpos($imgSrc, '/') + 1), 'avatar');
-            ?>            
-            <img src="<?php echo $avatarSrc ?>" 
-                 alt="<?php echo $avatar->avatar_img->img_alt ?>"
-                 class="avatar-chosen" 
-                 data-avatar-id="<?php echo $avatar->avatar_id ?>">            
-             <?php } ?>
-
-    </div>
-</div>
 <form class="neo-form" id="registerForm" method="POST" action="account/register" autocomplete="off">
     <fieldset class="">
         <legend class="text-center">Add a new User</legend>

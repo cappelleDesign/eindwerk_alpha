@@ -136,7 +136,7 @@ class FileHandler {
             throw new ServiceException('Not able to add the image, image type not found');
         }
         if (!$this->checkAllowedImgType($imgType)) {
-            $errorTxt .= 'Sorry, this file size is not allowed. You can only add png, jpeg or gif images\n';
+            $errorTxt .= 'Sorry, this file type is not allowed. You can only add png, jpeg or gif images\n';
         }
         if (!$this->checkSizeAllowed($fileArr['size'])) {
             $errorTxt .= 'Sorry, this image is to large. The maximum allowed image size is ' . $this->FileSizeConvert(self::MAX_IMG_SIZE);

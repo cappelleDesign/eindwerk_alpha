@@ -1,9 +1,13 @@
 $(init);
-function init() {    
+function init() {
     setFormListeners();
 }
 
 function setFormListeners() {
+    $('form').on('submit', function () {
+        $('.customScroll').mCustomScrollbar("destroy");
+        $('.page-loader').show();
+    });
     $('#avatar-choice-trigger').on('click', function (e) {
         e.preventDefault();
         $('#avatar-choice-menu').fadeIn();
@@ -11,9 +15,9 @@ function setFormListeners() {
     $('.avatar-chosen').on('click', function (e) {
         e.preventDefault();
         $('#avatar').val($(this).data('avatar-id'));
-        $('#avatar-choice-menu').fadeOut();         
+        $('#avatar-choice-menu').fadeOut();
         $('#avatar').parent().addClass('has-success');
-        $formId = $("#avatar").parent().parent().parent().attr('id');   
+        $formId = $("#avatar").parent().parent().parent().attr('id');
         console.log($formId);
         triggerFormSubmit($formId);
     });
@@ -50,21 +54,25 @@ function setFormListeners() {
     $('.user-name-validation').on('keyup change', function () {
         validateUsername($(this).attr('id'));
     });
+    $('input:file').on('change', function () {
+        triggerFormSubmit($(this).parent().parent().parent().attr('id'));
+    });
 }
 
 function triggerFormSubmit($formId) {
     $isValid = true;
     $validated = $('#' + $formId).children().children('.has-feedback');
-    
-    $validated.each(function ($i, $el) {        
-        if ($($el).hasClass('has-success') === false) {            
-            $isValid = false;            
+
+    $validated.each(function ($i, $el) {
+        if ($($el).hasClass('has-success') === false) {
+            $isValid = false;
+            console.log($el);
         }
     });
     if ($('.user-mail-validation').length) {
         $isValid = ($isValid === true && $('.user-mail-validation').parent().hasClass('has-success'));
     }
-    $formBtn = $('#' + $formId + ' #formSubmit');    
+    $formBtn = $('#' + $formId + ' #formSubmit');
     if ($isValid === true) {
         $formBtn.prop('disabled', false);
         $('.submit-disabled').prop('title', '');
@@ -215,10 +223,10 @@ function validateUsername($fieldId) {
         addValidationError($fieldId, false, 'This is a required field!', true);
         triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
     } else if ($username.indexOf(' ') >= 0) {
-        addValidationError($fieldId, false, 'Username can not contain white space', true);        
+        addValidationError($fieldId, false, 'Username can not contain white space', true);
         triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));
     } else {
-        $.get('user/checkUsername/' + $username, function ($data) {            
+        $.get('user/checkUsername/' + $username, function ($data) {
             if ($data === 'valid') {
                 addValidationSuccess($fieldId, false, true);
                 triggerFormSubmit($('#' + $fieldId).parent().parent().parent().attr('id'));

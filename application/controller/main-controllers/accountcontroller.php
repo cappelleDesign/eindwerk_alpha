@@ -19,6 +19,7 @@ class AccountController extends SuperController {
 
     public function loginPage($isJson) {
         $_POST['is_login'] = 1;
+        $_POST['avatars'] = file_get_contents($this->getBase() . 'user/avatar/all');
         if ($isJson && $isJson === 'true') {
 //            Globals::cleanDump('json enabled');
             $this->internalDirect('account.php');
@@ -122,7 +123,7 @@ class AccountController extends SuperController {
     }
 
     public function sendRegistrationMail($mail, $regkey) {
-        $mailed = $this->getMailController()->mailRegistration($mail, $regkey);        
+        $mailed = $this->getMailController()->mailRegistration($mail, $regkey);
         if ($mailed) {
             setcookie('notifNfo', 'A mail has been send to ' . $mail . '. Follow the instruction to complete your registration', 0, '/');
             return true;

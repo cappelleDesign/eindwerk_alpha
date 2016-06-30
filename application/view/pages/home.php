@@ -13,7 +13,7 @@
         ?>
         <title>home</title>
     </head>
-    <body class="customScroll">
+    <body class="customScroll">        
         <div id="neo-wrapper" class="no-js-push">
             <?php
             $page = basename(__FILE__);
@@ -28,7 +28,7 @@
                     <div id="inf-slider">
                         <?php
                         foreach ($reviews as $review) {
-                            $destin = $base . 'reviews/detailed/' + $review->review_id;
+                            $destin = $base . 'reviews/detailed/' . $review->review_id;
                             $path = Globals::cleanStringUnderScore($review->review_game->game_name);
                             $img = $review->review_header_img->img_url;
                             ?>
@@ -42,7 +42,9 @@
                                             <input type="text" class="score" data-readOnly="true"
                                                    value="<?php echo $review->review_score; ?>"
                                                    data-fgColor="#ef4123" data-bgColor="#231f20">
-                                        </div></div></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <img class="jsImg" src="" alt="<?php echo $review->review_header_img->img_alt ?>">
                                 <div class="slider-more">
                                     <a href="<?php echo $destin; ?>" class="btn btn-default">Read more</a>

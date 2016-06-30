@@ -100,11 +100,13 @@ class AdminController extends SuperController {
     private function getAvatarArr() {
         $tier = '';
         $alt = '';
+        $img = '';
         $isHuman = '';
-        if (isset($_POST['avatar-tier']) && isset($_POST['avatar-alt'])) {
+        if (isset($_POST['avatar-tier']) && isset($_POST['avatar-alt']) && isset($_FILES['avatar-img'])) {
             $tier = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'avatar-tier'));
             $alt = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'avatar-alt'));
             $isHuman = $this->getValidator()->sanitizeInput(filter_input(INPUT_POST, 'input-filter'));
+            $img = $_FILES['avatar-img'];
         }
         $avatarArr = array(
             'tier' => $tier,

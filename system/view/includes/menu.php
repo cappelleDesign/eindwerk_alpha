@@ -2,7 +2,7 @@
 $viewRoot = Globals::getRoot('view', 'app');
 $user = $this->getCurrentUser(FALSE);
 $userN = 'No profile';
-if($user){
+if ($user) {
     $userN = $user->getUsername();
 }
 $iconsNotLoggedIn = '<a id="login-main" href="account/loginpage" class="">' .
@@ -18,8 +18,8 @@ $iconsLoggedIn = '<a href="account/logout" class="">' .
         'Sign out' .
         '</a>' .
         '<a href="account/getNotifications" class="">' .
-        '<i class="fa fa-bell fa-fw"><span class="notif-count">1 new</span></i>' . 
-        'Notifications' . 
+        '<i class="fa fa-bell fa-fw"><span class="notif-count">1 new</span></i>' .
+        'Notifications' .
         '</a>';
 $accountHtml = '<a href="#" class="">' .
         '<i class="fa fa-user fa-fw"></i>' .
@@ -30,6 +30,11 @@ $accountHtml = '<a href="#" class="">' .
         ($user ? $iconsLoggedIn : $iconsNotLoggedIn) .
         '</div>';
 ?>
+<div class="page-loader">
+    <div class="page-loader-content">
+        <p class="animated faa-flash faa-slow">Neoludus is loading.. <i class="fa fa-fw fa-refresh fa-spin"></i></p>
+    </div>
+</div>
 <div class="noScript noScript-heading">
     <p>You have disabled javascript. This will have a great effect on how the site will work for you. we recommend you to turn javascript back on</p>
 </div>
@@ -46,12 +51,12 @@ $accountHtml = '<a href="#" class="">' .
         <i class="fa fa-times"></i>
     </div>
     <a href="index.php" class="logo">
-        <img id="main-logo" src="<?php echo $viewRoot?>/images/design/official.png" alt="neoludus logo">
+        <img id="main-logo" src="<?php echo $viewRoot ?>/images/design/official.png" alt="neoludus logo">
     </a>
     <form id="search-form" class="search-form-main" method="POST" action="#">
         <div class="form-group">
             <input type="text" placeholder="search games.." tabindex="1" disabled>
-                <a class="script-only " id="main-search" tabindex="2">
+            <a class="script-only " id="main-search" tabindex="2">
                 <i class="fa fa-search"></i>
             </a>
             <button class="noScript" type="submit">
@@ -60,7 +65,7 @@ $accountHtml = '<a href="#" class="">' .
         </div>
     </form>
     <div id="menuAddon" class="no-js-push">
-        <div id="account-panel" tabindex="3" data-logged-on="<?php echo $user ? 'true' : 'false'?>">
+        <div id="account-panel" tabindex="3" data-logged-on="<?php echo $user ? 'true' : 'false' ?>">
             <?php echo $accountHtml; ?>
         </div>
         <div class="social-menu">
@@ -119,7 +124,7 @@ $accountHtml = '<a href="#" class="">' .
             $subMenuCount = 1;
             $menu = $this->getMenu('main');
             $page = filter_var($_GET['page'], FILTER_SANITIZE_STRING);
-            
+
             foreach ($menu as $menuItem) {
                 echo getLinkHtml($menuItem, $page, $subMenuCount);
             }
@@ -134,7 +139,7 @@ function getLinkHtml($menuItem, $page, $subMenuCount) {
     $subMenu = $menuItem->getSubMenu();
     $subMenuClass = $subMenu ? 'submenu-trigger' : '';
     $triggerData = $subMenu ? $subMenuCount : '0';
-    $html = '<li class="' . $active . ' '.$subMenuClass.'" data-submenu-trigger="' .$triggerData. '">';
+    $html = '<li class="' . $active . ' ' . $subMenuClass . '" data-submenu-trigger="' . $triggerData . '">';
     $html .= '<a href="' . $menuItem->getAction() . '">' . $menuItem->getDescription() . '</a>';
     if ($subMenu) {
         $html.= '<ul class="menu submenu submenu-' . $subMenuCount . '">';

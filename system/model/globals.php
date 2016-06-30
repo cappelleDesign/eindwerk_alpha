@@ -228,7 +228,7 @@ class Globals {
         $base = 'http://localhost/neoludus_alpha/';
         $localHost = ['127.0.0.1', '::1'];
         if (!in_array($_SERVER['REMOTE_ADDR'], $localHost)) {
-            $base = 'http://test.neoludus.com/';
+            $base = 'http://www.test.neoludus.com/';
         }
         return $base;
     }

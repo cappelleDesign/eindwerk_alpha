@@ -21,6 +21,8 @@ function setListeners() {
     $('#main-menu li a').on('click', function () {        
         $url = $(this).attr('href');
         Cookies.set('last_page', $url);
+        $('.customScroll').mCustomScrollbar("destroy");
+        $('.page-loader').show();
     });
     $('[data-toggle="tooltip"]').tooltip();
     $(window).resize(function () {
